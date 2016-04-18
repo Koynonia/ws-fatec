@@ -1,8 +1,17 @@
+/**
+ * @author Fernando Moraes Oliveira
+ * Matéria 4724 - Engenharia de Software 3
+ * Iniciado em 11/04/2016
+ */
+
 package boundary;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.text.DecimalFormat;
 
-import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
@@ -14,15 +23,8 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.NumberFormatter;
-import javax.swing.JButton;
 
 import controller.CarrinhoController;
-
-import java.text.DecimalFormat;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.Font;
-import java.awt.Color;
 
 @SuppressWarnings("serial")
 public class FrmCarrinho extends JFrame {
@@ -72,7 +74,7 @@ public class FrmCarrinho extends JFrame {
 		painel.add(spCompras);
 		
 		tabCompra = new JTable();
-		tabCompra.setToolTipText("Clique para selecionar…");
+		tabCompra.setToolTipText("Clique para selecionarâ€¦");
 		spCompras.setViewportView(tabCompra);
 		tabCompra.setBorder(null);
 		
