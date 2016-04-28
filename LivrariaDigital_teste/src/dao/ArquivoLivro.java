@@ -1,8 +1,8 @@
 /**
- * @author Fernando Moraes Oliveira
+ * @author Fernando Moraes Oliveira e Vitor Fagundes Arantes
  * Matéria 4724 - Engenharia de Software 3
  * 4º ADS - Noite
- * Iniciado em 11/04/2016
+ * Iniciado em 06/04/2016
  */
 
 package dao;
@@ -14,9 +14,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import entity.Carrinho;
+import entity.Livro;;
 
-public class ArquivoCarrinho {
+public class ArquivoLivro {
 	private StringBuffer buffer;
 
 	public String getBuffer() {		
@@ -54,15 +54,35 @@ public class ArquivoCarrinho {
 	public void escreveArquivo(String diretorio, String arquivo, String texto, Object object) throws IOException {
 		
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("Livro ISBN    : " + ((Carrinho) object).getCarrinho().getIsbn());
+		buffer.append("ISBN            : " + ( (Livro) object).getIsbn() );
 		buffer.append("\r\n");
-		buffer.append("Quantidade    : " + ((Carrinho) object).getQuantidade());
+		buffer.append("Título          : " + ( (Livro) object).getTitulo() );
 		buffer.append("\r\n");
-		buffer.append("Desconto      : " + ((Carrinho) object).getDesconto());
+		buffer.append("Autor           : " + ( (Livro) object).getAutor() );
 		buffer.append("\r\n");
-		buffer.append("Data Cadastro : " + ((Carrinho) object).getDtCadastro());
+		buffer.append("Editora         : " + ( (Livro) object).getEditora() );
 		buffer.append("\r\n");
-		buffer.append("------------------------------------");
+		buffer.append("Data Publicação : " + ( (Livro) object).getDtPublicacao() );
+		buffer.append("\r\n");
+		buffer.append("Capa            : " + ( (Livro) object).getCapa() );
+		buffer.append("\r\n");
+		buffer.append("Páginas         : " + ( (Livro) object).getPaginas() );
+		buffer.append("\r\n");
+		buffer.append("Categoria       : " + ( (Livro) object).getCategoria() );
+		buffer.append("\r\n");
+		buffer.append("Sumário         : " + ( (Livro) object).getSumario() );
+		buffer.append("\r\n");
+		buffer.append("Resumo          : " + ( (Livro) object).getResumo() );
+		buffer.append("\r\n");
+		buffer.append("Preço Custo     : " + ( (Livro) object).getPrecoCusto() );
+		buffer.append("\r\n");
+		buffer.append("Preço Venda     : " + ( (Livro) object).getPrecoVenda() );
+		buffer.append("\r\n");
+		buffer.append("Data Cadastro   : " + ( (Livro) object).getDtCadastro() );
+		buffer.append("\r\n");
+		buffer.append("Imagem          : " + ( (Livro) object).getImagem() );
+		buffer.append("\r\n");
+		buffer.append("--------------------------------------");
 		buffer.append("\r\n");
 		File arq = new File(diretorio, arquivo);
 		boolean arquivoExiste;
