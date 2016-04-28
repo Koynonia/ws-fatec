@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import controller.LivroController;
+import controller.LivroController2;
 
 public class FrmCrudLivro {
 	private JFrame janelaLivro;
@@ -124,7 +124,7 @@ public class FrmCrudLivro {
 		janelaLivro.setLocationRelativeTo(null); //Centraliza a janela
 		janelaLivro.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		
-		LivroController livroController = new LivroController(txtIsbn, txtTitulo, 
+		LivroController2 livroController = new LivroController2(txtIsbn, txtTitulo, 
 				cbAutor, txtDtPublicacao, cbEditora, cbCategoria, 
 				txtaResumo, txtPrecoCusto, txtPrecoVenda, txtaIndice, 
 				btnGravar, btnAnexar, btnPesquisar);

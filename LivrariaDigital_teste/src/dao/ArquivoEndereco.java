@@ -14,9 +14,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import entity.Carrinho;
 
-public class ArquivoCarrinho {
+import entity.Endereco;
+
+public class ArquivoEndereco {
 	private StringBuffer buffer;
 
 	public String getBuffer() {		
@@ -54,13 +55,14 @@ public class ArquivoCarrinho {
 	public void escreveArquivo(String diretorio, String arquivo, String texto, Object object) throws IOException {
 		
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("Livro ISBN    : " + ((Carrinho) object).getCarrinho().getIsbn());
-		buffer.append("\r\n");
-		buffer.append("Quantidade    : " + ((Carrinho) object).getQuantidade());
-		buffer.append("\r\n");
-		buffer.append("Desconto      : " + ((Carrinho) object).getDesconto());
-		buffer.append("\r\n");
-		buffer.append("Data Cadastro : " + ((Carrinho) object).getDtCadastro());
+		buffer.append("Endereco      : " + ((Endereco) object).getEndereco());
+		buffer.append("Complemento   : " + ((Endereco) object).getComplemento());
+		buffer.append("Bairro        : " + ((Endereco) object).getBairro());
+		buffer.append("Cidade        : " + ((Endereco) object).getCidade());
+		buffer.append("Estado        : " + ((Endereco) object).getEstado());
+		buffer.append("Cep           : " + ((Endereco) object).getCep());
+		buffer.append("TipoEndereco  : " + ((Endereco) object).getTipoEndereco());
+		buffer.append("Data Cadastro : " + ((Endereco) object).getDtCadastro());
 		buffer.append("\r\n");
 		buffer.append("------------------------------------");
 		buffer.append("\r\n");

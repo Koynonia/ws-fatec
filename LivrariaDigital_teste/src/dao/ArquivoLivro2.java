@@ -1,3 +1,10 @@
+/**
+ * @author Vitor Fagundes Arantes
+ * Matéria 4724 - Engenharia de Software 3
+ * 4º ADS - Noite
+ * Iniciado em 06/04/2016
+ */
+
 package dao;
 
 import java.io.BufferedReader;
@@ -14,7 +21,11 @@ import javax.swing.JOptionPane;
 
 import entity.Livro;
 
-public class ManipulaArquivoLivro {
+public class ArquivoLivro2 {
+	
+	private String diretorio = "../LivrariaDigital_teste/"; 
+	private String arquivo = "data/livro.txt";
+	
 	public void gravarLivro(Livro livro) throws IOException
     {
 		StringBuffer buffer = new StringBuffer();
@@ -41,8 +52,8 @@ public class ManipulaArquivoLivro {
 		buffer.append("\r\n");
 		buffer.append("---");//Separador de livros - Utilizado no metodo atualizarLivro() desta classe
 		
-		String fileName = "regLivro.txt";
-        File arq = new File(fileName);
+		
+        File arq = new File(diretorio + arquivo);
         boolean arquivoExiste;
         if(arq.exists()){
         	arquivoExiste = true;
@@ -59,7 +70,7 @@ public class ManipulaArquivoLivro {
  }
 	
 	public ArrayList<Livro> lerLivro() throws FileNotFoundException{
-		String fileName = "regLivro.txt";
+		String fileName = diretorio + arquivo;
 		BufferedReader leitor = new BufferedReader(new FileReader(fileName));
 		ArrayList<Livro> arrayLivro = new ArrayList<Livro>();
 		Livro livro;
@@ -89,7 +100,7 @@ public class ManipulaArquivoLivro {
 	}
 	
 	public void atualizarLivro(Livro oldLivro, Livro newLivro){
-		String fileName = "regLivro.txt";
+		String fileName = diretorio + arquivo;
 		try {
 			BufferedReader leitor = new BufferedReader(new FileReader( fileName ));
 			File arq = new File( fileName );

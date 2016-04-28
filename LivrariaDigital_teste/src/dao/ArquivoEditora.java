@@ -2,7 +2,7 @@
  * @author Fernando Moraes Oliveira
  * Matéria 4724 - Engenharia de Software 3
  * 4º ADS - Noite
- * Iniciado em 11/04/2016
+ * Iniciado em 26/04/2016
  */
 
 package dao;
@@ -14,9 +14,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import entity.Carrinho;
 
-public class ArquivoCarrinho {
+import entity.Editora;
+
+public class ArquivoEditora {
 	private StringBuffer buffer;
 
 	public String getBuffer() {		
@@ -54,13 +55,10 @@ public class ArquivoCarrinho {
 	public void escreveArquivo(String diretorio, String arquivo, String texto, Object object) throws IOException {
 		
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("Livro ISBN    : " + ((Carrinho) object).getCarrinho().getIsbn());
-		buffer.append("\r\n");
-		buffer.append("Quantidade    : " + ((Carrinho) object).getQuantidade());
-		buffer.append("\r\n");
-		buffer.append("Desconto      : " + ((Carrinho) object).getDesconto());
-		buffer.append("\r\n");
-		buffer.append("Data Cadastro : " + ((Carrinho) object).getDtCadastro());
+		buffer.append("Nome          : " + ((Editora) object).getNome());
+		buffer.append("CNPJ          : " + ((Editora) object).getCnpj());
+		buffer.append("Endereço      : " + ((Editora) object).getEndereco());
+		buffer.append("Data Cadastro : " + ((Editora) object).getDtCadastro());
 		buffer.append("\r\n");
 		buffer.append("------------------------------------");
 		buffer.append("\r\n");

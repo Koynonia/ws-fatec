@@ -19,7 +19,7 @@ import javax.swing.text.html.HTMLDocument.Iterator;
 
 import boundary.FrmListaLivros;
 import boundary.FrmPesquisaLivro;
-import dao.ManipulaArquivoLivro;
+import dao.ArquivoLivro2;
 import entity.Livro;
 
 public class PesquisaController implements ActionListener {
@@ -40,7 +40,7 @@ public class PesquisaController implements ActionListener {
 	}
 	
 	public void procurarLivro(String itemMenu, String texto){
-		ManipulaArquivoLivro arqLivro = new ManipulaArquivoLivro();
+		ArquivoLivro2 arqLivro = new ArquivoLivro2();
 		List<Livro> listLivros = new ArrayList();
 		try {
 			texto = texto.toUpperCase();

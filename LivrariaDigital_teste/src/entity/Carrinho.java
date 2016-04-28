@@ -1,24 +1,18 @@
 package entity;
 
+
 public class Carrinho {
-	
+
 	private int quantidade;
-	private float preco;
 	private float desconto;
-	private Livro livro;
-	
-	
+	private Livro carrinho;
+	private String dtCadastro;
+
 	public int getQuantidade() {
 		return quantidade;
 	}
 	public void setQuantidade(int quantidade) {
 		this.quantidade = quantidade;
-	}
-	public float getPreco() {
-		return preco;
-	}
-	public void setPreco(float preco) {
-		this.preco = preco;
 	}
 	public float getDesconto() {
 		return desconto;
@@ -26,11 +20,16 @@ public class Carrinho {
 	public void setDesconto(float desconto) {
 		this.desconto = desconto;
 	}
-	public Livro getLivro() {
-		return livro;
+	public Livro getCarrinho() {
+		return carrinho;
 	}
-	public void setLivro(Livro livro) {
-		this.livro = livro;
+	public void setCarrinho(Livro carrinho) {
+		this.carrinho = carrinho;
 	}
-
+	public String getDtCadastro() {
+		return dtCadastro;
+	}
+	public void setDtCadastro(String dtCadastro) {
+		this.dtCadastro = dtCadastro;
+	}
 }
