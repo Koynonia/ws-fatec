@@ -26,10 +26,7 @@ import javax.swing.border.LineBorder;
 
 import controller.DetalheController;
 import entity.Livro;
-<<<<<<< HEAD
 import java.awt.SystemColor;
-=======
->>>>>>> fefdd4755b80c9939d18a5f6859cf81bd1270535
 
 @SuppressWarnings("serial")
 public class FrmDetalhe extends JFrame {
@@ -133,18 +130,11 @@ public class FrmDetalhe extends JFrame {
 		painel.add(lblDtPub);
 		
 		lblSumario = new JLabel("Sumário");
-<<<<<<< HEAD
 		lblSumario.setBounds(347, 389, 83, 16);		
 		painel.add(lblSumario);
 		
 		txtaSumario = new JTextArea(1, 1);
 		txtaSumario.setBackground(SystemColor.window);
-=======
-		lblSumario.setBounds(347, 395, 83, 16);		
-		painel.add(lblSumario);
-		
-		txtaSumario = new JTextArea(1, 1);
->>>>>>> fefdd4755b80c9939d18a5f6859cf81bd1270535
 		txtaSumario.setEditable(false);
 //		txtaSumario .setFont(new Font("Serif", Font.ITALIC, 16));
 		txtaSumario .setLineWrap(true);
@@ -153,18 +143,11 @@ public class FrmDetalhe extends JFrame {
 		painel.add(txtaSumario);
 		
 		lblResumo = new JLabel("Resumo");
-<<<<<<< HEAD
 		lblResumo.setBounds(347, 475, 83, 16);
 		painel.add(lblResumo);
 		
 		txtaResumo = new JTextArea(1, 1);
 		txtaResumo.setBackground(SystemColor.window);
-=======
-		lblResumo.setBounds(347, 481, 83, 16);
-		painel.add(lblResumo);
-		
-		txtaResumo = new JTextArea(1, 1);
->>>>>>> fefdd4755b80c9939d18a5f6859cf81bd1270535
 		txtaResumo.setEditable(false);
 //		txtaResumo.setFont(new Font("Serif", Font.ITALIC, 16));
 		txtaResumo.setLineWrap(true);

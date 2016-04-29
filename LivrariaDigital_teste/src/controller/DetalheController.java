@@ -114,13 +114,8 @@ public class DetalheController implements ComponentListener {
 				lblDtPub.setText( "Data de Publicação: " + livro.getDtPublicacao() );
 				imagem = livro.getImagem();
 				lblPreco.setText( "Preço: R$ " + livro.getPrecoVenda() );
-<<<<<<< HEAD
 				txtaSumario.setText( livro.getSumario() );
 				txtaResumo.setText( livro.getResumo() );
-=======
-				//		txtaSumario
-				//		txtaResumo
->>>>>>> fefdd4755b80c9939d18a5f6859cf81bd1270535
 				carregaCapa();
 				select = i;
 			}

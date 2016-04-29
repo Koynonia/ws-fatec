@@ -10,15 +10,8 @@ package boundary;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
-<<<<<<< HEAD
 import java.text.ParseException;
 
-=======
-import java.awt.Image;
-import java.text.ParseException;
-
-import javax.swing.ImageIcon;
->>>>>>> fefdd4755b80c9939d18a5f6859cf81bd1270535
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
@@ -39,17 +32,10 @@ import controller.LivroController;
 public class FrmLivro extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
-<<<<<<< HEAD
 
 	private JPanel painel;
 	private JSeparator linha;
 	private JLabel lblIsbnID;
-=======
-	private String diretorio = "../LivrariaDigital_teste/";
-	private ImageIcon capa = new ImageIcon( diretorio + "imagem/capa.png" );
-	private JPanel painel;
-	private JSeparator linha;
->>>>>>> fefdd4755b80c9939d18a5f6859cf81bd1270535
 	private JLabel lblPesquisa;
 	private JLabel lblLogo;
 	private JLabel lblCapa;
@@ -70,10 +56,6 @@ public class FrmLivro extends JFrame {
 	private JLabel lblPrecoVenda;
 	private JLabel lblMargem;
 	private JTextField txtPesquisar;
-<<<<<<< HEAD
-=======
-	private JTextField txtIsbnID;
->>>>>>> fefdd4755b80c9939d18a5f6859cf81bd1270535
 	private JTextField txtTitulo;
 	private JTextField txtAutor;
 	private JTextField txtEstoque;
@@ -154,11 +136,6 @@ public class FrmLivro extends JFrame {
 		lblCapa.setHorizontalAlignment(SwingConstants.CENTER);
 		lblCapa.setBorder(new LineBorder(Color.GRAY));
 		lblCapa.setBounds(36, 140, 287, 394);
-<<<<<<< HEAD
-=======
-		lblCapa.setIcon(new ImageIcon(capa.getImage().getScaledInstance(lblCapa.getWidth(), 
-		lblCapa.getHeight(), Image.SCALE_DEFAULT)));
->>>>>>> fefdd4755b80c9939d18a5f6859cf81bd1270535
 		painel.add(lblCapa);
 		
 		txtTitulo = new JTextField(20);
@@ -211,20 +188,11 @@ public class FrmLivro extends JFrame {
 		lblIsbn.setBounds(347, 263, 83, 16);
 		painel.add(lblIsbn);
 		
-<<<<<<< HEAD
 		lblIsbnID = new JLabel();
 		lblIsbnID.setVisible(false);
 		lblIsbnID.setEnabled(false);
 		lblIsbnID.setBounds(836, 117, 141, 16);
 		painel.add(lblIsbnID);
-=======
-		txtIsbnID = new JTextField(20);
-		txtIsbnID.setEditable(false);
-		txtIsbnID.setVisible(false);
-		txtIsbnID.setEnabled(false);
-		txtIsbnID.setBounds(836, 117, 141, 16);
-		painel.add(txtIsbnID);
->>>>>>> fefdd4755b80c9939d18a5f6859cf81bd1270535
 		
 		ftxtIsbn = new JTextField(20);
 		ftxtIsbn.setHorizontalAlignment(SwingConstants.CENTER);
@@ -253,10 +221,7 @@ public class FrmLivro extends JFrame {
 		painel.add(lblEsoque);
 		
 		txtEstoque = new JTextField(20);
-<<<<<<< HEAD
 		txtEstoque.setEditable(false);
-=======
->>>>>>> fefdd4755b80c9939d18a5f6859cf81bd1270535
 		txtEstoque.setBounds(823, 297, 154, 28);
 		painel.add(txtEstoque);
 		
@@ -281,30 +246,18 @@ public class FrmLivro extends JFrame {
 		lblSumario.setBounds(347, 395, 83, 16);		
 		painel.add(lblSumario);
 		
-<<<<<<< HEAD
 		txtaSumario = new JTextArea();
-=======
-		txtaSumario = new JTextArea(1, 1);
->>>>>>> fefdd4755b80c9939d18a5f6859cf81bd1270535
 //		txtaSumario .setFont(new Font("Serif", Font.ITALIC, 16));
 		txtaSumario .setLineWrap(true);
 		txtaSumario .setWrapStyleWord(true);
 		txtaSumario.setBounds(431, 389, 546, 66);
 		painel.add(txtaSumario);
-<<<<<<< HEAD
 	          
-=======
-		
->>>>>>> fefdd4755b80c9939d18a5f6859cf81bd1270535
 		lblResumo = new JLabel("Resumo");
 		lblResumo.setBounds(347, 481, 83, 16);
 		painel.add(lblResumo);
 		
-<<<<<<< HEAD
 		txtaResumo = new JTextArea(10, 20);
-=======
-		txtaResumo = new JTextArea(1, 1);
->>>>>>> fefdd4755b80c9939d18a5f6859cf81bd1270535
 //		txtaResumo.setFont(new Font("Serif", Font.ITALIC, 16));
 		txtaResumo.setLineWrap(true);
 		txtaResumo.setWrapStyleWord(true);
@@ -372,11 +325,7 @@ public class FrmLivro extends JFrame {
 				this, 
 				painel, 
 				lblCapa, 
-<<<<<<< HEAD
 				lblIsbnID, 
-=======
-				txtIsbnID, 
->>>>>>> fefdd4755b80c9939d18a5f6859cf81bd1270535
 				txtPesquisar,
 				txtTitulo,
 				txtAutor, 
@@ -394,11 +343,7 @@ public class FrmLivro extends JFrame {
 				cboEditora, 
 				cboTipoCapa, 
 				cboCategoria, 
-<<<<<<< HEAD
 				btnLimpar, 
-=======
-				btnImagem, 
->>>>>>> fefdd4755b80c9939d18a5f6859cf81bd1270535
 				btnEditar, 
 				btnExcluir, 
 				btnSalvar, 
@@ -412,10 +357,7 @@ public class FrmLivro extends JFrame {
 		txtPesquisar.addActionListener(livroCtrl.pesquisar);
 		btnPesquisar.addActionListener(livroCtrl.pesquisar);
 		txtPesquisar.addKeyListener(livroCtrl.tecla);
-<<<<<<< HEAD
 		txtaSumario.addKeyListener(livroCtrl.tecla);
-=======
->>>>>>> fefdd4755b80c9939d18a5f6859cf81bd1270535
 		cboAutor.addActionListener(livroCtrl.preencher);
 		cboCategoria.addActionListener(livroCtrl.preencher);
 		ftxtPrecoCusto.addKeyListener(livroCtrl.tecla);
