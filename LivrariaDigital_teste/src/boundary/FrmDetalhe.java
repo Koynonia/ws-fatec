@@ -26,6 +26,7 @@ import javax.swing.border.LineBorder;
 
 import controller.DetalheController;
 import entity.Livro;
+import java.awt.SystemColor;
 
 @SuppressWarnings("serial")
 public class FrmDetalhe extends JFrame {
@@ -129,10 +130,11 @@ public class FrmDetalhe extends JFrame {
 		painel.add(lblDtPub);
 		
 		lblSumario = new JLabel("Sumário");
-		lblSumario.setBounds(347, 395, 83, 16);		
+		lblSumario.setBounds(347, 389, 83, 16);		
 		painel.add(lblSumario);
 		
 		txtaSumario = new JTextArea(1, 1);
+		txtaSumario.setBackground(SystemColor.window);
 		txtaSumario.setEditable(false);
 //		txtaSumario .setFont(new Font("Serif", Font.ITALIC, 16));
 		txtaSumario .setLineWrap(true);
@@ -141,10 +143,11 @@ public class FrmDetalhe extends JFrame {
 		painel.add(txtaSumario);
 		
 		lblResumo = new JLabel("Resumo");
-		lblResumo.setBounds(347, 481, 83, 16);
+		lblResumo.setBounds(347, 475, 83, 16);
 		painel.add(lblResumo);
 		
 		txtaResumo = new JTextArea(1, 1);
+		txtaResumo.setBackground(SystemColor.window);
 		txtaResumo.setEditable(false);
 //		txtaResumo.setFont(new Font("Serif", Font.ITALIC, 16));
 		txtaResumo.setLineWrap(true);

@@ -27,6 +27,7 @@ import javax.swing.text.NumberFormatter;
 
 import controller.CarrinhoController;
 import java.text.Format;
+import java.awt.SystemColor;
 
 @SuppressWarnings("serial")
 public class FrmCarrinho extends JFrame {
@@ -104,7 +105,7 @@ public class FrmCarrinho extends JFrame {
 		tabCompra.setBorder(null);
 		
 		lblVlrTotal = new JLabel("Total Geral");
-		lblVlrTotal.setBounds(546, 334, 73, 16);
+		lblVlrTotal.setBounds(559, 335, 73, 16);
 		painel.add(lblVlrTotal);
 		
 		maskValor = new DecimalFormat("R$ #,###,##0.00");
@@ -112,8 +113,8 @@ public class FrmCarrinho extends JFrame {
 		total.setFormat(maskValor);
 		total.setAllowsInvalid(false);
 		ftxtVlrTotal = new JFormattedTextField(maskValor);
+		ftxtVlrTotal.setBackground(SystemColor.window);
 		ftxtVlrTotal.setHorizontalAlignment(SwingConstants.RIGHT);
-		ftxtVlrTotal.setEnabled(false);
 		ftxtVlrTotal.setEditable(false);
 		ftxtVlrTotal.setBounds(631, 329, 98, 28);
 		ftxtVlrTotal.setColumns(10);
@@ -146,8 +147,8 @@ public class FrmCarrinho extends JFrame {
 		painel.add(lblQtd);
 		
 		ftxtQtd = new JFormattedTextField((Format) null);
+		ftxtQtd.setBackground(SystemColor.window);
 		ftxtQtd.setHorizontalAlignment(SwingConstants.CENTER);
-		ftxtQtd.setEnabled(false);
 		ftxtQtd.setEditable(false);
 		ftxtQtd.setColumns(10);
 		ftxtQtd.setBounds(478, 329, 58, 28);

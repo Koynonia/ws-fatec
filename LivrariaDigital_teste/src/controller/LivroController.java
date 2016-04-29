@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -39,7 +40,6 @@ import javax.swing.JTextField;
 
 import boundary.FrmPrincipal;
 import dao.ArquivoLivro;
-import dao.Arquivos;
 import entity.Autor;
 import entity.Categoria;
 import entity.Editora;
@@ -52,11 +52,10 @@ public class LivroController implements ComponentListener{
 	private FrmPrincipal janelaPrincipal;
 	private JPanel painel;
 	private JLabel lblCapa; 
-	private JTextField  txtIsbnID; 
+	private JLabel txtIsbnID; 
 	private JTextField txtPesquisar;
 	private JTextField txtTitulo;
 	private JTextField txtAutor;
-	private JTextField txtEstoque;
 	private JTextField txtCategoria;
 	private JTextField ftxtMargem;
 	private JTextField ftxtIsbn;
@@ -70,7 +69,7 @@ public class LivroController implements ComponentListener{
 	private JComboBox<String> cboEditora;
 	private JComboBox<String> cboTipoCapa;
 	private JComboBox<String> cboCategoria;
-	private JButton btnImagem; 
+	private JButton btnLimpar; 
 	private JButton btnEditar; 
 	private JButton btnExcluir; 
 	private JButton btnSalvar; 
@@ -88,7 +87,7 @@ public class LivroController implements ComponentListener{
 			JFrame janela, 
 			JPanel painel, 
 			JLabel lblCapa, 
-			JTextField  txtIsbnID, 
+			JLabel  txtIsbnID, 
 			JTextField txtPesquisar,
 			JTextField txtTitulo,
 			JTextField txtAutor,
@@ -101,16 +100,16 @@ public class LivroController implements ComponentListener{
 			JTextField ftxtPrecoCusto,
 			JTextField ftxtPrecoVenda,
 			JTextArea txtaSumario,
-			JTextArea txtaResumo, 
+			JTextArea  txtaResumo, 
 			JComboBox<String> cboAutor, 
 			JComboBox<String> cboEditora, 
 			JComboBox<String> cboTipoCapa, 
 			JComboBox<String> cboCategoria, 
-			JButton btnImagem, 
+			JButton btnLimpar,
 			JButton btnEditar,
 			JButton btnExcluir, 
 			JButton btnSalvar, 
-			JButton btnVoltar
+			JButton btnVoltar 
 			){
 		
 		this.janela = janela;
@@ -120,7 +119,6 @@ public class LivroController implements ComponentListener{
 		this.txtPesquisar = txtPesquisar;
 		this.txtTitulo = txtTitulo;
 		this.txtAutor = txtAutor;
-		this.txtEstoque = txtEstoque;
 		this.txtCategoria = txtCategoria;
 		this.ftxtIsbn = ftxtIsbn;
 		this.ftxtDtPub = ftxtDtPub;
@@ -128,11 +126,13 @@ public class LivroController implements ComponentListener{
 		this.ftxtMargem = ftxtMargem;
 		this.ftxtPrecoCusto = ftxtPrecoCusto;
 		this.ftxtPrecoVenda = ftxtPrecoVenda;
+		this.txtaSumario = txtaSumario;
+		this.txtaResumo = txtaResumo;
 		this.cboAutor = cboAutor;
 		this.cboEditora = cboEditora;
 		this.cboTipoCapa = cboTipoCapa;
 		this.cboCategoria = cboCategoria;
-		this.btnImagem = btnImagem;
+		this.btnLimpar = btnLimpar;
 		this.btnEditar = btnEditar;
 		this.btnExcluir = btnExcluir;
 		this.btnSalvar = btnSalvar;
@@ -144,27 +144,37 @@ public class LivroController implements ComponentListener{
 		preencherEditora();
 		preencherCategoria();
 		preencherCapa();
+		imagem = diretorio + "imagem/capa.png";
+		carregarCapa();
+
 	}
 	
 	
-	public void carregaCapa(){
+	
+	public void carregarCapa(){
 		ImageIcon capa = new ImageIcon( imagem );
 		lblCapa.setIcon(new ImageIcon(capa.getImage().getScaledInstance(lblCapa.getWidth(), 
 				lblCapa.getHeight(), Image.SCALE_DEFAULT)));
 	}
 	
 	public void calcularMargem(){
-		//(2615 - 2400) / 2400 * 100 = 8.958%
-		//2615-2400=215 - multiplica-se o resultado por 100 e divide-se por 2400 que é igual a 8,95833%
 		
- 
-		double calculo =  Double.parseDouble( ftxtPrecoVenda.getText().trim() ) 
-				- Double.parseDouble( ftxtPrecoCusto.getText().trim() );
-		calculo = (calculo * 100) / Double.parseDouble( ftxtPrecoVenda.getText().trim() );
-		ftxtMargem.setText( ( Double.toString( calculo ) ).substring(0,2) + " %" );
+		double vlr1 = 0.00;
+		double vlr2 = 0.00;
+		
+		if ( !ftxtPrecoVenda.getText().isEmpty() ){
+			vlr1 = Double.parseDouble( ftxtPrecoVenda.getText().trim() );
+		}
+		if ( !ftxtPrecoCusto.getText().isEmpty() ){
+			vlr2 = Double.parseDouble( ftxtPrecoCusto.getText().trim() );
+		}
+				
+		ftxtMargem.setText( ( Double.toString(  ( ( vlr1 - vlr2 ) * 100 / vlr1 ))).substring(0,2) + " %" );
 	}
 	
 	public void limparCampos(){
+		
+		btnLimpar.setText("Limpar");
 
 		for (Component p : painel.getComponents()) {
 			if ( p instanceof JTextField ) {
@@ -187,7 +197,7 @@ public class LivroController implements ComponentListener{
 		}
 		
 		imagem = diretorio + "imagem/capa.png";
-		carregaCapa();
+		carregarCapa();
 		txtAutor.setText("");
 		txtCategoria.setText("");
 		btnSalvar.setEnabled(true);
@@ -214,7 +224,7 @@ public class LivroController implements ComponentListener{
 			if (p instanceof JComboBox ) {
 				@SuppressWarnings("unchecked")
 				JComboBox<String> l = ( JComboBox<String> )p;
-				l.setSelectedIndex(0); //problemas para resolver - não pega todas as combos
+				l.setSelectedIndex(0);
 			}
 			if ( p instanceof JTextArea ) {
 				JTextArea  l = ( JTextArea )p;
@@ -245,11 +255,9 @@ public class LivroController implements ComponentListener{
 		int option = fc.showOpenDialog(painel);    
 		if (option == JFileChooser.APPROVE_OPTION) { 
 			File file = fc.getSelectedFile();  
-//			System.out.println("Arquivo selecionado: " + file.getCanonicalPath());
 			imagem = file.getCanonicalPath();
-			carregaCapa();
+			carregarCapa();
 		} else {
-//			System.out.println("Nenhum arquivo selecionado!");
 			imagem = diretorio + "imagem/capa.png";
 		} 
 	}
@@ -337,9 +345,17 @@ public class LivroController implements ComponentListener{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		//Ordenar alfabeticamente
+		String[] nomes = new String[listAutor.size()];
+		for ( int i = 0; i < listAutor.size(); i++ ){		
+			String nome = listAutor.get(i).getNome();		
+			nomes[i] = nome;	
+		}
+		Arrays.sort(nomes);
+		//Adicionar na combobox
 		cboAutor.addItem( "Autores…" );
-		for (Autor a : listAutor) {
-			cboAutor.addItem( a.getNome() );
+		for ( int i = 0; i < listAutor.size(); i++ ){
+			cboAutor.addItem( nomes[i] );
 		}
 	}
 	
@@ -367,9 +383,17 @@ public class LivroController implements ComponentListener{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		cboEditora.addItem( "Selecione…" );
-		for (Editora a : listEditora) {
-			cboEditora.addItem( a.getNome() );
+		//Ordenar alfabeticamente
+		String[] nomes = new String[listEditora.size()];
+		for ( int i = 0; i < listEditora.size(); i++ ){		
+			String nome = listEditora.get(i).getNome();		
+			nomes[i] = nome;	
+		}
+		Arrays.sort(nomes);
+		//Adicionar na combobox
+		cboEditora.addItem( "Editoras…" );
+		for ( int i = 0; i < listEditora.size(); i++ ){
+			cboEditora.addItem( nomes[i] );
 		}
 	}
 	
@@ -396,10 +420,18 @@ public class LivroController implements ComponentListener{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		cboCategoria.addItem( "Categorias…" );
-		for (Categoria c : listCategoria) {
-			cboCategoria.addItem( c.getNome() );
-		}
+		//Ordenar alfabeticamente
+				String[] nomes = new String[listCategoria.size()];
+				for ( int i = 0; i < listCategoria.size(); i++ ){		
+					String nome = listCategoria.get(i).getNome();		
+					nomes[i] = nome;	
+				}
+				Arrays.sort(nomes);
+				//Adicionar na combobox
+				cboCategoria.addItem( "Categorias…" );
+				for ( int i = 0; i < listCategoria.size(); i++ ){
+					cboCategoria.addItem( nomes[i] );
+				}
 	}
 	
 	
@@ -440,6 +472,7 @@ public class LivroController implements ComponentListener{
 				pesquisa = lista.get(i).getIsbn();
 			}
 			if (filtro != null && filtro.length > 1) {
+				Arrays.sort( filtro );
 				pesquisa = (String) JOptionPane.showInputDialog(janela, "Selecione:\n", "Livros Localizados",
 						JOptionPane.INFORMATION_MESSAGE, null, filtro, filtro[0]);
 			}
@@ -455,12 +488,14 @@ public class LivroController implements ComponentListener{
 						ftxtDtPub.setText( livros.get(i).getDtPublicacao() );
 						cboTipoCapa.getModel().setSelectedItem( livros.get(i).getCapa() );
 						cboEditora.getModel().setSelectedItem( livros.get(i).getEditora() );
-						//							txtaSumario.setText( livros.get(i).getSumario() );
-						//							txtaResumo.setText( livros.get(i).getResumo() );
+					  	txtaSumario.setText( livros.get(i).getSumario() );
+						txtaResumo.setText( livros.get(i).getResumo() );
 						ftxtPrecoCusto.setText( Float.toString( livros.get(i).getPrecoCusto() ));
 						ftxtPrecoVenda.setText( Float.toString( livros.get(i).getPrecoVenda() ));
 						imagem = livros.get(i).getImagem();
-						carregaCapa();
+						carregarCapa();
+						calcularMargem();
+						btnLimpar.setText("Novo");
 						btnEditar.setEnabled(true);
 						btnExcluir.setEnabled(true);
 						btnSalvar.setEnabled(false);
@@ -483,10 +518,10 @@ public class LivroController implements ComponentListener{
 			for (int i = 0; i < livros.size(); i++) {
 				if ( txtIsbnID.getText().equals(livros.get(i).getIsbn() )) {
 					msg( "confirmaEditar", livros.get(i).getTitulo() );
+//					verificarCampos();
 				}
 			}			
 			if( validar == true ){
-				verificarCampos();
 
 				for (int i = 0; i < livros.size(); i++) {
 					if ( txtIsbnID.getText().equals(livros.get(i).getIsbn() )) {
@@ -499,21 +534,20 @@ public class LivroController implements ComponentListener{
 						livro.setCapa( cboTipoCapa.getSelectedItem().toString() );
 						livro.setPaginas( Integer.parseInt(ftxtPaginas.getText() ));
 						livro.setCategoria( txtCategoria.getText() );
-//							livro.setSumario( txtaSumario.getText().toString() );
-//							livro.setResumo( txtaResumo.getText() );
-//							livro.setImagem( btnImagem.getText() );
+						livro.setSumario( txtaSumario.getText() );
+						livro.setResumo( txtaResumo.getText() );
 						livro.setPrecoCusto( Float.parseFloat( ftxtPrecoCusto.getText() ));
 						livro.setPrecoVenda( Float.parseFloat( ftxtPrecoVenda.getText()));
 						livro.setDtCadastro( obterData() );
 						livro.setImagem( imagem );
 						livros.set(i, livro);
-						msg( "editar", txtTitulo.getText() );
 						atualizarArquivo(livros);
-						limparCampos();
-						validar = false;
 					}
 				}
 			} 
+			limparCampos();
+			validar = false;
+			msg( "editar", txtTitulo.getText() );
 		}
 	}
 	
@@ -541,9 +575,8 @@ public class LivroController implements ComponentListener{
 				livro.setCapa( cboTipoCapa.getSelectedItem().toString() );
 				livro.setPaginas( Integer.parseInt(ftxtPaginas.getText() ));
 				livro.setCategoria( txtCategoria.getText() );
-//				livro.setSumario( txtaSumario.getText().toString() );
-//				livro.setResumo( txtaResumo.getText() );
-//				livro.setImagem( btnImagem.getText() );
+				livro.setSumario( txtaSumario.getText() );
+				livro.setResumo( txtaResumo.getText() );
 				livro.setPrecoCusto( Float.parseFloat( ftxtPrecoCusto.getText() ));
 				livro.setPrecoVenda( Float.parseFloat( ftxtPrecoVenda.getText()));
 				livro.setDtCadastro( obterData() );
@@ -691,7 +724,7 @@ public class LivroController implements ComponentListener{
 			
 		case "vazioPesquisa":
 			JOptionPane.showMessageDialog(null, 
-					"ATENÇÃO!\n\nNão localizamos o Livro " + mensagem + ". Verifique sua digitação!", 
+					"ATENÇÃO!\n\nNenhum resultador encontrado com: " + mensagem, 
 					"Não Localizado", 
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon( diretorio + "/icons/warning.png" ));
@@ -699,7 +732,7 @@ public class LivroController implements ComponentListener{
 			
 		case "erroPesquisa":
 			JOptionPane.showMessageDialog(null, 
-					"ATENÇÃO! Por favor, digite para pesquisar!", 
+					"ATENÇÃO! Por favor, digite algo para pesquisar!", 
 					"Erro",
 					JOptionPane.PLAIN_MESSAGE, 
 					new ImageIcon( diretorio + "/icons/warning.png" ));

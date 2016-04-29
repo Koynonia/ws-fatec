@@ -31,7 +31,6 @@ public class FrmPrincipal extends JFrame {
 	
 	private JPanel painel;
 	private JTextField txtPesquisar;
-	private JTextField txtQtd;
 	private JLabel lblItem;
 	private JLabel lblFiltro;
 	private JLabel lblLogo;
@@ -120,22 +119,13 @@ public class FrmPrincipal extends JFrame {
 		painel.add(lblFiltro);
 		
 		btnLogin = new JButton("Entre ou Cadastre-se");
-		btnLogin.setName( "btnLogin" );
-		btnLogin.setBounds(650, 105, 160, 29);
+		btnLogin.setBounds(668, 105, 160, 29);
+		btnLogin.setVisible(true);
 		painel.add(btnLogin);
-		
+
 		btnCarrinho = new JButton("Meu Carrinho");
-		btnCarrinho.setBounds(812, 105, 117, 29);
+		btnCarrinho.setBounds(830, 105, 160, 29);
 		painel.add(btnCarrinho);
-		
-		txtQtd = new JTextField();
-		txtQtd.setToolTipText("Total de Livros no Carrinho…");
-		txtQtd.setEnabled(false);
-		txtQtd.setEditable(false);
-		txtQtd.setColumns(10);
-		txtQtd.setHorizontalAlignment(SwingConstants.CENTER);
-		txtQtd.setBounds(941, 105, 50, 28);
-		painel.add(txtQtd);
 		
 		lblLivroLanc_1 = new JLabel();
 		lblLivroLanc_1.setName( "lblLivroLanc_1" );
@@ -304,7 +294,6 @@ public class FrmPrincipal extends JFrame {
 				txtPesquisar, 
 				btnLogin, 
 				btnCarrinho, 
-				txtQtd,
 				btnLivro,
 				lblLivroLanc_1, 
 				lblLivroLanc_2, 
@@ -339,5 +328,6 @@ public class FrmPrincipal extends JFrame {
 		lblLivroVend_5.addMouseListener(principalCtrl.clique);
 		lblLivroVend_6.addMouseListener(principalCtrl.clique);
 		txtPesquisar.addKeyListener(principalCtrl.tecla);
+		btnCarrinho.addFocusListener(principalCtrl.foco);
 	}
 }

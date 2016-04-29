@@ -64,7 +64,6 @@ public class FrmLista extends JFrame {
 	private JLabel lblLivroAutor_2;
 	private JLabel lblLivroValor_2;
 	private JTextField txtPesquisar;
-	private JTextField txtQtd;
 	private JButton btnPesquisar;
 	private JButton btnLogin;
 	private JButton btnCarrinho;
@@ -125,23 +124,15 @@ public class FrmLista extends JFrame {
 			
 		}
 			
-			btnLogin = new JButton("Entre ou Cadastre-se");
-			btnLogin.setBounds(650, 105, 160, 29);
-			btnLogin.setVisible(false);
-			painel.add(btnLogin);
-			
-			btnCarrinho = new JButton("Meu Carrinho");
-			btnCarrinho.setBounds(812, 105, 117, 29);
-			painel.add(btnCarrinho);
-			
-			txtQtd = new JTextField();
-			txtQtd.setToolTipText("Total de Livros no Carrinho…");
-			txtQtd.setEnabled(false);
-			txtQtd.setEditable(false);
-			txtQtd.setColumns(10);
-			txtQtd.setHorizontalAlignment(SwingConstants.CENTER);
-			txtQtd.setBounds(941, 105, 50, 28);
-			painel.add(txtQtd);
+		btnLogin = new JButton("Entre ou Cadastre-se");
+		btnLogin.setBounds(668, 105, 160, 29);
+		btnLogin.setVisible(false);
+		painel.add(btnLogin);
+
+		btnCarrinho = new JButton("Meu Carrinho");
+		btnCarrinho.setBounds(830, 105, 160, 29);
+		painel.add(btnCarrinho);
+
 
 		camada = new JLayeredPane();
 		camada.setBounds(6, 146, 1012, 499);
@@ -181,7 +172,7 @@ public class FrmLista extends JFrame {
 		camada.add(lblLivroAutor_1);
 
 		lblLivroValor_1 = new JLabel();
-		lblLivroValor_1.setBounds(740, 106, 50, 16);
+		lblLivroValor_1.setBounds(740, 106, 60, 16);
 		camada.add(lblLivroValor_1);
 
 		btnAddCarrinho_1 = new JButton("Adicionar ao Carrinho");
@@ -212,7 +203,7 @@ public class FrmLista extends JFrame {
 
 		lblLivroValor_2 = new JLabel();
 		lblLivroValor_2.setVisible(false);
-		lblLivroValor_2.setBounds(740, 306, 50, 16);
+		lblLivroValor_2.setBounds(740, 306, 60, 16);
 		camada.add(lblLivroValor_2);
 
 		btnAddCarrinho_2 = new JButton("Adicionar ao Carrinho");
@@ -293,8 +284,7 @@ public class FrmLista extends JFrame {
 				lblLivroCapa_2,
 				lblLivroTitulo_2, 
 				lblLivroAutor_2, 
-				lblLivroValor_2, 
-				txtQtd, 
+				lblLivroValor_2,  
 				btnDetalhes_1, 
 				btnAddCarrinho_1, 
 				btnDetalhes_2,	
@@ -314,5 +304,8 @@ public class FrmLista extends JFrame {
 		btnAnterior.addActionListener(listaCtrl.registros);
 		btnProximo.addActionListener(listaCtrl.registros);
 		btnVoltar.addActionListener(listaCtrl.janelas);
+		btnAddCarrinho_1.addFocusListener(listaCtrl.foco);
+		btnAddCarrinho_2.addFocusListener(listaCtrl.foco);
+		btnCarrinho.addFocusListener(listaCtrl.foco);
 	}
 }

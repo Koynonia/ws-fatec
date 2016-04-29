@@ -13,6 +13,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -50,7 +52,6 @@ public class PrincipalController implements ComponentListener {
 	private JPanel painel;
 	private JComboBox<String> cboFiltrar;
 	private JTextField txtPesquisar;
-	private JTextField txtQtd;
 	private JButton btnLogin; 
 	private JButton btnCarrinho;
 	private JButton btnLivro;
@@ -82,8 +83,7 @@ public class PrincipalController implements ComponentListener {
 			JComboBox<String> cboFiltrar, 
 			JTextField txtPesquisar,  
 			JButton btnLogin, 
-			JButton btnCarrinho,
-			JTextField txtQtd, 
+			JButton btnCarrinho, 
 			JButton btnLivro, 
 			JLabel lblLivroLanc_1, 
 			JLabel lblLivroLanc_2, 
@@ -105,7 +105,6 @@ public class PrincipalController implements ComponentListener {
 		this.txtPesquisar = txtPesquisar;
 		this.btnLogin = btnLogin;
 		this.btnCarrinho = btnCarrinho;
-		this.txtQtd = txtQtd;
 		this.btnLivro = btnLivro;
 		this.lblLivroLanc_1 = lblLivroLanc_1;
 		this.lblLivroLanc_2 = lblLivroLanc_2;
@@ -384,9 +383,9 @@ public class PrincipalController implements ComponentListener {
 			}
 			janela.dispose();
 		} else if( !itemMenu.isEmpty() ){
-			JOptionPane.showMessageDialog(janela, "Nenhum resultado encontrado!");
+			msg("vazioPesquisa", txtPesquisar.getText().toUpperCase());
 		} else {
-			JOptionPane.showMessageDialog(janela, "Digite algo ou escolha uma opção!");
+			msg("erroPesquisa","");
 		}
 	}
 	
@@ -408,7 +407,7 @@ public class PrincipalController implements ComponentListener {
 					qtd =  qtd + Integer.parseInt(lista.get(1));
 					lista.clear();
 				}
-				txtQtd.setText(Integer.toString ( qtd ) );
+				btnCarrinho.setText("Meu Carrinho ( " + qtd + " )");
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -438,6 +437,8 @@ public class PrincipalController implements ComponentListener {
 					livro.setCapa( lista.get(5) );
 					livro.setPaginas( Integer.parseInt( lista.get(6) ) );
 					livro.setCategoria( lista.get(7) );
+					livro.setSumario( lista.get(8));
+					livro.setResumo( lista.get(9));
 					livro.setPrecoVenda( Float.parseFloat( lista.get(11) ) );
 					livro.setDtCadastro( lista.get(12) );
 					livro.setImagem( lista.get(13) );
@@ -458,7 +459,23 @@ public class PrincipalController implements ComponentListener {
 		janela.setAlwaysOnTop (false);
 
 		switch ( tipo ) {
-
+		
+		case "vazioPesquisa":
+			JOptionPane.showMessageDialog(null, 
+					"ATENÇÃO!\n\nNenhum resultador encontrado com: " + mensagem, 
+					"Não Localizado", 
+					JOptionPane.PLAIN_MESSAGE,
+					new ImageIcon( diretorio + "/icons/warning.png" ));
+			break;
+			
+		case "erroPesquisa":
+			JOptionPane.showMessageDialog(null, 
+					"ATENÇÃO! Por favor, digite algo para pesquisar!", 
+					"Erro",
+					JOptionPane.PLAIN_MESSAGE, 
+					new ImageIcon( diretorio + "/icons/warning.png" ));
+			break;
+		
 		case "sistema":
 			Object[] exit = { "Confirmar", "Cancelar" };  
 			int fechar = JOptionPane.showOptionDialog( null, "ATENÇÃO!\n\nChamada para o " + mensagem 
@@ -611,7 +628,23 @@ public class PrincipalController implements ComponentListener {
 
 			}
 		};
+		
+		
+		// CONTROLE FOCO ///////////////////////////////
+		
+		public FocusListener foco = new FocusListener(){
 
+			@Override
+			public void focusGained(FocusEvent e) {
+				lerCarrinho();
+			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				
+			}
+			
+		};
 
 
 		// CONTROLE MOUSE ///////////////////////////////
