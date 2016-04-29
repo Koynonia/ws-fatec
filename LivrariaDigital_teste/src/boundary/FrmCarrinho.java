@@ -27,7 +27,10 @@ import javax.swing.text.NumberFormatter;
 
 import controller.CarrinhoController;
 import java.text.Format;
+<<<<<<< HEAD
 import java.awt.SystemColor;
+=======
+>>>>>>> fefdd4755b80c9939d18a5f6859cf81bd1270535
 
 @SuppressWarnings("serial")
 public class FrmCarrinho extends JFrame {
@@ -147,8 +150,13 @@ public class FrmCarrinho extends JFrame {
 		painel.add(lblQtd);
 		
 		ftxtQtd = new JFormattedTextField((Format) null);
+<<<<<<< HEAD
 		ftxtQtd.setBackground(SystemColor.window);
 		ftxtQtd.setHorizontalAlignment(SwingConstants.CENTER);
+=======
+		ftxtQtd.setHorizontalAlignment(SwingConstants.CENTER);
+		ftxtQtd.setEnabled(false);
+>>>>>>> fefdd4755b80c9939d18a5f6859cf81bd1270535
 		ftxtQtd.setEditable(false);
 		ftxtQtd.setColumns(10);
 		ftxtQtd.setBounds(478, 329, 58, 28);

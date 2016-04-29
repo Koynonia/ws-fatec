@@ -1,3 +1,8 @@
 eclipse.preferences.version=1
+<<<<<<< HEAD
 encoding//src/controller/Arquivo.java=UTF-8
 encoding//src/controller/Arquivos.java=UTF-8
+=======
+encoding//src/dao/Arquivo.java=UTF-8
+encoding//src/dao/Arquivos.java=UTF-8
+>>>>>>> fefdd4755b80c9939d18a5f6859cf81bd1270535

@@ -13,8 +13,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+<<<<<<< HEAD
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+=======
+>>>>>>> fefdd4755b80c9939d18a5f6859cf81bd1270535
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -52,6 +55,10 @@ public class PrincipalController implements ComponentListener {
 	private JPanel painel;
 	private JComboBox<String> cboFiltrar;
 	private JTextField txtPesquisar;
+<<<<<<< HEAD
+=======
+	private JTextField txtQtd;
+>>>>>>> fefdd4755b80c9939d18a5f6859cf81bd1270535
 	private JButton btnLogin; 
 	private JButton btnCarrinho;
 	private JButton btnLivro;
@@ -83,7 +90,12 @@ public class PrincipalController implements ComponentListener {
 			JComboBox<String> cboFiltrar, 
 			JTextField txtPesquisar,  
 			JButton btnLogin, 
+<<<<<<< HEAD
 			JButton btnCarrinho, 
+=======
+			JButton btnCarrinho,
+			JTextField txtQtd, 
+>>>>>>> fefdd4755b80c9939d18a5f6859cf81bd1270535
 			JButton btnLivro, 
 			JLabel lblLivroLanc_1, 
 			JLabel lblLivroLanc_2, 
@@ -105,6 +117,10 @@ public class PrincipalController implements ComponentListener {
 		this.txtPesquisar = txtPesquisar;
 		this.btnLogin = btnLogin;
 		this.btnCarrinho = btnCarrinho;
+<<<<<<< HEAD
+=======
+		this.txtQtd = txtQtd;
+>>>>>>> fefdd4755b80c9939d18a5f6859cf81bd1270535
 		this.btnLivro = btnLivro;
 		this.lblLivroLanc_1 = lblLivroLanc_1;
 		this.lblLivroLanc_2 = lblLivroLanc_2;
@@ -267,6 +283,7 @@ public class PrincipalController implements ComponentListener {
 				break;
 			}
 		}
+<<<<<<< HEAD
 	}
 	
 	
@@ -344,6 +361,85 @@ public class PrincipalController implements ComponentListener {
 	}
 	
 	
+=======
+	}
+	
+	
+	private void percorrerCampos(String campo, String titulo) {
+
+		for (Component p : painel.getComponents()) {
+			if (p instanceof JLabel) {
+				JLabel l = (JLabel)p;
+				if ( l.getName() == campo) {
+					l.setVisible(true);
+					l.setToolTipText( titulo );
+				}
+			}
+		}   
+	}
+	
+	// PREENCHE COMBOBOX /////////////////////
+	
+		public void preencherFiltro() {		
+			
+//			cboFiltro.addItem("");
+			cboFiltrar.addItem("Título");
+			cboFiltrar.addItem("Autor");
+			cboFiltrar.addItem("Editora");
+			cboFiltrar.addItem("Categoria");
+			cboFiltrar.setSelectedIndex(0);
+		}
+
+	
+	public void abrirJanela ( String nome ){
+
+		switch ( nome ){
+
+		case "carrinho":
+			if( janelaCarrinho == null ){
+				FrmCarrinho carrinho = new FrmCarrinho();
+				carrinho.setVisible(true);
+			} else {
+				janelaCarrinho.setVisible(true);
+			}
+			break;
+
+		case "login":
+			msg("", "LOGIN em implementação!");
+			break;
+			
+		case "livro":
+			if( janelaLivro == null ){
+				FrmLivro livro;
+				try {
+					livro = new FrmLivro();
+					livro.setVisible(true);
+					fechar();
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+			} else {
+				janelaLivro.setVisible(true);
+				fechar();
+			}
+			break;
+			
+		case "detalhes":
+			if( janelaDetalhe == null ){
+				FrmDetalhe detalhe;
+				detalhe = new FrmDetalhe( janela, opt, isbn, livros );
+				detalhe.setVisible(true);
+				fechar();
+			} else {
+				janelaDetalhe.setVisible(true);
+				fechar();
+			}
+			break;
+		}
+	}
+	
+	
+>>>>>>> fefdd4755b80c9939d18a5f6859cf81bd1270535
 	// CRUD //////////////////////////
 	
 	public void pesquisarLivro(String itemMenu, String texto){
@@ -383,9 +479,15 @@ public class PrincipalController implements ComponentListener {
 			}
 			janela.dispose();
 		} else if( !itemMenu.isEmpty() ){
+<<<<<<< HEAD
 			msg("vazioPesquisa", txtPesquisar.getText().toUpperCase());
 		} else {
 			msg("erroPesquisa","");
+=======
+			JOptionPane.showMessageDialog(janela, "Nenhum resultado encontrado!");
+		} else {
+			JOptionPane.showMessageDialog(janela, "Digite algo ou escolha uma opção!");
+>>>>>>> fefdd4755b80c9939d18a5f6859cf81bd1270535
 		}
 	}
 	
@@ -407,7 +509,11 @@ public class PrincipalController implements ComponentListener {
 					qtd =  qtd + Integer.parseInt(lista.get(1));
 					lista.clear();
 				}
+<<<<<<< HEAD
 				btnCarrinho.setText("Meu Carrinho ( " + qtd + " )");
+=======
+				txtQtd.setText(Integer.toString ( qtd ) );
+>>>>>>> fefdd4755b80c9939d18a5f6859cf81bd1270535
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -437,8 +543,11 @@ public class PrincipalController implements ComponentListener {
 					livro.setCapa( lista.get(5) );
 					livro.setPaginas( Integer.parseInt( lista.get(6) ) );
 					livro.setCategoria( lista.get(7) );
+<<<<<<< HEAD
 					livro.setSumario( lista.get(8));
 					livro.setResumo( lista.get(9));
+=======
+>>>>>>> fefdd4755b80c9939d18a5f6859cf81bd1270535
 					livro.setPrecoVenda( Float.parseFloat( lista.get(11) ) );
 					livro.setDtCadastro( lista.get(12) );
 					livro.setImagem( lista.get(13) );
@@ -459,6 +568,7 @@ public class PrincipalController implements ComponentListener {
 		janela.setAlwaysOnTop (false);
 
 		switch ( tipo ) {
+<<<<<<< HEAD
 		
 		case "vazioPesquisa":
 			JOptionPane.showMessageDialog(null, 
@@ -476,6 +586,9 @@ public class PrincipalController implements ComponentListener {
 					new ImageIcon( diretorio + "/icons/warning.png" ));
 			break;
 		
+=======
+
+>>>>>>> fefdd4755b80c9939d18a5f6859cf81bd1270535
 		case "sistema":
 			Object[] exit = { "Confirmar", "Cancelar" };  
 			int fechar = JOptionPane.showOptionDialog( null, "ATENÇÃO!\n\nChamada para o " + mensagem 
@@ -628,6 +741,7 @@ public class PrincipalController implements ComponentListener {
 
 			}
 		};
+<<<<<<< HEAD
 		
 		
 		// CONTROLE FOCO ///////////////////////////////
@@ -645,6 +759,9 @@ public class PrincipalController implements ComponentListener {
 			}
 			
 		};
+=======
+
+>>>>>>> fefdd4755b80c9939d18a5f6859cf81bd1270535
 
 
 		// CONTROLE MOUSE ///////////////////////////////

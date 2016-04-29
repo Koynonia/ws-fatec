@@ -7,10 +7,17 @@ Capa            : Dura
 Páginas         : 280
 Categoria       : Engenharia de Software
 Sumário         : null
+<<<<<<< HEAD
 Resumo          : A proposta deste livro é apresentar a plataforma em um nível de detalhamento não encontrado em nenhum outro no mercado, desde a descrição do bytecode e da JVM até a possibilidade de utilização de outras linguagens.
 Preço Custo     : 100.71
 Preço Venda     : 111.9
 Data Cadastro   : 29/04/2016 04:17:32
+=======
+Resumo          : null
+Preço Custo     : 100.71
+Preço Venda     : 111.9
+Data Cadastro   : 28/04/2016 06:41:48
+>>>>>>> fefdd4755b80c9939d18a5f6859cf81bd1270535
 Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/imagem/9788535250299.jpg
 --------------------------------------
 ISBN            : 9788535226263
@@ -21,11 +28,19 @@ Data Publicação : 01/01/2014
 Capa            : Brochura
 Páginas         : 416
 Categoria       : Engenharia de Software
+<<<<<<< HEAD
 Sumário         : teste
 Resumo          : A análise e o projeto orientados a objetos são comumente utilizados no desenvolvimento de software. Apesar disso, muitos conceitos da orientação a objetos ainda não são corretamente entendidos e aplicados na prática.
 Preço Custo     : 55.99
 Preço Venda     : 110.9
 Data Cadastro   : 29/04/2016 04:04:27
+=======
+Sumário         : null
+Resumo          : null
+Preço Custo     : 55.99
+Preço Venda     : 79.99
+Data Cadastro   : 28/04/2016 05:32:38
+>>>>>>> fefdd4755b80c9939d18a5f6859cf81bd1270535
 Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/imagem/9788535226263.jpg
 --------------------------------------
 ISBN            : 9788563308337
@@ -37,10 +52,17 @@ Capa            : Brochura
 Páginas         : 780
 Categoria       : Engenharia de Software
 Sumário         : null
+<<<<<<< HEAD
 Resumo          : O livro é considerado obra de referência e já é amplamente adotado nos principais cursos de graduação e pós-graduação das principais instituições de ensino no Brasil. 
 Preço Custo     : 125.99
 Preço Venda     : 179.99
 Data Cadastro   : 29/04/2016 04:11:27
+=======
+Resumo          : null
+Preço Custo     : 125.99
+Preço Venda     : 179.99
+Data Cadastro   : 28/04/2016 05:28:22
+>>>>>>> fefdd4755b80c9939d18a5f6859cf81bd1270535
 Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/imagem/9788563308337.jpg
 --------------------------------------
 ISBN            : 9788535245356
@@ -52,10 +74,17 @@ Capa            : Brochura
 Páginas         : 904
 Categoria       : Bancos de Dados
 Sumário         : null
+<<<<<<< HEAD
 Resumo          : Este é um livro-texto clássico sobre treinamento em banco de dados. A obra apresenta os conceitos fundamentais do gerenciamento de banco de dados de uma maneira intuitiva e motivadora para os alunos, inclusive com um novo exemplo de banco de dados de uma universidade, que ilustra escolhas mais complexas de projeto.
 Preço Custo     : 264.51
 Preço Venda     : 293.9
 Data Cadastro   : 29/04/2016 04:14:32
+=======
+Resumo          : null
+Preço Custo     : 264.51
+Preço Venda     : 293.9
+Data Cadastro   : 28/04/2016 05:28:55
+>>>>>>> fefdd4755b80c9939d18a5f6859cf81bd1270535
 Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/imagem/9788535245356.jpg
 --------------------------------------
 ISBN            : 9788576572107
@@ -67,10 +96,17 @@ Capa            : Brochura
 Páginas         : 504
 Categoria       : Literatura Estrangeira, Ficção Científica
 Sumário         : null
+<<<<<<< HEAD
 Resumo          : No segundo volume da consagrada Trilogia Thrawn, a luta de Luke, Han e Leia em defesa da Nova República continua. Mais uma vez, eles enfrentarão as tropas imperiais dissidentes, comandadas pelo poderoso grão-almirante Thrawn.
 Preço Custo     : 21.84
 Preço Venda     : 39.9
 Data Cadastro   : 29/04/2016 04:06:00
+=======
+Resumo          : null
+Preço Custo     : 21.84
+Preço Venda     : 39.9
+Data Cadastro   : 28/04/2016 05:29:34
+>>>>>>> fefdd4755b80c9939d18a5f6859cf81bd1270535
 Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/imagem/9788576572107.jpg
 --------------------------------------
 ISBN            : 9788576572114
@@ -81,6 +117,7 @@ Data Publicação : 01/01/2015
 Capa            : Brochura
 Páginas         : 424
 Categoria       : Ficção Científica
+<<<<<<< HEAD
 Sumário         : falta
 Resumo          : Nesta primeira aventura juntos, os protagonistas da série Rebels conquistam seu espaço entre os maiores heróis da série STAR WARS, rumo à luta contra o Império.
 Preço Custo     : 19.89
@@ -90,6 +127,17 @@ Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/ima
 --------------------------------------
 ISBN            : 9788576572091
 Título          : Provação
+=======
+Sumário         : null
+Resumo          : null
+Preço Custo     : 19.89
+Preço Venda     : 39.9
+Data Cadastro   : 28/04/2016 06:54:31
+Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/imagem/9788576572114.jpg
+--------------------------------------
+ISBN            : 9788576572091
+Título          : Star Wars: Provação
+>>>>>>> fefdd4755b80c9939d18a5f6859cf81bd1270535
 Autor           : Troy Denning
 Editora         : Aleph
 Data Publicação : 01/01/2015
@@ -97,9 +145,16 @@ Capa            : Brochura
 Páginas         : 408
 Categoria       : Literatura Estrangeira, Ficção Científica
 Sumário         : null
+<<<<<<< HEAD
 Resumo          : Provação traz de volta os principais personagens da saga Star Wars em uma trama que combina perfeitamente chantagens, sequestros e batalhas tão épicas quanto as da trilogia original. 
 Preço Custo     : 19.89
 Preço Venda     : 39.9
 Data Cadastro   : 29/04/2016 04:12:51
+=======
+Resumo          : null
+Preço Custo     : 19.89
+Preço Venda     : 39.9
+Data Cadastro   : 28/04/2016 11:31:34
+>>>>>>> fefdd4755b80c9939d18a5f6859cf81bd1270535
 Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/imagem/9788576572091.jpg
 --------------------------------------

@@ -12,8 +12,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+<<<<<<< HEAD
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+=======
+>>>>>>> fefdd4755b80c9939d18a5f6859cf81bd1270535
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -54,6 +57,10 @@ public class ListaController implements ComponentListener {
 	private JLabel lblLivroTitulo_2; 
 	private JLabel lblLivroAutor_2; 
 	private JLabel lblLivroValor_2; 
+<<<<<<< HEAD
+=======
+	private JTextField txtQtd; 
+>>>>>>> fefdd4755b80c9939d18a5f6859cf81bd1270535
 	private JButton btnDetalhes_1; 
 	private JButton btnAddCarrinho_2; 
 	private JButton btnDetalhes_2; 
@@ -84,6 +91,10 @@ public class ListaController implements ComponentListener {
 			JLabel lblLivroTitulo_2, 
 			JLabel lblLivroAutor_2, 
 			JLabel lblLivroValor_2, 
+<<<<<<< HEAD
+=======
+			JTextField txtQtd, 
+>>>>>>> fefdd4755b80c9939d18a5f6859cf81bd1270535
 			JButton btnDetalhes_1, 
 			JButton btnAddCarrinho_1, 
 			JButton btnDetalhes_2, 
@@ -106,6 +117,10 @@ public class ListaController implements ComponentListener {
 		this.lblLivroTitulo_2 = lblLivroTitulo_2;
 		this.lblLivroAutor_2 = lblLivroAutor_2;
 		this.lblLivroValor_2 = lblLivroValor_2;
+<<<<<<< HEAD
+=======
+		this.txtQtd = txtQtd;
+>>>>>>> fefdd4755b80c9939d18a5f6859cf81bd1270535
 		this.btnDetalhes_1 = btnDetalhes_1;	
 		this.btnAddCarrinho_1 = btnAddCarrinho_1;
 		this.btnDetalhes_2 = btnDetalhes_2;
@@ -132,7 +147,11 @@ public class ListaController implements ComponentListener {
 				lblLivroCapa_1.setToolTipText( livro.get(i).getTitulo() );
 				lblLivroTitulo_1.setText( livro.get(i).getTitulo() );
 				lblLivroAutor_1 .setText( livro.get(i).getAutor() );
+<<<<<<< HEAD
 				lblLivroValor_1.setText( "R$ " + String.valueOf( livro.get(i).getPrecoVenda() ));
+=======
+				lblLivroValor_1.setText( String.valueOf( livro.get(i).getPrecoVenda() ));
+>>>>>>> fefdd4755b80c9939d18a5f6859cf81bd1270535
 				imagem = livro.get(i).getImagem();
 				carregaCapa(i);
 			break;
@@ -142,7 +161,11 @@ public class ListaController implements ComponentListener {
 				lblLivroCapa_2.setToolTipText( livro.get(i).getTitulo() );
 				lblLivroTitulo_2.setText( livro.get(i).getTitulo() );
 				lblLivroAutor_2 .setText( livro.get(i).getAutor() );
+<<<<<<< HEAD
 				lblLivroValor_2.setText( "R$ " + String.valueOf( livro.get(i).getPrecoVenda() ));
+=======
+				lblLivroValor_2.setText( String.valueOf( livro.get(i).getPrecoVenda() ));
+>>>>>>> fefdd4755b80c9939d18a5f6859cf81bd1270535
 				imagem = livro.get(i).getImagem();
 				carregaCapa(i);
 				lblLivroCapa_2.setVisible(true);
@@ -193,7 +216,11 @@ public class ListaController implements ComponentListener {
 					qtd =  qtd + Integer.parseInt(lista.get(1));
 					lista.clear();
 				}
+<<<<<<< HEAD
 				btnCarrinho.setText("Meu Carrinho ( " + qtd + " )");
+=======
+				txtQtd.setText(Integer.toString ( qtd ) );
+>>>>>>> fefdd4755b80c9939d18a5f6859cf81bd1270535
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -433,6 +460,7 @@ public class ListaController implements ComponentListener {
 
 				}
 			};
+<<<<<<< HEAD
 			
 			
 			// CONTROLE FOCO ///////////////////////////////
@@ -449,6 +477,9 @@ public class ListaController implements ComponentListener {
 				}
 				
 			};
+=======
+
+>>>>>>> fefdd4755b80c9939d18a5f6859cf81bd1270535
 
 
 			// CONTROLE MOUSE ///////////////////////////////
