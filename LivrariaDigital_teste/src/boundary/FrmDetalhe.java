@@ -37,7 +37,7 @@ public class FrmDetalhe extends JFrame {
 	private JSeparator linha;
 	private JLabel lblLogo;
 	private JLabel lblPagina; 
-	private JLabel lblTitulo; 
+	private JTextArea txtaTitulo; 
 	private JLabel lblAutor; 
 	private JLabel lblCategria; 
 	private JLabel lblTipoCapa; 
@@ -91,46 +91,56 @@ public class FrmDetalhe extends JFrame {
 		lblCapa.setToolTipText("Capa");
 		lblCapa.setHorizontalAlignment(SwingConstants.CENTER);
 		lblCapa.setBorder(new LineBorder(Color.GRAY));
-		lblCapa.setBounds(36, 140, 287, 394);
+		lblCapa.setBounds(36, 140, 321, 441);
 		lblCapa.setIcon(new ImageIcon(capa.getImage().getScaledInstance(lblCapa.getWidth(), 
 		lblCapa.getHeight(), Image.SCALE_DEFAULT)));
 		painel.add(lblCapa);
 		
-		lblTitulo = new JLabel("Título: ");
-		lblTitulo.setFont(new Font("Lucida Grande", Font.BOLD, 20));
-		lblTitulo.setBounds(347, 140, 630, 29);
-		painel.add(lblTitulo);
+		txtaTitulo = new JTextArea(1, 1);
+		txtaTitulo.setFont(new Font("Lucida Grande", Font.BOLD, 20));
+		txtaTitulo.setBackground(SystemColor.window);
+		txtaTitulo.setEditable(false);
+		txtaTitulo.setLineWrap(true);
+		txtaTitulo.setWrapStyleWord(true);
+		txtaTitulo.setBounds(395, 140, 582, 50);
+		painel.add(txtaTitulo);
 		
 		lblAutor = new JLabel("Autor(es): ");
-		lblAutor.setBounds(347, 174, 630, 16);
+		lblAutor.setBounds(395, 194, 582, 16);
 		painel.add(lblAutor);
 		
 		lblCategria = new JLabel("Categoria(s): ");
-		lblCategria.setBounds(347, 191, 630, 16);
+		lblCategria.setBounds(395, 211, 582, 16);
 		painel.add(lblCategria);
 		
 		lblTipoCapa = new JLabel("Tipo de Capa: ");
-		lblTipoCapa.setBounds(347, 235, 630, 16);
+		lblTipoCapa.setBounds(395, 255, 582, 16);
 		painel.add(lblTipoCapa);
 		
 		lblEditora = new JLabel("Editora: ");
-		lblEditora.setBounds(347, 255, 630, 16);
+		lblEditora.setBounds(395, 275, 582, 16);
 		painel.add(lblEditora);
 		
 		lblPaginas = new JLabel("Páginas: ");
-		lblPaginas.setBounds(347, 275, 630, 16);
+		lblPaginas.setBounds(395, 295, 582, 16);
 		painel.add(lblPaginas);
 		
 		lblIsbn = new JLabel("ISBN: ");
-		lblIsbn.setBounds(347, 295, 630, 16);
+		lblIsbn.setBounds(395, 315, 582, 16);
 		painel.add(lblIsbn);
 		
 		lblDtPub = new JLabel("Data de Publicação: ");
-		lblDtPub.setBounds(347, 315, 630, 16);
+		lblDtPub.setBounds(395, 335, 582, 16);
 		painel.add(lblDtPub);
 		
-		lblSumario = new JLabel("Sumário");
-		lblSumario.setBounds(347, 389, 83, 16);		
+		lblPreco = new JLabel("Preço: R$ ");
+		lblPreco.setFont(new Font("Lucida Grande", Font.BOLD, 14));
+		lblPreco.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblPreco.setBounds(814, 256, 161, 16);
+		painel.add(lblPreco);
+		
+		lblSumario = new JLabel("Sumário:");
+		lblSumario.setBounds(395, 377, 83, 16);		
 		painel.add(lblSumario);
 		
 		txtaSumario = new JTextArea(1, 1);
@@ -139,11 +149,11 @@ public class FrmDetalhe extends JFrame {
 //		txtaSumario .setFont(new Font("Serif", Font.ITALIC, 16));
 		txtaSumario .setLineWrap(true);
 		txtaSumario .setWrapStyleWord(true);
-		txtaSumario.setBounds(431, 389, 546, 66);
+		txtaSumario.setBounds(395, 405, 582, 66);
 		painel.add(txtaSumario);
 		
-		lblResumo = new JLabel("Resumo");
-		lblResumo.setBounds(347, 475, 83, 16);
+		lblResumo = new JLabel("Resumo:");
+		lblResumo.setBounds(395, 483, 83, 16);
 		painel.add(lblResumo);
 		
 		txtaResumo = new JTextArea(1, 1);
@@ -152,15 +162,11 @@ public class FrmDetalhe extends JFrame {
 //		txtaResumo.setFont(new Font("Serif", Font.ITALIC, 16));
 		txtaResumo.setLineWrap(true);
 		txtaResumo.setWrapStyleWord(true);
-		txtaResumo.setBounds(431, 475, 546, 66);
+		txtaResumo.setBounds(395, 513, 582, 66);
 		painel.add(txtaResumo);
 		
-		lblPreco = new JLabel("Preço: R$ ");
-		lblPreco.setBounds(40, 566, 118, 16);
-		painel.add(lblPreco);
-		
 		btnAddCarrinho = new JButton("Adicionar ao Carrinho");
-		btnAddCarrinho.setBounds(170, 561, 161, 29);
+		btnAddCarrinho.setBounds(113, 607, 161, 29);
 		painel.add(btnAddCarrinho);
 		
 		btnVoltar = new JButton("Voltar");
@@ -172,7 +178,7 @@ public class FrmDetalhe extends JFrame {
 				this, 
 				janelaAnterior, 
 				livros, 
-				lblTitulo, 
+				txtaTitulo, 
 				lblAutor, 
 				lblCategria, 
 				lblTipoCapa, 

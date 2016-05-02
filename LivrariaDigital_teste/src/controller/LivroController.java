@@ -69,6 +69,8 @@ public class LivroController implements ComponentListener{
 	private JComboBox<String> cboEditora;
 	private JComboBox<String> cboTipoCapa;
 	private JComboBox<String> cboCategoria;
+	private JButton btnAnterior; 
+	private JButton btnProximo; 
 	private JButton btnLimpar; 
 	private JButton btnEditar; 
 	private JButton btnExcluir; 
@@ -78,6 +80,7 @@ public class LivroController implements ComponentListener{
 	private Arquivos arquivos = new Arquivos();
 	private List<Livro> livros;
 	private boolean validar;
+	int reg = 0;
 	private String imagem;
 	private String diretorio = "../LivrariaDigital_teste/";
 	private String arquivo = "livro";
@@ -105,10 +108,13 @@ public class LivroController implements ComponentListener{
 			JComboBox<String> cboEditora, 
 			JComboBox<String> cboTipoCapa, 
 			JComboBox<String> cboCategoria, 
+			JButton btnAnterior, 
+			JButton btnProximo, 
 			JButton btnLimpar,
 			JButton btnEditar,
 			JButton btnExcluir, 
 			JButton btnSalvar, 
+			JButton btnCancelar, 
 			JButton btnVoltar 
 			){
 		
@@ -132,6 +138,8 @@ public class LivroController implements ComponentListener{
 		this.cboEditora = cboEditora;
 		this.cboTipoCapa = cboTipoCapa;
 		this.cboCategoria = cboCategoria;
+		this.btnAnterior = btnAnterior;
+		this.btnProximo = btnProximo;
 		this.btnLimpar = btnLimpar;
 		this.btnEditar = btnEditar;
 		this.btnExcluir = btnExcluir;
@@ -146,9 +154,8 @@ public class LivroController implements ComponentListener{
 		preencherCapa();
 		imagem = diretorio + "imagem/capa.png";
 		carregarCapa();
-
+		navegar();
 	}
-	
 	
 	
 	public void carregarCapa(){
@@ -156,6 +163,15 @@ public class LivroController implements ComponentListener{
 		lblCapa.setIcon(new ImageIcon(capa.getImage().getScaledInstance(lblCapa.getWidth(), 
 				lblCapa.getHeight(), Image.SCALE_DEFAULT)));
 	}
+	
+	public void alterarBotao(){
+		btnLimpar.setText("Novo");
+		btnEditar.setText("Editar");
+		btnEditar.setVisible(true);
+		btnExcluir.setVisible(false);
+		btnSalvar.setVisible(false);
+	}
+	
 	
 	public void calcularMargem(){
 		
@@ -171,6 +187,7 @@ public class LivroController implements ComponentListener{
 				
 		ftxtMargem.setText( ( Double.toString(  ( ( vlr1 - vlr2 ) * 100 / vlr1 ))).substring(0,2) + " %" );
 	}
+	
 	
 	public void limparCampos(){
 		
@@ -200,9 +217,9 @@ public class LivroController implements ComponentListener{
 		carregarCapa();
 		txtAutor.setText("");
 		txtCategoria.setText("");
-		btnSalvar.setEnabled(true);
-		btnEditar.setEnabled(false);
-		btnExcluir.setEnabled(false);
+		btnSalvar.setVisible(true);
+		btnEditar.setVisible(false);
+		btnExcluir.setVisible(false);
 	}
 	
 	
@@ -211,29 +228,30 @@ public class LivroController implements ComponentListener{
 		for (Component p : painel.getComponents()) {
 			if ( p instanceof JTextField ) {
 				JTextField l = ( JTextField )p;
-				if (l.getText().isEmpty()){
+				if ( l.getText().isEmpty() ){
 					validar = true;
 				}
 			}
 			if ( p instanceof JFormattedTextField ) {
 				JFormattedTextField  l = ( JFormattedTextField )p;
-				if (l.getText().isEmpty()){
+				if ( l.getText().isEmpty() ){
 					validar = true;
 				}
 			}
 			if (p instanceof JComboBox ) {
 				@SuppressWarnings("unchecked")
 				JComboBox<String> l = ( JComboBox<String> )p;
-				l.setSelectedIndex(0);
+				if ( l.getSelectedIndex() > 0){
+					validar = true;
+				}
 			}
 			if ( p instanceof JTextArea ) {
 				JTextArea  l = ( JTextArea )p;
-				if (l.getText().isEmpty()){
+				if ( l.getText().isEmpty() ){
 					validar = true;
 				}
 			}
 		}
-		
 		if ( validar != false ){
 			msg("erroVazio", txtTitulo.getText());
 			validar = false;
@@ -437,6 +455,30 @@ public class LivroController implements ComponentListener{
 	
 	// CRUD //////////////////////////
 	
+	public void navegar(){
+		
+		if ( reg <= livros.size() -1 && reg >= 0){
+			txtIsbnID.setText( livros.get( reg ).getIsbn() );
+			txtTitulo.setText( livros.get( reg ).getTitulo() );
+			txtAutor.setText( livros.get( reg ).getAutor() );
+			txtCategoria.setText( livros.get( reg ).getCategoria() );
+			ftxtPaginas.setText( Integer.toString(livros.get( reg ).getPaginas() ));
+			ftxtIsbn.setText( livros.get( reg ).getIsbn() );
+			ftxtDtPub.setText( livros.get( reg ).getDtPublicacao() );
+			cboTipoCapa.getModel().setSelectedItem( livros.get( reg ).getCapa() );
+			cboEditora.getModel().setSelectedItem( livros.get( reg ).getEditora() );
+			txtaSumario.setText( livros.get( reg ).getSumario() );
+			txtaResumo.setText( livros.get( reg ).getResumo() );
+			ftxtPrecoCusto.setText( Float.toString( livros.get( reg ).getPrecoCusto() ));
+			ftxtPrecoVenda.setText( Float.toString( livros.get( reg ).getPrecoVenda() ));
+			imagem = livros.get( reg ).getImagem();
+			carregarCapa();
+			calcularMargem();
+			alterarBotao();
+		}
+	}
+	
+	
 	public void pesquisar(){
 
 		String pesquisa = "";
@@ -495,10 +537,7 @@ public class LivroController implements ComponentListener{
 						imagem = livros.get(i).getImagem();
 						carregarCapa();
 						calcularMargem();
-						btnLimpar.setText("Novo");
-						btnEditar.setEnabled(true);
-						btnExcluir.setEnabled(true);
-						btnSalvar.setEnabled(false);
+						alterarBotao();
 					}
 				}
 			}
@@ -545,7 +584,6 @@ public class LivroController implements ComponentListener{
 					}
 				}
 			} 
-			limparCampos();
 			validar = false;
 			msg( "editar", txtTitulo.getText() );
 		}
@@ -561,11 +599,10 @@ public class LivroController implements ComponentListener{
 			for (int i = 0; i < livros.size(); i++) {	
 				if ( ftxtIsbn.getText().equals(livros.get(i).getIsbn() )) {
 					msg( "erroEditar", livros.get(i).getTitulo() );
-					validar = true;
+					verificarCampos();
 				}
 			}			
 			if(!(validar == true)){
-				verificarCampos();
 				livro.setIsbn( ftxtIsbn.getText() );
 				livro.setTitulo( txtTitulo.getText() );
 				livro.setAutor( txtAutor.getText() );
@@ -588,7 +625,7 @@ public class LivroController implements ComponentListener{
 				validar = false;
 			}
 		} else {
-			verificarCampos();
+			msg("erroVazio","");
 		}
 	}
 	
@@ -756,7 +793,7 @@ public class LivroController implements ComponentListener{
 
 		case "erroVazio":
 			JOptionPane.showMessageDialog(null, 
-					"ATENÇÃO!\nCampo Vazio.\nPor favor, digite o solicitado pelo campo.", 
+					"ATENÇÃO!\n\nCampo não preenchido.\nPor favor, digite o solicitado pelo campo.", 
 					"Erro", 
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon( diretorio + "/icons/warning.png" ));
@@ -816,12 +853,43 @@ public class LivroController implements ComponentListener{
 	//   CONTROLE BOTAO   //////////////////////////////
 		
 		
+		public ActionListener registros = new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//verifica qual botãoo está solicitando a ação
+				Object source = e.getSource();
+
+				if(source == btnAnterior){
+					reg--;
+					navegar ();
+				}
+				if (source == btnProximo){
+					reg++;
+					navegar();
+				}
+			}
+		};
+		
+		public ActionListener cancelar = new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				navegar();
+			}
+		};
+		
 		public ActionListener editar = new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				editar();
+				if (!btnExcluir.isVisible()){
+					btnEditar.setText("Salvar");
+					btnExcluir.setVisible(true);
+				} else {
+					editar();
+					alterarBotao();
+				}
 			}
 		};
 		
@@ -929,6 +997,21 @@ public class LivroController implements ComponentListener{
 
 			@Override  
 			public void keyTyped(KeyEvent e) {
+				//Limita caracteres digitados
+				int limite = 330;
+				
+				if (txtaSumario.getText().length() <= limite - 1) {
+					//deixe passar
+				} else {
+					//limpa
+					e.setKeyChar((char) KeyEvent.VK_CLEAR);  
+				}
+				if (txtaResumo.getText().length() <= limite - 1) {
+					//deixe passar
+				} else {
+					//limpa
+					e.setKeyChar((char) KeyEvent.VK_CLEAR);  
+				}
 			}
 
 			@Override
@@ -943,8 +1026,12 @@ public class LivroController implements ComponentListener{
 				case KeyEvent.VK_DOWN:
 					break;
 				case KeyEvent.VK_LEFT:
+					reg--;
+					navegar();
 					break;
 				case KeyEvent.VK_RIGHT:
+					reg++;
+					navegar();
 					break;
 				case KeyEvent.VK_ESCAPE:
 					msg("sistema","Fechamento");

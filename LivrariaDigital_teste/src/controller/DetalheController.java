@@ -16,6 +16,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class DetalheController implements ComponentListener {
 	private FrmLista janelaLista;
 	private JFrame janelaAnterior;
 	private List<Livro> livros;
-	private JLabel lblTitulo; 
+	private JTextArea txtaTitulo; 
 	private JLabel lblAutor; 
 	private JLabel lblCategria; 
 	private JLabel lblTipoCapa; 
@@ -51,7 +52,6 @@ public class DetalheController implements ComponentListener {
 	private JLabel lblPreco;
 	private JTextArea txtaSumario;
 	private JTextArea txtaResumo;
-	private JButton btnAddCarrinho;
 	private JButton btnVoltar;
 	private String diretorio = "../LivrariaDigital_teste/";
 	private String imagem;
@@ -62,7 +62,7 @@ public class DetalheController implements ComponentListener {
 			FrmDetalhe janela, 
 			JFrame janelaAnterior, 
 			List<Livro> livros, 
-			JLabel lblTitulo, 
+			JTextArea txtaTitulo, 
 			JLabel lblAutor, 
 			JLabel lblCategria, 
 			JLabel lblTipoCapa, 
@@ -80,7 +80,7 @@ public class DetalheController implements ComponentListener {
 		this.janela = janela;
 		this.janelaAnterior = janelaAnterior;
 		this.livros = livros;
-		this.lblTitulo = lblTitulo;
+		this.txtaTitulo = txtaTitulo;
 		this.lblAutor = lblAutor;
 		this.lblCategria = lblCategria;
 		this.lblTipoCapa = lblTipoCapa;
@@ -92,7 +92,6 @@ public class DetalheController implements ComponentListener {
 		this.lblPreco = lblPreco;
 		this.txtaSumario = txtaSumario;
 		this.txtaResumo = txtaResumo;
-		this.btnAddCarrinho = btnAddCarrinho;
 		this.btnVoltar = btnVoltar;
 		
 	}
@@ -101,10 +100,11 @@ public class DetalheController implements ComponentListener {
 	public void escreverTela( int opt, ArrayList<String> isbn){
 		
 		int i = 0;
+		DecimalFormat formato = new DecimalFormat("#,##0.00");
 		
 		for( Livro livro : livros ){	
 			if ( livro.getIsbn().equals( isbn.get( opt ) )) {
-				lblTitulo.setText( "Título: " + livro.getTitulo() );
+				txtaTitulo.setText( "Título: " + livro.getTitulo() );
 				lblAutor.setText( "Autor(es): " + livro.getAutor() ); 
 				lblCategria.setText( "Categoria(s): " + livro.getCategoria() );
 				lblTipoCapa.setText( "Tipo de Capa: " + livro.getCapa() );
@@ -113,7 +113,7 @@ public class DetalheController implements ComponentListener {
 				lblIsbn.setText( "ISBN: " + livro.getIsbn() );
 				lblDtPub.setText( "Data de Publicação: " + livro.getDtPublicacao() );
 				imagem = livro.getImagem();
-				lblPreco.setText( "Preço: R$ " + livro.getPrecoVenda() );
+				lblPreco.setText( "Preço: R$ " + formato.format( livro.getPrecoVenda() ));
 				txtaSumario.setText( livro.getSumario() );
 				txtaResumo.setText( livro.getResumo() );
 				carregaCapa();

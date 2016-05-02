@@ -22,6 +22,7 @@ import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -74,6 +75,7 @@ public class PrincipalController implements ComponentListener {
 	private String imagem;
 	private int opt;
 	private ArquivoLivro dao = new ArquivoLivro();
+	private OrdenaLivro ordenar = new OrdenaLivro();
 	private List<Livro> livros;
 	private ArrayList<String> isbn = new ArrayList<>();
 	
@@ -120,7 +122,9 @@ public class PrincipalController implements ComponentListener {
 		this.lblLivroVend_6 = lblLivroVend_6;
 		this.livros = new ArrayList<Livro>();
 		
+		
 		lerArquivo();
+		Collections.sort( livros, Collections.reverseOrder( ordenar ) );
 		lerCarrinho();
 		livrosSpot();
 		preencherFiltro();
@@ -270,6 +274,9 @@ public class PrincipalController implements ComponentListener {
 	}
 	
 	
+
+	
+	
 	private void percorrerCampos(String campo, String titulo) {
 
 		for (Component p : painel.getComponents()) {
@@ -282,6 +289,7 @@ public class PrincipalController implements ComponentListener {
 			}
 		}   
 	}
+	
 	
 	// PREENCHE COMBOBOX /////////////////////
 	

@@ -73,6 +73,8 @@ public class FrmLivro extends JFrame {
 	private JComboBox<String> cboTipoCapa;
 	private JComboBox<String> cboCategoria;
 	private JButton btnPesquisar;
+	private JButton btnAnterior;
+	private JButton btnProximo;
 	private JButton btnLimpar;
 	private JButton btnExcluir;
 	private JButton btnEditar;
@@ -80,6 +82,7 @@ public class FrmLivro extends JFrame {
 	private JButton btnVoltar;
 	private JButton btnImagem;
 	private MaskFormatter maskData;
+	private JButton btnCancelar;
 	
 	public static void main(String[] args) {
 	
@@ -221,7 +224,7 @@ public class FrmLivro extends JFrame {
 		painel.add(lblEsoque);
 		
 		txtEstoque = new JTextField(20);
-		txtEstoque.setEditable(false);
+		txtEstoque.setHorizontalAlignment(SwingConstants.CENTER);
 		txtEstoque.setBounds(823, 297, 154, 28);
 		painel.add(txtEstoque);
 		
@@ -298,22 +301,36 @@ public class FrmLivro extends JFrame {
 		ftxtMargem.setBounds(170, 635, 154, 28);
 		painel.add(ftxtMargem);
 		
+		btnImagem = new JButton("Carregar Imagem");
+		btnImagem.setBounds(104, 105, 141, 29);
+		painel.add(btnImagem);
+		
+		btnAnterior = new JButton("Anterior");
+		btnAnterior.setBounds(431, 634, 117, 29);
+		painel.add(btnAnterior);
+		
+		btnProximo = new JButton("Próximo");
+		btnProximo.setBounds(560, 634, 117, 29);
+		painel.add(btnProximo);
+		
+		btnCancelar = new JButton("Cancelar");
+		btnCancelar.setBounds(731, 553, 117, 29);
+		painel.add(btnCancelar);
+		
 		btnLimpar = new JButton("Limpar");
 		btnLimpar.setBounds(860, 553, 117, 29);
 		painel.add(btnLimpar);
 		
 		btnExcluir = new JButton("Excluir");
-		btnExcluir.setEnabled(false);
-		btnExcluir.setBounds(431, 634, 117, 29);
+		btnExcluir.setBounds(560, 553, 117, 29);
 		painel.add(btnExcluir);
 		
 		btnEditar = new JButton("Editar");
-		btnEditar.setEnabled(false);
-		btnEditar.setBounds(560, 634, 117, 29);
+		btnEditar.setBounds(431, 553, 117, 29);
 		painel.add(btnEditar);
 		
 		btnSalvar = new JButton("Salvar");
-		btnSalvar.setBounds(684, 634, 117, 29);
+		btnSalvar.setBounds(431, 553, 117, 29);
 		painel.add(btnSalvar);
 		
 		btnVoltar = new JButton("Voltar");
@@ -343,15 +360,15 @@ public class FrmLivro extends JFrame {
 				cboEditora, 
 				cboTipoCapa, 
 				cboCategoria, 
+				btnAnterior, 
+				btnProximo, 
 				btnLimpar, 
 				btnEditar, 
 				btnExcluir, 
 				btnSalvar, 
-				btnVoltar );
-		
-		btnImagem = new JButton("Carregar Imagem");
-		btnImagem.setBounds(104, 105, 141, 29);
-		painel.add(btnImagem);
+				btnCancelar, 
+				btnVoltar 				 
+				 );
 		
 		
 		txtPesquisar.addActionListener(livroCtrl.pesquisar);
@@ -360,13 +377,20 @@ public class FrmLivro extends JFrame {
 		txtaSumario.addKeyListener(livroCtrl.tecla);
 		cboAutor.addActionListener(livroCtrl.preencher);
 		cboCategoria.addActionListener(livroCtrl.preencher);
+		txtaSumario.addKeyListener(livroCtrl.tecla);
+		txtaResumo.addKeyListener(livroCtrl.tecla);
 		ftxtPrecoCusto.addKeyListener(livroCtrl.tecla);
 		ftxtPrecoVenda.addKeyListener(livroCtrl.tecla);
 		btnImagem.addActionListener(livroCtrl.carrgarImagem);
-		btnLimpar.addActionListener(livroCtrl.limpar);
+		btnAnterior.addActionListener(livroCtrl.registros);
+		btnAnterior.addKeyListener(livroCtrl.tecla);
+		btnProximo.addActionListener(livroCtrl.registros);
+		btnProximo.addKeyListener(livroCtrl.tecla);
 		btnExcluir.addActionListener(livroCtrl.excluir);
 		btnEditar.addActionListener(livroCtrl.editar);
 		btnSalvar.addActionListener(livroCtrl.salvar);
+		btnLimpar.addActionListener(livroCtrl.limpar);
+		btnCancelar.addActionListener(livroCtrl.cancelar);
 		btnVoltar.addActionListener(livroCtrl.janelas);
 	}
 }

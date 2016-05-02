@@ -132,7 +132,7 @@ public class FrmPrincipal extends JFrame {
 		lblLivroLanc_1.setToolTipText("Capa do Livro 1…");
 		lblLivroLanc_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLivroLanc_1.setBorder(new LineBorder(Color.GRAY));
-		lblLivroLanc_1.setBounds(36, 208, 128, 188);
+		lblLivroLanc_1.setBounds(30, 208, 135, 188);
 		lblLivroLanc_1.setVisible(false);
 		lblLivroLanc_1.setIcon(new ImageIcon(capa.getImage().getScaledInstance(lblLivroLanc_1.getWidth(), 
 				lblLivroLanc_1.getHeight(), Image.SCALE_DEFAULT)));
@@ -144,7 +144,7 @@ public class FrmPrincipal extends JFrame {
 		lblLivroLanc_2.setToolTipText("Capa do Livro 2…");
 		lblLivroLanc_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLivroLanc_2.setBorder(new LineBorder(Color.GRAY));
-		lblLivroLanc_2.setBounds(201, 208, 128, 188);
+		lblLivroLanc_2.setBounds(195, 208, 135, 188);
 		lblLivroLanc_2.setVisible(false);
 		lblLivroLanc_2.setIcon(new ImageIcon(capa.getImage().getScaledInstance(lblLivroLanc_2.getWidth(), 
 				lblLivroLanc_2.getHeight(), Image.SCALE_DEFAULT)));
@@ -156,7 +156,7 @@ public class FrmPrincipal extends JFrame {
 		lblLivroLanc_3.setToolTipText("Capa do Livro 3…");
 		lblLivroLanc_3.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLivroLanc_3.setBorder(new LineBorder(Color.GRAY));
-		lblLivroLanc_3.setBounds(366, 208, 128, 188);
+		lblLivroLanc_3.setBounds(360, 208, 135, 188);
 		lblLivroLanc_3.setVisible(false);
 		lblLivroLanc_3.setIcon(new ImageIcon(capa.getImage().getScaledInstance(lblLivroLanc_3.getWidth(), 
 				lblLivroLanc_3.getHeight(), Image.SCALE_DEFAULT)));
@@ -167,7 +167,7 @@ public class FrmPrincipal extends JFrame {
 		lblLivroLanc_4.setToolTipText("Capa do Livro 4…");
 		lblLivroLanc_4.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLivroLanc_4.setBorder(new LineBorder(Color.GRAY));
-		lblLivroLanc_4.setBounds(531, 208, 128, 188);
+		lblLivroLanc_4.setBounds(525, 208, 135, 188);
 		lblLivroLanc_4.setVisible(false);
 		lblLivroLanc_4.setIcon(new ImageIcon(capa.getImage().getScaledInstance(lblLivroLanc_4.getWidth(), 
 				lblLivroLanc_4.getHeight(), Image.SCALE_DEFAULT)));
@@ -178,7 +178,7 @@ public class FrmPrincipal extends JFrame {
 		lblLivroLanc_5.setToolTipText("Capa do Livro 5…");
 		lblLivroLanc_5.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLivroLanc_5.setBorder(new LineBorder(Color.GRAY));
-		lblLivroLanc_5.setBounds(696, 208, 128, 188);
+		lblLivroLanc_5.setBounds(690, 208, 135, 188);
 		lblLivroLanc_5.setVisible(false);
 		lblLivroLanc_5.setIcon(new ImageIcon(capa.getImage().getScaledInstance(lblLivroLanc_5.getWidth(), 
 				lblLivroLanc_5.getHeight(), Image.SCALE_DEFAULT)));
@@ -189,7 +189,7 @@ public class FrmPrincipal extends JFrame {
 		lblLivroLanc_6.setToolTipText("Capa do Livro 6…");
 		lblLivroLanc_6.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLivroLanc_6.setBorder(new LineBorder(Color.GRAY));
-		lblLivroLanc_6.setBounds(861, 208, 128, 188);
+		lblLivroLanc_6.setBounds(855, 208, 135, 188);
 		lblLivroLanc_6.setVisible(false);
 		lblLivroLanc_6.setIcon(new ImageIcon(capa.getImage().getScaledInstance(lblLivroLanc_6.getWidth(), 
 				lblLivroLanc_6.getHeight(), Image.SCALE_DEFAULT)));
@@ -200,7 +200,7 @@ public class FrmPrincipal extends JFrame {
 		lblLivroVend_1.setToolTipText("Capa do Livro 1…");
 		lblLivroVend_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLivroVend_1.setBorder(new LineBorder(Color.GRAY));
-		lblLivroVend_1.setBounds(36, 464, 128, 188);
+		lblLivroVend_1.setBounds(30, 464, 135, 188);
 		lblLivroVend_1.setVisible(false);
 		lblLivroVend_1.setIcon(new ImageIcon(capa.getImage().getScaledInstance(lblLivroVend_1.getWidth(), 
 				lblLivroVend_1.getHeight(), Image.SCALE_DEFAULT)));
@@ -211,7 +211,7 @@ public class FrmPrincipal extends JFrame {
 		lblLivroVend_2.setToolTipText("Capa do Livro 2…");
 		lblLivroVend_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLivroVend_2.setBorder(new LineBorder(Color.GRAY));
-		lblLivroVend_2.setBounds(201, 464, 128, 188);
+		lblLivroVend_2.setBounds(195, 464, 135, 188);
 		lblLivroVend_2.setVisible(false);
 		lblLivroVend_2.setIcon(new ImageIcon(capa.getImage().getScaledInstance(lblLivroVend_2.getWidth(), 
 				lblLivroVend_2.getHeight(), Image.SCALE_DEFAULT)));
@@ -222,7 +222,7 @@ public class FrmPrincipal extends JFrame {
 		lblLivroVend_3.setToolTipText("Capa do Livro 3…");
 		lblLivroVend_3.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLivroVend_3.setBorder(new LineBorder(Color.GRAY));
-		lblLivroVend_3.setBounds(366, 464, 128, 188);
+		lblLivroVend_3.setBounds(360, 464, 135, 188);
 		lblLivroVend_3.setVisible(false);
 		lblLivroVend_3.setIcon(new ImageIcon(capa.getImage().getScaledInstance(lblLivroVend_3.getWidth(), 
 				lblLivroVend_3.getHeight(), Image.SCALE_DEFAULT)));
@@ -233,7 +233,7 @@ public class FrmPrincipal extends JFrame {
 		lblLivroVend_4.setToolTipText("Capa do Livro 4…");
 		lblLivroVend_4.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLivroVend_4.setBorder(new LineBorder(Color.GRAY));
-		lblLivroVend_4.setBounds(531, 464, 128, 188);
+		lblLivroVend_4.setBounds(525, 464, 135, 188);
 		lblLivroVend_4.setVisible(false);
 		lblLivroVend_4.setIcon(new ImageIcon(capa.getImage().getScaledInstance(lblLivroVend_4.getWidth(), 
 				lblLivroVend_4.getHeight(), Image.SCALE_DEFAULT)));
@@ -244,7 +244,7 @@ public class FrmPrincipal extends JFrame {
 		lblLivroVend_5.setToolTipText("Capa do Livro 5…");
 		lblLivroVend_5.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLivroVend_5.setBorder(new LineBorder(Color.GRAY));
-		lblLivroVend_5.setBounds(696, 464, 128, 188);
+		lblLivroVend_5.setBounds(690, 464, 135, 188);
 		lblLivroVend_5.setVisible(false);
 		lblLivroVend_5.setIcon(new ImageIcon(capa.getImage().getScaledInstance(lblLivroVend_5.getWidth(), 
 				lblLivroVend_5.getHeight(), Image.SCALE_DEFAULT)));
@@ -255,7 +255,7 @@ public class FrmPrincipal extends JFrame {
 		lblLivroVend_6.setToolTipText("Capa do Livro 6…");
 		lblLivroVend_6.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLivroVend_6.setBorder(new LineBorder(Color.GRAY));
-		lblLivroVend_6.setBounds(861, 464, 128, 188);
+		lblLivroVend_6.setBounds(855, 464, 135, 188);
 		lblLivroVend_6.setVisible(false);
 		lblLivroVend_6.setIcon(new ImageIcon(capa.getImage().getScaledInstance(lblLivroVend_6.getWidth(), 
 				lblLivroVend_6.getHeight(), Image.SCALE_DEFAULT)));
@@ -264,13 +264,13 @@ public class FrmPrincipal extends JFrame {
 		lblLancamento = new JLabel("Lançamentos:");
 		lblLancamento.setFont(new Font("Century Gothic", Font.BOLD, 17));
 		lblLancamento.setEnabled(false);
-		lblLancamento.setBounds(36, 170, 128, 26);
+		lblLancamento.setBounds(36, 170, 135, 26);
 		painel.add(lblLancamento);
 		
 		lblVendido = new JLabel("Mais Vendidos:");
 		lblVendido.setFont(new Font("Century Gothic", Font.BOLD, 17));
 		lblVendido.setEnabled(false);
-		lblVendido.setBounds(36, 426, 128, 26);
+		lblVendido.setBounds(36, 426, 135, 26);
 		painel.add(lblVendido);
 		
 		//Acesso Administrador - para testes

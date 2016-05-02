@@ -19,8 +19,10 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -70,6 +72,7 @@ public class CarrinhoController implements ComponentListener {
 		
 		lerArquivo();
 		formatarTabela();
+		temporizador();
 	}
 
 
@@ -95,6 +98,38 @@ public class CarrinhoController implements ComponentListener {
 		return m.find();    
 	}
 	
+	public void temporizador(){
+
+		if ( itens.size() > 0 ){
+			int tempo = 1; //variavel que controla os minutos da sessão
+			String dtAtual = obterData();
+			String dtCarrinho = itens.get(0).getDtCadastro();
+
+			DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+
+			//Converte para Date
+			Date dateA = null;
+			Date dateB = null;
+			try {
+				dateA = df.parse(dtAtual);
+				dateB = df.parse(dtCarrinho);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+
+			Calendar calB = Calendar.getInstance();
+			calB.setTime(dateB);
+			//Adiciona o tempo configurado para a B
+			//Calendar.MINUTE pode ser alterado para qtd de tempo desejada
+			calB.add(Calendar.MINUTE, tempo);
+			dateB = calB.getTime();
+
+			if ( dateA.after(dateB) ){
+				limparCampos();
+			}	
+		}
+	}
+	
 	
 	public void atualizarValor(){
 
@@ -110,166 +145,6 @@ public class CarrinhoController implements ComponentListener {
 		ftxtValor.setValue(total);
 	}
 	
-
-	public void addItem( Livro livro ) {
-
-		Carrinho item = new Carrinho();
-
-		if ( !itens.isEmpty() ){
-			for ( int i = 0; i < itens.size(); i++ ){
-				//Verifica se o livro já está adicionado ao carrinho
-				if ( itens.get(i).getCarrinho().getIsbn().equals(livro.getIsbn())){
-					msg( "adicionar", livro.getTitulo() + "\n de " + livro.getAutor() );
-					//Se o livro já estiver no Carrinho, soma + 1 à quantidade
-					if ( validar != false){
-						for ( int q = 0; q < itens.size(); q++ ){
-							if ( itens.get(q).getCarrinho().getIsbn().equals(livro.getIsbn())){
-								item.setQuantidade( itens.get(q).getQuantidade() + 1 );
-								item.setDesconto( 0 );
-								item.setCarrinho(livro);
-								item.setDtCadastro(obterData());
-								itens.set(q, item);
-							}
-						}
-					} else {
-						fechar();
-						return;
-					}
-				} 
-			}
-			if ( validar == false) {
-				//Adiciona o livro se não estiver no carrinho
-				item.setQuantidade( quantidade );
-				item.setDesconto( 0 );
-				item.setCarrinho(livro);
-				item.setDtCadastro( obterData() );
-				itens.add(item);
-			}
-		} else {
-			//Adiciona ao Carrinho
-			item.setQuantidade( quantidade );
-			item.setDesconto( 0 );
-			item.setCarrinho(livro);
-			item.setDtCadastro( obterData() );
-			itens.add(item);
-		}
-		atualizarArquivo(itens);
-		formatarTabela();
-	}
-	
-	
-	public void alterarQtd(){
-
-		if(tabela.getRowCount() > 0){
-			if ( tabela.getSelectedRowCount() != 0){
-				for(int i = 0; i < itens.size(); i ++){
-					if ( tabela.isRowSelected(i)){
-						if((tabela.getValueAt(tabela.getSelectedRow(), 0).toString())
-								.equals(itens.get(i).getCarrinho().getIsbn())){
-							msg("alterar", itens.get(i).getCarrinho().getTitulo() 
-									+ "\n de " + itens.get(i).getCarrinho().getAutor());
-							if ( validar != false){
-								Carrinho item = new Carrinho();
-								item.setQuantidade( quantidade );
-								item.setDesconto( 0 );
-								item.setCarrinho(itens.get(i).getCarrinho());
-								item.setDtCadastro( obterData() );
-								itens.set(i,item);
-								atualizarArquivo(itens);
-								formatarTabela();
-								validar = false;
-								msg("realizado", "quantidade");
-							}
-						}
-					}
-				}
-			} else {
-				msg( "", "Por Favor, selecione um Livro para alterar a quantidade!");
-			} 
-		}
-	}
-
-
-
-	// CRUD //////////////////////////
-	
-	public void lerLivros() {
-
-		//FILTRA E CARREGA O ARRAY COM A BASE DE DADOS
-		String linha = new String();
-		ArrayList<String> lista = new ArrayList<>();
-		try {
-			arquivos.leArquivo( diretorio + "data", "livro" );
-			linha = arquivos.getBuffer();
-			String[] listaItens = linha.split(";");
-			for (String s : listaItens) {
-				String text = s.replaceAll(".*: ", "");
-				lista.add(text);
-				if (s.contains("---")) {
-					Livro livro = new Livro();
-					livro.setIsbn( lista.get(0) );
-					livro.setTitulo( lista.get(1) );
-					livro.setAutor( lista.get(2) );
-					livro.setPrecoVenda( Float.parseFloat( lista.get(11) ));
-					livros.add(livro);
-					lista.clear();
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-
-	public void lerArquivo() {
-
-		//FILTRA E CARREGA O ARRAY COM A BASE DE DADOS
-		String linha = new String();
-		ArrayList<String> lista = new ArrayList<>();
-		try {
-			dao.leArquivo(diretorio + "data/", arquivo);
-			linha = dao.getBuffer();
-			String[] listaItens = linha.split(";");
-			for (String s : listaItens) {
-				String text = s.replaceAll(".*: ", "");
-				lista.add(text);
-				if (s.contains("---")) {
-					Carrinho item = new Carrinho();
-					lerLivros();
-					Livro listLivros = new Livro();
-					for( Livro livro : livros ){
-						if( livro.getIsbn().equals( lista.get(0) ) ){
-							listLivros = livro ;
-						}					
-					}
-					item.setQuantidade( Integer.parseInt( lista.get(1) ) );
-					item.setDesconto( Float.parseFloat( lista.get(2) ) );
-					item.setCarrinho( listLivros );
-					item.setDtCadastro(lista.get(3));
-					itens.add(item);
-					lista.clear();
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-
-	public void atualizarArquivo(List<Carrinho> listaItens) {
-
-		//REALIZA A GRAVAÇÃO NO ARQUIVO TXT
-		File f = new File(diretorio + "data/" + arquivo);
-		f.delete();
-		for (Carrinho itens : listaItens) {
-			try {
-				dao.escreveArquivo(diretorio  + "data/", arquivo, "", itens);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
 
 	// TABELA //////////////////////////////
 
@@ -386,6 +261,167 @@ public class CarrinhoController implements ComponentListener {
 			}
 		}
 	}
+	
+	
+	// CRUD //////////////////////////
+	
+
+	public void addItem( Livro livro ) {
+
+		Carrinho item = new Carrinho();
+
+		if ( !itens.isEmpty() ){
+			for ( int i = 0; i < itens.size(); i++ ){
+				//Verifica se o livro já está adicionado ao carrinho
+				if ( itens.get(i).getCarrinho().getIsbn().equals(livro.getIsbn())){
+					msg( "adicionar", livro.getTitulo() + "\n de " + livro.getAutor() );
+					//Se o livro já estiver no Carrinho, soma + 1 à quantidade
+					if ( validar != false){
+						for ( int q = 0; q < itens.size(); q++ ){
+							if ( itens.get(q).getCarrinho().getIsbn().equals(livro.getIsbn())){
+								item.setQuantidade( itens.get(q).getQuantidade() + 1 );
+								item.setDesconto( 0 );
+								item.setCarrinho(livro);
+								item.setDtCadastro(obterData());
+								itens.set(q, item);
+							}
+						}
+					} else {
+						fechar();
+						return;
+					}
+				} 
+			}
+			if ( validar == false) {
+				//Adiciona o livro se não estiver no carrinho
+				item.setQuantidade( quantidade );
+				item.setDesconto( 0 );
+				item.setCarrinho(livro);
+				item.setDtCadastro( obterData() );
+				itens.add(item);
+			}
+		} else {
+			//Adiciona ao Carrinho
+			item.setQuantidade( quantidade );
+			item.setDesconto( 0 );
+			item.setCarrinho(livro);
+			item.setDtCadastro( obterData() );
+			itens.add(item);
+		}
+		atualizarArquivo(itens);
+		formatarTabela();
+	}
+	
+	
+	public void alterarQtd(){
+
+		if(tabela.getRowCount() > 0){
+			if ( tabela.getSelectedRowCount() != 0){
+				for(int i = 0; i < itens.size(); i ++){
+					if ( tabela.isRowSelected(i)){
+						if((tabela.getValueAt(tabela.getSelectedRow(), 0).toString())
+								.equals(itens.get(i).getCarrinho().getIsbn())){
+							msg("alterar", itens.get(i).getCarrinho().getTitulo() 
+									+ "\n de " + itens.get(i).getCarrinho().getAutor());
+							if ( validar != false){
+								Carrinho item = new Carrinho();
+								item.setQuantidade( quantidade );
+								item.setDesconto( 0 );
+								item.setCarrinho(itens.get(i).getCarrinho());
+								item.setDtCadastro( obterData() );
+								itens.set(i,item);
+								atualizarArquivo(itens);
+								formatarTabela();
+								validar = false;
+								msg("realizado", "quantidade");
+							}
+						}
+					}
+				}
+			} else {
+				msg( "", "Por Favor, selecione um Livro para alterar a quantidade!");
+			} 
+		}
+	}
+	
+	
+	public void lerLivros() {
+
+		//FILTRA E CARREGA O ARRAY COM A BASE DE DADOS
+		String linha = new String();
+		ArrayList<String> lista = new ArrayList<>();
+		try {
+			arquivos.leArquivo( diretorio + "data", "livro" );
+			linha = arquivos.getBuffer();
+			String[] listaItens = linha.split(";");
+			for (String s : listaItens) {
+				String text = s.replaceAll(".*: ", "");
+				lista.add(text);
+				if (s.contains("---")) {
+					Livro livro = new Livro();
+					livro.setIsbn( lista.get(0) );
+					livro.setTitulo( lista.get(1) );
+					livro.setAutor( lista.get(2) );
+					livro.setPrecoVenda( Float.parseFloat( lista.get(11) ));
+					livros.add(livro);
+					lista.clear();
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+
+	public void lerArquivo() {
+
+		//FILTRA E CARREGA O ARRAY COM A BASE DE DADOS
+		String linha = new String();
+		ArrayList<String> lista = new ArrayList<>();
+		try {
+			dao.leArquivo(diretorio + "data/", arquivo);
+			linha = dao.getBuffer();
+			String[] listaItens = linha.split(";");
+			for (String s : listaItens) {
+				String text = s.replaceAll(".*: ", "");
+				lista.add(text);
+				if (s.contains("---")) {
+					Carrinho item = new Carrinho();
+					lerLivros();
+					Livro listLivros = new Livro();
+					for( Livro livro : livros ){
+						if( livro.getIsbn().equals( lista.get(0) ) ){
+							listLivros = livro ;
+						}					
+					}
+					item.setQuantidade( Integer.parseInt( lista.get(1) ) );
+					item.setDesconto( Float.parseFloat( lista.get(2) ) );
+					item.setCarrinho( listLivros );
+					item.setDtCadastro(lista.get(3));
+					itens.add(item);
+					lista.clear();
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+
+	public void atualizarArquivo(List<Carrinho> listaItens) {
+
+		//REALIZA A GRAVAÇÃO NO ARQUIVO TXT
+		File f = new File(diretorio + "data/" + arquivo);
+		f.delete();
+		for (Carrinho itens : listaItens) {
+			try {
+				dao.escreveArquivo(diretorio  + "data/", arquivo, "", itens);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 
 
 	// MENSAGENS //////////////////////////////

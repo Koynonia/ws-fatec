@@ -9,11 +9,9 @@ package boundary;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Image;
 import java.util.List;
 
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -27,7 +25,6 @@ import javax.swing.WindowConstants;
 import javax.swing.border.LineBorder;
 
 import controller.ListaController;
-import controller.PrincipalController;
 import entity.Livro;
 
 @SuppressWarnings("serial")
@@ -74,9 +71,6 @@ public class FrmLista extends JFrame {
 	private JButton btnAnterior;
 	private JButton btnProximo;
 	private JButton btnVoltar;
-	private JButton btnLivro;
-	private JLabel lblLivro;
-	
 	
 	public FrmLista(String parametro, String pesquisa, final List<Livro> livros) {
 		
@@ -172,7 +166,7 @@ public class FrmLista extends JFrame {
 		camada.add(lblLivroAutor_1);
 
 		lblLivroValor_1 = new JLabel();
-		lblLivroValor_1.setBounds(740, 106, 60, 16);
+		lblLivroValor_1.setBounds(740, 106, 65, 16);
 		camada.add(lblLivroValor_1);
 
 		btnAddCarrinho_1 = new JButton("Adicionar ao Carrinho");
@@ -185,34 +179,28 @@ public class FrmLista extends JFrame {
 		
 		lblLivroCapa_2 = new JLabel();
 		lblLivroCapa_2.setToolTipText("");
-		lblLivroCapa_2.setVisible(false);
 		lblLivroCapa_2.setBounds(41, 291, 128, 188);
 		lblLivroCapa_2.setBorder(new LineBorder(Color.GRAY));
 		lblLivroCapa_2.setHorizontalAlignment(SwingConstants.CENTER);
 		camada.add(lblLivroCapa_2);
 
 		lblLivroTitulo_2 = new JLabel();
-		lblLivroTitulo_2.setVisible(false);
 		lblLivroTitulo_2.setBounds(226, 306, 300, 16);
 		camada.add(lblLivroTitulo_2);
 
 		lblLivroAutor_2 = new JLabel();
-		lblLivroAutor_2.setVisible(false);
 		lblLivroAutor_2.setBounds(550, 306, 178, 16);
 		camada.add(lblLivroAutor_2);
 
 		lblLivroValor_2 = new JLabel();
-		lblLivroValor_2.setVisible(false);
-		lblLivroValor_2.setBounds(740, 306, 60, 16);
+		lblLivroValor_2.setBounds(740, 306, 65, 16);
 		camada.add(lblLivroValor_2);
 
 		btnAddCarrinho_2 = new JButton("Adicionar ao Carrinho");
-		btnAddCarrinho_2.setVisible(false);
 		btnAddCarrinho_2.setBounds(815, 302, 164, 29);
 		camada.add(btnAddCarrinho_2);
 
 		btnDetalhes_2 = new JButton("Detalhes do Livro");
-		btnDetalhes_2.setVisible(false);
 		btnDetalhes_2.setBounds(226, 329, 139, 29);
 		camada.add(btnDetalhes_2);
 
@@ -307,5 +295,7 @@ public class FrmLista extends JFrame {
 		btnAddCarrinho_1.addFocusListener(listaCtrl.foco);
 		btnAddCarrinho_2.addFocusListener(listaCtrl.foco);
 		btnCarrinho.addFocusListener(listaCtrl.foco);
+		btnCarrinho.addKeyListener(listaCtrl.tecla);
+		
 	}
 }
