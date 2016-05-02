@@ -578,13 +578,18 @@ public class LivroController implements ComponentListener{
 
 		if ( !txtPesquisar.getText().isEmpty() ) {
 			for (int i = 0; i < livros.size(); i++) {
-				if ( livros.get(i).getTitulo().toLowerCase().contains( txtPesquisar.getText().toLowerCase() ) ||
+				if ( 
+						livros.get(i).getTitulo().toLowerCase().contains( txtPesquisar.getText().toLowerCase() ) ||
 						livros.get(i).getIsbn().toLowerCase().contains( txtPesquisar.getText().toLowerCase() ) || 
 						livros.get(i).getAutor().toLowerCase().contains( txtPesquisar.getText().toLowerCase() ) ||
-						txtPesquisar.getText().equalsIgnoreCase( livros.get(i).getEditora() ) ||
+						livros.get(i).getEditora().toLowerCase().contains( txtPesquisar.getText() ) ||
+						livros.get(i).getCategoria().toLowerCase().contains( txtPesquisar.getText() ) ||
 						livros.get(i).getTitulo().toLowerCase().startsWith( txtPesquisar.getText().toLowerCase() ) ||
+						livros.get(i).getIsbn().toLowerCase().startsWith( txtPesquisar.getText().toLowerCase() ) || 
 						livros.get(i).getAutor().toLowerCase().startsWith( txtPesquisar.getText().toLowerCase() ) ||
-						livros.get(i).getEditora().toLowerCase().startsWith( txtPesquisar.getText().toLowerCase() )) {
+						livros.get(i).getEditora().toLowerCase().startsWith( txtPesquisar.getText().toLowerCase() ) || 
+						livros.get(i).getCategoria().toLowerCase().startsWith( txtPesquisar.getText().toLowerCase() )
+						) {
 
 					txtIsbnID.setText(livros.get(i).getIsbn());
 					Livro livro = new Livro();
