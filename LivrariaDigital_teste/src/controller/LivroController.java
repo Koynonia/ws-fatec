@@ -53,9 +53,13 @@ public class LivroController implements ComponentListener{
 	private JPanel painel;
 	private JLabel lblCapa; 
 	private JLabel txtIsbnID; 
+	private JLabel lblSelecione; 
+	private JLabel lblTipoCapa; 
+	private JLabel lblCategorias; 
 	private JTextField txtPesquisar;
 	private JTextField txtTitulo;
 	private JTextField txtAutor;
+	private JTextField txtEstoque; 
 	private JTextField txtCategoria;
 	private JTextField ftxtMargem;
 	private JTextField ftxtIsbn;
@@ -75,6 +79,7 @@ public class LivroController implements ComponentListener{
 	private JButton btnEditar; 
 	private JButton btnExcluir; 
 	private JButton btnSalvar; 
+	private JButton btnCancelar;
 	private JButton btnVoltar;
 	private ArquivoLivro dao = new ArquivoLivro();
 	private Arquivos arquivos = new Arquivos();
@@ -91,6 +96,9 @@ public class LivroController implements ComponentListener{
 			JPanel painel, 
 			JLabel lblCapa, 
 			JLabel  txtIsbnID, 
+			JLabel lblSelecione, 
+			JLabel lblTipoCapa, 
+			JLabel lblCategorias, 
 			JTextField txtPesquisar,
 			JTextField txtTitulo,
 			JTextField txtAutor,
@@ -122,9 +130,13 @@ public class LivroController implements ComponentListener{
 		this.painel = painel;
 		this.lblCapa = lblCapa;
 		this.txtIsbnID = txtIsbnID;
+		this.lblSelecione = lblSelecione;
+		this.lblTipoCapa = lblTipoCapa; 
+		this.lblCategorias = lblCategorias; 
 		this.txtPesquisar = txtPesquisar;
 		this.txtTitulo = txtTitulo;
 		this.txtAutor = txtAutor;
+		this.txtEstoque = txtEstoque; 
 		this.txtCategoria = txtCategoria;
 		this.ftxtIsbn = ftxtIsbn;
 		this.ftxtDtPub = ftxtDtPub;
@@ -144,6 +156,7 @@ public class LivroController implements ComponentListener{
 		this.btnEditar = btnEditar;
 		this.btnExcluir = btnExcluir;
 		this.btnSalvar = btnSalvar;
+		this.btnCancelar = btnCancelar; 
 		this.btnVoltar = btnVoltar;
 		this.livros = new ArrayList<Livro>();
 		
@@ -166,10 +179,86 @@ public class LivroController implements ComponentListener{
 	
 	public void alterarBotao(){
 		btnLimpar.setText("Novo");
+		btnCancelar.setVisible(false);
 		btnEditar.setText("Editar");
 		btnEditar.setVisible(true);
 		btnExcluir.setVisible(false);
 		btnSalvar.setVisible(false);
+		alterarCampos( "desprotegerCampos" );
+	}
+	
+	public void alterarCampos( String opt ){
+		
+		switch ( opt ){
+		
+		case "protegerCampos":
+			
+		txtTitulo.setEditable(false);
+		txtTitulo.setEnabled(false);
+		txtAutor.setEditable(false);
+		txtAutor.setEnabled(false);
+		txtEstoque.setEditable(false);
+		txtEstoque.setEnabled(false);
+		txtCategoria.setEditable(false);
+		txtCategoria.setEnabled(false);
+		ftxtIsbn.setEditable(false);
+		ftxtIsbn.setEnabled(false);
+		ftxtDtPub.setEditable(false);
+		ftxtDtPub.setEnabled(false);
+		ftxtPaginas.setEditable(false);
+		ftxtPaginas.setEnabled(false);
+		ftxtPrecoCusto.setEditable(false);
+		ftxtPrecoCusto.setEnabled(false);
+		ftxtPrecoVenda.setEditable(false);
+		ftxtPrecoVenda.setEnabled(false);
+		ftxtMargem.setEnabled(false);
+		txtaSumario.setEditable(false);
+		txtaSumario.setEnabled(false);
+		txtaResumo.setEditable(false);
+		txtaResumo.setEnabled(false);
+		lblSelecione.setVisible(false);
+		lblTipoCapa.setVisible(false);
+		lblCategorias.setVisible(false);
+		cboAutor.setVisible(false);
+		cboEditora.setEnabled(false);
+		cboTipoCapa.setVisible(false);
+		cboCategoria.setVisible(false);
+		break;
+		
+		case "desprotegerCampos":
+			
+			txtTitulo.setEditable(true);
+			txtTitulo.setEnabled(true);
+			txtAutor.setEditable(true);
+			txtAutor.setEnabled(true);
+			txtEstoque.setEditable(true);
+			txtEstoque.setEnabled(true);
+			txtCategoria.setEditable(true);
+			txtCategoria.setEnabled(true);
+			ftxtIsbn.setEditable(true);
+			ftxtIsbn.setEnabled(true);
+			ftxtDtPub.setEditable(true);
+			ftxtDtPub.setEnabled(true);
+			ftxtPaginas.setEditable(true);
+			ftxtPaginas.setEnabled(true);
+			ftxtPrecoCusto.setEditable(true);
+			ftxtPrecoCusto.setEnabled(true);
+			ftxtPrecoVenda.setEditable(true);
+			ftxtPrecoVenda.setEnabled(true);
+			ftxtMargem.setEnabled(true);
+			txtaSumario.setEditable(true);
+			txtaSumario.setEnabled(true);
+			txtaResumo.setEditable(true);
+			txtaResumo.setEnabled(true);
+			lblSelecione.setVisible(true);
+			lblTipoCapa.setVisible(true);
+			lblCategorias.setVisible(true);
+			cboAutor.setVisible(true);
+			cboEditora.setEnabled(true);
+			cboTipoCapa.setVisible(true);
+			cboCategoria.setVisible(true);
+			break;		
+		}
 	}
 	
 	
@@ -217,6 +306,7 @@ public class LivroController implements ComponentListener{
 		carregarCapa();
 		txtAutor.setText("");
 		txtCategoria.setText("");
+		btnCancelar.setVisible(true);
 		btnSalvar.setVisible(true);
 		btnEditar.setVisible(false);
 		btnExcluir.setVisible(false);
@@ -475,6 +565,7 @@ public class LivroController implements ComponentListener{
 			carregarCapa();
 			calcularMargem();
 			alterarBotao();
+			alterarCampos ("protegerCampos");
 		}
 	}
 	
@@ -503,7 +594,11 @@ public class LivroController implements ComponentListener{
 				} else {
 					if ( livros.size() == i+1 && txtIsbnID.getText().isEmpty() ){
 						msg("vazioPesquisa", txtPesquisar.getText());
-						limparCampos();
+						if ( validar == true ){
+							limparCampos();
+						} else {
+							return;
+						}
 					}
 				}
 
@@ -538,6 +633,7 @@ public class LivroController implements ComponentListener{
 						carregarCapa();
 						calcularMargem();
 						alterarBotao();
+						alterarCampos ("protegerCampos");
 					}
 				}
 			}
@@ -599,7 +695,7 @@ public class LivroController implements ComponentListener{
 			for (int i = 0; i < livros.size(); i++) {	
 				if ( ftxtIsbn.getText().equals(livros.get(i).getIsbn() )) {
 					msg( "erroEditar", livros.get(i).getTitulo() );
-					verificarCampos();
+//					verificarCampos();
 				}
 			}			
 			if(!(validar == true)){
@@ -743,7 +839,8 @@ public class LivroController implements ComponentListener{
 		
 		case "confirmaEditar":
 			Object[] editar = { "Confirmar", "Cancelar" };  
-			int ed = JOptionPane.showOptionDialog(null, "Você confirma a edição do Livro " + mensagem + " ?",
+			int ed = JOptionPane.showOptionDialog(null, 
+					"Você confirma a edição do Livro " + mensagem + " ?",
 					"Edição de Livro", 
 					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
 					new ImageIcon( diretorio + "/icons/warning.png" ), editar, editar[1]);
@@ -752,7 +849,8 @@ public class LivroController implements ComponentListener{
 			
 		case "confirmaExcluir":
 			Object[] excluir = { "Confirmar", "Cancelar" };  
-			int ex = JOptionPane.showOptionDialog(null, "Você confirma a exclusão do Livro " + mensagem + " ?",
+			int ex = JOptionPane.showOptionDialog(null, 
+					"Você confirma a exclusão do Livro " + mensagem + " ?",
 					"Exclusão de Livro", 
 					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
 					new ImageIcon( diretorio + "/icons/warning.png" ), excluir, excluir[1]);
@@ -760,11 +858,14 @@ public class LivroController implements ComponentListener{
 			break;
 			
 		case "vazioPesquisa":
-			JOptionPane.showMessageDialog(null, 
-					"ATENÇÃO!\n\nNenhum resultador encontrado com: " + mensagem, 
+			Object[] pesquisar = { "Confirmar", "Cancelar" };  
+			int pq = JOptionPane.showOptionDialog(null, 
+					"ATENÇÃO!\n\nNenhum resultador encontrado com: " + mensagem
+					+ "\n Gostaria de adicionar este Livro?", 
 					"Não Localizado", 
-					JOptionPane.PLAIN_MESSAGE,
-					new ImageIcon( diretorio + "/icons/warning.png" ));
+					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
+					new ImageIcon( diretorio + "/icons/warning.png" ), pesquisar, pesquisar[1]);
+			if (pq == 0) { validar = true; } else { validar = false; }
 			break;
 			
 		case "erroPesquisa":
@@ -801,7 +902,8 @@ public class LivroController implements ComponentListener{
 
 		case "sistema":
 			Object[] exit = { "Confirmar", "Cancelar" };  
-			int fechar = JOptionPane.showOptionDialog( null, "ATENÇÃO!\n\nChamada para o " + mensagem 
+			int fechar = JOptionPane.showOptionDialog( null, 
+					"ATENÇÃO!\n\nChamada para o " + mensagem 
 					+ " do sistema!\n\nDeseja encerrar a aplicação?",
 					"Fechamento do Programa!", 
 					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
@@ -861,12 +963,20 @@ public class LivroController implements ComponentListener{
 				Object source = e.getSource();
 
 				if(source == btnAnterior){
+					if ( reg == 0 ){
+					reg = 1;
+					} else {
 					reg--;
 					navegar ();
+					}
 				}
 				if (source == btnProximo){
+					if ( reg == livros.size() ){
+						reg = livros.size() -1;
+					} else {
 					reg++;
 					navegar();
+					}
 				}
 			}
 		};
@@ -875,6 +985,7 @@ public class LivroController implements ComponentListener{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				btnCancelar.setVisible(false);
 				navegar();
 			}
 		};
@@ -886,9 +997,12 @@ public class LivroController implements ComponentListener{
 				if (!btnExcluir.isVisible()){
 					btnEditar.setText("Salvar");
 					btnExcluir.setVisible(true);
+					btnCancelar.setVisible(true);
+					alterarCampos ("desprotegerCampos");
 				} else {
 					editar();
 					alterarBotao();
+					alterarCampos ("protegerCampos");
 				}
 			}
 		};
