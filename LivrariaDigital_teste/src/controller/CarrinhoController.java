@@ -278,12 +278,12 @@ public class CarrinhoController implements ComponentListener {
 					//Se o livro já estiver no Carrinho, soma + 1 à quantidade
 					if ( validar != false){
 						for ( int q = 0; q < itens.size(); q++ ){
-							if ( itens.get(q).getCarrinho().getIsbn().equals(livro.getIsbn())){
+							if ( itens.get(q).getCarrinho().getIsbn().equals( livro.getIsbn() )){
 								item.setQuantidade( itens.get(q).getQuantidade() + 1 );
 								item.setDesconto( 0 );
-								item.setCarrinho(livro);
+								item.setCarrinho( livro );
 								item.setDtCadastro(obterData());
-								itens.set(q, item);
+								itens.set( q, item );
 							}
 						}
 					} else {
