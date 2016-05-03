@@ -39,6 +39,7 @@ import boundary.FrmCarrinho;
 import boundary.FrmDetalhe;
 import boundary.FrmLista;
 import boundary.FrmLivro;
+import boundary.FrmLogin;
 import dao.ArquivoCarrinho;
 import dao.ArquivoLivro;
 import entity.Livro;
@@ -48,6 +49,7 @@ public class PrincipalController implements ComponentListener {
 	private JFrame janela;
 	private FrmLista janelaLista;
 	private FrmCarrinho janelaCarrinho;
+	private FrmLogin janelaLogin;
 	private FrmLivro janelaLivro;
 	private FrmDetalhe janelaDetalhe;
 	private JPanel painel;
@@ -317,7 +319,12 @@ public class PrincipalController implements ComponentListener {
 			break;
 
 		case "login":
-			msg("", "LOGIN em implementação!");
+			if( janelaLogin == null ){
+				FrmLogin login = new FrmLogin();
+				login.setVisible(true);
+			} else {
+				janelaLogin.setVisible(true);
+			}
 			break;
 			
 		case "livro":
@@ -404,7 +411,7 @@ public class PrincipalController implements ComponentListener {
 		String linha = new String();
 		ArrayList<String> lista = new ArrayList<>();
 		try {
-			dao.leArquivo(diretorio + "data/", arquivo2);
+			dao.lerArquivo(diretorio + "data/", arquivo2);
 			linha = dao.getBuffer();
 			String[] listaItens = linha.split(";");
 			for (String s : listaItens) {
@@ -428,7 +435,7 @@ public class PrincipalController implements ComponentListener {
 		String linha = new String();
 		ArrayList<String> lista = new ArrayList<>();
 		try {
-			dao.leArquivo(diretorio + "data/", arquivo);
+			dao.lerArquivo(diretorio + "data/", arquivo);
 			linha = dao.getBuffer();
 			String[] listaItens = linha.split(";");
 			for (String s : listaItens) {

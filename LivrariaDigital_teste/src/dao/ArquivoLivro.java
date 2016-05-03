@@ -14,17 +14,18 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+
 import entity.Livro;;
 
-public class ArquivoLivro {
+public class ArquivoLivro implements Arquivo {
 	private StringBuffer buffer;
 
 	public String getBuffer() {		
 		return buffer.toString();
 	}
-
 	
-	public void leArquivo(String diretorio, String arquivo) throws IOException {
+	@Override
+	public void lerArquivo(String diretorio, String arquivo) throws IOException {
 		
 		File arq = new File(diretorio, arquivo);
 		if (arq.exists()) {
@@ -50,8 +51,9 @@ public class ArquivoLivro {
 			buffer.append("");
 		}
 	}
-
-	public void escreveArquivo(String diretorio, String arquivo, String texto, Object object) throws IOException {
+	
+	@Override
+	public void escreverArquivo(String diretorio, String arquivo, String texto, Object object) throws IOException {
 		
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("ISBN            : " + ( (Livro) object).getIsbn() );
@@ -100,5 +102,20 @@ public class ArquivoLivro {
 		gravaDados.flush();
 		gravaDados.close();
 		escreveArquivo.close();
+	}
+
+
+	@Override
+	public void lerDiretorio(String diretorio) throws IOException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void excluirDadosArquivo(String diretorio, String arquivo,
+			String[] registro) throws IOException {
+		// TODO Auto-generated method stub
+		
 	}
 }

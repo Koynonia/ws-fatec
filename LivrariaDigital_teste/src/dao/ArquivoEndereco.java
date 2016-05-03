@@ -17,7 +17,7 @@ import java.io.PrintWriter;
 
 import entity.Endereco;
 
-public class ArquivoEndereco {
+public class ArquivoEndereco implements Arquivo {
 	private StringBuffer buffer;
 
 	public String getBuffer() {		
@@ -25,7 +25,7 @@ public class ArquivoEndereco {
 	}
 
 	
-	public void leArquivo(String diretorio, String arquivo) throws IOException {
+	public void lerArquivo(String diretorio, String arquivo) throws IOException {
 		
 		File arq = new File(diretorio, arquivo);
 		if (arq.exists()) {
@@ -52,7 +52,7 @@ public class ArquivoEndereco {
 		}
 	}
 
-	public void escreveArquivo(String diretorio, String arquivo, String texto, Object object) throws IOException {
+	public void escreverArquivo(String diretorio, String arquivo, String texto, Object object) throws IOException {
 		
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("Endereco      : " + ((Endereco) object).getEndereco());
@@ -89,5 +89,20 @@ public class ArquivoEndereco {
 		gravaDados.flush();
 		gravaDados.close();
 		escreveArquivo.close();
+	}
+
+
+	@Override
+	public void lerDiretorio(String diretorio) throws IOException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void excluirDadosArquivo(String diretorio, String arquivo,
+			String[] registro) throws IOException {
+		// TODO Auto-generated method stub
+		
 	}
 }

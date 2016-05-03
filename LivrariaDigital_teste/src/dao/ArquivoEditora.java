@@ -17,15 +17,15 @@ import java.io.PrintWriter;
 
 import entity.Editora;
 
-public class ArquivoEditora {
+public class ArquivoEditora implements Arquivo {
 	private StringBuffer buffer;
 
 	public String getBuffer() {		
 		return buffer.toString();
 	}
 
-	
-	public void leArquivo(String diretorio, String arquivo) throws IOException {
+	@Override
+	public void lerArquivo(String diretorio, String arquivo) throws IOException {
 		
 		File arq = new File(diretorio, arquivo);
 		if (arq.exists()) {
@@ -52,7 +52,8 @@ public class ArquivoEditora {
 		}
 	}
 
-	public void escreveArquivo(String diretorio, String arquivo, String texto, Object object) throws IOException {
+	@Override
+	public void escreverArquivo(String diretorio, String arquivo, String texto, Object object) throws IOException {
 		
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("Nome          : " + ((Editora) object).getNome());
@@ -81,5 +82,20 @@ public class ArquivoEditora {
 		gravaDados.flush();
 		gravaDados.close();
 		escreveArquivo.close();
+	}
+
+
+	@Override
+	public void lerDiretorio(String diretorio) throws IOException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void excluirDadosArquivo(String diretorio, String arquivo,
+			String[] registro) throws IOException {
+		// TODO Auto-generated method stub
+		
 	}
 }

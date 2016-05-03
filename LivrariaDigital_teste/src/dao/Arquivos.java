@@ -1,4 +1,4 @@
-package controller;
+package dao;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -20,7 +20,7 @@ public class Arquivos implements Arquivo {
 	}
 
 	@Override
-	public void leArquivo(String diretorio, String arquivo) throws IOException {
+	public void lerArquivo(String diretorio, String arquivo) throws IOException {
 		File arq = new File(diretorio, arquivo);
 		if (arq.exists()) {
 			FileInputStream leFluxo = new FileInputStream(arq);
@@ -43,7 +43,7 @@ public class Arquivos implements Arquivo {
 	}
 
 	@Override
-	public void escreveArquivo(String diretorio, String arquivo, String texto, Object object) throws IOException {
+	public void escreverArquivo(String diretorio, String arquivo, String texto, Object object) throws IOException {
 		String linha = texto;
 		StringBuffer buffer = new StringBuffer();
 		buffer.append(linha);
@@ -65,7 +65,7 @@ public class Arquivos implements Arquivo {
 	}
 
 	@Override
-	public void leDiretorio(String diretorio) throws IOException {
+	public void lerDiretorio(String diretorio) throws IOException {
 		File dir = new File(diretorio); // Abrindo o conteudo do diretório
 		if (dir.exists()) {
 			File[] listaArquivos = dir.listFiles();
@@ -86,7 +86,7 @@ public class Arquivos implements Arquivo {
 
 	//não testado************
 	@Override
-	public void excluiDadosArquivo(String diretorio, String arquivo, String registro[]) throws IOException {
+	public void excluirDadosArquivo(String diretorio, String arquivo, String registro[]) throws IOException {
 		File file = new File(diretorio, arquivo);
 		try {
 			FileReader freader = new FileReader(file);

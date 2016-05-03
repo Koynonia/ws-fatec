@@ -39,6 +39,7 @@ import javax.swing.table.DefaultTableModel;
 
 import boundary.FrmCarrinho;
 import dao.ArquivoCarrinho;
+import dao.Arquivos;
 import entity.Carrinho;
 import entity.Livro;
 
@@ -351,7 +352,7 @@ public class CarrinhoController implements ComponentListener {
 		String linha = new String();
 		ArrayList<String> lista = new ArrayList<>();
 		try {
-			arquivos.leArquivo( diretorio + "data", "livro" );
+			arquivos.lerArquivo( diretorio + "data", "livro" );
 			linha = arquivos.getBuffer();
 			String[] listaItens = linha.split(";");
 			for (String s : listaItens) {
@@ -379,7 +380,7 @@ public class CarrinhoController implements ComponentListener {
 		String linha = new String();
 		ArrayList<String> lista = new ArrayList<>();
 		try {
-			dao.leArquivo(diretorio + "data/", arquivo);
+			dao.lerArquivo(diretorio + "data/", arquivo);
 			linha = dao.getBuffer();
 			String[] listaItens = linha.split(";");
 			for (String s : listaItens) {
@@ -415,7 +416,7 @@ public class CarrinhoController implements ComponentListener {
 		f.delete();
 		for (Carrinho itens : listaItens) {
 			try {
-				dao.escreveArquivo(diretorio  + "data/", arquivo, "", itens);
+				dao.escreverArquivo(diretorio  + "data/", arquivo, "", itens);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

@@ -7,13 +7,12 @@
 
 package entity;
 
-public class Sessao {
+public class Usuario {
 
 	private String id;
 	private String usuario;
+	private String senha;
 	private String nivel;
-	private String hora;
-	private String tela;
 
 	public String getId() {
 		return id;
@@ -31,27 +30,19 @@ public class Sessao {
 		this.usuario = usuario;
 	}
 	
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+	
 	public String getNivel() {
 		return nivel;
 	}
 
 	public void setNivel(String nivel) {
 		this.nivel = nivel;
-	}
-	
-	public String getHora() {
-		return hora;
-	}
-
-	public void setHora(String hora) {
-		this.hora = hora;
-	}
-	
-	public String getTela() {
-		return tela;
-	}
-
-	public void setTela(String tela) {
-		this.tela = tela;
 	}
 }

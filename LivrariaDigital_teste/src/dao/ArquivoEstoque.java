@@ -17,7 +17,7 @@ import java.io.PrintWriter;
 
 import entity.Estoque;
 
-public class ArquivoEstoque {
+public class ArquivoEstoque implements Arquivo {
 	private StringBuffer buffer;
 
 	public String getBuffer() {		
@@ -25,7 +25,7 @@ public class ArquivoEstoque {
 	}
 
 	
-	public void leArquivo(String diretorio, String arquivo) throws IOException {
+	public void lerArquivo(String diretorio, String arquivo) throws IOException {
 		
 		File arq = new File(diretorio, arquivo);
 		if (arq.exists()) {
@@ -52,7 +52,7 @@ public class ArquivoEstoque {
 		}
 	}
 
-	public void escreveArquivo(String diretorio, String arquivo, String texto, Object object) throws IOException {
+	public void escreverArquivo(String diretorio, String arquivo, String texto, Object object) throws IOException {
 		
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("ISBN          : " + ((Estoque) object).getIsbn());
@@ -79,5 +79,20 @@ public class ArquivoEstoque {
 		gravaDados.flush();
 		gravaDados.close();
 		escreveArquivo.close();
+	}
+
+
+	@Override
+	public void lerDiretorio(String diretorio) throws IOException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void excluirDadosArquivo(String diretorio, String arquivo,
+			String[] registro) throws IOException {
+		// TODO Auto-generated method stub
+		
 	}
 }

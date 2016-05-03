@@ -113,9 +113,21 @@ public class ListaController implements ComponentListener {
 		escreverTela();
 	}
 	
+	
+	
 	public void ativarCampos( String opt ){
 
 		switch ( opt ){
+		
+		case "ativarNavegar":
+			btnAnterior.setVisible(true);
+			btnProximo.setVisible(true);
+			break;
+			
+		case "desativarNavegar":
+			btnAnterior.setVisible(false);
+			btnProximo.setVisible(false);
+			break;
 
 		case "ativarCapas_1":
 			lblLivroCapa_1.setVisible(true);
@@ -151,7 +163,69 @@ public class ListaController implements ComponentListener {
 			break;
 		}
 	}
+	
+	
+public void escreverTela(){
+		
+		lerCarrinho();
+		ativarCampos( "desativarCapas" );
+		DecimalFormat formato = new DecimalFormat("#,##0.00");
+		
+		if ( livros.size() == 1){
+			ativarCampos( "desativarNavegar" );
+		} else {
+			ativarCampos( "ativarNavegar" );
+		}
+		
+		for( int i = 0; i < livros.size(); i++ ){
 
+			switch (i){
+
+			case 0:
+				isbn.add( livros.get(i).getIsbn() );
+				lblLivroCapa_1.setToolTipText( livros.get(i).getTitulo() );
+				lblLivroTitulo_1.setText( livros.get(i).getTitulo() );
+				lblLivroAutor_1 .setText( livros.get(i).getAutor() );
+				lblLivroValor_1.setText( "R$ " + String.valueOf( formato.format( livros.get(i).getPrecoVenda() )));
+				imagem = livros.get(i).getImagem();
+				carregaCapa(0);
+				break;
+
+			case 1:
+				isbn.add( livros.get(i).getIsbn() );
+				lblLivroCapa_2.setToolTipText( livros.get(i).getTitulo() );
+				lblLivroTitulo_2.setText( livros.get(i).getTitulo() );
+				lblLivroAutor_2 .setText( livros.get(i).getAutor() );
+				lblLivroValor_2.setText( "R$ " + String.valueOf( formato.format( livros.get(i).getPrecoVenda() )));
+				imagem = livros.get(i).getImagem();
+				carregaCapa(1);
+				break; 
+
+			}
+		}
+	}
+	
+	
+	public void carregaCapa(int capa){
+
+		switch (capa){
+
+		case 0:
+			ImageIcon capa1 = new ImageIcon( imagem );
+			lblLivroCapa_1.setIcon(new ImageIcon(capa1.getImage().getScaledInstance(lblLivroCapa_1.getWidth(), 
+					lblLivroCapa_1.getHeight(), Image.SCALE_DEFAULT)));	
+			ativarCampos( "ativarCapas_1" );
+			break;
+
+		case 1:
+			ImageIcon capa2 = new ImageIcon( imagem );
+			lblLivroCapa_2.setIcon(new ImageIcon(capa2.getImage().getScaledInstance(lblLivroCapa_2.getWidth(), 
+					lblLivroCapa_2.getHeight(), Image.SCALE_DEFAULT)));
+			ativarCampos( "ativarCapas_2" );
+			break;
+		}
+	}
+	
 
 	public void navegar( String opt ){
 
@@ -252,104 +326,6 @@ public class ListaController implements ComponentListener {
 			}
 		}
 	}
-
-	
-	public void escreverTela(){
-		
-		lerCarrinho();
-		ativarCampos( "desativarCapas" );
-		DecimalFormat formato = new DecimalFormat("#,##0.00");
-		
-		for( int i = 0; i < livros.size(); i++ ){
-			
-			switch (i){
-			
-			case 0:
-				isbn.add( livros.get(i).getIsbn() );
-				lblLivroCapa_1.setToolTipText( livros.get(i).getTitulo() );
-				lblLivroTitulo_1.setText( livros.get(i).getTitulo() );
-				lblLivroAutor_1 .setText( livros.get(i).getAutor() );
-				lblLivroValor_1.setText( "R$ " + String.valueOf( formato.format( livros.get(i).getPrecoVenda() )));
-				imagem = livros.get(i).getImagem();
-				carregaCapa(0);
-			break;
-			
-			case 1:
-				isbn.add( livros.get(i).getIsbn() );
-				lblLivroCapa_2.setToolTipText( livros.get(i).getTitulo() );
-				lblLivroTitulo_2.setText( livros.get(i).getTitulo() );
-				lblLivroAutor_2 .setText( livros.get(i).getAutor() );
-				lblLivroValor_2.setText( "R$ " + String.valueOf( formato.format( livros.get(i).getPrecoVenda() )));
-				imagem = livros.get(i).getImagem();
-				carregaCapa(1);
-			break; 
-
-			}
-		}
-	}
-	
-	
-	public void carregaCapa(int capa){
-
-		switch (capa){
-
-		case 0:
-			ImageIcon capa1 = new ImageIcon( imagem );
-			lblLivroCapa_1.setIcon(new ImageIcon(capa1.getImage().getScaledInstance(lblLivroCapa_1.getWidth(), 
-					lblLivroCapa_1.getHeight(), Image.SCALE_DEFAULT)));	
-			ativarCampos( "ativarCapas_1" );
-			break;
-
-		case 1:
-			ImageIcon capa2 = new ImageIcon( imagem );
-			lblLivroCapa_2.setIcon(new ImageIcon(capa2.getImage().getScaledInstance(lblLivroCapa_2.getWidth(), 
-					lblLivroCapa_2.getHeight(), Image.SCALE_DEFAULT)));
-			ativarCampos( "ativarCapas_2" );
-			break;
-		}
-	}
-	
-	
-	public void lerCarrinho() {
-
-		int qtd = 0;
-		ArquivoCarrinho dao = new ArquivoCarrinho();
-		String linha = new String();
-		ArrayList<String> lista = new ArrayList<>();
-		try {
-			dao.leArquivo(diretorio + "data/", arquivo);
-			linha = dao.getBuffer();
-			String[] listaItens = linha.split(";");
-			for (String s : listaItens) {
-				String text = s.replaceAll(".*: ", "");
-				lista.add(text);
-				if (s.contains("---")) {
-					qtd =  qtd + Integer.parseInt(lista.get(1));
-					lista.clear();
-				}
-				btnCarrinho.setText("Meu Carrinho ( " + qtd + " )");
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	
-	public void Adicionar(Livro livro){
-		
-		if( livros.size() > 0 ){
-			
-			FrmCarrinho carrinho = new FrmCarrinho();
-			carrinho.setVisible(true);
-			
-			CarrinhoController carrinhoCtrl = new CarrinhoController(
-					carrinho, 
-					carrinho.tabCompra, 
-					carrinho.ftxtQtd, 
-					carrinho.ftxtVlrTotal);
-			carrinhoCtrl.addItem ( livro );
-		}
-	}
 	
 	
 	public void abrirJanela ( String nome ){
@@ -388,6 +364,50 @@ public class ListaController implements ComponentListener {
 				esconder();
 			}
 			break;
+		}
+	}
+	
+	
+	// CRUD //////////////////////////////
+	
+	public void lerCarrinho() {
+
+		int qtd = 0;
+		ArquivoCarrinho dao = new ArquivoCarrinho();
+		String linha = new String();
+		ArrayList<String> lista = new ArrayList<>();
+		try {
+			dao.lerArquivo(diretorio + "data/", arquivo);
+			linha = dao.getBuffer();
+			String[] listaItens = linha.split(";");
+			for (String s : listaItens) {
+				String text = s.replaceAll(".*: ", "");
+				lista.add(text);
+				if (s.contains("---")) {
+					qtd =  qtd + Integer.parseInt(lista.get(1));
+					lista.clear();
+				}
+				btnCarrinho.setText("Meu Carrinho ( " + qtd + " )");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public void Adicionar(Livro livro){
+		
+		if( livros.size() > 0 ){
+			
+			FrmCarrinho carrinho = new FrmCarrinho();
+			carrinho.setVisible(true);
+			
+			CarrinhoController carrinhoCtrl = new CarrinhoController(
+					carrinho, 
+					carrinho.tabCompra, 
+					carrinho.ftxtQtd, 
+					carrinho.ftxtVlrTotal);
+			carrinhoCtrl.addItem ( livro );
 		}
 	}
 	

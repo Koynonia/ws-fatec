@@ -41,6 +41,7 @@ import javax.swing.JTextField;
 import boundary.FrmPrincipal;
 import dao.ArquivoLivro;
 import dao.ArquivoEstoque;
+import dao.Arquivos;
 import entity.Autor;
 import entity.Categoria;
 import entity.Editora;
@@ -446,7 +447,7 @@ public class LivroController implements ComponentListener{
 		ArrayList<String> listString = new ArrayList<>();
 		ArrayList<Autor> listAutor = new ArrayList<>();
 		try {
-			arquivos.leArquivo(diretorio + "data/", "autor");
+			arquivos.lerArquivo(diretorio + "data/", "autor");
 			linha = arquivos.getBuffer();
 			String[] autor = linha.split(";");
 			for ( String d : autor ) {
@@ -484,7 +485,7 @@ public class LivroController implements ComponentListener{
 		ArrayList<String> listString = new ArrayList<>();
 		ArrayList<Editora> listEditora = new ArrayList<>();
 		try {
-			arquivos.leArquivo(diretorio + "data/", "editora");
+			arquivos.lerArquivo(diretorio + "data/", "editora");
 			linha = arquivos.getBuffer();
 			String[] editora = linha.split(";");
 			for ( String d : editora ) {
@@ -521,7 +522,7 @@ public class LivroController implements ComponentListener{
 		ArrayList<String> listString = new ArrayList<>();
 		ArrayList<Categoria> listCategoria = new ArrayList<>();
 		try {
-			arquivos.leArquivo(diretorio + "data/", "categoria");
+			arquivos.lerArquivo(diretorio + "data/", "categoria");
 			linha = arquivos.getBuffer();
 			String[] categoria = linha.split(";");
 			for ( String d : categoria ) {
@@ -798,7 +799,7 @@ public class LivroController implements ComponentListener{
 		String linha = new String();
 		ArrayList<String> lista = new ArrayList<>();
 		try {
-			daoEstoque.leArquivo( diretorio + "data/", "estoque" );
+			daoEstoque.lerArquivo( diretorio + "data/", "estoque" );
 			linha = daoEstoque.getBuffer();
 			String[] listaItens = linha.split(";");
 			for (String s : listaItens) {
@@ -827,7 +828,7 @@ public class LivroController implements ComponentListener{
 		f.delete();
 		for (Estoque estoques : listaEstoque) {
 			try {
-				daoEstoque.escreveArquivo(diretorio  + "data/", "estoque", "", estoques);
+				daoEstoque.escreverArquivo(diretorio  + "data/", "estoque", "", estoques);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -841,7 +842,7 @@ public class LivroController implements ComponentListener{
 		String linha = new String();
 		ArrayList<String> lista = new ArrayList<>();
 		try {
-			dao.leArquivo( diretorio + "data/", arquivo );
+			dao.lerArquivo( diretorio + "data/", arquivo );
 			linha = dao.getBuffer();
 			String[] listaItens = linha.split(";");
 			for (String s : listaItens) {
@@ -874,14 +875,14 @@ public class LivroController implements ComponentListener{
 	}
 
 
-	public void atualizarArquivo(List<Livro> listaLivros) {
+	public void atualizarArquivo( List<Livro> listaLivros ) {
 
 		//REALIZA A GRAVAÇÃO NO ARQUIVO TXT
-		File f = new File(diretorio + "data/" + arquivo);
+		File f = new File( diretorio + "data/" + arquivo );
 		f.delete();
 		for (Livro livros : listaLivros) {
 			try {
-				dao.escreveArquivo(diretorio  + "data/", arquivo, "", livros);
+				dao.escreverArquivo( diretorio  + "data/", arquivo, "", livros );
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -1032,8 +1033,6 @@ public class LivroController implements ComponentListener{
 			}
 		}
 		
-		
-
 
 	//   CONTROLE BOTAO   //////////////////////////////
 		
