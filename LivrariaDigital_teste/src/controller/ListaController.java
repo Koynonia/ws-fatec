@@ -114,6 +114,7 @@ public class ListaController implements ComponentListener {
 	}
 	
 	
+	// METODOS DE SUPORTE ////////////////////////
 	
 	public void ativarCampos( String opt ){
 
@@ -165,18 +166,60 @@ public class ListaController implements ComponentListener {
 	}
 	
 	
-public void escreverTela(){
-		
+	public void abrirJanela ( String nome ){
+
+
+		switch ( nome ){
+
+		case "principal":
+			if (janelaPrincipal == null){
+				janelaPrincipal = new FrmPrincipal();
+				janelaPrincipal.setVisible(true);
+			} else {
+				janelaPrincipal.setVisible(true);
+				janelaPrincipal.setState(JFrame.NORMAL);
+			}
+			janela.dispose();
+			break;
+		case "carrinho":
+			if (janelaCarrinho == null){
+				janelaCarrinho = new FrmCarrinho();
+				janelaCarrinho.setVisible(true);
+			} else {
+				janelaCarrinho.setVisible(true);
+				janelaCarrinho.setState(JFrame.NORMAL);
+			}
+			break;
+			
+		case "detalhes":
+			if( janelaDetalhe == null ){
+				FrmDetalhe detalhe;
+				detalhe = new FrmDetalhe( janela, opt, isbn, livros );
+				detalhe.setVisible(true);
+				esconder();
+			} else {
+				janelaDetalhe.setVisible(true);
+				esconder();
+			}
+			break;
+		}
+	}
+	
+	
+	// CRUD //////////////////////////////
+	
+	public void escreverTela(){
+
 		lerCarrinho();
 		ativarCampos( "desativarCapas" );
 		DecimalFormat formato = new DecimalFormat("#,##0.00");
-		
-		if ( livros.size() == 1){
+
+		if ( livros.size() <= 2){
 			ativarCampos( "desativarNavegar" );
 		} else {
 			ativarCampos( "ativarNavegar" );
 		}
-		
+
 		for( int i = 0; i < livros.size(); i++ ){
 
 			switch (i){
@@ -204,8 +247,8 @@ public void escreverTela(){
 			}
 		}
 	}
-	
-	
+
+
 	public void carregaCapa(int capa){
 
 		switch (capa){
@@ -327,48 +370,6 @@ public void escreverTela(){
 		}
 	}
 	
-	
-	public void abrirJanela ( String nome ){
-
-
-		switch ( nome ){
-
-		case "principal":
-			if (janelaPrincipal == null){
-				janelaPrincipal = new FrmPrincipal();
-				janelaPrincipal.setVisible(true);
-			} else {
-				janelaPrincipal.setVisible(true);
-				janelaPrincipal.setState(JFrame.NORMAL);
-			}
-			janela.dispose();
-			break;
-		case "carrinho":
-			if (janelaCarrinho == null){
-				janelaCarrinho = new FrmCarrinho();
-				janelaCarrinho.setVisible(true);
-			} else {
-				janelaCarrinho.setVisible(true);
-				janelaCarrinho.setState(JFrame.NORMAL);
-			}
-			break;
-			
-		case "detalhes":
-			if( janelaDetalhe == null ){
-				FrmDetalhe detalhe;
-				detalhe = new FrmDetalhe( janela, opt, isbn, livros );
-				detalhe.setVisible(true);
-				esconder();
-			} else {
-				janelaDetalhe.setVisible(true);
-				esconder();
-			}
-			break;
-		}
-	}
-	
-	
-	// CRUD //////////////////////////////
 	
 	public void lerCarrinho() {
 

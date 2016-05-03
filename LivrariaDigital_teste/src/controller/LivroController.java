@@ -187,6 +187,7 @@ public class LivroController implements ComponentListener{
 				lblCapa.getHeight(), Image.SCALE_DEFAULT)));
 	}
 	
+	
 	public void alterarBotao(){
 		btnLimpar.setText("Novo");
 		btnCancelar.setVisible(false);
@@ -197,46 +198,73 @@ public class LivroController implements ComponentListener{
 		alterarCampos( "desprotegerCampos" );
 	}
 	
+	
 	public void alterarCampos( String opt ){
 		
 		switch ( opt ){
-		
+
+		case "mostraRegistros":
+			lblRegistros.setVisible(true);
+			break;
+
+		case "escondeRegistros":
+			lblRegistros.setVisible(true);
+			break;
+
 		case "protegerCampos":
 			
-		txtTitulo.setEditable(false);
-		txtTitulo.setEnabled(false);
-		txtAutor.setEditable(false);
-		txtAutor.setEnabled(false);
-		txtEstoque.setEditable(false);
-		txtEstoque.setEnabled(false);
-		txtCategoria.setEditable(false);
-		txtCategoria.setEnabled(false);
-		ftxtIsbn.setEditable(false);
-		ftxtIsbn.setEnabled(false);
-		ftxtDtPub.setEditable(false);
-		ftxtDtPub.setEnabled(false);
-		ftxtPaginas.setEditable(false);
-		ftxtPaginas.setEnabled(false);
-		ftxtPrecoCusto.setEditable(false);
-		ftxtPrecoCusto.setEnabled(false);
-		ftxtPrecoVenda.setEditable(false);
-		ftxtPrecoVenda.setEnabled(false);
-		ftxtMargem.setEnabled(false);
-		txtaSumario.setEditable(false);
-		txtaSumario.setEnabled(false);
-		txtaResumo.setEditable(false);
-		txtaResumo.setEnabled(false);
-		lblSelecione.setVisible(false);
-		lblTipoCapa.setVisible(false);
-		lblCategorias.setVisible(false);
-		cboAutor.setVisible(false);
-		cboEditora.setEnabled(false);
-		cboTipoCapa.setVisible(false);
-		cboCategoria.setVisible(false);
-		break;
-		
+			btnLimpar.setText("Novo");
+			btnCancelar.setVisible(false);
+			btnEditar.setText("Editar");
+			btnEditar.setVisible(true);
+			btnExcluir.setVisible(false);
+			btnSalvar.setVisible(false);
+			btnAnterior.setVisible(true);
+			btnProximo.setVisible(true);
+			lblRegistros.setVisible(true);
+			txtTitulo.setEditable(false);
+			txtTitulo.setEnabled(false);
+			txtAutor.setEditable(false);
+			txtAutor.setEnabled(false);
+			txtEstoque.setEditable(false);
+			txtEstoque.setEnabled(false);
+			txtCategoria.setEditable(false);
+			txtCategoria.setEnabled(false);
+			ftxtIsbn.setEditable(false);
+			ftxtIsbn.setEnabled(false);
+			ftxtDtPub.setEditable(false);
+			ftxtDtPub.setEnabled(false);
+			ftxtPaginas.setEditable(false);
+			ftxtPaginas.setEnabled(false);
+			ftxtPrecoCusto.setEditable(false);
+			ftxtPrecoCusto.setEnabled(false);
+			ftxtPrecoVenda.setEditable(false);
+			ftxtPrecoVenda.setEnabled(false);
+			ftxtMargem.setEnabled(false);
+			txtaSumario.setEditable(false);
+			txtaSumario.setEnabled(false);
+			txtaResumo.setEditable(false);
+			txtaResumo.setEnabled(false);
+			lblSelecione.setVisible(false);
+			lblTipoCapa.setVisible(false);
+			lblCategorias.setVisible(false);
+			cboAutor.setVisible(false);
+			cboEditora.setEnabled(false);
+			cboTipoCapa.setVisible(false);
+			cboCategoria.setVisible(false);
+			break;
+
 		case "desprotegerCampos":
 			
+			btnLimpar.setText("Novo");
+			btnCancelar.setVisible(true);
+			btnEditar.setText("Editar");
+			btnEditar.setVisible(true);
+			btnExcluir.setVisible(false);
+			btnSalvar.setVisible(false);
+			btnAnterior.setVisible(false);
+			btnProximo.setVisible(false);
+			lblRegistros.setVisible(false);
 			txtTitulo.setEditable(true);
 			txtTitulo.setEnabled(true);
 			txtAutor.setEditable(true);
@@ -271,6 +299,8 @@ public class LivroController implements ComponentListener{
 		}
 	}
 	
+	
+	// METODOS DE SUPORTE ////////////////////////
 	
 	public void calcularMargem(){
 		
@@ -576,8 +606,8 @@ public class LivroController implements ComponentListener{
 			lblRegistros.setText( reg+1 + "  de  " + livros.size() );
 			carregarCapa();
 			calcularMargem();
-			alterarBotao();
 			alterarCampos ("protegerCampos");
+			txtPesquisar.setText(null);
 		}
 	}
 	
@@ -650,9 +680,10 @@ public class LivroController implements ComponentListener{
 						ftxtPrecoCusto.setText( Float.toString( livros.get(i).getPrecoCusto() ));
 						ftxtPrecoVenda.setText( Float.toString( livros.get(i).getPrecoVenda() ));
 						imagem = livros.get(i).getImagem();
+						lblRegistros.setText( i+1 + "  de  " + livros.size() );
+						reg = i;
 						carregarCapa();
 						calcularMargem();
-						alterarBotao();
 						alterarCampos ("protegerCampos");
 					}
 				}
@@ -1083,7 +1114,7 @@ public class LivroController implements ComponentListener{
 					alterarCampos ("desprotegerCampos");
 				} else {
 					editar();
-					alterarBotao();
+//					alterarBotao();
 					alterarCampos ("protegerCampos");
 				}
 			}
