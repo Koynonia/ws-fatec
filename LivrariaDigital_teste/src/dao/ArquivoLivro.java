@@ -78,9 +78,11 @@ public class ArquivoLivro {
 		buffer.append("\r\n");
 		buffer.append("Preço Venda     : " + ( (Livro) object).getPrecoVenda() );
 		buffer.append("\r\n");
+		buffer.append("Imagem          : " + ( (Livro) object).getImagem() );
+		buffer.append("\r\n");
 		buffer.append("Data Cadastro   : " + ( (Livro) object).getDtCadastro() );
 		buffer.append("\r\n");
-		buffer.append("Imagem          : " + ( (Livro) object).getImagem() );
+		buffer.append("Data Alterado   : " + ( (Livro) object).getDtAlterado() );
 		buffer.append("\r\n");
 		buffer.append("--------------------------------------");
 		buffer.append("\r\n");

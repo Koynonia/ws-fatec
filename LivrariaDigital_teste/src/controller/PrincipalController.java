@@ -77,6 +77,7 @@ public class PrincipalController implements ComponentListener {
 	private ArquivoLivro dao = new ArquivoLivro();
 	private OrdenaLivro ordenar = new OrdenaLivro();
 	private List<Livro> livros;
+	private List<Livro> livrosVendidos;
 	private ArrayList<String> isbn = new ArrayList<>();
 	
 	public PrincipalController(
@@ -121,6 +122,7 @@ public class PrincipalController implements ComponentListener {
 		this.lblLivroVend_5 = lblLivroVend_5;
 		this.lblLivroVend_6 = lblLivroVend_6;
 		this.livros = new ArrayList<Livro>();
+		this.livrosVendidos = new ArrayList<Livro>();
 		
 		
 		lerArquivo();
@@ -161,9 +163,9 @@ public class PrincipalController implements ComponentListener {
 				percorrerCampos ( campo, titulo );
 				
 				campo =  "lblLivroVend_" + 1;
-				if( livros.size() >= i ){ titulo = livros.get(i-1).getTitulo(); } else { titulo = ""; };
-				isbn.add( livros.get(i-1).getIsbn() );
-				imagem = livros.get(i-1).getImagem();
+				if( livrosVendidos.size() >= i ){ titulo = livrosVendidos.get(i-1).getTitulo(); } else { titulo = ""; };
+				isbn.add( livrosVendidos.get(i-1).getIsbn() );
+				imagem = livrosVendidos.get(i-1).getImagem();
 				ImageIcon capa2 = new ImageIcon( imagem );
 				lblLivroVend_1.setIcon(new ImageIcon(capa2.getImage().getScaledInstance(lblLivroVend_1.getWidth(), 
 						lblLivroVend_1.getHeight(), Image.SCALE_DEFAULT)));
@@ -181,9 +183,9 @@ public class PrincipalController implements ComponentListener {
 				percorrerCampos ( campo, titulo );
 				
 				campo =  "lblLivroVend_" + 2;
-				if( livros.size() >= i ){ titulo = livros.get(i-1).getTitulo(); } else { titulo = ""; };
-				isbn.add( livros.get(i-1).getIsbn() );
-				imagem = livros.get(i-1).getImagem();
+				if( livrosVendidos.size() >= i ){ titulo = livrosVendidos.get(i-1).getTitulo(); } else { titulo = ""; };
+				isbn.add( livrosVendidos.get(i-1).getIsbn() );
+				imagem = livrosVendidos.get(i-1).getImagem();
 				ImageIcon capa4 = new ImageIcon( imagem );
 				lblLivroVend_2.setIcon(new ImageIcon(capa4.getImage().getScaledInstance(lblLivroVend_2.getWidth(), 
 						lblLivroVend_2.getHeight(), Image.SCALE_DEFAULT)));
@@ -201,9 +203,9 @@ public class PrincipalController implements ComponentListener {
 				percorrerCampos ( campo, titulo );
 				
 				campo =  "lblLivroVend_" + 3;
-				if( livros.size() >= i ){ titulo = livros.get(i-1).getTitulo(); } else { titulo = ""; };
-				isbn.add( livros.get(i-1).getIsbn() );
-				imagem = livros.get(i-1).getImagem();
+				if( livrosVendidos.size() >= i ){ titulo = livrosVendidos.get(i-1).getTitulo(); } else { titulo = ""; };
+				isbn.add( livrosVendidos.get(i-1).getIsbn() );
+				imagem = livrosVendidos.get(i-1).getImagem();
 				ImageIcon capa6 = new ImageIcon( imagem );
 				lblLivroVend_3.setIcon(new ImageIcon(capa6.getImage().getScaledInstance(lblLivroVend_3.getWidth(), 
 						lblLivroVend_3.getHeight(), Image.SCALE_DEFAULT)));
@@ -221,9 +223,9 @@ public class PrincipalController implements ComponentListener {
 				percorrerCampos ( campo, titulo );
 				
 				campo =  "lblLivroVend_" + 4;
-				if( livros.size() >= i ){ titulo = livros.get(i-1).getTitulo(); } else { titulo = ""; };
-				isbn.add( livros.get(i-1).getIsbn() );
-				imagem = livros.get(i-1).getImagem();
+				if( livrosVendidos.size() >= i ){ titulo = livrosVendidos.get(i-1).getTitulo(); } else { titulo = ""; };
+				isbn.add( livrosVendidos.get(i-1).getIsbn() );
+				imagem = livrosVendidos.get(i-1).getImagem();
 				ImageIcon capa8 = new ImageIcon( imagem );
 				lblLivroVend_4.setIcon(new ImageIcon(capa8.getImage().getScaledInstance(lblLivroVend_4.getWidth(), 
 						lblLivroVend_4.getHeight(), Image.SCALE_DEFAULT)));
@@ -241,9 +243,9 @@ public class PrincipalController implements ComponentListener {
 				percorrerCampos ( campo, titulo );
 				
 				campo =  "lblLivroVend_" + 5;
-				if( livros.size() >= i ){ titulo = livros.get(i-1).getTitulo(); } else { titulo = ""; };
-				isbn.add( livros.get(i-1).getIsbn() );
-				imagem = livros.get(i-1).getImagem();
+				if( livrosVendidos.size() >= i ){ titulo = livrosVendidos.get(i-1).getTitulo(); } else { titulo = ""; };
+				isbn.add( livrosVendidos.get(i-1).getIsbn() );
+				imagem = livrosVendidos.get(i-1).getImagem();
 				ImageIcon capa10 = new ImageIcon( imagem );
 				lblLivroVend_5.setIcon(new ImageIcon(capa10.getImage().getScaledInstance(lblLivroVend_5.getWidth(), 
 						lblLivroVend_5.getHeight(), Image.SCALE_DEFAULT)));
@@ -261,9 +263,9 @@ public class PrincipalController implements ComponentListener {
 				percorrerCampos ( campo, titulo );
 				
 				campo =  "lblLivroVend_" + 6;
-				if( livros.size() >= i ){ titulo = livros.get(i-1).getTitulo(); } else { titulo = ""; };
-				isbn.add( livros.get(i-1).getIsbn() );
-				imagem = livros.get(i-1).getImagem();
+				if( livrosVendidos.size() >= i ){ titulo = livrosVendidos.get(i-1).getTitulo(); } else { titulo = ""; };
+				isbn.add( livrosVendidos.get(i-1).getIsbn() );
+				imagem = livrosVendidos.get(i-1).getImagem();
 				ImageIcon capa12 = new ImageIcon( imagem );
 				lblLivroVend_6.setIcon(new ImageIcon(capa12.getImage().getScaledInstance(lblLivroVend_6.getWidth(), 
 						lblLivroVend_6.getHeight(), Image.SCALE_DEFAULT)));
@@ -272,9 +274,6 @@ public class PrincipalController implements ComponentListener {
 			}
 		}
 	}
-	
-	
-
 	
 	
 	private void percorrerCampos(String campo, String titulo) {
@@ -448,9 +447,11 @@ public class PrincipalController implements ComponentListener {
 					livro.setSumario( lista.get(8));
 					livro.setResumo( lista.get(9));
 					livro.setPrecoVenda( Float.parseFloat( lista.get(11) ) );
-					livro.setDtCadastro( lista.get(12) );
-					livro.setImagem( lista.get(13) );
+					livro.setImagem( lista.get(12) );
+					livro.setDtCadastro( lista.get(13) );
+					livro.setDtAlterado( lista.get(14) );
 					livros.add( livro );
+					livrosVendidos.add( livro );
 					lista.clear();
 				}
 			}

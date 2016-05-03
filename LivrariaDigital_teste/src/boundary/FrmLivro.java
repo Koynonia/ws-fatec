@@ -55,6 +55,7 @@ public class FrmLivro extends JFrame {
 	private JLabel lblPrecoCusto;
 	private JLabel lblPrecoVenda;
 	private JLabel lblMargem;
+	private JLabel lblRegistros; 
 	private JTextField txtPesquisar;
 	private JTextField txtTitulo;
 	private JTextField txtAutor;
@@ -301,6 +302,11 @@ public class FrmLivro extends JFrame {
 		ftxtMargem.setBounds(170, 635, 154, 28);
 		painel.add(ftxtMargem);
 		
+		lblRegistros = new JLabel("");
+		lblRegistros.setHorizontalAlignment(SwingConstants.CENTER);
+		lblRegistros.setBounds(560, 641, 127, 16);
+		painel.add(lblRegistros);
+		
 		btnImagem = new JButton("Carregar Imagem");
 		btnImagem.setBounds(104, 105, 141, 29);
 		painel.add(btnImagem);
@@ -310,11 +316,11 @@ public class FrmLivro extends JFrame {
 		painel.add(btnAnterior);
 		
 		btnProximo = new JButton("Próximo");
-		btnProximo.setBounds(560, 634, 117, 29);
+		btnProximo.setBounds(689, 634, 117, 29);
 		painel.add(btnProximo);
 		
 		btnCancelar = new JButton("Cancelar");
-		btnCancelar.setBounds(731, 553, 117, 29);
+		btnCancelar.setBounds(689, 553, 117, 29);
 		painel.add(btnCancelar);
 		
 		btnLimpar = new JButton("Limpar");
@@ -346,6 +352,7 @@ public class FrmLivro extends JFrame {
 				lblSelecione, 
 				lblTipoCapa, 
 				lblCategorias, 
+				lblRegistros, 
 				txtPesquisar,
 				txtTitulo,
 				txtAutor, 
@@ -372,7 +379,6 @@ public class FrmLivro extends JFrame {
 				btnCancelar, 
 				btnVoltar 				 
 				 );
-		
 		
 		txtPesquisar.addActionListener(livroCtrl.pesquisar);
 		btnPesquisar.addActionListener(livroCtrl.pesquisar);

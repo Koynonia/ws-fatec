@@ -10,6 +10,7 @@ public class Endereco {
 	private String cep;
 	private String tipoEndereco;
 	private String dtCadastro;
+	private String dtAlterado;
 
 	public String getEndereco() {
 		return endereco;
@@ -58,6 +59,12 @@ public class Endereco {
 	}
 	public void setDtCadastro(String dtCadastro) {
 		this.dtCadastro = dtCadastro;
+	}
+	public String getDtAlterado() {
+		return dtAlterado;
+	}
+	public void setDtAlterado(String dtAlterado) {
+		this.dtAlterado = dtAlterado;
 	}
 
 }

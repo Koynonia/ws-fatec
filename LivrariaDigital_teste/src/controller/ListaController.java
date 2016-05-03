@@ -168,11 +168,10 @@ public class ListaController implements ComponentListener {
 
 			//localiza o livro atual e repassa para a variável de controle
 			for( int i = 0; i < livros.size(); i++ ){
-					if ( livros.get(i).getTitulo() == lblLivroTitulo_2.getText() ){
-						reg = i;
-					}
+				if ( livros.get(i).getTitulo() == lblLivroTitulo_2.getText() ){
+					reg = i;
+				}
 			}
-
 			if ( reg < ( livros.size() -1 )  && reg != 0 ){
 
 				//System.out.println( livros.size() % 2 );
@@ -217,19 +216,19 @@ public class ListaController implements ComponentListener {
 				for( int i = 0; i < 2 ; i++ ){
 					reg = reg - 1;
 					if ( reg > -1 ){
-					Livro l = new Livro();
-					l.setIsbn( livros.get(reg).getIsbn() );
-					l.setTitulo( livros.get(reg).getTitulo() );
-					l.setAutor( livros.get(reg).getAutor() );
-					l.setPrecoVenda( livros.get(reg).getPrecoVenda());
-					l.setImagem( livros.get(reg).getImagem() );
-					regLivro.add(l);
-					reg = reg +2;
+						Livro l = new Livro();
+						l.setIsbn( livros.get(reg).getIsbn() );
+						l.setTitulo( livros.get(reg).getTitulo() );
+						l.setAutor( livros.get(reg).getAutor() );
+						l.setPrecoVenda( livros.get(reg).getPrecoVenda());
+						l.setImagem( livros.get(reg).getImagem() );
+						regLivro.add(l);
+						reg = reg +2;
 					}
 				}
 			}
 			break;
-		}	
+		}
 		
 		//Preenche Livro 1
 		if ( regLivro != null && regLivro.size() >= 1 ){

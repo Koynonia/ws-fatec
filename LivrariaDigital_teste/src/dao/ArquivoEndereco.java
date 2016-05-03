@@ -56,13 +56,22 @@ public class ArquivoEndereco {
 		
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("Endereco      : " + ((Endereco) object).getEndereco());
+		buffer.append("\r\n");
 		buffer.append("Complemento   : " + ((Endereco) object).getComplemento());
+		buffer.append("\r\n");
 		buffer.append("Bairro        : " + ((Endereco) object).getBairro());
+		buffer.append("\r\n");
 		buffer.append("Cidade        : " + ((Endereco) object).getCidade());
+		buffer.append("\r\n");
 		buffer.append("Estado        : " + ((Endereco) object).getEstado());
+		buffer.append("\r\n");
 		buffer.append("Cep           : " + ((Endereco) object).getCep());
+		buffer.append("\r\n");
 		buffer.append("TipoEndereco  : " + ((Endereco) object).getTipoEndereco());
+		buffer.append("\r\n");
 		buffer.append("Data Cadastro : " + ((Endereco) object).getDtCadastro());
+		buffer.append("\r\n");
+		buffer.append("Data Alterado : " + ((Endereco) object).getDtAlterado());
 		buffer.append("\r\n");
 		buffer.append("------------------------------------");
 		buffer.append("\r\n");

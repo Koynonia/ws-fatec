@@ -56,12 +56,20 @@ public class ArquivoAutor {
 		
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("Nome              : " + ((Autor) object).getNome());
+		buffer.append("\r\n");
 		buffer.append("Data Nascimento   : " + ((Autor) object).getDtNasc());
+		buffer.append("\r\n");
 		buffer.append("Data Faleciment   : " + ((Autor) object).getDtFalec());
+		buffer.append("\r\n");
 		buffer.append("Local Nascimento  : " + ((Autor) object).getLocalNasc());
+		buffer.append("\r\n");
 		buffer.append("Local Falecimento : " + ((Autor) object).getDtFalec());
+		buffer.append("\r\n");
 		buffer.append("Biografia         : " + ((Autor) object).getBiografia());
+		buffer.append("\r\n");
 		buffer.append("Data Cadastro     : " + ((Autor) object).getDtCadastro());
+		buffer.append("\r\n");
+		buffer.append("Data Alterado     : " + ((Autor) object).getDtAlterado());
 		buffer.append("\r\n");
 		buffer.append("------------------------------------");
 		buffer.append("\r\n");

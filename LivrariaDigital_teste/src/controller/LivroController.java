@@ -40,9 +40,11 @@ import javax.swing.JTextField;
 
 import boundary.FrmPrincipal;
 import dao.ArquivoLivro;
+import dao.ArquivoEstoque;
 import entity.Autor;
 import entity.Categoria;
 import entity.Editora;
+import entity.Estoque;
 import entity.Livro;
 
 
@@ -55,7 +57,8 @@ public class LivroController implements ComponentListener{
 	private JLabel txtIsbnID; 
 	private JLabel lblSelecione; 
 	private JLabel lblTipoCapa; 
-	private JLabel lblCategorias; 
+	private JLabel lblCategorias;
+	private JLabel lblRegistros;
 	private JTextField txtPesquisar;
 	private JTextField txtTitulo;
 	private JTextField txtAutor;
@@ -82,8 +85,10 @@ public class LivroController implements ComponentListener{
 	private JButton btnCancelar;
 	private JButton btnVoltar;
 	private ArquivoLivro dao = new ArquivoLivro();
+	private ArquivoEstoque daoEstoque = new ArquivoEstoque();
 	private Arquivos arquivos = new Arquivos();
 	private List<Livro> livros;
+	private List<Estoque> estoques;
 	private boolean validar;
 	int reg = 0;
 	private String imagem;
@@ -99,6 +104,7 @@ public class LivroController implements ComponentListener{
 			JLabel lblSelecione, 
 			JLabel lblTipoCapa, 
 			JLabel lblCategorias, 
+			JLabel lblRegistros, 
 			JTextField txtPesquisar,
 			JTextField txtTitulo,
 			JTextField txtAutor,
@@ -133,6 +139,7 @@ public class LivroController implements ComponentListener{
 		this.lblSelecione = lblSelecione;
 		this.lblTipoCapa = lblTipoCapa; 
 		this.lblCategorias = lblCategorias; 
+		this.lblRegistros = lblRegistros; 
 		this.txtPesquisar = txtPesquisar;
 		this.txtTitulo = txtTitulo;
 		this.txtAutor = txtAutor;
@@ -159,8 +166,10 @@ public class LivroController implements ComponentListener{
 		this.btnCancelar = btnCancelar; 
 		this.btnVoltar = btnVoltar;
 		this.livros = new ArrayList<Livro>();
+		this.estoques = new ArrayList<Estoque>();
 		
 		lerArquivo();
+		lerEstoque();
 		preencherAutor();
 		preencherEditora();
 		preencherCategoria();
@@ -551,6 +560,7 @@ public class LivroController implements ComponentListener{
 			txtIsbnID.setText( livros.get( reg ).getIsbn() );
 			txtTitulo.setText( livros.get( reg ).getTitulo() );
 			txtAutor.setText( livros.get( reg ).getAutor() );
+			txtEstoque.setText( Integer.toString( estoques.get(reg).getQtd() ));
 			txtCategoria.setText( livros.get( reg ).getCategoria() );
 			ftxtPaginas.setText( Integer.toString(livros.get( reg ).getPaginas() ));
 			ftxtIsbn.setText( livros.get( reg ).getIsbn() );
@@ -562,6 +572,7 @@ public class LivroController implements ComponentListener{
 			ftxtPrecoCusto.setText( Float.toString( livros.get( reg ).getPrecoCusto() ));
 			ftxtPrecoVenda.setText( Float.toString( livros.get( reg ).getPrecoVenda() ));
 			imagem = livros.get( reg ).getImagem();
+			lblRegistros.setText( reg+1 + "  de  " + livros.size() );
 			carregarCapa();
 			calcularMargem();
 			alterarBotao();
@@ -624,8 +635,11 @@ public class LivroController implements ComponentListener{
 						txtIsbnID.setText( livros.get(i).getIsbn() );
 						txtTitulo.setText( livros.get(i).getTitulo() );
 						txtAutor.setText( livros.get(i).getAutor() );
+						if ( txtIsbnID.getText().equals( estoques.get(i).getIsbn() ) ){
+							txtEstoque.setText( Integer.toString( estoques.get(i).getQtd() ));
+						}
 						txtCategoria.setText( livros.get(i).getCategoria() );
-						ftxtPaginas.setText( Integer.toString(livros.get(i).getPaginas() ));
+						ftxtPaginas.setText( Integer.toString( livros.get(i).getPaginas() ));
 						ftxtIsbn.setText( livros.get(i).getIsbn() );
 						ftxtDtPub.setText( livros.get(i).getDtPublicacao() );
 						cboTipoCapa.getModel().setSelectedItem( livros.get(i).getCapa() );
@@ -652,6 +666,7 @@ public class LivroController implements ComponentListener{
 	public void editar() {
 
 		Livro livro = new Livro();
+		Estoque estoque = new Estoque();
 
 		if ( !ftxtIsbn.getText().isEmpty() ) {
 
@@ -678,10 +693,17 @@ public class LivroController implements ComponentListener{
 						livro.setResumo( txtaResumo.getText() );
 						livro.setPrecoCusto( Float.parseFloat( ftxtPrecoCusto.getText() ));
 						livro.setPrecoVenda( Float.parseFloat( ftxtPrecoVenda.getText()));
-						livro.setDtCadastro( obterData() );
 						livro.setImagem( imagem );
-						livros.set(i, livro);
-						atualizarArquivo(livros);
+						livro.setDtCadastro( livros.get(i).getDtCadastro() );
+						livro.setDtAlterado( obterData() );
+						livros.set( i, livro );
+						atualizarArquivo( livros );
+						estoque.setIsbn( ftxtIsbn.getText() );
+						estoque.setQtd( Integer.parseInt( txtEstoque.getText() ));
+						estoque.setDtCadastro( estoques.get(i).getDtCadastro() );
+						estoque.setDtAlterado( obterData() );
+						estoques.set( i, estoque );
+						atualizarEstoque( estoques );
 					}
 				}
 			} 
@@ -694,10 +716,11 @@ public class LivroController implements ComponentListener{
 	public void salvar() {
 		
 		Livro livro = new Livro();
+		Estoque estoque = new Estoque();
 
 		if ( !ftxtIsbn.getText().isEmpty() ) {
 			
-			for (int i = 0; i < livros.size(); i++) {	
+			for ( int i = 0; i < livros.size(); i++ ) {	
 				if ( ftxtIsbn.getText().equals(livros.get(i).getIsbn() )) {
 					msg( "erroEditar", livros.get(i).getTitulo() );
 //					verificarCampos();
@@ -718,10 +741,18 @@ public class LivroController implements ComponentListener{
 				livro.setPrecoCusto( Float.parseFloat( ftxtPrecoCusto.getText() ));
 				livro.setPrecoVenda( Float.parseFloat( ftxtPrecoVenda.getText()));
 				livro.setDtCadastro( obterData() );
+				livro.setDtAlterado( obterData() );
 				livro.setImagem( imagem );
 				livros.add(livro);
-				msg( "salvar", txtTitulo.getText() );
 				atualizarArquivo(livros);
+				estoque.setIsbn( ftxtIsbn.getText() );
+				estoque.setQtd( Integer.parseInt(txtEstoque.getText() ));
+				estoque.setDtCadastro( obterData() );
+				estoque.setDtAlterado( obterData() );
+				estoques.add( estoque );
+				atualizarEstoque( estoques );
+				
+				msg( "salvar", txtTitulo.getText() );
 				limparCampos();
 				validar = false;
 			}
@@ -740,8 +771,11 @@ public class LivroController implements ComponentListener{
 					msg( "confirmaExcluir", livros.get(i).getTitulo() );
 					if(!(validar == true)){
 					livros.remove(i);
+					estoques.remove(i);
 					atualizarArquivo( livros );
+					atualizarEstoque( estoques );
 					lerArquivo();
+					lerEstoque();
 					msg("excluir", txtTitulo.getText());
 					limparCampos();
 					validar = false;
@@ -754,6 +788,49 @@ public class LivroController implements ComponentListener{
 			} 
 		} else {
 			pesquisar();
+		}
+	}
+	
+	
+	public void lerEstoque() {
+
+		//FILTRA E CARREGA O ARRAY COM A BASE DE DADOS
+		String linha = new String();
+		ArrayList<String> lista = new ArrayList<>();
+		try {
+			daoEstoque.leArquivo( diretorio + "data/", "estoque" );
+			linha = daoEstoque.getBuffer();
+			String[] listaItens = linha.split(";");
+			for (String s : listaItens) {
+				String text = s.replaceAll(".*: ", "");
+				lista.add(text);		
+				if (s.contains("---")) {
+					Estoque estoque = new Estoque();							
+					estoque.setIsbn( lista.get(0) );
+					estoque.setQtd( Integer.parseInt( lista.get(1) ));
+					estoque.setDtCadastro( lista.get(2) );
+					estoque.setDtAlterado( lista.get(3) );
+					estoques.add(estoque);
+					lista.clear();
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public void atualizarEstoque(List<Estoque> listaEstoque) {
+
+		//REALIZA A GRAVAÇÃO NO ARQUIVO TXT
+		File f = new File(diretorio + "data/" + "estoque" );
+		f.delete();
+		for (Estoque estoques : listaEstoque) {
+			try {
+				daoEstoque.escreveArquivo(diretorio  + "data/", "estoque", "", estoques);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -784,8 +861,9 @@ public class LivroController implements ComponentListener{
 					livro.setResumo( lista.get(9) );
 					livro.setPrecoCusto( Float.parseFloat(lista.get(10) ) );
 					livro.setPrecoVenda( Float.parseFloat(lista.get(11) ) );
-					livro.setDtCadastro( lista.get(12) );
-					livro.setImagem( lista.get(13) );
+					livro.setImagem( lista.get(12) );
+					livro.setDtCadastro( lista.get(13) );
+					livro.setDtAlterado( lista.get(14) );
 					livros.add(livro);
 					lista.clear();
 				}

@@ -56,9 +56,14 @@ public class ArquivoEditora {
 		
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("Nome          : " + ((Editora) object).getNome());
+		buffer.append("\r\n");
 		buffer.append("CNPJ          : " + ((Editora) object).getCnpj());
+		buffer.append("\r\n");
 		buffer.append("Endereço      : " + ((Editora) object).getEndereco());
+		buffer.append("\r\n");
 		buffer.append("Data Cadastro : " + ((Editora) object).getDtCadastro());
+		buffer.append("\r\n");
+		buffer.append("Data Alterado : " + ((Editora) object).getDtAlterado());
 		buffer.append("\r\n");
 		buffer.append("------------------------------------");
 		buffer.append("\r\n");

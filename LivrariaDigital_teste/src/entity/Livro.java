@@ -22,6 +22,7 @@ public class Livro {
 	private float precoCusto;
 	private float precoVenda;
 	private String dtCadastro;
+	private String dtAlterado;
 	
 	
 	public String getIsbn() {
@@ -107,5 +108,11 @@ public class Livro {
 	}
 	public void setDtCadastro(String dtCadastro) {
 		this.dtCadastro = dtCadastro;
+	}
+	public String getDtAlterado() {
+		return dtAlterado;
+	}
+	public void setDtAlterado(String dtAlterado) {
+		this.dtAlterado = dtAlterado;
 	}
 }

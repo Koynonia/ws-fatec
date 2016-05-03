@@ -56,8 +56,12 @@ public class ArquivoEstoque {
 		
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("ISBN          : " + ((Estoque) object).getIsbn());
+		buffer.append("\r\n");
 		buffer.append("Quantidade    : " + ((Estoque) object).getQtd());
+		buffer.append("\r\n");
 		buffer.append("Data Cadastro : " + ((Estoque) object).getDtCadastro());
+		buffer.append("\r\n");
+		buffer.append("Data Alterado : " + ((Estoque) object).getDtAlterado());
 		buffer.append("\r\n");
 		buffer.append("------------------------------------");
 		buffer.append("\r\n");

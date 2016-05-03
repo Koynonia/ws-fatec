@@ -3,6 +3,8 @@ package entity;
 public class Categoria {
 	private String nome;
 	private String dtCadastro;
+	private String dtAlterado;
+	
 	public String getNome() {
 		return nome;
 	}
@@ -14,5 +16,11 @@ public class Categoria {
 	}
 	public void setDtCadastro(String dtCadastro) {
 		this.dtCadastro = dtCadastro;
+	}
+	public String getDtAlterado() {
+		return dtAlterado;
+	}
+	public void setDtAlterado(String dtAlterado) {
+		this.dtAlterado = dtAlterado;
 	}
 }

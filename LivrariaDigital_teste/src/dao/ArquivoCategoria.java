@@ -56,7 +56,10 @@ public class ArquivoCategoria {
 		
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("Nome          : " + ((Categoria) object).getNome());
+		buffer.append("\r\n");
 		buffer.append("Data Cadastro : " + ((Categoria) object).getDtCadastro());
+		buffer.append("\r\n");
+		buffer.append("Data Alterado : " + ((Categoria) object).getDtAlterado());
 		buffer.append("\r\n");
 		buffer.append("------------------------------------");
 		buffer.append("\r\n");

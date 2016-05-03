@@ -5,6 +5,7 @@ public class Editora {
 	private String cnpj;
 	private String endereco;
 	private String dtCadastro;
+	private String dtAlterado;
 	
 	public String getNome() {
 		return nome;
@@ -29,5 +30,11 @@ public class Editora {
 	}
 	public void setDtCadastro(String dtCadastro) {
 		this.dtCadastro = dtCadastro;
+	}
+	public String getDtAlterado() {
+		return dtAlterado;
+	}
+	public void setDtAlterado(String dtAlterado) {
+		this.dtAlterado = dtAlterado;
 	}
 }
