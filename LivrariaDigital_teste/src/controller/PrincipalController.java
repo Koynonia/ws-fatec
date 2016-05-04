@@ -85,7 +85,7 @@ public class PrincipalController implements ComponentListener {
 	private OrdenaLivro ordenar = new OrdenaLivro();
 	private List<Livro> livros;
 	private List<Livro> livrosVendidos;
-	private List<Sessao> logon;
+	private List<Sessao> usuarioAtivo;
 	private ArrayList<String> isbn = new ArrayList<>();
 	
 	public PrincipalController(
@@ -133,7 +133,7 @@ public class PrincipalController implements ComponentListener {
 		this.lblLivroVend_6 = lblLivroVend_6;
 		this.livros = new ArrayList<Livro>();
 		this.livrosVendidos = new ArrayList<Livro>();
-		this.logon = new ArrayList<Sessao>();
+		this.usuarioAtivo = new ArrayList<Sessao>();
 		
 		
 		lerSessao();
@@ -161,9 +161,9 @@ public class PrincipalController implements ComponentListener {
 		btnLivro.setVisible(false);
 
 		//será alterado quando a classe usuario estiver pronta…
-		for ( int i = 0; i < logon.size(); i++ ){
-			btnLogin.setText("Bem-vindo, " + logon.get(i).getUsuario() + "!");
-			if ( logon.get(i).getNivel().equalsIgnoreCase("Administrador") ){
+		for ( int i = 0; i < usuarioAtivo.size(); i++ ){
+			btnLogin.setText("Bem-vindo, " + usuarioAtivo.get(i).getUsuario() + "!");
+			if ( usuarioAtivo.get(i).getNivel().equalsIgnoreCase("Administrador") ){
 				lblLivro.setVisible(true);
 				btnLivro.setVisible(true);
 			}
@@ -473,7 +473,7 @@ public class PrincipalController implements ComponentListener {
 					sessao.setNivel( listaString.get(2) );
 					sessao.setHora( listaString.get(3) );
 					sessao.setTela( listaString.get(4) );
-					logon.add( sessao );
+					usuarioAtivo.add( sessao );
 					listaString.clear();
 				}
 			}
@@ -485,15 +485,15 @@ public class PrincipalController implements ComponentListener {
 	
 	public void encerraSessao(List<Sessao> log){
 
-		for (int i = 0; i < logon.size(); i++) {
-			logon.remove(i);		
+		for (int i = 0; i < usuarioAtivo.size(); i++) {
+			usuarioAtivo.remove(i);		
 		}
 		
 		File f = new File(diretorio + "data/" + "log" );
 		f.delete();
-		for (Sessao logon : log) {
+		for (Sessao usuarioAtivo : log) {
 			try {
-				daoSessao.escreverArquivo(diretorio  + "data/", "log", "", logon);
+				daoSessao.escreverArquivo(diretorio  + "data/", "log", "", usuarioAtivo);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -619,7 +619,7 @@ public class PrincipalController implements ComponentListener {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				encerraSessao( logon );
+				encerraSessao( usuarioAtivo );
 				sair();
 			}
 		};

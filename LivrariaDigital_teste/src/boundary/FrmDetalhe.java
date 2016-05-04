@@ -36,8 +36,7 @@ public class FrmDetalhe extends JFrame {
 	private JPanel painel;
 	private JSeparator linha;
 	private JLabel lblLogo;
-	private JLabel lblPagina; 
-	private JTextArea txtaTitulo; 
+	private JLabel lblPagina;  
 	private JLabel lblAutor; 
 	private JLabel lblCategria; 
 	private JLabel lblTipoCapa; 
@@ -48,11 +47,12 @@ public class FrmDetalhe extends JFrame {
 	private JLabel lblCapa; 
 	private JLabel lblSumario; 
 	private JLabel lblResumo; 
-	private JLabel lblPreco;
-	private JTextArea txtaSumario;
-	private JTextArea txtaResumo;
-	private JButton btnAddCarrinho;
-	private JButton btnVoltar;
+	private JLabel lblPreco; 
+	private JTextArea txtaTitulo; 
+	private JTextArea txtaSumario; 
+	private JTextArea txtaResumo; 
+	private JButton btnAddCarrinho; 
+	private JButton btnVoltar; 
 	
 	
 	public FrmDetalhe(JFrame janelaAnterior, int opt, ArrayList<String> isbn, final List<Livro> livros) {

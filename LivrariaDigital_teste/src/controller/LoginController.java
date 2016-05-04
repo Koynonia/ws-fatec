@@ -15,73 +15,110 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import boundary.FrmLogin;
-import boundary.FrmPrincipal;
 import boundary.FrmUsuario;
+import dao.ArquivoSessao;
 import dao.ArquivoUsuario;
+import entity.Sessao;
 import entity.Usuario;
 
 
 public class LoginController implements ComponentListener {
 
-	private FrmLogin janela;
-	private FrmUsuario janelaUsuario;
-	private JTextField txtId; 
-	private JTextField txtUsuario;
-	private JPasswordField autorizadoSenha; 
-	private JButton btnCadastrar;
+	private FrmLogin janela; 
+	private FrmUsuario janelaUsuario; 
+	private JTextArea txtaAviso; 
+	private JTextField txtUsuario; 
+	private JPasswordField pwdSenha; 
+	private JLabel lblUsuario; 
+	private JLabel lblSenha; 
+	private JButton btnCadastrar; 
+	private JButton btnEntrar; 
 	private String diretorio = "../LivrariaDigital_teste/";
 	private String arquivo = "usuario";
 	private List<Usuario> usuarios;
+	private List<Sessao> usuarioAtivo;
 	private ArquivoUsuario dao = new ArquivoUsuario();
+	private ArquivoSessao daoSessao = new ArquivoSessao();
 	private SessaoController logon = SessaoController.getInstance();
 	private static int contador = 1;
 	private boolean validar;
 
 	public LoginController (
-			FrmLogin janela,  
-			JTextField txtId, 
+			FrmLogin janela, 
+			JTextArea txtaAviso, 
 			JTextField txtUsuario, 
-			JPasswordField autorizadoSenha, 
+			JPasswordField pwdSenha, 
+			JLabel lblUsuario, 
+			JLabel lblSenha, 
 			JButton btnCadastrar, 
 			JButton btnEntrar
 			) {
 
 		this.janela = janela;
-		this.txtId = txtId;
+		this.txtaAviso = txtaAviso;
 		this.txtUsuario = txtUsuario;
-		this.autorizadoSenha = autorizadoSenha;
+		this.pwdSenha = pwdSenha;
+		this.lblUsuario = lblUsuario;
+		this.lblSenha = lblSenha;
 		this.btnCadastrar = btnCadastrar;
+		this.btnEntrar = btnEntrar;
 		this.usuarios = new ArrayList<Usuario>();
+		this.usuarioAtivo = new ArrayList<Sessao>();
 
+		lerSessao();
 		lerUsuarios();
+		configurarTela();
 	}
 	
 	
 	// METODOS DE SUPORTE ////////////////////////
-
-	public void limpaCampos() {
-
-		txtId.setText(null);
-		txtUsuario.setText(null);
-		autorizadoSenha.setText(null);
+	
+	public void configurarTela(){
+		
+		if ( !logon.getLogon().isEmpty() ){
+			
+			lblUsuario.setVisible(false);
+			lblSenha.setVisible(false);
+			txtUsuario.setVisible(false);
+			pwdSenha.setVisible(false);
+			btnCadastrar.setVisible(false);
+			btnEntrar.setText("Sair");
+			txtaAviso.setVisible(true);
+			txtaAviso.setText(
+					"Olá "+ usuarioAtivo.get(0).getUsuario() 
+					+ "!\n\nVocê pode sair da Livraria Digital "
+					+ "e retornar no momento que preferir…");
+			
+		} else {
+			
+			lblUsuario.setVisible(true);
+			lblSenha.setVisible(true);
+			txtUsuario.setVisible(true);
+			pwdSenha.setVisible(true);
+			btnCadastrar.setVisible(true);
+			btnEntrar.setText("Entrar");
+		}
 	}
 
 
-	public boolean validar(String validaSenha) {  
+	public boolean validarSenha( String validaSenha ) {  
 
 		if (validaSenha != null){
-			char[] senha = autorizadoSenha.getPassword();
+			char[] senha = pwdSenha.getPassword();
 			if (senha.length != validaSenha.length()) {  
 				return false;
 			} else {  
@@ -116,7 +153,42 @@ public class LoginController implements ComponentListener {
 
 	// CRUD //////////////////////////
 
+	public void entrar() {
 
+		if ( btnEntrar.getText().equals("Entrar") ){
+
+			if (!txtUsuario.getText().isEmpty() 
+					&& pwdSenha.getPassword().length != 0) {
+				for (int i = 0; i < usuarios.size(); i++) {
+					if (txtUsuario.getText().equalsIgnoreCase(usuarios.get(i).getUsuario())
+							&& validarSenha(usuarios.get(i).getSenha()) == true) {
+
+						logon.registrar( 
+								usuarios.get(i).getId(), 
+								usuarios.get(i).getUsuario(), 
+								usuarios.get(i).getNivel(), 
+								janela.getName());				
+						validar = true;
+						fechar();
+						msg("autorizado", txtUsuario.getText());
+					} 			
+				}				
+				if (validar == false){
+					msg("erroSenha", txtUsuario.getText());
+					//limpaCampos();
+				} 
+			} else {	
+				msg("erroVazio", txtUsuario.getText());
+			}
+			validar = false;
+		} else {
+			logon.setLogon(""); //ALTERANDO
+			encerraSessao( usuarioAtivo );
+			fechar();
+		}
+	}
+	
+	
 	public void lerUsuarios() {
 
 		String linha = new String();
@@ -144,32 +216,48 @@ public class LoginController implements ComponentListener {
 		}
 	}
 
+	public void lerSessao(){
 
-	public void entrar() {
-
-		if (!txtUsuario.getText().isEmpty() 
-				&& autorizadoSenha.getPassword().length != 0) {
-			for (int i = 0; i < usuarios.size(); i++) {
-				if (txtUsuario.getText().equalsIgnoreCase(usuarios.get(i).getUsuario())
-						&& validar(usuarios.get(i).getSenha()) == true) {
-					logon.registrar( 
-							usuarios.get(i).getId(), 
-							usuarios.get(i).getUsuario(), 
-							usuarios.get(i).getNivel(), 
-							janela.getName());				
-					validar = true;
-					fechar();
-					msg("autorizado", txtUsuario.getText());
-				} 			
-			}				
-			if (validar == false){
-				msg("erroSenha", txtUsuario.getText());
-				//limpaCampos();
-			} 
-		} else {	
-			msg("erroVazio", txtUsuario.getText());
+		String linha = new String();
+		ArrayList<String> listaString = new ArrayList<>();
+		try {
+			daoSessao.lerArquivo(diretorio + "data/", "log");
+			linha = daoSessao.getBuffer();
+			String[] log = linha.split(";");
+			for ( String l : log ) {
+				String text = l.replaceAll(".*: ", "");
+				listaString.add( text );
+				if (l.contains("---")) {
+					Sessao sessao = new Sessao();
+					sessao.setId( listaString.get(0) );
+					sessao.setUsuario( listaString.get(1) );
+					sessao.setNivel( listaString.get(2) );
+					sessao.setHora( listaString.get(3) );
+					sessao.setTela( listaString.get(4) );
+					usuarioAtivo.add( sessao );
+					listaString.clear();
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		validar = false;
+	}
+	
+	public void encerraSessao(List<Sessao> log){
+
+		for (int i = 0; i < usuarioAtivo.size(); i++) {
+			usuarioAtivo.remove(i);		
+		}
+		
+		File f = new File(diretorio + "data/" + "log" );
+		f.delete();
+		for (Sessao usuarioAtivo : log) {
+			try {
+				daoSessao.escreverArquivo(diretorio  + "data/", "log", "", usuarioAtivo);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	

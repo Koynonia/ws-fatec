@@ -110,7 +110,7 @@ public class ListaController implements ComponentListener {
 		this.btnProximo = btnProximo;
 		this.btnVoltar = btnVoltar;
 		
-		escreverTela();
+		configurarTela();
 	}
 	
 	
@@ -208,7 +208,7 @@ public class ListaController implements ComponentListener {
 	
 	// CRUD //////////////////////////////
 	
-	public void escreverTela(){
+	public void configurarTela(){
 
 		lerCarrinho();
 		ativarCampos( "desativarCapas" );
