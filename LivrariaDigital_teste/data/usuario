@@ -1,15 +1,15 @@
 ID     : USR151114-151547
 Usuario: Admin
 Senha  : admin
-Nível  : Administrativo
+Nível  : Administrador
 ---------------------------
 ID     : USR151114-151548
 Usuario: Teste
 Senha  : 1234
-Nível  : Operacional
+Nível  : Usuario
 ---------------------------
 ID     : USR151117-222821
 Usuario: Fernando
 Senha  : 1234
-Nível  : Operacional
+Nível  : Usuario
 ---------------------------

@@ -1,18 +1,18 @@
-ISBN            : 9788535250299
-Título          : Introdução ao Design e Arquitetura de Software
-Autor           : Paulo Silveira, Guilherme Moreira, Sérgio Lopes, Guilherme Moreira, Nico Steppat, Fábio Kung
-Editora         : Campus
-Data Publicação : 01/01/2012
-Capa            : Dura
-Páginas         : 280
-Categoria       : Engenharia de Software
-Sumário         : null
-Resumo          : A proposta deste livro é apresentar a plataforma em um nível de detalhamento não encontrado em nenhum outro no mercado, desde a descrição do bytecode e da JVM até a possibilidade de utilização de outras linguagens.
-Preço Custo     : 100.71
-Preço Venda     : 111.9
-Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/imagem/9788535250299.jpg
+ISBN            : 9788576572633
+Título          : Star Wars - Sombras do Império
+Autor           : Steve Perry
+Editora         : Aleph
+Data Publicação : 01/01/2015
+Capa            : Brochura
+Páginas         : 448
+Categoria       : Ficção Científica
+Sumário         : Para atender a ordem do imperador Palpatine, o Lorde Sombrio une seus esforços a Xizor, poderoso líder de uma organização criminosa. Mas Vader não é o único a querer as graças do imperador, e seus planos podem ser colocados em risco, já que o chamado Príncipe Negro pode ter outros interesses nessa empreitada.
+Resumo          : São tempos sombrios na galáxia. Enquanto a princesa Leia organiza uma missão para resgatar Han Solo do terrível Jabba, o Hutt, Darth Vader vasculha a galáxia atrás de Luke Skywalker, com o objetivo de recrutá-lo para o lado sombrio da Força
+Preço Custo     : 19.88
+Preço Venda     : 39.9
+Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/imagem/9788576572633.jpg
 Data Cadastro   : 02/05/2016 23:55:23
-Data Alterado   : 03/05/2016 00:33:37
+Data Alterado   : 04/05/2016 02:10:26
 --------------------------------------
 ISBN            : 9788535226263
 Título          : Princípios de Análise e Projeto de Sistemas com UML
@@ -95,7 +95,7 @@ Data Cadastro   : 29/04/2016 13:44:51
 Data Alterado   : 03/05/2016 00:54:24
 --------------------------------------
 ISBN            : 9788576572091
-Título          : Provação
+Título          : Star Wars - Provação
 Autor           : Troy Denning
 Editora         : Aleph
 Data Publicação : 01/01/2015
@@ -108,7 +108,7 @@ Preço Custo     : 19.89
 Preço Venda     : 39.9
 Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/imagem/9788576572091.jpg
 Data Cadastro   : 29/04/2015 04:12:51
-Data Alterado   : 03/05/2016 00:56:02
+Data Alterado   : 04/05/2016 01:52:27
 --------------------------------------
 ISBN            : 9788573516906
 Título          : Guerra Civil

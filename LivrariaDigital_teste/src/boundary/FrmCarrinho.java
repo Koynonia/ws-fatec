@@ -68,6 +68,7 @@ public class FrmCarrinho extends JFrame {
 		setTitle("Carrinho");
 		setResizable(false);
 		setAlwaysOnTop (true);
+		setUndecorated(true);
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 768, 480);
 		setLocationRelativeTo(null);

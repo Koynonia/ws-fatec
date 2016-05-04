@@ -85,6 +85,7 @@ public class FrmPrincipal extends JFrame {
 		
 		painel = new JPanel();
 		setContentPane( painel );
+		painel.setName("Principal");
 		painel.setLayout(null);
 		
 		lblLogo = new JLabel("LIVRARIA DIGITAL");
@@ -119,7 +120,7 @@ public class FrmPrincipal extends JFrame {
 		painel.add(lblFiltro);
 		
 		btnLogin = new JButton("Entre ou Cadastre-se");
-		btnLogin.setBounds(668, 105, 160, 29);
+		btnLogin.setBounds(647, 105, 181, 29);
 		btnLogin.setVisible(true);
 		painel.add(btnLogin);
 
@@ -275,15 +276,15 @@ public class FrmPrincipal extends JFrame {
 		
 		//Acesso Administrador - para testes
 		lblLivro = new JLabel("Adiministrador:");
-		lblLivro.setBounds(710, 11, 98, 16);
+		lblLivro.setBounds(763, 11, 98, 16);
 		painel.add(lblLivro);
 
 		btnLivro = new JButton("Livros");
-		btnLivro.setBounds(812, 6, 117, 29);
+		btnLivro.setBounds(873, 6, 117, 29);
 		painel.add(btnLivro);
 
 		btnSair = new JButton("Sair");
-		btnSair.setBounds(812, 36, 117, 29);
+		btnSair.setBounds(873, 36, 117, 29);
 		painel.add(btnSair);
 		
 		
@@ -294,7 +295,8 @@ public class FrmPrincipal extends JFrame {
 				txtPesquisar, 
 				btnLogin, 
 				btnCarrinho, 
-				btnLivro,
+				btnLivro, 
+				lblLivro, 
 				lblLivroLanc_1, 
 				lblLivroLanc_2, 
 				lblLivroLanc_3, 
@@ -329,5 +331,6 @@ public class FrmPrincipal extends JFrame {
 		lblLivroVend_6.addMouseListener(principalCtrl.clique);
 		txtPesquisar.addKeyListener(principalCtrl.tecla);
 		btnCarrinho.addFocusListener(principalCtrl.foco);
+		btnLogin.addFocusListener(principalCtrl.foco);
 	}
 }

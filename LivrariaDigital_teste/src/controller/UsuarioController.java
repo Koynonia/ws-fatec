@@ -24,13 +24,11 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import boundary.FrmLogin;
 import boundary.FrmPrincipal;
 import boundary.FrmUsuario;
 import dao.ArquivoUsuario;
@@ -40,7 +38,7 @@ import entity.Usuario;
 
 public class UsuarioController implements ComponentListener {
 
-	private FrmLogin janela;
+	private FrmUsuario janela;
 	private JPanel painel;
 	private FrmPrincipal janelaPrincipal;
 	private JTextField txtId, txtUsuario;
@@ -58,6 +56,7 @@ public class UsuarioController implements ComponentListener {
 	private SessaoController logon = SessaoController.getInstance();
 
 	public UsuarioController (
+			FrmUsuario janela, 
 			JPanel painel, 
 			JTextField txtId, 
 			JTextField txtUsuario, 
@@ -69,6 +68,7 @@ public class UsuarioController implements ComponentListener {
 			JButton btnEntrar
 			) {
 
+		this.janela = janela;
 		this.painel = painel;
 		this.txtId = txtId;
 		this.txtUsuario = txtUsuario;
@@ -82,6 +82,7 @@ public class UsuarioController implements ComponentListener {
 
 		lerArquivo();
 	}
+	
 
 
 	// METODOS DE SUPORTE ////////////////////////
@@ -135,10 +136,8 @@ public class UsuarioController implements ComponentListener {
 				FrmPrincipal principal;
 				principal = new FrmPrincipal();
 				principal.setVisible(true);
-				fechar();
 			} else {
 				janelaPrincipal.setVisible(true);
-				fechar();
 			}
 			break;
 		}
@@ -587,7 +586,6 @@ public class UsuarioController implements ComponentListener {
 		public void actionPerformed(ActionEvent e) {
 
 			entrar();
-			fechar();
 		}
 	};
 

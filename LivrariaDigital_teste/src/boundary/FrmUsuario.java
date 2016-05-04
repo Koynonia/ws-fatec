@@ -13,7 +13,6 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
-import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -63,10 +62,11 @@ public class FrmUsuario extends JFrame {
 		setTitle("Administrar Usuários");
 		setResizable(false);
 		setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
+		setLocationRelativeTo(null);
 		setBounds(100, 100, 540, 250);
+		
 		painel = new JPanel();
 		painel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setLocation(0,0);
 		setContentPane(painel);
 		painel.setLayout(null);
 
@@ -124,22 +124,23 @@ public class FrmUsuario extends JFrame {
 		painel.add(chckbxOpera);
 		
 		btnCadastrar = new JButton("Cadastrar");
-		btnCadastrar.setBounds(397, 166, 97, 34);
+		btnCadastrar.setBounds(397, 166, 117, 29);
 		painel.add(btnCadastrar);
 
 		btnEditar = new JButton("Editar");
-		btnEditar.setBounds(288, 166, 97, 34);
+		btnEditar.setBounds(288, 166, 117, 29);
 		painel.add(btnEditar);
 
 		btnPesquisar = new JButton("Pesquisar");
-		btnPesquisar.setBounds(288, 47, 97, 34);
+		btnPesquisar.setBounds(288, 47, 117, 29);
 		painel.add(btnPesquisar);
 
 		btnApagar = new JButton("Excluir");
-		btnApagar.setBounds(180, 166, 97, 34);
+		btnApagar.setBounds(180, 166, 117, 29);
 		painel.add(btnApagar);
 		
-		UsuarioController controle = new UsuarioController( 
+		UsuarioController userCtrl = new UsuarioController( 
+				this, 
 				painel, 
 				txtId, 
 				txtUsuario, 
@@ -150,13 +151,13 @@ public class FrmUsuario extends JFrame {
 				btnCadastrar, 
 				btnEntrar);
 		
-		controle.gerarId();
-		txtUsuario.addMouseListener(controle.limpaCampo);
-		txtUsuario.addActionListener(controle.pesquisar);
-		pwdSenha.addActionListener(controle.gravar);
-		btnPesquisar.addActionListener(controle.pesquisar);
-		btnApagar.addActionListener(controle.excluir);
-		btnEditar.addActionListener(controle.editar);
-		btnCadastrar.addActionListener(controle.gravar);
+		userCtrl.gerarId();
+		txtUsuario.addMouseListener(userCtrl.limpaCampo);
+		txtUsuario.addActionListener(userCtrl.pesquisar);
+		pwdSenha.addActionListener(userCtrl.gravar);
+		btnPesquisar.addActionListener(userCtrl.pesquisar);
+		btnApagar.addActionListener(userCtrl.excluir);
+		btnEditar.addActionListener(userCtrl.editar);
+		btnCadastrar.addActionListener(userCtrl.gravar);
 	}
 }

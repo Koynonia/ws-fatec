@@ -19,6 +19,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -42,7 +43,9 @@ import boundary.FrmLivro;
 import boundary.FrmLogin;
 import dao.ArquivoCarrinho;
 import dao.ArquivoLivro;
+import dao.ArquivoSessao;
 import entity.Livro;
+import entity.Sessao;
 
 public class PrincipalController implements ComponentListener {
 	
@@ -58,6 +61,7 @@ public class PrincipalController implements ComponentListener {
 	private JButton btnLogin; 
 	private JButton btnCarrinho;
 	private JButton btnLivro;
+	private JLabel lblLivro; 
 	private JLabel lblLivroLanc_1;
 	private JLabel lblLivroLanc_2;
 	private JLabel lblLivroLanc_3;
@@ -70,16 +74,18 @@ public class PrincipalController implements ComponentListener {
 	private JLabel lblLivroVend_4;
 	private JLabel lblLivroVend_5;
 	private JLabel lblLivroVend_6;
-	private boolean validar;
 	private String diretorio = "../LivrariaDigital_teste/";
 	private String arquivo = "livro";
 	private String arquivo2 = "carrinho";
 	private String imagem;
+	private boolean validar;
 	private int opt;
 	private ArquivoLivro dao = new ArquivoLivro();
+	private ArquivoSessao daoSessao = new ArquivoSessao();
 	private OrdenaLivro ordenar = new OrdenaLivro();
 	private List<Livro> livros;
 	private List<Livro> livrosVendidos;
+	private List<Sessao> logon;
 	private ArrayList<String> isbn = new ArrayList<>();
 	
 	public PrincipalController(
@@ -90,6 +96,7 @@ public class PrincipalController implements ComponentListener {
 			JButton btnLogin, 
 			JButton btnCarrinho, 
 			JButton btnLivro, 
+			JLabel lblLivro,
 			JLabel lblLivroLanc_1, 
 			JLabel lblLivroLanc_2, 
 			JLabel lblLivroLanc_3, 
@@ -111,6 +118,7 @@ public class PrincipalController implements ComponentListener {
 		this.btnLogin = btnLogin;
 		this.btnCarrinho = btnCarrinho;
 		this.btnLivro = btnLivro;
+		this.lblLivro = lblLivro;
 		this.lblLivroLanc_1 = lblLivroLanc_1;
 		this.lblLivroLanc_2 = lblLivroLanc_2;
 		this.lblLivroLanc_3 = lblLivroLanc_3;
@@ -125,14 +133,17 @@ public class PrincipalController implements ComponentListener {
 		this.lblLivroVend_6 = lblLivroVend_6;
 		this.livros = new ArrayList<Livro>();
 		this.livrosVendidos = new ArrayList<Livro>();
+		this.logon = new ArrayList<Sessao>();
 		
 		
+		lerSessao();
 		lerArquivo();
 		Collections.sort( livros, Collections.reverseOrder( ordenar ) );
 		lerCarrinho();
 		livrosSpot();
 		preencherFiltro();
 		focarCampo();
+		login();
 	}
 	
 	
@@ -144,6 +155,21 @@ public class PrincipalController implements ComponentListener {
 		});
 	}
 	
+	public void login(){
+
+		lblLivro.setVisible(false);
+		btnLivro.setVisible(false);
+
+		//será alterado quando a classe usuario estiver pronta…
+		for ( int i = 0; i < logon.size(); i++ ){
+			btnLogin.setText("Bem-vindo, " + logon.get(i).getUsuario() + "!");
+			if ( logon.get(i).getNivel().equalsIgnoreCase("Administrador") ){
+				lblLivro.setVisible(true);
+				btnLivro.setVisible(true);
+			}
+		}
+	}
+
 	
 	public void livrosSpot(){
 		
@@ -429,6 +455,52 @@ public class PrincipalController implements ComponentListener {
 	}
 	
 	
+	public void lerSessao(){
+		
+		String linha = new String();
+		ArrayList<String> listaString = new ArrayList<>();
+		try {
+			daoSessao.lerArquivo(diretorio + "data/", "log");
+			linha = daoSessao.getBuffer();
+			String[] log = linha.split(";");
+			for ( String l : log ) {
+				String text = l.replaceAll(".*: ", "");
+				listaString.add( text );
+				if (l.contains("---")) {
+					Sessao sessao = new Sessao();
+					sessao.setId( listaString.get(0) );
+					sessao.setUsuario( listaString.get(1) );
+					sessao.setNivel( listaString.get(2) );
+					sessao.setHora( listaString.get(3) );
+					sessao.setTela( listaString.get(4) );
+					logon.add( sessao );
+					listaString.clear();
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public void encerraSessao(List<Sessao> log){
+
+		for (int i = 0; i < logon.size(); i++) {
+			logon.remove(i);		
+		}
+		
+		File f = new File(diretorio + "data/" + "log" );
+		f.delete();
+		for (Sessao logon : log) {
+			try {
+				daoSessao.escreverArquivo(diretorio  + "data/", "log", "", logon);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	
 	public void lerArquivo() {
 
 		//FILTRA E CARREGA O ARRAY COM A BASE DE DADOS
@@ -547,7 +619,7 @@ public class PrincipalController implements ComponentListener {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				encerraSessao( logon );
 				sair();
 			}
 		};
@@ -653,6 +725,7 @@ public class PrincipalController implements ComponentListener {
 			@Override
 			public void focusGained(FocusEvent e) {
 				lerCarrinho();
+				login();
 			}
 
 			@Override

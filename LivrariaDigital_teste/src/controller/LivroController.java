@@ -77,6 +77,7 @@ public class LivroController implements ComponentListener{
 	private JComboBox<String> cboEditora;
 	private JComboBox<String> cboTipoCapa;
 	private JComboBox<String> cboCategoria;
+	private JButton btnImagem; 
 	private JButton btnAnterior; 
 	private JButton btnProximo; 
 	private JButton btnLimpar; 
@@ -123,6 +124,7 @@ public class LivroController implements ComponentListener{
 			JComboBox<String> cboEditora, 
 			JComboBox<String> cboTipoCapa, 
 			JComboBox<String> cboCategoria, 
+			JButton btnImagem, 
 			JButton btnAnterior, 
 			JButton btnProximo, 
 			JButton btnLimpar,
@@ -158,6 +160,7 @@ public class LivroController implements ComponentListener{
 		this.cboEditora = cboEditora;
 		this.cboTipoCapa = cboTipoCapa;
 		this.cboCategoria = cboCategoria;
+		this.btnImagem = btnImagem;
 		this.btnAnterior = btnAnterior;
 		this.btnProximo = btnProximo;
 		this.btnLimpar = btnLimpar;
@@ -180,6 +183,8 @@ public class LivroController implements ComponentListener{
 		navegar();
 	}
 	
+	
+	// METODOS DE SUPORTE ////////////////////////
 	
 	public void carregarCapa(){
 		ImageIcon capa = new ImageIcon( imagem );
@@ -213,6 +218,7 @@ public class LivroController implements ComponentListener{
 
 		case "protegerCampos":
 			
+			btnImagem.setEnabled(false);
 			btnLimpar.setText("Novo");
 			btnCancelar.setVisible(false);
 			btnEditar.setText("Editar");
@@ -256,11 +262,12 @@ public class LivroController implements ComponentListener{
 
 		case "desprotegerCampos":
 			
-			btnLimpar.setText("Novo");
+			btnImagem.setEnabled(true);
+			btnLimpar.setText("Limpar");
 			btnCancelar.setVisible(true);
-			btnEditar.setText("Editar");
+			btnEditar.setText("Salvar");
 			btnEditar.setVisible(true);
-			btnExcluir.setVisible(false);
+			btnExcluir.setVisible(true);
 			btnSalvar.setVisible(false);
 			btnAnterior.setVisible(false);
 			btnProximo.setVisible(false);
@@ -298,9 +305,6 @@ public class LivroController implements ComponentListener{
 			break;		
 		}
 	}
-	
-	
-	// METODOS DE SUPORTE ////////////////////////
 	
 	public void calcularMargem(){
 		
@@ -1108,13 +1112,9 @@ public class LivroController implements ComponentListener{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (!btnExcluir.isVisible()){
-					btnEditar.setText("Salvar");
-					btnExcluir.setVisible(true);
-					btnCancelar.setVisible(true);
 					alterarCampos ("desprotegerCampos");
 				} else {
 					editar();
-//					alterarBotao();
 					alterarCampos ("protegerCampos");
 				}
 			}
@@ -1165,6 +1165,7 @@ public class LivroController implements ComponentListener{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				limparCampos();
+				alterarCampos ("desprotegerCampos");
 			}
 		};
 		

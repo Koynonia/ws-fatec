@@ -8,40 +8,37 @@
 
 package boundary;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
 
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JFrame;
-import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JSeparator;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 
-import controller.UsuarioController;
+import controller.LoginController;
 
+@SuppressWarnings("serial")
 public class FrmLogin extends JFrame {
 
-
-	private static final long serialVersionUID = 1L;
 	private JPanel painel;
 	private JTextField txtId;
 	private JTextField txtUsuario;
-	private JLabel lblId; 
+	private JSeparator linha;
+	private JLabel lblLogo; 
+	private JLabel lblPagina; 
 	private JLabel lblUsuario; 
 	private JLabel lblSenha;
-	private JButton btnNovo; 
+	private JButton btnCancelar; 
+	private JButton btnCadastrar; 
 	private JButton btnEntrar;
 	private JPasswordField pwdSenha;  
-	private JPasswordField pwdSenha2; 
-	private JCheckBox chckbxAdm; 
-	private JCheckBox chckbxOpera;
-	private final ButtonGroup buttonGroup = new ButtonGroup();
 	
 	
 	public static void main(String[] args) {
@@ -59,85 +56,82 @@ public class FrmLogin extends JFrame {
 	
 	public FrmLogin() {
 		setTitle("Login da Loja");
+		setName("Login");
 		setResizable(false);
-		//setUndecorated(true);
+		setUndecorated(true);
 		setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
 		setBounds(100, 100, 540, 250);
 		setLocationRelativeTo(null);
+		
 		painel = new JPanel();
-		painel.setName("USR");
+		setContentPane(painel);
 		painel.setLayout(null);
 		painel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(painel);
-
-		lblId = new JLabel("ID");
-		lblId.setVisible(false);
-		lblId.setBounds(36, 34, 61, 16);
-		painel.add(lblId);
-
-		txtId = new JTextField();
-		txtId.setEnabled(false);
-		txtId.setEditable(false);
-		txtId.setVisible(false);
-		txtId.setBounds(98, 32, 178, 20);
-		txtId.setHorizontalAlignment(SwingConstants.CENTER);
-		txtId.setColumns(10);
-		painel.add(txtId);
+		
+		linha = new JSeparator();
+		linha.setBounds(6, 51, 528, 12);
+		painel.add(linha);
+		
+		lblLogo = new JLabel("LIVRARIA DIGITAL");
+		lblLogo.setForeground(Color.GRAY);
+		lblLogo.setFont(new Font("Bauhaus 93", Font.PLAIN, 40));
+		lblLogo.setBounds(16, 16, 314, 45);
+		painel.add(lblLogo);
+		
+		lblPagina = new JLabel("Login");
+		lblPagina.setEnabled(false);
+		lblPagina.setFont(new Font("Century Gothic", Font.BOLD, 17));
+		lblPagina.setBounds(465, 31, 49, 20);
+		painel.add(lblPagina);
 		
 		lblUsuario = new JLabel("Usuário");
-		lblUsuario.setBounds(36, 71, 61, 16);
+		lblUsuario.setBounds(16, 84, 61, 16);
 		painel.add(lblUsuario);
 
 		txtUsuario = new JTextField();
 		txtUsuario.setToolTipText("Digite aqui o usuário…");
-		txtUsuario.setBounds(98, 65, 178, 28);
+		txtUsuario.setBounds(78, 78, 178, 28);
 		painel.add(txtUsuario);
 		txtUsuario.setColumns(10);
 		
 		lblSenha = new JLabel("Senha");
-		lblSenha.setBounds(36, 111, 61, 16);
+		lblSenha.setBounds(16, 122, 61, 16);
 		painel.add(lblSenha);
 		
 		pwdSenha = new JPasswordField();
 		pwdSenha.setToolTipText("Digite aqui a senha…");
-		pwdSenha.setBounds(98, 105, 178, 28);
+		pwdSenha.setBounds(78, 118, 178, 28);
 		painel.add(pwdSenha);
 		
-		chckbxAdm = new JCheckBox("Administrativo");
-		buttonGroup.add(chckbxAdm);
-		chckbxAdm.setVisible(false);
-		chckbxAdm.setBounds(366, 32, 128, 23);
-		painel.add(chckbxAdm);
+		btnCancelar = new JButton("Cancelar");
+		btnCancelar.setBounds(139, 194, 117, 29);
+		painel.add(btnCancelar);
 		
-		chckbxOpera = new JCheckBox("Operacional");
-		buttonGroup.add(chckbxOpera);
-		chckbxOpera.setVisible(false);
-		chckbxOpera.setBounds(366, 55, 128, 23);
-		painel.add(chckbxOpera);
-		
-		btnNovo = new JButton("Novo");
-		btnNovo.setBounds(286, 166, 97, 34);
-		painel.add(btnNovo);
+		btnCadastrar = new JButton("Cadastrar");
+		btnCadastrar.setBounds(268, 194, 117, 29);
+		painel.add(btnCadastrar);
 
 		btnEntrar = new JButton("Entrar");
-		btnEntrar.setBounds(397, 166, 97, 34);
+		btnEntrar.setBounds(397, 194, 117, 29);
 		painel.add(btnEntrar);
 
-		UsuarioController usuarioCtrl = new UsuarioController( 
-				painel, 
+		LoginController loginCtrl = new LoginController( 
+				this,
 				txtId, 
 				txtUsuario, 
 				pwdSenha, 
-				pwdSenha2, 
-				chckbxAdm, 
-				chckbxOpera, 
-				btnNovo, 
+				btnCadastrar, 
 				btnEntrar);
+		
 
-		txtUsuario.addMouseListener(usuarioCtrl.limpaCampo);
-		txtUsuario.addActionListener(usuarioCtrl.entrar);
-		pwdSenha.addActionListener(usuarioCtrl.entrar);
-		btnEntrar.addActionListener(usuarioCtrl.entrar);
-		btnNovo.addActionListener(usuarioCtrl.cadastrar);
+		txtUsuario.addMouseListener(loginCtrl.limpaCampo);
+		txtUsuario.addActionListener(loginCtrl.entrar);
+		pwdSenha.addActionListener(loginCtrl.entrar);
+		btnCancelar.addActionListener(loginCtrl.fechar);
+		btnEntrar.addActionListener(loginCtrl.entrar);
+		btnCadastrar.addActionListener(loginCtrl.janelas);
+		txtUsuario.addKeyListener(loginCtrl.tecla);
+		pwdSenha.addKeyListener(loginCtrl.tecla);
+		btnEntrar.addKeyListener(loginCtrl.tecla);
 	}
 }
