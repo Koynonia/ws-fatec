@@ -251,7 +251,6 @@ public class FrmLivro extends JFrame {
 		painel.add(lblSumario);
 		
 		txtaSumario = new JTextArea();
-//		txtaSumario .setFont(new Font("Serif", Font.ITALIC, 16));
 		txtaSumario .setLineWrap(true);
 		txtaSumario .setWrapStyleWord(true);
 		txtaSumario.setBounds(431, 389, 546, 66);
@@ -262,7 +261,6 @@ public class FrmLivro extends JFrame {
 		painel.add(lblResumo);
 		
 		txtaResumo = new JTextArea(10, 20);
-//		txtaResumo.setFont(new Font("Serif", Font.ITALIC, 16));
 		txtaResumo.setLineWrap(true);
 		txtaResumo.setWrapStyleWord(true);
 		txtaResumo.setBounds(431, 475, 546, 66);

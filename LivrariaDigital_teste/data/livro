@@ -126,22 +126,6 @@ Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/ima
 Data Cadastro   : 29/04/2016 23:21:13
 Data Alterado   : 03/05/2016 00:56:23
 --------------------------------------
-ISBN            : 9788576081739
-Título          : Use a Cabeça Java
-Autor           : Kathy Sierra
-Editora         : Alta Books
-Data Publicação : 01/01/2005
-Capa            : Brochura
-Páginas         : 470
-Categoria       : Programação
-Sumário         : Projetado de acordo com princípios de aprendizado mentalmente amigáveis, este livro o mostrará tudo, dos aspectos básico da linguagem a tópicos avançados que incluem segmentos, soquetes de rede e programação distribuída. O mais importante...
-Resumo          : 'Use a Cabeça Java' é uma experiência completa de aprendizado em programação orientada a objetos (OO) e Java.
-Preço Custo     : 119.2
-Preço Venda     : 149.0
-Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/imagem/9788576081739.jpeg
-Data Cadastro   : 30/04/2016 23:54:18
-Data Alterado   : 30/04/2016 23:54:18
---------------------------------------
 ISBN            : 9788544102923
 Título          : A Guerra dos Tronos - Livro Um
 Autor           : George R. R. Martin
@@ -157,4 +141,20 @@ Preço Venda     : 49.9
 Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/imagem/9788544102923.jpg
 Data Cadastro   : 02/05/2016 04:51:31
 Data Alterado   : 03/05/2016 00:56:36
+--------------------------------------
+ISBN            : 9788576081739
+Título          : Use a Cabeça! Java
+Autor           : Kathy Sierra
+Editora         : Alta Books
+Data Publicação : 01/01/2007
+Capa            : Brochura
+Páginas         : 496
+Categoria       : Programação
+Sumário         : Kathy Sierra é desenvolvedora de softwares (jogos e inteligência artificial) e instrutora mestre na Sun Microsytems, ensinando a instrutores de Java como transmitir as últimas tecnologias para os clientes
+Resumo          : Se o seu intuito é ficar entediado, compre outro livro. Mas se quiser realmente aprender Java, você precisa de Use a Cabeça Java. Descubra por que os livros da série se a Cabeça foram selecionados para o Amazon Editor Choice que indicou os dez melhores livros de computação de 2003 e 2004.
+Preço Custo     : 160.9
+Preço Venda     : 225.0
+Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/imagem/9788576081739.jpeg
+Data Cadastro   : 04/05/2016 23:22:03
+Data Alterado   : 04/05/2016 23:22:03
 --------------------------------------

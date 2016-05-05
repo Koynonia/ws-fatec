@@ -21,7 +21,7 @@ import entity.Sessao;
 import dao.Arquivo;
 import dao.ArquivoSessao;
 
-public class SessaoController implements Arquivo {
+public class SessaoController {
 
 	// Variável estática que conterá a instancia da classe
 	private static SessaoController instance;
@@ -32,12 +32,15 @@ public class SessaoController implements Arquivo {
 
 	// Construtor privado (suprime o construtor público padrão).
 	private SessaoController() {
-		
+
 		new ArrayList<Usuario>();
 		this.setLogon(new ArrayList<Sessao>());
-		
-		lerSession();
+
+		carregar();
 	}
+	
+	
+	// METODOS DE SUPORTE ///////////////
 
 	// Método público estático de acesso único ao objeto!
 	public static SessaoController getInstance() {
@@ -45,37 +48,37 @@ public class SessaoController implements Arquivo {
 			instance = new SessaoController();
 		return instance;
 	}
-
 	
-	// METODOS DE SUPORTE ////////////////////////
-
-	public void msg(String tipo, String mensagem) {
-
-		switch (tipo) {
-
-		case "errorsession":
-			JOptionPane.showMessageDialog(null, 
-					"ACESSO NEGADO!\n\nPor favor, solicite a autorização de um administrador.", 
-					"Bloqueado", 
-					JOptionPane.PLAIN_MESSAGE,
-					new ImageIcon("../MASProject/icons/warning.png"));
-			break;
-
-		default:
-			JOptionPane.showMessageDialog(null, 
-					"ERRO! Algo não deveria ter acontecido…\n\nSessaoCtrl - Termo: " + mensagem
-					+ "\n\nOcorreu no Controller desta Tela.", 
-					"Erro no Controller", 
-					JOptionPane.PLAIN_MESSAGE,
-					new ImageIcon("../MASProject/icons/error.png"));
-		}
+	public List<Sessao> getLogon() {
+		return logon;
 	}
 
-public void lerSession() {
-		
+	public void setLogon(List<Sessao> logon) {
+		this.logon = logon;
+	}
+	
+	
+//	public boolean acesso() {
+//
+//		lerSession();
+//		boolean open;
+//		if (("Administrador").equalsIgnoreCase(getLogon().get(0).getNivel())){
+//			open = true;
+//		} else {
+//			//msg("errorsession", logon.get(0).getNivel());
+//			open = false;
+//		}
+//		return open;
+//	}
+	
+	
+	// CRUD //////////////////////////
+
+	public void carregar() {
+
 		String linha = new String();
 		ArrayList<String> list = new ArrayList<>();
-	
+
 		try {
 			dao.lerArquivo( diretorio + "data/", arquivo );
 			linha = dao.getBuffer();
@@ -99,10 +102,10 @@ public void lerSession() {
 	}
 
 	
-	public void atualizaSession(List<Sessao> lista) {
-		
+	public void atualizar(List<Sessao> lista) {
+
 		File f = new File( diretorio + "data/", arquivo );
-		f.delete();	
+		f.delete();
 		for (Sessao logon : lista) {
 			try {
 				dao.escreverArquivo(diretorio + "data/", arquivo, "", logon);
@@ -111,71 +114,53 @@ public void lerSession() {
 			}
 		}
 	}
-	
+
+
+	public void sair(){
+		getLogon().clear(); //APAGA A ULTIMA SESSAO
+		File f = new File( diretorio + "data/", arquivo );
+		f.delete();
+	}
 	
 
 	public String registrar(String id, String usuario, String acesso, String tela) {
-		
+
 		Sessao log = new Sessao();
 		Date date = new Date();
 
-					getLogon().clear(); //APAGA A ULTIMA SESSAO
-					log.setId(id);
-					log.setUsuario(usuario);
-					log.setNivel(acesso);
-					log.setHora(date.toString());
-					log.setTela(tela);
-					getLogon().add(log);
-					atualizaSession(getLogon());
-					return getLogon().get(0).getNivel();	
+		getLogon().clear(); //APAGA A ULTIMA SESSAO
+		log.setId(id);
+		log.setUsuario(usuario);
+		log.setNivel(acesso);
+		log.setHora(date.toString());
+		log.setTela(tela);
+		getLogon().add(log);
+		atualizar(getLogon());
+		return getLogon().get(0).getNivel();	
 	}
 	
 	
-	public boolean acesso() {
+	// MENSAGENS //////////////////////////////
 
-			lerSession();
-			boolean open;
-			if (("Administrativo").equalsIgnoreCase(getLogon().get(0).getNivel())){
-				open = true;
-			} else {
-				//msg("errorsession", logon.get(0).getNivel());
-				open = false;
-			}
-			return open;
+	public void msg(String tipo, String mensagem) {
+
+		switch (tipo) {
+
+		case "errorsession":
+			JOptionPane.showMessageDialog(null, 
+					"ACESSO NEGADO!\n\nPor favor, solicite a autorização de um administrador.", 
+					"Bloqueado", 
+					JOptionPane.PLAIN_MESSAGE,
+					new ImageIcon( diretorio + "/icons/warning.png"));
+			break;
+
+		default:
+			JOptionPane.showMessageDialog(null, 
+					"ERRO! Algo não deveria ter acontecido…\n\nSessaoCtrl - Termo: " + mensagem
+					+ "\n\nOcorreu no Controller desta Tela.", 
+					"Erro no Controller", 
+					JOptionPane.PLAIN_MESSAGE,
+					new ImageIcon( diretorio + "/icons/error.png"));
 		}
-
-	public List<Sessao> getLogon() {
-		return logon;
 	}
-
-	public void setLogon(List<Sessao> logon) {
-		this.logon = logon;
-	}
-
-	@Override
-	public void lerArquivo(String diretorio, String arquivo) throws IOException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void escreverArquivo(String diretorio, String arquivo, String texto,
-			Object object) throws IOException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void lerDiretorio(String diretorio) throws IOException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void excluirDadosArquivo(String diretorio, String arquivo,
-			String[] registro) throws IOException {
-		// TODO Auto-generated method stub
-		
-	} 
-	
 }

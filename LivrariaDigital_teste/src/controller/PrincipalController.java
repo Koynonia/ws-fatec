@@ -19,7 +19,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -43,9 +42,7 @@ import boundary.FrmLivro;
 import boundary.FrmLogin;
 import dao.ArquivoCarrinho;
 import dao.ArquivoLivro;
-import dao.ArquivoSessao;
 import entity.Livro;
-import entity.Sessao;
 
 public class PrincipalController implements ComponentListener {
 	
@@ -80,12 +77,11 @@ public class PrincipalController implements ComponentListener {
 	private String imagem;
 	private boolean validar;
 	private int opt;
+	private SessaoController logon = SessaoController.getInstance();
 	private ArquivoLivro dao = new ArquivoLivro();
-	private ArquivoSessao daoSessao = new ArquivoSessao();
 	private OrdenaLivro ordenar = new OrdenaLivro();
 	private List<Livro> livros;
 	private List<Livro> livrosVendidos;
-	private List<Sessao> usuarioAtivo;
 	private ArrayList<String> isbn = new ArrayList<>();
 	
 	public PrincipalController(
@@ -133,10 +129,9 @@ public class PrincipalController implements ComponentListener {
 		this.lblLivroVend_6 = lblLivroVend_6;
 		this.livros = new ArrayList<Livro>();
 		this.livrosVendidos = new ArrayList<Livro>();
-		this.usuarioAtivo = new ArrayList<Sessao>();
 		
 		
-		lerSessao();
+		logon.carregar();
 		lerArquivo();
 		Collections.sort( livros, Collections.reverseOrder( ordenar ) );
 		lerCarrinho();
@@ -159,11 +154,11 @@ public class PrincipalController implements ComponentListener {
 
 		lblLivro.setVisible(false);
 		btnLivro.setVisible(false);
-
-		//será alterado quando a classe usuario estiver pronta…
-		for ( int i = 0; i < usuarioAtivo.size(); i++ ){
-			btnLogin.setText("Bem-vindo, " + usuarioAtivo.get(i).getUsuario() + "!");
-			if ( usuarioAtivo.get(i).getNivel().equalsIgnoreCase("Administrador") ){
+		btnLogin.setText("Entrar");
+		
+		if ( logon.getLogon().size() > 0 ){
+			btnLogin.setText("Bem-vindo, " + logon.getLogon().get(0).getUsuario() + "!");
+			if ( logon.getLogon().get(0).getNivel().equalsIgnoreCase("Administrador") ){
 				lblLivro.setVisible(true);
 				btnLivro.setVisible(true);
 			}
@@ -455,52 +450,6 @@ public class PrincipalController implements ComponentListener {
 	}
 	
 	
-	public void lerSessao(){
-		
-		String linha = new String();
-		ArrayList<String> listaString = new ArrayList<>();
-		try {
-			daoSessao.lerArquivo(diretorio + "data/", "log");
-			linha = daoSessao.getBuffer();
-			String[] log = linha.split(";");
-			for ( String l : log ) {
-				String text = l.replaceAll(".*: ", "");
-				listaString.add( text );
-				if (l.contains("---")) {
-					Sessao sessao = new Sessao();
-					sessao.setId( listaString.get(0) );
-					sessao.setUsuario( listaString.get(1) );
-					sessao.setNivel( listaString.get(2) );
-					sessao.setHora( listaString.get(3) );
-					sessao.setTela( listaString.get(4) );
-					usuarioAtivo.add( sessao );
-					listaString.clear();
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	
-	public void encerraSessao(List<Sessao> log){
-
-		for (int i = 0; i < usuarioAtivo.size(); i++) {
-			usuarioAtivo.remove(i);		
-		}
-		
-		File f = new File(diretorio + "data/" + "log" );
-		f.delete();
-		for (Sessao usuarioAtivo : log) {
-			try {
-				daoSessao.escreverArquivo(diretorio  + "data/", "log", "", usuarioAtivo);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	
-	
 	public void lerArquivo() {
 
 		//FILTRA E CARREGA O ARRAY COM A BASE DE DADOS
@@ -619,7 +568,8 @@ public class PrincipalController implements ComponentListener {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				encerraSessao( usuarioAtivo );
+//				encerraSessao( usuarioAtivo );
+				
 				sair();
 			}
 		};

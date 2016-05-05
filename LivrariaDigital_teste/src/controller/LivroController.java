@@ -204,7 +204,7 @@ public class LivroController implements ComponentListener{
 	}
 	
 	
-	public void alterarCampos( String opt ){
+	public void alterarCampos ( String opt ){
 		
 		switch ( opt ){
 
@@ -780,7 +780,7 @@ public class LivroController implements ComponentListener{
 				livro.setDtAlterado( obterData() );
 				livro.setImagem( imagem );
 				livros.add(livro);
-				atualizarArquivo(livros);
+				atualizarArquivo( livros );
 				estoque.setIsbn( ftxtIsbn.getText() );
 				estoque.setQtd( Integer.parseInt(txtEstoque.getText() ));
 				estoque.setDtCadastro( obterData() );
@@ -1103,6 +1103,7 @@ public class LivroController implements ComponentListener{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				btnCancelar.setVisible(false);
+				alterarCampos ("protegerCampos");
 				navegar();
 			}
 		};
@@ -1166,6 +1167,8 @@ public class LivroController implements ComponentListener{
 			public void actionPerformed(ActionEvent e) {
 				limparCampos();
 				alterarCampos ("desprotegerCampos");
+				btnEditar.setVisible(false);
+				btnSalvar.setVisible(true);
 			}
 		};
 		

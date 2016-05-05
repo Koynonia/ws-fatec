@@ -79,7 +79,7 @@ public class LoginController implements ComponentListener {
 		this.usuarios = new ArrayList<Usuario>();
 		this.usuarioAtivo = new ArrayList<Sessao>();
 
-		lerSessao();
+		logon.carregar();
 		lerUsuarios();
 		configurarTela();
 	}
@@ -88,6 +88,7 @@ public class LoginController implements ComponentListener {
 	// METODOS DE SUPORTE ////////////////////////
 	
 	public void configurarTela(){
+		
 		
 		if ( !logon.getLogon().isEmpty() ){
 			
@@ -99,17 +100,16 @@ public class LoginController implements ComponentListener {
 			btnEntrar.setText("Sair");
 			txtaAviso.setVisible(true);
 			txtaAviso.setText(
-					"Olá "+ usuarioAtivo.get(0).getUsuario() 
+					"Olá "+ logon.getLogon().get(0).getUsuario() 
 					+ "!\n\nVocê pode sair da Livraria Digital "
-					+ "e retornar no momento que preferir…");
-			
-		} else {
-			
+					+ "e retornar no momento que preferir…");			
+		} else {			
 			lblUsuario.setVisible(true);
 			lblSenha.setVisible(true);
 			txtUsuario.setVisible(true);
 			pwdSenha.setVisible(true);
 			btnCadastrar.setVisible(true);
+			txtaAviso.setVisible(false);
 			btnEntrar.setText("Entrar");
 		}
 	}
@@ -162,7 +162,6 @@ public class LoginController implements ComponentListener {
 				for (int i = 0; i < usuarios.size(); i++) {
 					if (txtUsuario.getText().equalsIgnoreCase(usuarios.get(i).getUsuario())
 							&& validarSenha(usuarios.get(i).getSenha()) == true) {
-
 						logon.registrar( 
 								usuarios.get(i).getId(), 
 								usuarios.get(i).getUsuario(), 
@@ -182,8 +181,7 @@ public class LoginController implements ComponentListener {
 			}
 			validar = false;
 		} else {
-			logon.setLogon(""); //ALTERANDO
-			encerraSessao( usuarioAtivo );
+			logon.sair();
 			fechar();
 		}
 	}
@@ -209,33 +207,6 @@ public class LoginController implements ComponentListener {
 					usuario.setNivel(list.get(3));
 					usuarios.add(usuario);
 					list.clear();
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void lerSessao(){
-
-		String linha = new String();
-		ArrayList<String> listaString = new ArrayList<>();
-		try {
-			daoSessao.lerArquivo(diretorio + "data/", "log");
-			linha = daoSessao.getBuffer();
-			String[] log = linha.split(";");
-			for ( String l : log ) {
-				String text = l.replaceAll(".*: ", "");
-				listaString.add( text );
-				if (l.contains("---")) {
-					Sessao sessao = new Sessao();
-					sessao.setId( listaString.get(0) );
-					sessao.setUsuario( listaString.get(1) );
-					sessao.setNivel( listaString.get(2) );
-					sessao.setHora( listaString.get(3) );
-					sessao.setTela( listaString.get(4) );
-					usuarioAtivo.add( sessao );
-					listaString.clear();
 				}
 			}
 		} catch (IOException e) {

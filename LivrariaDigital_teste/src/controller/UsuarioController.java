@@ -228,7 +228,7 @@ public class UsuarioController implements ComponentListener {
 
 		if (!txtUsuario.getText().isEmpty() 
 				&& pwdSenha.getPassword().length != 0) {
-			logon.lerSession();
+			logon.carregar();
 			if (("Administrativo").equalsIgnoreCase(
 					logon.registrar(
 							txtId.getText(), 
