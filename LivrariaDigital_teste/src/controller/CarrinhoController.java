@@ -143,7 +143,7 @@ public class CarrinhoController implements ComponentListener {
 			qtd = qtd + ( itens.get(i).getQuantidade() );
 		}
 		ftxtQtd.setValue( Integer.toString ( qtd ) );
-		ftxtValor.setValue(total);
+		ftxtValor.setValue( total );
 	}
 	
 

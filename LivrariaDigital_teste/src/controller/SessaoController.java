@@ -16,10 +16,9 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
-import entity.Usuario;
-import entity.Sessao;
-import dao.Arquivo;
 import dao.ArquivoSessao;
+import entity.Sessao;
+import entity.Usuario;
 
 public class SessaoController {
 

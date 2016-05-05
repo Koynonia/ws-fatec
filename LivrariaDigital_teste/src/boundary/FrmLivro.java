@@ -64,10 +64,10 @@ public class FrmLivro extends JFrame {
 	private JTextField ftxtPaginas;
 	private JTextField ftxtMargem;
 	private JTextField ftxtIsbn;
-	private JTextField ftxtPrecoCusto;
-	private JTextField ftxtPrecoVenda;
 	private JTextArea txtaSumario;
 	private JTextArea txtaResumo;
+	private JTextField ftxtPrecoCusto;
+	private JTextField ftxtPrecoVenda;
 	private JFormattedTextField ftxtDtPub;
 	private JComboBox<String> cboAutor;
 	private JComboBox<String> cboEditora;
@@ -83,6 +83,7 @@ public class FrmLivro extends JFrame {
 	private JButton btnVoltar;
 	private JButton btnImagem;
 	private MaskFormatter maskData;
+//	private DecimalFormat maskValor;
 	private JButton btnCancelar;
 	
 	public static void main(String[] args) {
@@ -270,6 +271,12 @@ public class FrmLivro extends JFrame {
 		lblPrecoCusto.setBounds(40, 566, 118, 16);
 		painel.add(lblPrecoCusto);	
 		
+//		maskValor = new DecimalFormat("R$ #,###,##0.00");
+//		NumberFormatter custo = new NumberFormatter(maskValor);
+//		custo.setFormat(maskValor);
+//		custo.setAllowsInvalid(false);
+//		ftxtPrecoCusto = new JFormattedTextField(maskValor);
+		
 		ftxtPrecoCusto = new JTextField(20);
 		ftxtPrecoCusto.setHorizontalAlignment(SwingConstants.RIGHT);
 		ftxtPrecoCusto.setEnabled(true);
@@ -281,6 +288,12 @@ public class FrmLivro extends JFrame {
 		lblPrecoVenda = new JLabel("Preço de Venda");
 		lblPrecoVenda.setBounds(40, 605, 118, 16);
 		painel.add(lblPrecoVenda);
+		
+//		maskValor = new DecimalFormat("R$ #,###,##0.00");
+//		NumberFormatter venda = new NumberFormatter(maskValor);
+//		venda.setFormat(maskValor);
+//		venda.setAllowsInvalid(false);
+//		ftxtPrecoVenda = new JFormattedTextField(maskValor);
 		
 		ftxtPrecoVenda = new JTextField(20);
 		ftxtPrecoVenda.setHorizontalAlignment(SwingConstants.RIGHT);
