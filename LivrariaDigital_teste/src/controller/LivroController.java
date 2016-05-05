@@ -308,6 +308,16 @@ public class LivroController implements ComponentListener{
 	
 	public void calcularMargem(){
 		
+		String valor;
+		
+		valor = ftxtPrecoCusto.getText();
+		valor = valor.replace(",", ".");
+		ftxtPrecoCusto.setText(valor);
+		
+		valor = ftxtPrecoVenda.getText();
+		valor = valor.replace(",", ".");
+		ftxtPrecoVenda.setText(valor);
+		
 		double vlr1 = 0.00;
 		double vlr2 = 0.00;
 		
