@@ -334,7 +334,7 @@ public class CarrinhoController implements ComponentListener {
 
 		if(tabela.getRowCount() > 0){
 			if ( tabela.getSelectedRowCount() != 0){
-				for(int i = 0; i < itens.size(); i ++){
+				for(int i = 0; i <= itens.size(); i ++){
 					if ( tabela.isRowSelected(i)){
 						if((tabela.getValueAt(tabela.getSelectedRow(), 0).toString())
 								.equals(itens.get(i).getCarrinho().getIsbn())){
