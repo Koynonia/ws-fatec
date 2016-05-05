@@ -53,6 +53,7 @@ public class DetalheController implements ComponentListener {
 	private JTextArea txtaSumario;
 	private JTextArea txtaResumo;
 	private JButton btnVoltar;
+	private SessaoController logon = SessaoController.getInstance();
 	private String diretorio = "../LivrariaDigital_teste/";
 	private String imagem;
 	private boolean validar;
@@ -94,6 +95,14 @@ public class DetalheController implements ComponentListener {
 		this.txtaResumo = txtaResumo;
 		this.btnVoltar = btnVoltar;
 		
+		dados();
+	}
+	
+	//   TELA   ////////////////////////
+	
+	public void dados(){
+		
+		logon.rastrear( janela.getName() );
 	}
 	
 	

@@ -103,6 +103,7 @@ public class FrmLivro extends JFrame {
 	public FrmLivro() throws ParseException {
 		
 		setTitle("Cadastro de Livro");
+		setName("Livro");
 		setResizable(false);
 		setSize( 1024, 710 );
 		setLocationRelativeTo(null);

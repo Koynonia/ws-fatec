@@ -86,6 +86,7 @@ public class LivroController implements ComponentListener{
 	private JButton btnSalvar; 
 	private JButton btnCancelar;
 	private JButton btnVoltar;
+	private SessaoController logon = SessaoController.getInstance();
 	private ArquivoLivro dao = new ArquivoLivro();
 	private ArquivoEstoque daoEstoque = new ArquivoEstoque();
 	private Arquivos arquivos = new Arquivos();
@@ -172,8 +173,22 @@ public class LivroController implements ComponentListener{
 		this.livros = new ArrayList<Livro>();
 		this.estoques = new ArrayList<Estoque>();
 		
+		dados();
+		tela();
+	}
+	
+	
+	//   TELA   ////////////////////////
+	
+	public void dados(){
+		
+		logon.rastrear( janela.getName() );
 		lerArquivo();
 		lerEstoque();
+	}
+	
+	
+	public void tela(){
 		preencherAutor();
 		preencherEditora();
 		preencherCategoria();
@@ -183,8 +198,14 @@ public class LivroController implements ComponentListener{
 		navegar();
 	}
 	
-	
-	// METODOS DE SUPORTE ////////////////////////
+	public void permissao(){
+		
+		if ( logon.rastrear( janela.getName()) != "administrador" ){
+			
+			msg("erroAcesso", "Cadastro de Livros");
+			fechar();
+		}
+	}
 	
 	public void carregarCapa(){
 		ImageIcon capa = new ImageIcon( imagem );
@@ -1027,6 +1048,14 @@ public class LivroController implements ComponentListener{
 					"Erro", 
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon( diretorio + "/icons/warning.png" ));
+			break;
+		
+		case "erroAcesso":
+			JOptionPane.showMessageDialog(null, 
+					"ACESSO NEGADO!\n\nSomente usuário com nível administrativo podem acessar o " + mensagem + "!", 
+					"Bloqueado", 
+					JOptionPane.PLAIN_MESSAGE,
+					new ImageIcon( diretorio + "/icons/warning.png"));
 			break;
 
 		case "sistema":

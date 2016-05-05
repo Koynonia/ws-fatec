@@ -60,6 +60,7 @@ public class FrmUsuario extends JFrame {
 	public FrmUsuario() {
 
 		setTitle("Administrar Usuários");
+		setName("Usuário");
 		setResizable(false);
 		setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
 		setLocationRelativeTo(null);

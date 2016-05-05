@@ -76,6 +76,7 @@ public class FrmPrincipal extends JFrame {
 	public FrmPrincipal() {
 		
 		setTitle("Principal");
+		setName("Principal");
 		setResizable(false);
 		setSize( 1024, 710 );
 //		setExtendedState(JFrame.MAXIMIZED_BOTH);

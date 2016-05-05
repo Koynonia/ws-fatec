@@ -51,6 +51,7 @@ public class CarrinhoController implements ComponentListener {
 	private JFormattedTextField ftxtValor;
 	private String diretorio = "../LivrariaDigital_teste/";
 	private String arquivo = "carrinho";
+	private SessaoController logon = SessaoController.getInstance();
 	private List<Carrinho> itens;
 	private List<Livro> livros;
 	private ArquivoCarrinho dao = new ArquivoCarrinho();
@@ -71,12 +72,27 @@ public class CarrinhoController implements ComponentListener {
 		this.itens = new ArrayList<Carrinho>();
 		this.livros = new ArrayList<Livro>();
 		
+		dados();
+		tela();
+	}
+	
+	
+//  TELA    ///////////////
+	
+	public void dados(){
+		
+		logon.rastrear( janela.getName() );
 		lerArquivo();
-		formatarTabela();
 		temporizador();
 	}
-
-
+	
+	
+	public void tela(){
+		
+		formatarTabela();
+	}
+	
+	
 	public void limparCampos(){
 
 		itens.removeAll(itens);

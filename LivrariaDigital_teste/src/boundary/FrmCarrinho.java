@@ -66,6 +66,7 @@ public class FrmCarrinho extends JFrame {
 		
 		
 		setTitle("Carrinho");
+		setName("Carrinho");
 		setResizable(false);
 		setAlwaysOnTop (true);
 		setUndecorated(true);

@@ -78,16 +78,27 @@ public class LoginController implements ComponentListener {
 		this.btnEntrar = btnEntrar;
 		this.usuarios = new ArrayList<Usuario>();
 		this.usuarioAtivo = new ArrayList<Sessao>();
-
-		logon.carregar();
-		lerUsuarios();
-		configurarTela();
+		
+		dados();
+		tela();
 	}
 	
 	
-	// METODOS DE SUPORTE ////////////////////////
+	//  TELA    ///////////////
 	
-	public void configurarTela(){
+	public void dados(){
+		
+		logon.rastrear( janela.getName() );
+		lerUsuarios();
+	}
+	
+
+	public void tela(){
+		
+		campos();
+	}
+	
+	public void campos(){
 		
 		
 		if ( !logon.getLogon().isEmpty() ){
@@ -237,6 +248,14 @@ public class LoginController implements ComponentListener {
 	public void msg(String tipo, String mensagem) {
 
 		switch (tipo) {
+		
+		case "autorizado":
+			JOptionPane.showMessageDialog(null, 
+					"Seja bem-vindo à Livraria Digital, " + mensagem + "!", 
+					"Acesso Permitido", 
+					JOptionPane.PLAIN_MESSAGE, 
+					new ImageIcon( diretorio + "/icons/ok.png" ));
+			break;
 
 		case "erroVazio":
 			JOptionPane.showMessageDialog(null, 
@@ -245,16 +264,10 @@ public class LoginController implements ComponentListener {
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon( diretorio + "/icons/warning.png" ));
 			break;
-		case "autorizado":
-			JOptionPane.showMessageDialog(null, 
-					"Seja bem vindo ao sistema " + mensagem + "!", 
-					"Acesso Permitido", 
-					JOptionPane.PLAIN_MESSAGE, 
-					new ImageIcon( diretorio + "/icons/ok.png" ));
-			break;
 		case "erroSenha":
 			JOptionPane.showMessageDialog(null, 
-					"O usuário '" + mensagem + "' ou sua senha não conferem!\n\nVerifique sua digitação e tente novamente.",
+					"O usuário '" + mensagem + "' ou sua senha não conferem!\n\n"
+							+ "Verifique sua digitação e tente novamente.",
 					"Erro", 
 					JOptionPane.PLAIN_MESSAGE, 
 					new ImageIcon( diretorio + "/icons/warning.png" ));

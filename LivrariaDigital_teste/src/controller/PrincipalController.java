@@ -130,19 +130,33 @@ public class PrincipalController implements ComponentListener {
 		this.livros = new ArrayList<Livro>();
 		this.livrosVendidos = new ArrayList<Livro>();
 		
-		
-		logon.carregar();
+		dados();
+		tela();
+	}
+	
+	
+	//   TELA    ///////////////
+	
+	public void dados(){
+
+		//logon.rastrear( janela.getName() );
+		logon.logoff();
 		lerArquivo();
-		Collections.sort( livros, Collections.reverseOrder( ordenar ) );
 		lerCarrinho();
+	}
+	
+	
+	public void tela(){
+		
+		Collections.sort( livros, Collections.reverseOrder( ordenar ) );
 		livrosSpot();
 		preencherFiltro();
 		focarCampo();
 		login();
 	}
 	
-	
 	public void focarCampo(){
+		
 		SwingUtilities.invokeLater(new Runnable() {  
 			public void run() {  
 				txtPesquisar.requestFocus();  
@@ -317,7 +331,6 @@ public class PrincipalController implements ComponentListener {
 	
 		public void preencherFiltro() {		
 			
-//			cboFiltro.addItem("");
 			cboFiltrar.addItem("Título");
 			cboFiltrar.addItem("Autor");
 			cboFiltrar.addItem("Editora");

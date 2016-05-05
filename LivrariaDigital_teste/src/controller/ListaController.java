@@ -64,6 +64,7 @@ public class ListaController implements ComponentListener {
 	private String imagem; 
 	private boolean validar; 
 	private int opt;
+	private SessaoController logon = SessaoController.getInstance();
 	private ArrayList<String> isbn = new ArrayList<>();
 	LinkedList<Livro> regLivro = new LinkedList<>();
 	private List<Livro> livros;
@@ -110,11 +111,25 @@ public class ListaController implements ComponentListener {
 		this.btnProximo = btnProximo;
 		this.btnVoltar = btnVoltar;
 		
-		configurarTela();
+		dados();
+		tela();
+		
 	}
 	
 	
-	// METODOS DE SUPORTE ////////////////////////
+	//  TELA    ///////////////
+	
+	public void dados(){
+		
+		logon.rastrear( janela.getName() );
+	}
+
+	
+	public void tela(){
+		
+		configurarTela();
+	}
+	
 	
 	public void ativarCampos( String opt ){
 

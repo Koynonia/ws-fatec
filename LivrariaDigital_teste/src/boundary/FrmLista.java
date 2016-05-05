@@ -78,6 +78,7 @@ public class FrmLista extends JFrame {
 		boolean exibir = false; //colocar no painel administrador
 
 		setTitle("Resultados da Pesquisa");
+		setName("Lista");
 		setSize(1024, 710);
 		setVisible(true);
 		setResizable(false);

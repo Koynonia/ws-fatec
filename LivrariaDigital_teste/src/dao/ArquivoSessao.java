@@ -62,9 +62,9 @@ public class ArquivoSessao implements Arquivo {
 		buffer.append("\r\n");
 		buffer.append("Nível  : " + ((Sessao) object).getNivel());
 		buffer.append("\r\n");
-		buffer.append("Hora   : " + ((Sessao) object).getHora());
-		buffer.append("\r\n");
 		buffer.append("Tela   : " + ((Sessao) object).getTela());
+		buffer.append("\r\n");
+		buffer.append("Hora   : " + ((Sessao) object).getData());
 		buffer.append("\r\n");
 		buffer.append("---------------------------");
 		buffer.append("\r\n");

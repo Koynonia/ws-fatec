@@ -83,7 +83,7 @@ public class FrmLogin extends JFrame {
 		lblPagina = new JLabel("Login");
 		lblPagina.setEnabled(false);
 		lblPagina.setFont(new Font("Century Gothic", Font.BOLD, 17));
-		lblPagina.setBounds(465, 31, 49, 20);
+		lblPagina.setBounds(465, 31, 49, 23);
 		painel.add(lblPagina);
 		
 		lblUsuario = new JLabel("Usuário");

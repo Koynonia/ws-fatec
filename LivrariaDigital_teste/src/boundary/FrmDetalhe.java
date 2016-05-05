@@ -58,6 +58,7 @@ public class FrmDetalhe extends JFrame {
 	public FrmDetalhe(JFrame janelaAnterior, int opt, ArrayList<String> isbn, final List<Livro> livros) {
 
 		setTitle("Detalhes do Livro");
+		setName("Detalhes");
 		setSize(1024, 710);
 		setVisible(true);
 		setResizable(false);
