@@ -18,11 +18,12 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -34,7 +35,6 @@ import boundary.FrmCarrinho;
 import boundary.FrmDetalhe;
 import boundary.FrmLista;
 import boundary.FrmPrincipal;
-import dao.ArquivoCarrinho;
 import entity.Livro;
 
 public class ListaController implements ComponentListener {
@@ -60,7 +60,6 @@ public class ListaController implements ComponentListener {
 	private JButton btnProximo; 
 	private JButton btnVoltar; 
 	private String diretorio = "../LivrariaDigital_teste/"; 
-	private String arquivo = "carrinho";
 	private String imagem; 
 	private boolean validar; 
 	private int opt;
@@ -122,6 +121,7 @@ public class ListaController implements ComponentListener {
 	public void dados(){
 		
 		logon.rastrear( janela.getName() );
+		atualizar("carrinho");
 	}
 
 	
@@ -225,8 +225,8 @@ public class ListaController implements ComponentListener {
 	
 	public void configurarTela(){
 
-		lerCarrinho();
 		ativarCampos( "desativarCapas" );
+		btnCarrinho.setText("Meu Carrinho ( " + logon.carrinhoQtd() + " )");
 		DecimalFormat formato = new DecimalFormat("#,##0.00");
 
 		if ( livros.size() <= 2){
@@ -298,7 +298,7 @@ public class ListaController implements ComponentListener {
 
 		case "proximo":
 
-			//localiza o livro atual e repassa para a variável de controle
+			//localiza o livro atual e repassa para a variável de controle do registro
 			for( int i = 0; i < livros.size(); i++ ){
 				if ( livros.get(i).getTitulo() == lblLivroTitulo_2.getText() ){
 					reg = i;
@@ -312,18 +312,22 @@ public class ListaController implements ComponentListener {
 				if ( !(reg + 2 == livros.size() ) ){
 					//Carrega os 2 livros próximos
 					for( int i = 0; i < 2 ; i++ ){
-						reg = reg + 1;
+						reg++;
+						
 						Livro l = new Livro();
+						
 						l.setIsbn( livros.get(reg).getIsbn() );
 						l.setTitulo( livros.get(reg).getTitulo() );
 						l.setAutor( livros.get(reg).getAutor() );
 						l.setPrecoVenda( livros.get(reg).getPrecoVenda());
 						l.setImagem( livros.get(reg).getImagem() );
 						regLivro.add(l);
+						
 					}
 				} else {
+					
 					//Carrega o último livro em caso do total ser impar
-					reg = reg + 1;
+					reg++;
 					Livro l = new Livro();
 					l.setIsbn( livros.get(reg).getIsbn() );
 					l.setTitulo( livros.get(reg).getTitulo() );
@@ -332,7 +336,8 @@ public class ListaController implements ComponentListener {
 					l.setImagem( livros.get(reg).getImagem() );
 					regLivro.add(l);
 				}
-			} 
+			}
+//			System.out.println( reg + " de " + livros.size() + " regLivro: " + regLivro.size() );
 			break;
 
 		case "anterior":
@@ -346,8 +351,9 @@ public class ListaController implements ComponentListener {
 			if ( reg <= ( livros.size() )  && reg >= 0 ){
 				//Carrega os 2 livros anteriores
 				for( int i = 0; i < 2 ; i++ ){
-					reg = reg - 1;
+					reg--;
 					if ( reg > -1 ){
+						
 						Livro l = new Livro();
 						l.setIsbn( livros.get(reg).getIsbn() );
 						l.setTitulo( livros.get(reg).getTitulo() );
@@ -373,7 +379,7 @@ public class ListaController implements ComponentListener {
 			carregaCapa(0);
 			
 			//Preenche Livro 2
-			if ( regLivro != null && regLivro.size() != 1 ){		
+			if ( regLivro != null && regLivro.size() != 1 ){
 				isbn.add( regLivro.get(1).getIsbn() );
 				lblLivroCapa_2.setToolTipText( regLivro.get(1).getTitulo() );
 				lblLivroTitulo_2.setText( regLivro.get(1).getTitulo() );
@@ -386,32 +392,7 @@ public class ListaController implements ComponentListener {
 	}
 	
 	
-	public void lerCarrinho() {
-
-		int qtd = 0;
-		ArquivoCarrinho dao = new ArquivoCarrinho();
-		String linha = new String();
-		ArrayList<String> lista = new ArrayList<>();
-		try {
-			dao.lerArquivo(diretorio + "data/", arquivo);
-			linha = dao.getBuffer();
-			String[] listaItens = linha.split(";");
-			for (String s : listaItens) {
-				String text = s.replaceAll(".*: ", "");
-				lista.add(text);
-				if (s.contains("---")) {
-					qtd =  qtd + Integer.parseInt(lista.get(1));
-					lista.clear();
-				}
-				btnCarrinho.setText("Meu Carrinho ( " + qtd + " )");
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	
-	public void Adicionar(Livro livro){
+	public void adicionarCarrinho (Livro livro){
 		
 		if( livros.size() > 0 ){
 			
@@ -425,6 +406,37 @@ public class ListaController implements ComponentListener {
 					carrinho.ftxtVlrTotal);
 			carrinhoCtrl.addItem ( livro );
 		}
+	}
+	
+	
+	public void atualizar( final String opt ) {
+
+		// Verifica o estado do carrinho a cada segundo
+		// Linhas comentadas de código é para uma implementação de log para relatório futuro
+		Timer timer = null;      
+		//        final SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+		if (timer == null)   
+		{      
+			timer = new Timer();
+			TimerTask tarefa = new TimerTask() {     
+				public void run()   
+				{      
+					try {               	 
+						//txtPesquisar.setText("Hora: "+format.format( new Date().getTime() )); 
+
+						switch ( opt ){
+
+						case "carrinho":
+							btnCarrinho.setText("Meu Carrinho ( " + logon.carrinhoQtd() + " )");
+							break;
+						}
+					} catch (Exception e) {      
+						e.printStackTrace();      
+					}      
+				}
+			};      
+			timer.scheduleAtFixedRate(tarefa, 0, 1000);      
+		}    
 	}
 	
 	
@@ -494,16 +506,16 @@ public class ListaController implements ComponentListener {
 
 			if(source == btnAddCarrinho_1){
 				if ( regLivro.size() > 0){
-					Adicionar (regLivro.get(0));
+					adicionarCarrinho (regLivro.get(0));
 				} else {
-					Adicionar (livros.get(0));
+					adicionarCarrinho (livros.get(0));
 				}
 			}
 			if(source == btnAddCarrinho_2){
 				if ( regLivro.size() > 1){
-					Adicionar (regLivro.get(1));
+					adicionarCarrinho (regLivro.get(1));
 				} else {
-					Adicionar (livros.get(1));
+					adicionarCarrinho (livros.get(1));
 				}
 			}
 		}
@@ -617,7 +629,7 @@ public class ListaController implements ComponentListener {
 
 				@Override
 				public void focusGained(FocusEvent e) {
-					lerCarrinho();
+					btnCarrinho.setText("Meu Carrinho ( " + logon.carrinhoQtd() + " )");
 				}
 
 				@Override

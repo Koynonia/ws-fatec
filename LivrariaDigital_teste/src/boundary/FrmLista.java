@@ -37,18 +37,6 @@ public class FrmLista extends JFrame {
 	private JLabel lblLogo;
 	private JLabel lblItem;
 	private JLabel lblFiltro;
-//	private JLabel lblLivroLanc_1;
-//	private JLabel lblLivroLanc_2;
-//	private JLabel lblLivroLanc_3;
-//	private JLabel lblLivroLanc_4;
-//	private JLabel lblLivroLanc_5;
-//	private JLabel lblLivroLanc_6;
-//	private JLabel lblLivroVend_1;
-//	private JLabel lblLivroVend_2;
-//	private JLabel lblLivroVend_3;
-//	private JLabel lblLivroVend_4;
-//	private JLabel lblLivroVend_5;
-//	private JLabel lblLivroVend_6;
 	private JLabel lblTitulo;
 	private JLabel lblAutor;
 	private JLabel lblValor;	
@@ -75,7 +63,7 @@ public class FrmLista extends JFrame {
 	public FrmLista(String parametro, String pesquisa, final List<Livro> livros) {
 		
 		
-		boolean exibir = false; //colocar no painel administrador
+		boolean exibir = false; //Para implementar - colocar no Painel Administrador
 
 		setTitle("Resultados da Pesquisa");
 		setName("Lista");
@@ -94,7 +82,7 @@ public class FrmLista extends JFrame {
 		lblLogo.setBounds(36, 36, 314, 45);
 		painel.add(lblLogo);
 
-		if(exibir == true){
+		if( exibir != false ){
 
 			lblItem = new JLabel("Pesquisa");
 			lblItem.setBounds(36, 111, 66, 16);
@@ -218,47 +206,7 @@ public class FrmLista extends JFrame {
 		btnVoltar = new JButton("Voltar");
 		btnVoltar.setBounds(901, 653, 117, 29);
 		painel.add(btnVoltar);
-		
-//		btnLivro = new JButton("Livros");
-//		btnLivro.setVisible(false);
-//		btnLivro.setBounds(812, 6, 117, 29);
-//		painel.add(btnLivro);
-//		
-//		//Acesso Administrador - para testes
-//		lblLivro = new JLabel("Adiministrador:");
-//		lblLivro.setVisible(false);
-//		lblLivro.setBounds(710, 11, 98, 16);
-//		painel.add(lblLivro);
-		
-		
-//		PrincipalController principalCtrl = new PrincipalController(
-//			this, 
-//			painel, 
-//			cboFiltrar, 
-//			txtPesquisar, 
-//			btnLogin, 
-//			btnCarrinho, 
-//			txtQtd, 
-//			btnLivro, 
-//			lblLivroLanc_1, 
-//			lblLivroLanc_2, 
-//			lblLivroLanc_3, 
-//			lblLivroLanc_4, 
-//			lblLivroLanc_5, 
-//			lblLivroLanc_6,
-//			lblLivroVend_1, 
-//			lblLivroVend_2, 
-//			lblLivroVend_3, 
-//			lblLivroVend_4, 
-//			lblLivroVend_5, 
-//			lblLivroVend_6 );
-//		
-//		txtPesquisar.addActionListener(principalCtrl.pesquisar);
-//		btnPesquisar.addActionListener(principalCtrl.pesquisar);
-//		btnLogin.addActionListener(principalCtrl.janelas);
-//		btnCarrinho.addActionListener(principalCtrl.janelas);
-//		btnLivro.addActionListener(principalCtrl.janelas);
-		
+			
 		
 		ListaController listaCtrl = new ListaController(
 				this, 
@@ -297,6 +245,8 @@ public class FrmLista extends JFrame {
 		btnAddCarrinho_2.addFocusListener(listaCtrl.foco);
 		btnCarrinho.addFocusListener(listaCtrl.foco);
 		btnCarrinho.addKeyListener(listaCtrl.tecla);
+		btnAnterior.addKeyListener(listaCtrl.tecla);
+		btnProximo.addKeyListener(listaCtrl.tecla);
 		
 	}
 }

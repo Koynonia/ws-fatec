@@ -20,9 +20,11 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
+import dao.ArquivoCarrinho;
 import dao.ArquivoSessao;
+import entity.Carrinho;
 import entity.Sessao;
-import entity.Usuario;
+import entity.Administrador;
 
 public class SessaoController {
 
@@ -31,13 +33,15 @@ public class SessaoController {
 	private String diretorio = "../LivrariaDigital_teste/";
 	private String arquivo = "log";
 	private List<Sessao> logon;
+	private List<Carrinho> itens;
 	private ArquivoSessao dao = new ArquivoSessao();
 
 	// Construtor privado (suprime o construtor público padrão).
 	private SessaoController() {
 
-		new ArrayList<Usuario>();
+		new ArrayList<Administrador>();
 		this.setLogon(new ArrayList<Sessao>());
+		this.itens = new ArrayList<Carrinho>();
 
 		carregar();
 	}
@@ -156,8 +160,10 @@ public class SessaoController {
 	
 	public void sair(){
 		getLogon().clear();
-		File f = new File( diretorio + "data/", arquivo );
+		File f = new File( diretorio + "dados/", arquivo );
 		f.delete();
+		
+		carrinhoLimpar();
 	}
 	
 
@@ -167,7 +173,7 @@ public class SessaoController {
 		ArrayList<String> list = new ArrayList<>();
 
 		try {
-			dao.lerArquivo( diretorio + "data/", arquivo );
+			dao.lerArquivo( diretorio + "dados/", arquivo );
 			linha = dao.getBuffer();
 			String[] listaSession = linha.split(";");
 			for (String s : listaSession) {
@@ -192,16 +198,110 @@ public class SessaoController {
 	
 	public void atualizar(List<Sessao> lista) {
 
-		File f = new File( diretorio + "data/", arquivo );
+		File f = new File( diretorio + "dados/", arquivo );
 		f.delete();
 		for (Sessao logon : lista) {
 			try {
-				dao.escreverArquivo(diretorio + "data/", arquivo, "", logon);
+				dao.escreverArquivo(diretorio + "dados/", arquivo, "", logon);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 	}
+	
+	
+	public void encerrar(){
+		
+		carrinhoLimpar();
+		sair();
+	}
+	
+	
+	public void carrinho() {
+		
+		//Carrega a lista do Carrinho
+		ArquivoCarrinho dao = new ArquivoCarrinho();
+		
+		String linha = new String();
+		ArrayList<String> lista = new ArrayList<>();
+		try {
+			dao.lerArquivo(diretorio + "dados/", "carrinho");
+			linha = dao.getBuffer();
+			String[] listaItens = linha.split(";");
+			for (String s : listaItens) {
+				String text = s.replaceAll(".*: ", "");
+				lista.add(text);
+				if (s.contains("---")) {
+					Carrinho item = new Carrinho();
+					item.setQuantidade( Integer.parseInt( lista.get(1) ) );
+					item.setDtCadastro(lista.get(3));
+					itens.add(item);
+					lista.clear();
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+
+	}
+	
+	public Integer carrinhoQtd() {
+		
+		itens.clear(); //limpa a lista do Carrinho
+		carrinho(); //recarrega a lista do Carrinho atualizado
+		carrinhoTempo(); //verifica se o Carrinho já ultrapassou o tempo
+		int qtd = 0;
+		
+		for ( int i = 0; i < itens.size(); i++ ){
+			qtd =  qtd + itens.get(i).getQuantidade();
+			
+		}
+		return qtd;
+	}
+	
+	
+	public void carrinhoLimpar(){
+
+		File f = new File(diretorio + "dados/" + "carrinho");
+		f.delete();
+	}
+
+	
+	public void carrinhoTempo() {
+
+
+		if ( itens.size() > 0 ){
+			if ( logon.size() == 0 ){
+				int tempo = 1; //variavel que controla os minutos da sessão - colocar no Painel Administrador
+				String dtAtual = obterData();
+				String dtCarrinho = itens.get(0).getDtCadastro();
+
+				DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+
+				//Converte para Date
+				Date dateA = null;
+				Date dateB = null;
+				try {
+					dateA = df.parse(dtAtual);
+					dateB = df.parse(dtCarrinho);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+
+				Calendar calB = Calendar.getInstance();
+				calB.setTime(dateB);
+				//Adiciona o tempo configurado para a B
+				//Calendar.MINUTE pode ser alterado para qtd de tempo desejada
+				calB.add(Calendar.MINUTE, tempo);
+				dateB = calB.getTime();
+
+				if ( dateA.after(dateB) ){
+					carrinhoLimpar();
+				}	
+			}
+		}
+	}	
 	
 	
 	

@@ -55,6 +55,10 @@ public class ArquivoEndereco implements Arquivo {
 	public void escreverArquivo(String diretorio, String arquivo, String texto, Object object) throws IOException {
 		
 		StringBuffer buffer = new StringBuffer();
+		buffer.append("CPF           : " + ((Endereco) object).getCpf());
+		buffer.append("\r\n");
+		buffer.append("TipoEndereco  : " + ((Endereco) object).getTipoEndereco());
+		buffer.append("\r\n");
 		buffer.append("Endereco      : " + ((Endereco) object).getEndereco());
 		buffer.append("\r\n");
 		buffer.append("Complemento   : " + ((Endereco) object).getComplemento());
@@ -66,8 +70,6 @@ public class ArquivoEndereco implements Arquivo {
 		buffer.append("Estado        : " + ((Endereco) object).getEstado());
 		buffer.append("\r\n");
 		buffer.append("Cep           : " + ((Endereco) object).getCep());
-		buffer.append("\r\n");
-		buffer.append("TipoEndereco  : " + ((Endereco) object).getTipoEndereco());
 		buffer.append("\r\n");
 		buffer.append("Data Cadastro : " + ((Endereco) object).getDtCadastro());
 		buffer.append("\r\n");

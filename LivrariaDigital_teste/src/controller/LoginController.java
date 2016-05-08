@@ -17,6 +17,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,31 +28,35 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
+import boundary.FrmCliente;
 import boundary.FrmLogin;
-import boundary.FrmUsuario;
+import boundary.FrmAdministrador;
 import dao.ArquivoSessao;
-import dao.ArquivoUsuario;
+import dao.ArquivoAdministrador;
 import entity.Sessao;
-import entity.Usuario;
+import entity.Administrador;
 
 
 public class LoginController implements ComponentListener {
 
 	private FrmLogin janela; 
-	private FrmUsuario janelaUsuario; 
+	private FrmAdministrador janelaUsuario; 
+	private FrmCliente janelaCliente;
 	private JTextArea txtaAviso; 
 	private JTextField txtUsuario; 
 	private JPasswordField pwdSenha; 
 	private JLabel lblUsuario; 
 	private JLabel lblSenha; 
+	private JButton btnCliente; 
 	private JButton btnCadastrar; 
 	private JButton btnEntrar; 
 	private String diretorio = "../LivrariaDigital_teste/";
-	private String arquivo = "usuario";
-	private List<Usuario> usuarios;
+	private String arquivo = "administrador";
+	private List<Administrador> usuarios;
 	private List<Sessao> usuarioAtivo;
-	private ArquivoUsuario dao = new ArquivoUsuario();
+	private ArquivoAdministrador dao = new ArquivoAdministrador();
 	private ArquivoSessao daoSessao = new ArquivoSessao();
 	private SessaoController logon = SessaoController.getInstance();
 	private static int contador = 1;
@@ -64,8 +69,9 @@ public class LoginController implements ComponentListener {
 			JPasswordField pwdSenha, 
 			JLabel lblUsuario, 
 			JLabel lblSenha, 
+			JButton btnCliente, 
 			JButton btnCadastrar, 
-			JButton btnEntrar
+			JButton btnEntrar 
 			) {
 
 		this.janela = janela;
@@ -74,9 +80,10 @@ public class LoginController implements ComponentListener {
 		this.pwdSenha = pwdSenha;
 		this.lblUsuario = lblUsuario;
 		this.lblSenha = lblSenha;
+		this.btnCliente = btnCliente;
 		this.btnCadastrar = btnCadastrar;
 		this.btnEntrar = btnEntrar;
-		this.usuarios = new ArrayList<Usuario>();
+		this.usuarios = new ArrayList<Administrador>();
 		this.usuarioAtivo = new ArrayList<Sessao>();
 		
 		dados();
@@ -89,7 +96,7 @@ public class LoginController implements ComponentListener {
 	public void dados(){
 		
 		logon.rastrear( janela.getName() );
-		lerUsuarios();
+		lerAdministrador();
 	}
 	
 
@@ -99,7 +106,13 @@ public class LoginController implements ComponentListener {
 	}
 	
 	public void campos(){
-		
+
+		if ( logon.getLogon().size() > 0 && 
+				logon.getLogon().get(0).getNivel().equalsIgnoreCase("Administrador") ){
+			btnCliente.setText( "Clientes" );
+		} else {
+			btnCliente.setText( "Seus Dados" );
+		}
 		
 		if ( !logon.getLogon().isEmpty() ){
 			
@@ -107,25 +120,41 @@ public class LoginController implements ComponentListener {
 			lblSenha.setVisible(false);
 			txtUsuario.setVisible(false);
 			pwdSenha.setVisible(false);
+			btnCliente.setVisible(true);
 			btnCadastrar.setVisible(false);
 			btnEntrar.setText("Sair");
 			txtaAviso.setVisible(true);
 			txtaAviso.setText(
 					"Olá "+ logon.getLogon().get(0).getUsuario() 
 					+ "!\n\nVocê pode sair da Livraria Digital "
-					+ "e retornar no momento que preferir…");			
+					+ "e retornar no momento que preferir…\n"
+					+ "No entanto, os itens adicionados no Carrinho serão perdidos!");			
 		} else {			
 			lblUsuario.setVisible(true);
 			lblSenha.setVisible(true);
 			txtUsuario.setVisible(true);
 			pwdSenha.setVisible(true);
+			btnCliente.setVisible(false);
 			btnCadastrar.setVisible(true);
 			txtaAviso.setVisible(false);
 			btnEntrar.setText("Entrar");
 		}
 	}
+	
+	
+	public void senhas(){
 
+		txtUsuario.setText(null);
+		pwdSenha.setText(null);
 
+		SwingUtilities.invokeLater(new Runnable() {  
+			public void run() {  
+				txtUsuario.requestFocus();  
+			}  
+		});
+	}
+	
+	
 	public boolean validarSenha( String validaSenha ) {  
 
 		if (validaSenha != null){
@@ -149,13 +178,27 @@ public class LoginController implements ComponentListener {
 		
 		switch ( nome ){
 
-		case "usuario":
+		case "administrador":
 			if( janelaUsuario == null ){
-				FrmUsuario usuario;
-				usuario = new FrmUsuario();
+				FrmAdministrador usuario;
+				usuario = new FrmAdministrador();
 				usuario.setVisible(true);
 			} else {
 				janelaUsuario.setVisible(true);
+			}
+			break;
+			
+		case "usuario":
+			if( janelaCliente == null ){
+				FrmCliente cliente;
+				try {
+					cliente = new FrmCliente();
+					cliente.setVisible(true);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+			} else {
+				janelaCliente.setVisible(true);
 			}
 			break;
 		}
@@ -167,30 +210,36 @@ public class LoginController implements ComponentListener {
 	public void entrar() {
 
 		if ( btnEntrar.getText().equals("Entrar") ){
-
-			if (!txtUsuario.getText().isEmpty() 
-					&& pwdSenha.getPassword().length != 0) {
-				for (int i = 0; i < usuarios.size(); i++) {
-					if (txtUsuario.getText().equalsIgnoreCase(usuarios.get(i).getUsuario())
-							&& validarSenha(usuarios.get(i).getSenha()) == true) {
-						logon.registrar( 
-								usuarios.get(i).getId(), 
-								usuarios.get(i).getUsuario(), 
-								usuarios.get(i).getNivel(), 
-								janela.getName());				
-						validar = true;
-						fechar();
-						msg("autorizado", txtUsuario.getText());
-					} 			
-				}				
-				if (validar == false){
-					msg("erroSenha", txtUsuario.getText());
-					//limpaCampos();
-				} 
-			} else {	
-				msg("erroVazio", txtUsuario.getText());
+			if ( !usuarios.isEmpty() ){
+				if (!txtUsuario.getText().isEmpty() 
+						&& pwdSenha.getPassword().length != 0) {
+					for (int i = 0; i < usuarios.size(); i++) {
+						if (txtUsuario.getText().equalsIgnoreCase(usuarios.get(i).getUsuario())
+								&& validarSenha(usuarios.get(i).getSenha()) == true) {
+							logon.registrar( 
+									usuarios.get(i).getId(), 
+									usuarios.get(i).getUsuario(), 
+									usuarios.get(i).getNivel(), 
+									janela.getName());				
+							validar = true;
+							fechar();
+							msg("autorizado", txtUsuario.getText());
+						} 			
+					}				
+					if (validar == false){
+						msg("erroSenha", txtUsuario.getText());
+						senhas();
+						//limpaCampos();
+					} 
+				} else {	
+					msg("erroVazio", txtUsuario.getText());
+					senhas();
+				}
+				validar = false;
+			} else {
+				msg("erroDados", txtUsuario.getText());
+				senhas();
 			}
-			validar = false;
 		} else {
 			logon.sair();
 			fechar();
@@ -198,20 +247,20 @@ public class LoginController implements ComponentListener {
 	}
 	
 	
-	public void lerUsuarios() {
+	public void lerAdministrador() {
 
 		String linha = new String();
 		ArrayList<String> list = new ArrayList<>();
 
 		try {
-			dao.lerArquivo( diretorio + "data/", arquivo );
+			dao.lerArquivo( diretorio + "dados/", arquivo );
 			linha = dao.getBuffer();
 			String[] listaUsuario = linha.split(";");
 			for (String s : listaUsuario) {
 				String text = s.replaceAll(".*: ", "");
 				list.add(text);
 				if (s.contains("---")) {
-					Usuario usuario = new Usuario();
+					Administrador usuario = new Administrador();
 					usuario.setId(list.get(0));
 					usuario.setUsuario(list.get(1));
 					usuario.setSenha(list.get(2));
@@ -225,17 +274,17 @@ public class LoginController implements ComponentListener {
 		}
 	}
 	
+	
 	public void encerraSessao(List<Sessao> log){
 
 		for (int i = 0; i < usuarioAtivo.size(); i++) {
 			usuarioAtivo.remove(i);		
-		}
-		
-		File f = new File(diretorio + "data/" + "log" );
+		}	
+		File f = new File(diretorio + "dados/" + "log" );
 		f.delete();
 		for (Sessao usuarioAtivo : log) {
 			try {
-				daoSessao.escreverArquivo(diretorio  + "data/", "log", "", usuarioAtivo);
+				daoSessao.escreverArquivo(diretorio  + "dados/", "log", "", usuarioAtivo);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -264,6 +313,7 @@ public class LoginController implements ComponentListener {
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon( diretorio + "/icons/warning.png" ));
 			break;
+			
 		case "erroSenha":
 			JOptionPane.showMessageDialog(null, 
 					"O usuário '" + mensagem + "' ou sua senha não conferem!\n\n"
@@ -272,6 +322,16 @@ public class LoginController implements ComponentListener {
 					JOptionPane.PLAIN_MESSAGE, 
 					new ImageIcon( diretorio + "/icons/warning.png" ));
 			break;
+			
+		case "erroDados":
+			JOptionPane.showMessageDialog(null, 
+					"O usuário '" + mensagem + "' não pode ser autenticado!!\n\n"
+							+ "Houve um problema de comunicação com a Base de Dados.",
+					"Erro", 
+					JOptionPane.PLAIN_MESSAGE, 
+					new ImageIcon( diretorio + "/icons/warning.png" ));
+			break;
+			
 		default:
 			JOptionPane.showMessageDialog(null, 
 					mensagem, 
@@ -334,6 +394,16 @@ public class LoginController implements ComponentListener {
 			Object source = e.getSource();
 
 			if(source == btnCadastrar){
+				if ( logon.getLogon().size() > 0 && 
+						logon.getLogon().get(0).getNivel().equalsIgnoreCase("Administrador") ){
+					abrirJanela( "administrador" );
+				} else {
+					abrirJanela( "usuario" );
+				}
+			}
+
+			if(source == btnCliente){
+
 				abrirJanela( "usuario" );
 			}
 		}

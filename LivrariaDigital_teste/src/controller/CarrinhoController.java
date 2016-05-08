@@ -19,10 +19,8 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -83,7 +81,7 @@ public class CarrinhoController implements ComponentListener {
 		
 		logon.rastrear( janela.getName() );
 		lerArquivo();
-		temporizador();
+		logon.carrinhoTempo();
 	}
 	
 	
@@ -113,38 +111,6 @@ public class CarrinhoController implements ComponentListener {
 		Pattern p = Pattern.compile("[0-9]+");
 		Matcher m = p.matcher(str);
 		return m.find();    
-	}
-	
-	public void temporizador(){
-
-		if ( itens.size() > 0 ){
-			int tempo = 1; //variavel que controla os minutos da sessão
-			String dtAtual = obterData();
-			String dtCarrinho = itens.get(0).getDtCadastro();
-
-			DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-
-			//Converte para Date
-			Date dateA = null;
-			Date dateB = null;
-			try {
-				dateA = df.parse(dtAtual);
-				dateB = df.parse(dtCarrinho);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-
-			Calendar calB = Calendar.getInstance();
-			calB.setTime(dateB);
-			//Adiciona o tempo configurado para a B
-			//Calendar.MINUTE pode ser alterado para qtd de tempo desejada
-			calB.add(Calendar.MINUTE, tempo);
-			dateB = calB.getTime();
-
-			if ( dateA.after(dateB) ){
-				limparCampos();
-			}	
-		}
 	}
 	
 	
@@ -368,7 +334,7 @@ public class CarrinhoController implements ComponentListener {
 		String linha = new String();
 		ArrayList<String> lista = new ArrayList<>();
 		try {
-			arquivos.lerArquivo( diretorio + "data", "livro" );
+			arquivos.lerArquivo( diretorio + "dados", "livro" );
 			linha = arquivos.getBuffer();
 			String[] listaItens = linha.split(";");
 			for (String s : listaItens) {
@@ -396,7 +362,7 @@ public class CarrinhoController implements ComponentListener {
 		String linha = new String();
 		ArrayList<String> lista = new ArrayList<>();
 		try {
-			dao.lerArquivo(diretorio + "data/", arquivo);
+			dao.lerArquivo(diretorio + "dados/", arquivo);
 			linha = dao.getBuffer();
 			String[] listaItens = linha.split(";");
 			for (String s : listaItens) {
@@ -428,11 +394,11 @@ public class CarrinhoController implements ComponentListener {
 	public void atualizarArquivo(List<Carrinho> listaItens) {
 
 		//REALIZA A GRAVAÇÃO NO ARQUIVO TXT
-		File f = new File(diretorio + "data/" + arquivo);
+		File f = new File(diretorio + "dados/" + arquivo);
 		f.delete();
 		for (Carrinho itens : listaItens) {
 			try {
-				dao.escreverArquivo(diretorio  + "data/", arquivo, "", itens);
+				dao.escreverArquivo(diretorio  + "dados/", arquivo, "", itens);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

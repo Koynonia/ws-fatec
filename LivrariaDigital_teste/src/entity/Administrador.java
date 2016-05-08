@@ -7,7 +7,7 @@
 
 package entity;
 
-public class Usuario {
+public class Administrador {
 
 	private String id;
 	private String usuario;

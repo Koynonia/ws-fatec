@@ -2,16 +2,30 @@ package entity;
 
 public class Endereco {
 
+	private String cpf;
+	private String tipoEndereco;
 	private String endereco;
 	private String complemento;
 	private String bairro;
 	private String cidade;
 	private String estado;
 	private String cep;
-	private String tipoEndereco;
 	private String dtCadastro;
 	private String dtAlterado;
-
+	
+	
+	public String getCpf() {
+		return cpf;
+	}
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+	public String getTipoEndereco() {
+		return tipoEndereco;
+	}
+	public void setTipoEndereco(String tipoEndereco) {
+		this.tipoEndereco = tipoEndereco;
+	}
 	public String getEndereco() {
 		return endereco;
 	}
@@ -47,12 +61,6 @@ public class Endereco {
 	}
 	public void setCep(String cep) {
 		this.cep = cep;
-	}
-	public String getTipoEndereco() {
-		return tipoEndereco;
-	}
-	public void setTipoEndereco(String tipoEndereco) {
-		this.tipoEndereco = tipoEndereco;
 	}
 	public String getDtCadastro() {
 		return dtCadastro;

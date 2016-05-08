@@ -37,6 +37,7 @@ public class FrmLogin extends JFrame {
 	private JLabel lblPagina; 
 	private JLabel lblUsuario; 
 	private JLabel lblSenha; 
+	private JButton btnCliente; 
 	private JButton btnCancelar; 
 	private JButton btnCadastrar; 
 	private JButton btnEntrar; 
@@ -105,6 +106,10 @@ public class FrmLogin extends JFrame {
 		pwdSenha.setBounds(145, 129, 178, 28);
 		painel.add(pwdSenha);
 		
+		btnCliente = new JButton("Seus Dados");
+		btnCliente.setBounds(139, 194, 117, 29);
+		painel.add(btnCliente);
+		
 		btnCancelar = new JButton("Cancelar");
 		btnCancelar.setBounds(268, 194, 117, 29);
 		painel.add(btnCancelar);
@@ -134,6 +139,7 @@ public class FrmLogin extends JFrame {
 						pwdSenha, 
 						lblUsuario, 
 						lblSenha, 
+						btnCliente, 
 						btnCadastrar, 
 						btnEntrar
 						);
@@ -142,6 +148,7 @@ public class FrmLogin extends JFrame {
 		txtUsuario.addMouseListener(loginCtrl.limpaCampo);
 		txtUsuario.addActionListener(loginCtrl.entrar);
 		pwdSenha.addActionListener(loginCtrl.entrar);
+		btnCliente.addActionListener(loginCtrl.janelas);
 		btnCancelar.addActionListener(loginCtrl.fechar);
 		btnEntrar.addActionListener(loginCtrl.entrar);
 		btnCadastrar.addActionListener(loginCtrl.janelas);

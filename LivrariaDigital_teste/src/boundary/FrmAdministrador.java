@@ -21,9 +21,9 @@ import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 
-import controller.UsuarioController;
+import controller.AdministradorController;
 
-public class FrmUsuario extends JFrame {
+public class FrmAdministrador extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel painel;
@@ -48,7 +48,7 @@ public class FrmUsuario extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FrmUsuario frame = new FrmUsuario();
+					FrmAdministrador frame = new FrmAdministrador();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -57,7 +57,7 @@ public class FrmUsuario extends JFrame {
 		});
 	}
 	
-	public FrmUsuario() {
+	public FrmAdministrador() {
 
 		setTitle("Administrar Usuários");
 		setName("Usuário");
@@ -140,7 +140,7 @@ public class FrmUsuario extends JFrame {
 		btnApagar.setBounds(180, 166, 117, 29);
 		painel.add(btnApagar);
 		
-		UsuarioController userCtrl = new UsuarioController( 
+		AdministradorController userCtrl = new AdministradorController( 
 				this, 
 				painel, 
 				txtId, 

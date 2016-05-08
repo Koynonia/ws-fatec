@@ -106,6 +106,18 @@ public class FrmCarrinho extends JFrame {
 		spCompras.setViewportView(tabCompra);
 		tabCompra.setBorder(null);
 		
+		lblQtd = new JLabel("Quantidade");
+		lblQtd.setBounds(397, 334, 73, 16);
+		painel.add(lblQtd);
+		
+		ftxtQtd = new JFormattedTextField((Format) null);
+		ftxtQtd.setBackground(SystemColor.window);
+		ftxtQtd.setHorizontalAlignment(SwingConstants.CENTER);
+		ftxtQtd.setEditable(false);
+		ftxtQtd.setColumns(10);
+		ftxtQtd.setBounds(478, 329, 58, 28);
+		painel.add(ftxtQtd);
+		
 		lblVlrTotal = new JLabel("Total Geral");
 		lblVlrTotal.setBounds(559, 335, 73, 16);
 		painel.add(lblVlrTotal);
@@ -143,18 +155,6 @@ public class FrmCarrinho extends JFrame {
 		btnVoltar = new JButton("Voltar");
 		btnVoltar.setBounds(612, 408, 117, 29);
 		painel.add(btnVoltar);
-		
-		lblQtd = new JLabel("Quantidade");
-		lblQtd.setBounds(397, 334, 73, 16);
-		painel.add(lblQtd);
-		
-		ftxtQtd = new JFormattedTextField((Format) null);
-		ftxtQtd.setBackground(SystemColor.window);
-		ftxtQtd.setHorizontalAlignment(SwingConstants.CENTER);
-		ftxtQtd.setEditable(false);
-		ftxtQtd.setColumns(10);
-		ftxtQtd.setBounds(478, 329, 58, 28);
-		painel.add(ftxtQtd);
 				
 		CarrinhoController carrinhoCtrl = new CarrinhoController(
 				this, 

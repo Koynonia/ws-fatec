@@ -24,6 +24,8 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -40,7 +42,6 @@ import boundary.FrmDetalhe;
 import boundary.FrmLista;
 import boundary.FrmLivro;
 import boundary.FrmLogin;
-import dao.ArquivoCarrinho;
 import dao.ArquivoLivro;
 import entity.Livro;
 
@@ -73,7 +74,6 @@ public class PrincipalController implements ComponentListener {
 	private JLabel lblLivroVend_6;
 	private String diretorio = "../LivrariaDigital_teste/";
 	private String arquivo = "livro";
-	private String arquivo2 = "carrinho";
 	private String imagem;
 	private boolean validar;
 	private int opt;
@@ -132,17 +132,18 @@ public class PrincipalController implements ComponentListener {
 		
 		dados();
 		tela();
+		
 	}
 	
 	
 	//   TELA    ///////////////
 	
 	public void dados(){
-
+		
 		//logon.rastrear( janela.getName() );
 		logon.logoff();
 		lerArquivo();
-		lerCarrinho();
+		atualizar("carrinho");
 	}
 	
 	
@@ -163,6 +164,38 @@ public class PrincipalController implements ComponentListener {
 			}  
 		});
 	}
+	
+	
+	public void atualizar( final String opt ) {
+
+		// Verifica o estado do carrinho a cada segundo
+		// Linhas comentadas de código é para uma implementação de log para relatório futuro
+		Timer timer = null;      
+		//        final SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+		if (timer == null)   
+		{      
+			timer = new Timer();
+			TimerTask tarefa = new TimerTask() {     
+				public void run()   
+				{      
+					try {               	 
+						//txtPesquisar.setText("Hora: "+format.format( new Date().getTime() )); 
+
+						switch ( opt ){
+
+						case "carrinho":
+							btnCarrinho.setText("Meu Carrinho ( " + logon.carrinhoQtd() + " )");
+							break;
+						}
+					} catch (Exception e) {      
+						e.printStackTrace();      
+					}      
+				}
+			};      
+			timer.scheduleAtFixedRate(tarefa, 0, 1000);      
+		}    
+	}
+	
 	
 	public void login(){
 
@@ -191,7 +224,8 @@ public class PrincipalController implements ComponentListener {
 
 			case 1:
 				campo =  "lblLivroLanc_" + 1;
-				if( livros.size() >= i ){ titulo = livros.get(i-1).getTitulo(); } else { titulo = ""; };			
+				if( livros.size() >= i ){ titulo = livros.get(i-1).getTitulo() 
+						+ " ( R$ " + livros.get(i-1).getPrecoVenda() + " )"; } else { titulo = ""; };			
 				isbn.add( livros.get(i-1).getIsbn() );
 				imagem = livros.get(i-1).getImagem();
 				ImageIcon capa1 = new ImageIcon( imagem );
@@ -200,7 +234,8 @@ public class PrincipalController implements ComponentListener {
 				percorrerCampos ( campo, titulo );
 				
 				campo =  "lblLivroVend_" + 1;
-				if( livrosVendidos.size() >= i ){ titulo = livrosVendidos.get(i-1).getTitulo(); } else { titulo = ""; };
+				if( livrosVendidos.size() >= i ){ titulo = livrosVendidos.get(i-1).getTitulo()
+						+ " ( R$ " + livrosVendidos.get(i-1).getPrecoVenda() + " )"; } else { titulo = ""; };
 				isbn.add( livrosVendidos.get(i-1).getIsbn() );
 				imagem = livrosVendidos.get(i-1).getImagem();
 				ImageIcon capa2 = new ImageIcon( imagem );
@@ -211,7 +246,8 @@ public class PrincipalController implements ComponentListener {
 
 			case 2:
 				campo =  "lblLivroLanc_" + 2;
-				if( livros.size() >= i ){ titulo = livros.get(i-1).getTitulo(); } else { titulo = ""; };			
+				if( livros.size() >= i ){ titulo = livros.get(i-1).getTitulo()
+						+ " ( R$ " + livros.get(i-1).getPrecoVenda() + " )"; } else { titulo = ""; };			
 				isbn.add( livros.get(i-1).getIsbn() );
 				imagem = livros.get(i-1).getImagem();
 				ImageIcon capa3 = new ImageIcon( imagem );
@@ -220,7 +256,8 @@ public class PrincipalController implements ComponentListener {
 				percorrerCampos ( campo, titulo );
 				
 				campo =  "lblLivroVend_" + 2;
-				if( livrosVendidos.size() >= i ){ titulo = livrosVendidos.get(i-1).getTitulo(); } else { titulo = ""; };
+				if( livrosVendidos.size() >= i ){ titulo = livrosVendidos.get(i-1).getTitulo()
+						+ " ( R$ " + livrosVendidos.get(i-1).getPrecoVenda() + " )"; } else { titulo = ""; };
 				isbn.add( livrosVendidos.get(i-1).getIsbn() );
 				imagem = livrosVendidos.get(i-1).getImagem();
 				ImageIcon capa4 = new ImageIcon( imagem );
@@ -231,7 +268,8 @@ public class PrincipalController implements ComponentListener {
 
 			case 3:
 				campo =  "lblLivroLanc_" + 3;
-				if( livros.size() >= i ){ titulo = livros.get(i-1).getTitulo(); } else { titulo = ""; };			
+				if( livros.size() >= i ){ titulo = livros.get(i-1).getTitulo()
+						+ " ( R$ " + livros.get(i-1).getPrecoVenda() + " )"; } else { titulo = ""; };			
 				isbn.add( livros.get(i-1).getIsbn() );
 				imagem = livros.get(i-1).getImagem();
 				ImageIcon capa5 = new ImageIcon( imagem );
@@ -240,7 +278,8 @@ public class PrincipalController implements ComponentListener {
 				percorrerCampos ( campo, titulo );
 				
 				campo =  "lblLivroVend_" + 3;
-				if( livrosVendidos.size() >= i ){ titulo = livrosVendidos.get(i-1).getTitulo(); } else { titulo = ""; };
+				if( livrosVendidos.size() >= i ){ titulo = livrosVendidos.get(i-1).getTitulo()
+						+ " ( R$ " + livrosVendidos.get(i-1).getPrecoVenda() + " )"; } else { titulo = ""; };
 				isbn.add( livrosVendidos.get(i-1).getIsbn() );
 				imagem = livrosVendidos.get(i-1).getImagem();
 				ImageIcon capa6 = new ImageIcon( imagem );
@@ -251,7 +290,8 @@ public class PrincipalController implements ComponentListener {
 
 			case 4:
 				campo =  "lblLivroLanc_" + 4;
-				if( livros.size() >= i ){ titulo = livros.get(i-1).getTitulo(); } else { titulo = ""; };			
+				if( livros.size() >= i ){ titulo = livros.get(i-1).getTitulo()
+						+ " ( R$ " + livros.get(i-1).getPrecoVenda() + " )"; } else { titulo = ""; };			
 				isbn.add( livros.get(i-1).getIsbn() );
 				imagem = livros.get(i-1).getImagem();
 				ImageIcon capa7 = new ImageIcon( imagem );
@@ -260,7 +300,8 @@ public class PrincipalController implements ComponentListener {
 				percorrerCampos ( campo, titulo );
 				
 				campo =  "lblLivroVend_" + 4;
-				if( livrosVendidos.size() >= i ){ titulo = livrosVendidos.get(i-1).getTitulo(); } else { titulo = ""; };
+				if( livrosVendidos.size() >= i ){ titulo = livrosVendidos.get(i-1).getTitulo()
+						+ " ( R$ " + livrosVendidos.get(i-1).getPrecoVenda() + " )"; } else { titulo = ""; };
 				isbn.add( livrosVendidos.get(i-1).getIsbn() );
 				imagem = livrosVendidos.get(i-1).getImagem();
 				ImageIcon capa8 = new ImageIcon( imagem );
@@ -271,7 +312,8 @@ public class PrincipalController implements ComponentListener {
 
 			case 5:
 				campo =  "lblLivroLanc_" + 5;
-				if( livros.size() >= i ){ titulo = livros.get(i-1).getTitulo(); } else { titulo = ""; };			
+				if( livros.size() >= i ){ titulo = livros.get(i-1).getTitulo()
+						+ " ( R$ " + livros.get(i-1).getPrecoVenda() + " )"; } else { titulo = ""; };			
 				isbn.add( livros.get(i-1).getIsbn() );
 				imagem = livros.get(i-1).getImagem();
 				ImageIcon capa9 = new ImageIcon( imagem );
@@ -280,7 +322,8 @@ public class PrincipalController implements ComponentListener {
 				percorrerCampos ( campo, titulo );
 				
 				campo =  "lblLivroVend_" + 5;
-				if( livrosVendidos.size() >= i ){ titulo = livrosVendidos.get(i-1).getTitulo(); } else { titulo = ""; };
+				if( livrosVendidos.size() >= i ){ titulo = livrosVendidos.get(i-1).getTitulo()
+						+ " ( R$ " + livrosVendidos.get(i-1).getPrecoVenda() + " )"; } else { titulo = ""; };
 				isbn.add( livrosVendidos.get(i-1).getIsbn() );
 				imagem = livrosVendidos.get(i-1).getImagem();
 				ImageIcon capa10 = new ImageIcon( imagem );
@@ -291,7 +334,8 @@ public class PrincipalController implements ComponentListener {
 
 			case 6:
 				campo =  "lblLivroLanc_" + 6;
-				if( livros.size() >= i ){ titulo = livros.get(i-1).getTitulo(); } else { titulo = ""; };			
+				if( livros.size() >= i ){ titulo = livros.get(i-1).getTitulo()
+						+ " ( R$ " + livros.get(i-1).getPrecoVenda() + " )"; } else { titulo = ""; };			
 				isbn.add( livros.get(i-1).getIsbn() );
 				imagem = livros.get(i-1).getImagem();
 				ImageIcon capa11 = new ImageIcon( imagem );
@@ -300,7 +344,8 @@ public class PrincipalController implements ComponentListener {
 				percorrerCampos ( campo, titulo );
 				
 				campo =  "lblLivroVend_" + 6;
-				if( livrosVendidos.size() >= i ){ titulo = livrosVendidos.get(i-1).getTitulo(); } else { titulo = ""; };
+				if( livrosVendidos.size() >= i ){ titulo = livrosVendidos.get(i-1).getTitulo()
+						+ " ( R$ " + livrosVendidos.get(i-1).getPrecoVenda() + " )"; } else { titulo = ""; };
 				isbn.add( livrosVendidos.get(i-1).getIsbn() );
 				imagem = livrosVendidos.get(i-1).getImagem();
 				ImageIcon capa12 = new ImageIcon( imagem );
@@ -438,38 +483,13 @@ public class PrincipalController implements ComponentListener {
 	}
 	
 	
-	public void lerCarrinho() {
-
-		int qtd = 0;
-		ArquivoCarrinho dao = new ArquivoCarrinho();
-		String linha = new String();
-		ArrayList<String> lista = new ArrayList<>();
-		try {
-			dao.lerArquivo(diretorio + "data/", arquivo2);
-			linha = dao.getBuffer();
-			String[] listaItens = linha.split(";");
-			for (String s : listaItens) {
-				String text = s.replaceAll(".*: ", "");
-				lista.add(text);
-				if (s.contains("---")) {
-					qtd =  qtd + Integer.parseInt(lista.get(1));
-					lista.clear();
-				}
-				btnCarrinho.setText("Meu Carrinho ( " + qtd + " )");
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	
 	public void lerArquivo() {
 
 		//FILTRA E CARREGA O ARRAY COM A BASE DE DADOS
 		String linha = new String();
 		ArrayList<String> lista = new ArrayList<>();
 		try {
-			dao.lerArquivo(diretorio + "data/", arquivo);
+			dao.lerArquivo(diretorio + "dados/", arquivo);
 			linha = dao.getBuffer();
 			String[] listaItens = linha.split(";");
 			for (String s : listaItens) {
@@ -581,8 +601,7 @@ public class PrincipalController implements ComponentListener {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				encerraSessao( usuarioAtivo );
-				
+				logon.encerrar();
 				sair();
 			}
 		};
@@ -687,7 +706,8 @@ public class PrincipalController implements ComponentListener {
 
 			@Override
 			public void focusGained(FocusEvent e) {
-				lerCarrinho();
+
+				btnCarrinho.setText("Meu Carrinho ( " + logon.carrinhoQtd() + " )");
 				login();
 			}
 

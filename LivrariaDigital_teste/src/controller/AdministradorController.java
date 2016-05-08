@@ -30,15 +30,15 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import boundary.FrmPrincipal;
-import boundary.FrmUsuario;
-import dao.ArquivoUsuario;
+import boundary.FrmAdministrador;
+import dao.ArquivoAdministrador;
 import dao.Arquivos;
-import entity.Usuario;
+import entity.Administrador;
 
 
-public class UsuarioController implements ComponentListener {
+public class AdministradorController implements ComponentListener {
 
-	private FrmUsuario janela;
+	private FrmAdministrador janela;
 	private JPanel painel;
 	private FrmPrincipal janelaPrincipal;
 	private JTextField txtId, txtUsuario;
@@ -46,17 +46,17 @@ public class UsuarioController implements ComponentListener {
 	private JCheckBox chckbxAdm, chckbxOpera;
 	private JButton btnEntrar; 
 	//private JButton btnCadastrar;
-	private List<Usuario> usuarios;
+	private List<Administrador> usuarios;
 	private static int contador = 1;
 	private boolean validar;
 	private String diretorio = "../LivrariaDigital_teste/";
-	private String arquivo = "usuario";
+	private String arquivo = "administrador";
 	private Arquivos arquivos = new Arquivos();
-	private ArquivoUsuario dao = new ArquivoUsuario();
+	private ArquivoAdministrador dao = new ArquivoAdministrador();
 	private SessaoController logon = SessaoController.getInstance();
 
-	public UsuarioController (
-			FrmUsuario janela, 
+	public AdministradorController (
+			FrmAdministrador janela, 
 			JPanel painel, 
 			JTextField txtId, 
 			JTextField txtUsuario, 
@@ -78,7 +78,7 @@ public class UsuarioController implements ComponentListener {
 		this.chckbxOpera = chckbxOpera;
 		//this.btnCadastrar = btnCadastrar;
 		this.btnEntrar = btnEntrar;
-		this.usuarios = new ArrayList<Usuario>();
+		this.usuarios = new ArrayList<Administrador>();
 
 		lerArquivo();
 	}
@@ -160,7 +160,7 @@ public class UsuarioController implements ComponentListener {
 				String text = s.replaceAll(".*: ", "");
 				list.add(text);
 				if (s.contains("---")) {
-					Usuario usuario = new Usuario();
+					Administrador usuario = new Administrador();
 					usuario.setId(list.get(0));
 					usuario.setUsuario(list.get(1));
 					usuario.setSenha(list.get(2));
@@ -175,11 +175,11 @@ public class UsuarioController implements ComponentListener {
 	}
 
 
-	public void atualizarDados(List<Usuario> lista) {
+	public void atualizarDados(List<Administrador> lista) {
 
 		File f = new File( diretorio + "data/", arquivo );
 		f.delete();	
-		for (Usuario usuarios : lista) {
+		for (Administrador usuarios : lista) {
 			try {
 				arquivos.escreverArquivo( diretorio  + "data/", arquivo, "", usuarios);
 			} catch (IOException e) {
@@ -240,7 +240,7 @@ public class UsuarioController implements ComponentListener {
 				//FrmLogin frame = new FrmLogin();
 				//frame.dispose(); //NAO FECHA O FRMLOGIN!
 
-				FrmUsuario janelaUsuario = new FrmUsuario();
+				FrmAdministrador janelaUsuario = new FrmAdministrador();
 				janelaUsuario.setVisible(true);
 			} else {
 				msg("errorsession", "");
@@ -253,7 +253,7 @@ public class UsuarioController implements ComponentListener {
 
 	public void pesquisar() {
 
-		ArrayList<Usuario> lista = new ArrayList<>();
+		ArrayList<Administrador> lista = new ArrayList<>();
 		String pesquisa ="";
 		if (!txtUsuario.getText().isEmpty() || !txtId.getText().isEmpty()) {
 			for (int i = 0; i < usuarios.size(); i++) {
@@ -275,7 +275,7 @@ public class UsuarioController implements ComponentListener {
 
 					boolean filtro = usuarios.get(i).getUsuario().toLowerCase().startsWith(txtUsuario.getText().toLowerCase());
 					if (filtro == true) {
-						Usuario item = new Usuario();
+						Administrador item = new Administrador();
 						item.setId(usuarios.get(i).getId());
 						item.setUsuario(usuarios.get(i).getUsuario());
 						item.setSenha(usuarios.get(i).getSenha());
@@ -320,7 +320,7 @@ public class UsuarioController implements ComponentListener {
 	@SuppressWarnings("deprecation")
 	public void editar() {
 
-		Usuario usuario = new Usuario();
+		Administrador usuario = new Administrador();
 		validar = false;
 		if (!txtId.getText().isEmpty()
 				&& pwdSenha.getPassword().length != 0) {
@@ -385,11 +385,11 @@ public class UsuarioController implements ComponentListener {
 
 
 	@SuppressWarnings("deprecation")
-	public void gravar() {
+	public void salvar() {
 
 		gerarId();
-		new ArquivoUsuario();
-		Usuario usuario = new Usuario();
+		new ArquivoAdministrador();
+		Administrador usuario = new Administrador();
 		validar = false;
 		if (!txtUsuario.getText().isEmpty() 
 				&& pwdSenha.getPassword().length != 0) {
@@ -400,7 +400,7 @@ public class UsuarioController implements ComponentListener {
 				}
 			}
 			if(!(validar == true)){
-				if(pwdSenha.getText().equals(pwdSenha2.getText())){
+				if( pwdSenha.getText().equals(pwdSenha2.getText() )){
 					usuario.setId(txtId.getText());
 					usuario.setUsuario(txtUsuario.getText());
 					usuario.setSenha(pwdSenha.getText().toString());
@@ -621,7 +621,7 @@ public class UsuarioController implements ComponentListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
-			gravar();
+			salvar();
 		}
 	};
 	

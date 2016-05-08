@@ -193,7 +193,7 @@ public class LivroController implements ComponentListener{
 		preencherEditora();
 		preencherCategoria();
 		preencherCapa();
-		imagem = diretorio + "imagem/capa.png";
+		imagem = diretorio + "capas/capa.png";
 		carregarCapa();
 		navegar();
 	}
@@ -348,7 +348,7 @@ public class LivroController implements ComponentListener{
 		if ( !ftxtPrecoCusto.getText().isEmpty() ){
 			vlr2 = Double.parseDouble( ftxtPrecoCusto.getText().trim() );
 		}
-				
+		
 		ftxtMargem.setText( ( Double.toString(  ( ( vlr1 - vlr2 ) * 100 / vlr1 ))).substring(0,2) + " %" );
 	}
 	
@@ -377,7 +377,7 @@ public class LivroController implements ComponentListener{
 			}
 		}
 		
-		imagem = diretorio + "imagem/capa.png";
+		imagem = diretorio + "capas/capa.png";
 		carregarCapa();
 		txtAutor.setText("");
 		txtCategoria.setText("");
@@ -441,7 +441,7 @@ public class LivroController implements ComponentListener{
 			imagem = file.getCanonicalPath();
 			carregarCapa();
 		} else {
-			imagem = diretorio + "imagem/capa.png";
+			imagem = diretorio + "capas/capa.png";
 		} 
 	}
 
@@ -512,7 +512,7 @@ public class LivroController implements ComponentListener{
 		ArrayList<String> listString = new ArrayList<>();
 		ArrayList<Autor> listAutor = new ArrayList<>();
 		try {
-			arquivos.lerArquivo(diretorio + "data/", "autor");
+			arquivos.lerArquivo(diretorio + "dados/", "autor");
 			linha = arquivos.getBuffer();
 			String[] autor = linha.split(";");
 			for ( String d : autor ) {
@@ -550,7 +550,7 @@ public class LivroController implements ComponentListener{
 		ArrayList<String> listString = new ArrayList<>();
 		ArrayList<Editora> listEditora = new ArrayList<>();
 		try {
-			arquivos.lerArquivo(diretorio + "data/", "editora");
+			arquivos.lerArquivo(diretorio + "dados/", "editora");
 			linha = arquivos.getBuffer();
 			String[] editora = linha.split(";");
 			for ( String d : editora ) {
@@ -587,7 +587,7 @@ public class LivroController implements ComponentListener{
 		ArrayList<String> listString = new ArrayList<>();
 		ArrayList<Categoria> listCategoria = new ArrayList<>();
 		try {
-			arquivos.lerArquivo(diretorio + "data/", "categoria");
+			arquivos.lerArquivo(diretorio + "dados/", "categoria");
 			linha = arquivos.getBuffer();
 			String[] categoria = linha.split(";");
 			for ( String d : categoria ) {
@@ -747,6 +747,7 @@ public class LivroController implements ComponentListener{
 
 				for (int i = 0; i < livros.size(); i++) {
 					if ( txtIsbnID.getText().equals(livros.get(i).getIsbn() )) {
+						
 						livro.setIsbn( ftxtIsbn.getText() );
 						livro.setTitulo( txtTitulo.getText() );
 						livro.setAutor( txtAutor.getText() );
@@ -765,6 +766,7 @@ public class LivroController implements ComponentListener{
 						livro.setDtAlterado( obterData() );
 						livros.set( i, livro );
 						atualizarArquivo( livros );
+						
 						estoque.setIsbn( ftxtIsbn.getText() );
 						estoque.setQtd( Integer.parseInt( txtEstoque.getText() ));
 						estoque.setDtCadastro( estoques.get(i).getDtCadastro() );
@@ -794,6 +796,7 @@ public class LivroController implements ComponentListener{
 				}
 			}			
 			if(!(validar == true)){
+				
 				livro.setIsbn( ftxtIsbn.getText() );
 				livro.setTitulo( txtTitulo.getText() );
 				livro.setAutor( txtAutor.getText() );
@@ -812,6 +815,7 @@ public class LivroController implements ComponentListener{
 				livro.setImagem( imagem );
 				livros.add(livro);
 				atualizarArquivo( livros );
+				
 				estoque.setIsbn( ftxtIsbn.getText() );
 				estoque.setQtd( Integer.parseInt(txtEstoque.getText() ));
 				estoque.setDtCadastro( obterData() );
@@ -841,15 +845,13 @@ public class LivroController implements ComponentListener{
 					estoques.remove(i);
 					atualizarArquivo( livros );
 					atualizarEstoque( estoques );
-					lerArquivo();
-					lerEstoque();
 					msg("excluir", txtTitulo.getText());
 					limparCampos();
 					validar = false;
 					}
 				} else {
 					if(i == livros.size()){
-						msg("erroExcluir", livros.get(i).getTitulo());
+						msg( "erroExcluir", livros.get(i).getTitulo() );
 					}
 				}
 			} 
@@ -865,7 +867,7 @@ public class LivroController implements ComponentListener{
 		String linha = new String();
 		ArrayList<String> lista = new ArrayList<>();
 		try {
-			daoEstoque.lerArquivo( diretorio + "data/", "estoque" );
+			daoEstoque.lerArquivo( diretorio + "dados/", "estoque" );
 			linha = daoEstoque.getBuffer();
 			String[] listaItens = linha.split(";");
 			for (String s : listaItens) {
@@ -890,11 +892,11 @@ public class LivroController implements ComponentListener{
 	public void atualizarEstoque(List<Estoque> listaEstoque) {
 
 		//REALIZA A GRAVAÇÃO NO ARQUIVO TXT
-		File f = new File(diretorio + "data/" + "estoque" );
+		File f = new File(diretorio + "dados/" + "estoque" );
 		f.delete();
 		for (Estoque estoques : listaEstoque) {
 			try {
-				daoEstoque.escreverArquivo(diretorio  + "data/", "estoque", "", estoques);
+				daoEstoque.escreverArquivo(diretorio  + "dados/", "estoque", "", estoques);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -908,7 +910,7 @@ public class LivroController implements ComponentListener{
 		String linha = new String();
 		ArrayList<String> lista = new ArrayList<>();
 		try {
-			dao.lerArquivo( diretorio + "data/", arquivo );
+			dao.lerArquivo( diretorio + "dados/", arquivo );
 			linha = dao.getBuffer();
 			String[] listaItens = linha.split(";");
 			for (String s : listaItens) {
@@ -944,11 +946,11 @@ public class LivroController implements ComponentListener{
 	public void atualizarArquivo( List<Livro> listaLivros ) {
 
 		//REALIZA A GRAVAÇÃO NO ARQUIVO TXT
-		File f = new File( diretorio + "data/" + arquivo );
+		File f = new File( diretorio + "dados/" + arquivo );
 		f.delete();
 		for (Livro livros : listaLivros) {
 			try {
-				dao.escreverArquivo( diretorio  + "data/", arquivo, "", livros );
+				dao.escreverArquivo( diretorio  + "dados/", arquivo, "", livros );
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -1187,7 +1189,7 @@ public class LivroController implements ComponentListener{
 			}
 		};
 		
-		public ActionListener carrgarImagem = new ActionListener() {
+		public ActionListener carregarImagem = new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {

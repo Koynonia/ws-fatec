@@ -403,7 +403,7 @@ public class FrmLivro extends JFrame {
 		txtaResumo.addKeyListener(livroCtrl.tecla);
 		ftxtPrecoCusto.addKeyListener(livroCtrl.tecla);
 		ftxtPrecoVenda.addKeyListener(livroCtrl.tecla);
-		btnImagem.addActionListener(livroCtrl.carrgarImagem);
+		btnImagem.addActionListener(livroCtrl.carregarImagem);
 		btnAnterior.addActionListener(livroCtrl.registros);
 		btnAnterior.addKeyListener(livroCtrl.tecla);
 		btnProximo.addActionListener(livroCtrl.registros);

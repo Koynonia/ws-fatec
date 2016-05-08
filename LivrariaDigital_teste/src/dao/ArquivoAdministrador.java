@@ -15,9 +15,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
-import entity.Usuario;
+import entity.Administrador;
 
-public class ArquivoUsuario implements Arquivo {
+public class ArquivoAdministrador implements Arquivo {
 	
 	private StringBuffer buffer;
 
@@ -56,13 +56,13 @@ public class ArquivoUsuario implements Arquivo {
 	@Override
 	public void escreverArquivo(String diretorio, String arquivo, String texto, Object object) throws IOException {
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("ID     : "+((Usuario) object).getId());
+		buffer.append("ID     : "+((Administrador) object).getId());
 		buffer.append("\r\n");
-		buffer.append("Usuario: " + ((Usuario) object).getUsuario());
+		buffer.append("Usuario: " + ((Administrador) object).getUsuario());
 		buffer.append("\r\n");
-		buffer.append("Senha  : " + ((Usuario) object).getSenha());
+		buffer.append("Senha  : " + ((Administrador) object).getSenha());
 		buffer.append("\r\n");
-		buffer.append("Nível  : " + ((Usuario) object).getNivel());
+		buffer.append("Nível  : " + ((Administrador) object).getNivel());
 		buffer.append("\r\n");
 		buffer.append("---------------------------");
 		buffer.append("\r\n");
