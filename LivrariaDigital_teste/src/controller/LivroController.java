@@ -239,7 +239,7 @@ public class LivroController implements ComponentListener{
 
 		case "protegerCampos":
 			
-			btnImagem.setEnabled(false);
+			btnImagem.setVisible(false);
 			btnLimpar.setText("Novo");
 			btnCancelar.setVisible(false);
 			btnEditar.setText("Editar");
@@ -283,7 +283,7 @@ public class LivroController implements ComponentListener{
 
 		case "desprotegerCampos":
 			
-			btnImagem.setEnabled(true);
+			btnImagem.setVisible(true);
 			btnLimpar.setText("Limpar");
 			btnCancelar.setVisible(true);
 			btnEditar.setText("Salvar");

@@ -1,0 +1,26 @@
+Usuario         : Fernando
+Senha           : 123
+Email           : fernando@email.com
+Nome            : Fernando Borges
+Data Nascimento : 01/01/1970
+CPF             : 11122233344
+Telefone        : 1122223333
+Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/avatares/Comics-Ironman-Elm.png
+Tipo Endereço   : Residência
+Nível           : null
+Data Cadastro   : 08/05/2016 03:52:48
+Data Alterado   : 09/05/2016 02:35:00
+------------------------------------
+Usuario         : Fulano
+Senha           : 123
+Email           : fulano@gmail.com
+Nome            : Fulano da Silva
+Data Nascimento : 01/01/2000
+CPF             : 11122233345
+Telefone        : 2345-6789
+Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/avatares/Avengers-Nick_Fury.png
+Tipo Endereço   : Residência
+Nível           : null
+Data Cadastro   : 09/05/2016 02:38:45
+Data Alterado   : 09/05/2016 02:38:45
+------------------------------------

@@ -55,8 +55,6 @@ public class FrmPrincipal extends JFrame {
 	private JLabel lblLivroVend_6;
 	private JLabel lblLancamento;
 	private JLabel lblVendido;
-	private JButton btnLivro;
-	private JLabel lblLivro;
 	private JButton btnSair;
 	
 	public static void main(String[] args) {
@@ -274,15 +272,6 @@ public class FrmPrincipal extends JFrame {
 		lblVendido.setEnabled(false);
 		lblVendido.setBounds(36, 426, 135, 26);
 		painel.add(lblVendido);
-		
-		//Acesso Administrador - para testes
-		lblLivro = new JLabel("Adiministrador:");
-		lblLivro.setBounds(763, 11, 98, 16);
-		painel.add(lblLivro);
-
-		btnLivro = new JButton("Livros");
-		btnLivro.setBounds(873, 6, 117, 29);
-		painel.add(btnLivro);
 
 		btnSair = new JButton("Sair");
 		btnSair.setBounds(873, 36, 117, 29);
@@ -295,9 +284,7 @@ public class FrmPrincipal extends JFrame {
 				cboFiltrar, 
 				txtPesquisar, 
 				btnLogin, 
-				btnCarrinho, 
-				btnLivro, 
-				lblLivro, 
+				btnCarrinho,  
 				lblLivroLanc_1, 
 				lblLivroLanc_2, 
 				lblLivroLanc_3, 
@@ -315,7 +302,6 @@ public class FrmPrincipal extends JFrame {
 		txtPesquisar.addActionListener(principalCtrl.pesquisar);
 		btnPesquisar.addActionListener(principalCtrl.pesquisar);
 		btnLogin.addActionListener(principalCtrl.janelas);
-		btnLivro.addActionListener(principalCtrl.janelas);
 		btnCarrinho.addActionListener(principalCtrl.janelas);
 		btnSair.addActionListener(principalCtrl.sairSistema);
 		lblLivroLanc_1.addMouseListener(principalCtrl.clique);

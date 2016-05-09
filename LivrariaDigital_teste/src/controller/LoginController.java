@@ -31,10 +31,13 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 import boundary.FrmCliente;
+import boundary.FrmLivro;
 import boundary.FrmLogin;
 import boundary.FrmAdministrador;
+import dao.ArquivoCliente;
 import dao.ArquivoSessao;
 import dao.ArquivoAdministrador;
+import entity.Cliente;
 import entity.Sessao;
 import entity.Administrador;
 
@@ -44,19 +47,24 @@ public class LoginController implements ComponentListener {
 	private FrmLogin janela; 
 	private FrmAdministrador janelaUsuario; 
 	private FrmCliente janelaCliente;
+	private FrmLivro janelaLivro;
 	private JTextArea txtaAviso; 
 	private JTextField txtUsuario; 
 	private JPasswordField pwdSenha; 
 	private JLabel lblUsuario; 
 	private JLabel lblSenha; 
+	private JButton btnLivros; 
 	private JButton btnCliente; 
 	private JButton btnCadastrar; 
 	private JButton btnEntrar; 
 	private String diretorio = "../LivrariaDigital_teste/";
 	private String arquivo = "administrador";
+	private PrincipalController principalCtrl;
 	private List<Administrador> usuarios;
+	private List<Cliente> clientes;
 	private List<Sessao> usuarioAtivo;
 	private ArquivoAdministrador dao = new ArquivoAdministrador();
+	private ArquivoCliente daoCliente = new ArquivoCliente();
 	private ArquivoSessao daoSessao = new ArquivoSessao();
 	private SessaoController logon = SessaoController.getInstance();
 	private static int contador = 1;
@@ -64,26 +72,31 @@ public class LoginController implements ComponentListener {
 
 	public LoginController (
 			FrmLogin janela, 
+			PrincipalController principalCtrl, 
 			JTextArea txtaAviso, 
 			JTextField txtUsuario, 
 			JPasswordField pwdSenha, 
 			JLabel lblUsuario, 
 			JLabel lblSenha, 
+			JButton btnLivros, 
 			JButton btnCliente, 
 			JButton btnCadastrar, 
 			JButton btnEntrar 
 			) {
 
 		this.janela = janela;
+		this.principalCtrl = principalCtrl;
 		this.txtaAviso = txtaAviso;
 		this.txtUsuario = txtUsuario;
 		this.pwdSenha = pwdSenha;
 		this.lblUsuario = lblUsuario;
 		this.lblSenha = lblSenha;
+		this.btnLivros = btnLivros;
 		this.btnCliente = btnCliente;
 		this.btnCadastrar = btnCadastrar;
 		this.btnEntrar = btnEntrar;
 		this.usuarios = new ArrayList<Administrador>();
+		this.clientes = new ArrayList<Cliente>();
 		this.usuarioAtivo = new ArrayList<Sessao>();
 		
 		dados();
@@ -96,6 +109,7 @@ public class LoginController implements ComponentListener {
 	public void dados(){
 		
 		logon.rastrear( janela.getName() );
+		lerCliente();
 		lerAdministrador();
 	}
 	
@@ -104,14 +118,28 @@ public class LoginController implements ComponentListener {
 		
 		campos();
 	}
-	
+
 	public void campos(){
 
 		if ( logon.getLogon().size() > 0 && 
 				logon.getLogon().get(0).getNivel().equalsIgnoreCase("Administrador") ){
 			btnCliente.setText( "Clientes" );
-		} else {
+			btnLivros.setBounds(50, 80, 117, 29);
+			btnLivros.setVisible(true);
+			btnCliente.setBounds(50, 120, 117, 29);
+			txtaAviso.setText(
+					"Bem-vindo "+ logon.getLogon().get(0).getUsuario() 
+					+ "!\n\n\nEste painel acessa funcões administrativas.");
+			
+		} else if ( !logon.getLogon().isEmpty() ){
 			btnCliente.setText( "Seus Dados" );
+			btnLivros.setVisible(false);
+			txtaAviso.setVisible(true);
+			txtaAviso.setText(
+					"Olá "+ logon.getLogon().get(0).getUsuario() 
+					+ "!\n\nVocê pode sair da Livraria Digital "
+					+ "e retornar no momento que preferir…\n"
+					+ "No entanto, os itens adicionados no Carrinho serão perdidos!");
 		}
 		
 		if ( !logon.getLogon().isEmpty() ){
@@ -122,18 +150,13 @@ public class LoginController implements ComponentListener {
 			pwdSenha.setVisible(false);
 			btnCliente.setVisible(true);
 			btnCadastrar.setVisible(false);
-			btnEntrar.setText("Sair");
-			txtaAviso.setVisible(true);
-			txtaAviso.setText(
-					"Olá "+ logon.getLogon().get(0).getUsuario() 
-					+ "!\n\nVocê pode sair da Livraria Digital "
-					+ "e retornar no momento que preferir…\n"
-					+ "No entanto, os itens adicionados no Carrinho serão perdidos!");			
+			btnEntrar.setText("Sair");			
 		} else {			
 			lblUsuario.setVisible(true);
 			lblSenha.setVisible(true);
 			txtUsuario.setVisible(true);
 			pwdSenha.setVisible(true);
+			btnLivros.setVisible(false);
 			btnCliente.setVisible(false);
 			btnCadastrar.setVisible(true);
 			txtaAviso.setVisible(false);
@@ -171,7 +194,7 @@ public class LoginController implements ComponentListener {
 			return true; 
 		}
 		return false;
-	} 
+	}
 	
 	
 	public void abrirJanela ( String nome ){
@@ -192,13 +215,39 @@ public class LoginController implements ComponentListener {
 			if( janelaCliente == null ){
 				FrmCliente cliente;
 				try {
-					cliente = new FrmCliente();
+					if ( !logon.getLogon().isEmpty() ){
+						cliente = new FrmCliente( logon.getLogon().get(0).getId() );
+					} else {
+						cliente = new FrmCliente( null );
+					}
 					cliente.setVisible(true);
+					principalCtrl.fechar();
+					fechar();
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
 			} else {
 				janelaCliente.setVisible(true);
+				principalCtrl.fechar();
+				fechar();
+			}
+			break;
+			
+		case "livro":
+			if( janelaLivro == null ){
+				FrmLivro livro;
+				try {
+					livro = new FrmLivro();
+					livro.setVisible(true);
+					principalCtrl.fechar();
+					fechar();
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+			} else {
+				janelaLivro.setVisible(true);
+				principalCtrl.fechar();
+				fechar();
 			}
 			break;
 		}
@@ -210,10 +259,11 @@ public class LoginController implements ComponentListener {
 	public void entrar() {
 
 		if ( btnEntrar.getText().equals("Entrar") ){
-			if ( !usuarios.isEmpty() ){
+			if ( !usuarios.isEmpty() || !clientes.isEmpty() ){
 				if (!txtUsuario.getText().isEmpty() 
 						&& pwdSenha.getPassword().length != 0) {
 					for (int i = 0; i < usuarios.size(); i++) {
+						
 						if (txtUsuario.getText().equalsIgnoreCase(usuarios.get(i).getUsuario())
 								&& validarSenha(usuarios.get(i).getSenha()) == true) {
 							logon.registrar( 
@@ -224,8 +274,23 @@ public class LoginController implements ComponentListener {
 							validar = true;
 							fechar();
 							msg("autorizado", txtUsuario.getText());
-						} 			
-					}				
+						}
+					}
+
+					for (int i = 0; i < clientes.size(); i++) {
+						if (txtUsuario.getText().equalsIgnoreCase(clientes.get(i).getUsuario())
+								&& validarSenha(clientes.get(i).getSenha()) == true) {
+							logon.registrar( 
+									clientes.get(i).getCpf(), 
+									clientes.get(i).getUsuario(), 
+									clientes.get(i).getNome(), 
+									janela.getName());				
+							validar = true;
+							fechar();
+							msg("autorizado", txtUsuario.getText());
+						} 
+					}
+
 					if (validar == false){
 						msg("erroSenha", txtUsuario.getText());
 						senhas();
@@ -243,6 +308,34 @@ public class LoginController implements ComponentListener {
 		} else {
 			logon.sair();
 			fechar();
+		}
+	}
+	
+	
+	public void lerCliente() {
+
+		//FILTRA E CARREGA O ARRAY COM A BASE DE DADOS
+		String linha = new String();
+		ArrayList<String> lista = new ArrayList<>();
+		try {
+			daoCliente.lerArquivo( diretorio + "dados/", "cliente" );
+			linha = daoCliente.getBuffer();
+			String[] listaItens = linha.split(";");
+			for (String s : listaItens) {
+				String text = s.replaceAll(".*: ", "");
+				lista.add(text);
+				if (s.contains("---")) {
+					Cliente cliente = new Cliente();
+					cliente.setUsuario( lista.get(0) );
+					cliente.setSenha( lista.get(1) );
+					cliente.setNome( lista.get(3) );
+					cliente.setCpf( lista.get(5) );
+					clientes.add(cliente);
+					lista.clear();
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -295,6 +388,8 @@ public class LoginController implements ComponentListener {
 	// MENSAGENS //////////////////////////////
 
 	public void msg(String tipo, String mensagem) {
+		
+		janela.setAlwaysOnTop ( false );
 
 		switch (tipo) {
 		
@@ -339,6 +434,7 @@ public class LoginController implements ComponentListener {
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon( diretorio + "/icons/error.png" ));
 		}
+		janela.setAlwaysOnTop ( true );
 	}
 	
 	
@@ -405,6 +501,11 @@ public class LoginController implements ComponentListener {
 			if(source == btnCliente){
 
 				abrirJanela( "usuario" );
+			}
+			
+			if(source == btnLivros){
+
+				abrirJanela( "livro" );
 			}
 		}
 	};

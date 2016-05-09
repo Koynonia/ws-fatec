@@ -9,7 +9,6 @@
 package boundary;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.SystemColor;
 
@@ -25,6 +24,7 @@ import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 
 import controller.LoginController;
+import controller.PrincipalController;
 
 @SuppressWarnings("serial")
 public class FrmLogin extends JFrame {
@@ -42,24 +42,13 @@ public class FrmLogin extends JFrame {
 	private JButton btnCadastrar; 
 	private JButton btnEntrar; 
 	private JPasswordField pwdSenha; 
+	private JButton btnLivros;
 	
 	
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					FrmLogin frame = new FrmLogin();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-	
-	public FrmLogin() {
+	public FrmLogin( PrincipalController principalCtrl ) {
 		setTitle("Login da Loja");
 		setName("Login");
+		setAlwaysOnTop (true);
 		setResizable(false);
 		setUndecorated(true);
 		setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
@@ -106,6 +95,10 @@ public class FrmLogin extends JFrame {
 		pwdSenha.setBounds(145, 129, 178, 28);
 		painel.add(pwdSenha);
 		
+		btnLivros = new JButton("Livros");
+		btnLivros.setBounds(397, 66, 117, 29);
+		painel.add(btnLivros);
+		
 		btnCliente = new JButton("Seus Dados");
 		btnCliente.setBounds(139, 194, 117, 29);
 		painel.add(btnCliente);
@@ -134,20 +127,22 @@ public class FrmLogin extends JFrame {
 		
 				LoginController loginCtrl = new LoginController( 
 						this, 
+						principalCtrl, 
 						txtaAviso, 
 						txtUsuario, 
 						pwdSenha, 
 						lblUsuario, 
 						lblSenha, 
+						btnLivros, 
 						btnCliente, 
 						btnCadastrar, 
 						btnEntrar
 						);
-		
-
+				
 		txtUsuario.addMouseListener(loginCtrl.limpaCampo);
 		txtUsuario.addActionListener(loginCtrl.entrar);
 		pwdSenha.addActionListener(loginCtrl.entrar);
+		btnLivros.addActionListener(loginCtrl.janelas);
 		btnCliente.addActionListener(loginCtrl.janelas);
 		btnCancelar.addActionListener(loginCtrl.fechar);
 		btnEntrar.addActionListener(loginCtrl.entrar);

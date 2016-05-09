@@ -20,7 +20,6 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -40,7 +39,6 @@ import javax.swing.SwingUtilities;
 import boundary.FrmCarrinho;
 import boundary.FrmDetalhe;
 import boundary.FrmLista;
-import boundary.FrmLivro;
 import boundary.FrmLogin;
 import dao.ArquivoLivro;
 import entity.Livro;
@@ -51,15 +49,12 @@ public class PrincipalController implements ComponentListener {
 	private FrmLista janelaLista;
 	private FrmCarrinho janelaCarrinho;
 	private FrmLogin janelaLogin;
-	private FrmLivro janelaLivro;
 	private FrmDetalhe janelaDetalhe;
 	private JPanel painel;
 	private JComboBox<String> cboFiltrar;
 	private JTextField txtPesquisar;
 	private JButton btnLogin; 
-	private JButton btnCarrinho;
-	private JButton btnLivro;
-	private JLabel lblLivro; 
+	private JButton btnCarrinho; 
 	private JLabel lblLivroLanc_1;
 	private JLabel lblLivroLanc_2;
 	private JLabel lblLivroLanc_3;
@@ -91,8 +86,6 @@ public class PrincipalController implements ComponentListener {
 			JTextField txtPesquisar,  
 			JButton btnLogin, 
 			JButton btnCarrinho, 
-			JButton btnLivro, 
-			JLabel lblLivro,
 			JLabel lblLivroLanc_1, 
 			JLabel lblLivroLanc_2, 
 			JLabel lblLivroLanc_3, 
@@ -113,8 +106,6 @@ public class PrincipalController implements ComponentListener {
 		this.txtPesquisar = txtPesquisar;
 		this.btnLogin = btnLogin;
 		this.btnCarrinho = btnCarrinho;
-		this.btnLivro = btnLivro;
-		this.lblLivro = lblLivro;
 		this.lblLivroLanc_1 = lblLivroLanc_1;
 		this.lblLivroLanc_2 = lblLivroLanc_2;
 		this.lblLivroLanc_3 = lblLivroLanc_3;
@@ -199,16 +190,10 @@ public class PrincipalController implements ComponentListener {
 	
 	public void login(){
 
-		lblLivro.setVisible(false);
-		btnLivro.setVisible(false);
 		btnLogin.setText("Entrar");
 		
 		if ( logon.getLogon().size() > 0 ){
 			btnLogin.setText("Bem-vindo, " + logon.getLogon().get(0).getUsuario() + "!");
-			if ( logon.getLogon().get(0).getNivel().equalsIgnoreCase("Administrador") ){
-				lblLivro.setVisible(true);
-				btnLivro.setVisible(true);
-			}
 		}
 	}
 
@@ -399,26 +384,10 @@ public class PrincipalController implements ComponentListener {
 
 		case "login":
 			if( janelaLogin == null ){
-				FrmLogin login = new FrmLogin();
+				FrmLogin login = new FrmLogin( this );
 				login.setVisible(true);
 			} else {
 				janelaLogin.setVisible(true);
-			}
-			break;
-			
-		case "livro":
-			if( janelaLivro == null ){
-				FrmLivro livro;
-				try {
-					livro = new FrmLivro();
-					livro.setVisible(true);
-					fechar();
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-			} else {
-				janelaLivro.setVisible(true);
-				fechar();
 			}
 			break;
 			
@@ -629,9 +598,6 @@ public class PrincipalController implements ComponentListener {
 				}
 				if (source == btnLogin){
 					abrirJanela( "login" );
-				}
-				if (source == btnLivro){
-					abrirJanela( "livro" );
 				}
 			}
 		};
