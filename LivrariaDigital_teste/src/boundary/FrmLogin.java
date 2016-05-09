@@ -40,7 +40,7 @@ public class FrmLogin extends JFrame {
 	private JButton btnLivros; 
 	private JButton btnUsuarios; 
 	private JButton btnClientes; 
-	private JButton btnCancelar; 
+	private JButton btnFechar; 
 	private JButton btnCadastrar; 
 	private JButton btnEntrar; 
 	private JPasswordField pwdSenha; 
@@ -97,20 +97,20 @@ public class FrmLogin extends JFrame {
 		painel.add(pwdSenha);
 		
 		btnUsuarios = new JButton("Usuários");
-		btnUsuarios.setBounds(395, 80, 117, 29);
+		btnUsuarios.setBounds(395, 75, 117, 29);
 		painel.add(btnUsuarios);
 		
 		btnLivros = new JButton("Livros");
-		btnLivros.setBounds(395, 120, 117, 29);
+		btnLivros.setBounds(395, 115, 117, 29);
 		painel.add(btnLivros);
 		
 		btnClientes = new JButton("Seus Dados");
 		btnClientes.setBounds(139, 194, 117, 29);
 		painel.add(btnClientes);
 		
-		btnCancelar = new JButton("Cancelar");
-		btnCancelar.setBounds(268, 194, 117, 29);
-		painel.add(btnCancelar);
+		btnFechar = new JButton("Fechar");
+		btnFechar.setBounds(268, 194, 117, 29);
+		painel.add(btnFechar);
 		
 		btnCadastrar = new JButton("Cadastrar");
 		btnCadastrar.setBounds(139, 194, 117, 29);
@@ -151,7 +151,7 @@ public class FrmLogin extends JFrame {
 		btnLivros.addActionListener(loginCtrl.janelas);
 		btnUsuarios.addActionListener(loginCtrl.janelas);
 		btnClientes.addActionListener(loginCtrl.janelas);
-		btnCancelar.addActionListener(loginCtrl.fechar);
+		btnFechar.addActionListener(loginCtrl.fechar);
 		btnEntrar.addActionListener(loginCtrl.entrar);
 		btnCadastrar.addActionListener(loginCtrl.janelas);
 		txtUsuario.addKeyListener(loginCtrl.tecla);

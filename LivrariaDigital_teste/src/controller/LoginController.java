@@ -130,7 +130,7 @@ public class LoginController implements ComponentListener {
 			btnUsuarios.setVisible(true);
 			btnLivros.setVisible(true);
 			btnClientes.setText( "Clientes" );
-			btnClientes.setBounds(395, 160, 117, 29);
+			btnClientes.setBounds(395, 155, 117, 29);
 			txtaAviso.setVisible(true);
 			txtaAviso.setText(
 					"Bem-vindo "+ logon.getLogon().get(0).getUsuario() 
@@ -139,6 +139,7 @@ public class LoginController implements ComponentListener {
 			
 		} else if ( !logon.getLogon().isEmpty() ){
 			btnClientes.setText( "Seus Dados" );
+			btnUsuarios.setVisible(false);
 			btnLivros.setVisible(false);
 			txtaAviso.setVisible(true);
 			txtaAviso.setText(

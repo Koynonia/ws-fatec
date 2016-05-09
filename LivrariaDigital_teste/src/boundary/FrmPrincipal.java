@@ -54,7 +54,8 @@ public class FrmPrincipal extends JFrame {
 	private JLabel lblLivroVend_5;
 	private JLabel lblLivroVend_6;
 	private JLabel lblLancamento;
-	private JLabel lblVendido;
+	private JLabel lblVendido; 
+	private JLabel lblVersao; 
 	private JButton btnFechar;
 	
 	public static void main(String[] args) {
@@ -272,6 +273,11 @@ public class FrmPrincipal extends JFrame {
 		lblVendido.setEnabled(false);
 		lblVendido.setBounds(36, 426, 135, 26);
 		painel.add(lblVendido);
+		
+		lblVersao = new JLabel("Versão: 0.1.0");
+		lblVersao.setEnabled(false);
+		lblVersao.setBounds(893, 666, 97, 16);
+		painel.add(lblVersao);
 
 		btnFechar = new JButton("Fechar");
 		btnFechar.setBounds(873, 36, 117, 29);

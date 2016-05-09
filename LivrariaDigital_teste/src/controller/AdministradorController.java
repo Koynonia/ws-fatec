@@ -248,6 +248,7 @@ public class AdministradorController implements ComponentListener {
 					pesquisa = (String) JOptionPane.showInputDialog(janela, "Selecione:\n", "Registros Localizados",
 							JOptionPane.INFORMATION_MESSAGE, null, filtro, filtro[0]);
 				}
+				if (pesquisa == "0" || pesquisa != null){
 				for (int i = 0; i < usuarios.size(); i++) {
 					if (pesquisa.replaceAll(" : .*", "").equalsIgnoreCase(usuarios.get(i).getId())) {
 						txtId.setText(usuarios.get(i).getId());
@@ -260,6 +261,7 @@ public class AdministradorController implements ComponentListener {
 					}
 				}
 				validar = false; 
+				}
 			} else {
 				if (pesquisa == "") {
 					msg("nosearch", txtUsuario.getText());
@@ -267,6 +269,7 @@ public class AdministradorController implements ComponentListener {
 				}
 				validar = false;
 			}
+				
 		} else {
 			msg("errorsearch", txtUsuario.getText());
 		}
@@ -309,37 +312,8 @@ public class AdministradorController implements ComponentListener {
 			msg("errornull", txtUsuario.getText());
 		}
 	}
-
-	public void excluir() {
-
-		if (!txtUsuario.getText().isEmpty()) {
-			for (int i = 0; i < usuarios.size(); i++) {
-				if (txtId.getText().equalsIgnoreCase(usuarios.get(i).getId()) 
-						&& txtUsuario.getText().equalsIgnoreCase(usuarios.get(i).getUsuario())) {
-					usuarios.remove(i);
-					validar = true;
-				}
-			}
-			if (validar == true) {
-				msg("deleteconfirm", txtUsuario.getText());
-				if (validar == false){
-					atualizarDados(usuarios);
-					msg("delete", txtUsuario.getText());
-					limpaCampos();
-				} else {
-					usuarios.clear();
-					lerArquivo();	
-				}
-			} else {
-				validar = false;
-				msg("errordelete", txtId.getText());
-			}
-		} else {
-			pesquisar();
-		}
-	}
-
-
+	
+	
 	@SuppressWarnings("deprecation")
 	public void salvar() {
 
@@ -376,6 +350,36 @@ public class AdministradorController implements ComponentListener {
 			}
 		} else {
 			msg("errornull", txtUsuario.getText());
+		}
+	}
+	
+
+	public void excluir() {
+
+		if (!txtUsuario.getText().isEmpty()) {
+			for (int i = 0; i < usuarios.size(); i++) {
+				if (txtId.getText().equalsIgnoreCase(usuarios.get(i).getId()) 
+						&& txtUsuario.getText().equalsIgnoreCase(usuarios.get(i).getUsuario())) {
+					usuarios.remove(i);
+					validar = true;
+				}
+			}
+			if (validar == true) {
+				msg("deleteconfirm", txtUsuario.getText());
+				if (validar == false){
+					atualizarDados(usuarios);
+					msg("delete", txtUsuario.getText());
+					limpaCampos();
+				} else {
+					usuarios.clear();
+					lerArquivo();	
+				}
+			} else {
+				validar = false;
+				msg("errordelete", txtId.getText());
+			}
+		} else {
+			pesquisar();
 		}
 	}
 	
@@ -425,6 +429,8 @@ public class AdministradorController implements ComponentListener {
 	// MENSAGENS //////////////////////////////
 
 	public void msg(String tipo, String mensagem) {
+		
+		janela.setAlwaysOnTop ( false );
 
 		switch (tipo) {
 
@@ -538,6 +544,8 @@ public class AdministradorController implements ComponentListener {
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon( diretorio + "/icons/warning.png" ));
 		}
+		
+		janela.setAlwaysOnTop ( true );
 	}
 	
 	
@@ -596,15 +604,6 @@ public class AdministradorController implements ComponentListener {
 		}
 	};
 
-	public ActionListener excluir = new ActionListener() {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-
-			excluir();
-		}
-	};
-
 	public ActionListener editar = new ActionListener() {
 
 		@Override
@@ -614,12 +613,30 @@ public class AdministradorController implements ComponentListener {
 		}
 	};
 
-	public ActionListener gravar = new ActionListener() {
+	public ActionListener salvar = new ActionListener() {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
 			salvar();
+		}
+	};
+	
+	public ActionListener excluir = new ActionListener() {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+
+			excluir();
+		}
+	};
+	
+	public ActionListener sair = new ActionListener() {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+
+			fechar();
 		}
 	};
 	

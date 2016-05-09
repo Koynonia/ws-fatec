@@ -33,11 +33,11 @@ public class FrmAdministrador extends JFrame {
 	private JLabel lblUsuario; 
 	private JLabel lblSenha; 
 	private JLabel lblSenha2;
+	private JButton btnPesquisar;
 	private JButton btnCadastrar; 
-	private JButton btnEditar; 
-	private JButton btnPesquisar; 
-	private JButton btnApagar;
-	private JButton btnEntrar;
+	private JButton btnEditar;  
+	private JButton btnExcluir;
+	private JButton btnFechar;
 	private JPasswordField pwdSenha; 
 	private JPasswordField pwdSenha2;
 	private JCheckBox chckbxAdm; 
@@ -60,11 +60,12 @@ public class FrmAdministrador extends JFrame {
 	public FrmAdministrador() {
 
 		setTitle("Administrar Usuários");
-		setName("Usuário");
-		setResizable(false);
-		setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
-		setLocationRelativeTo(null);
+		setName("Adminsitrador");
+		setAlwaysOnTop (true);
+		setUndecorated(true);
+		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 540, 250);
+		setLocationRelativeTo(null);
 		
 		painel = new JPanel();
 		painel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -124,21 +125,25 @@ public class FrmAdministrador extends JFrame {
 		chckbxOpera.setBounds(366, 121, 128, 23);
 		painel.add(chckbxOpera);
 		
-		btnCadastrar = new JButton("Cadastrar");
-		btnCadastrar.setBounds(397, 166, 117, 29);
-		painel.add(btnCadastrar);
-
-		btnEditar = new JButton("Editar");
-		btnEditar.setBounds(288, 166, 117, 29);
-		painel.add(btnEditar);
-
 		btnPesquisar = new JButton("Pesquisar");
 		btnPesquisar.setBounds(288, 47, 117, 29);
 		painel.add(btnPesquisar);
+		
+		btnEditar = new JButton("Editar");
+		btnEditar.setBounds(22, 185, 117, 29);
+		painel.add(btnEditar);
+		
+		btnCadastrar = new JButton("Cadastrar");
+		btnCadastrar.setBounds(139, 185, 117, 29);
+		painel.add(btnCadastrar);
 
-		btnApagar = new JButton("Excluir");
-		btnApagar.setBounds(180, 166, 117, 29);
-		painel.add(btnApagar);
+		btnExcluir = new JButton("Excluir");
+		btnExcluir.setBounds(256, 185, 117, 29);
+		painel.add(btnExcluir);
+		
+		btnFechar = new JButton("Fechar");
+		btnFechar.setBounds(398, 185, 117, 29);
+		painel.add(btnFechar);
 		
 		AdministradorController userCtrl = new AdministradorController( 
 				this, 
@@ -150,15 +155,16 @@ public class FrmAdministrador extends JFrame {
 				chckbxAdm, 
 				chckbxOpera, 
 				btnCadastrar, 
-				btnEntrar);
+				btnFechar);
 		
 		userCtrl.gerarId();
 		txtUsuario.addMouseListener(userCtrl.limpaCampo);
 		txtUsuario.addActionListener(userCtrl.pesquisar);
-		pwdSenha.addActionListener(userCtrl.gravar);
+		pwdSenha.addActionListener(userCtrl.salvar);
 		btnPesquisar.addActionListener(userCtrl.pesquisar);
-		btnApagar.addActionListener(userCtrl.excluir);
+		btnExcluir.addActionListener(userCtrl.excluir);
 		btnEditar.addActionListener(userCtrl.editar);
-		btnCadastrar.addActionListener(userCtrl.gravar);
+		btnCadastrar.addActionListener(userCtrl.salvar);
+		btnFechar.addActionListener(userCtrl.sair);
 	}
 }
