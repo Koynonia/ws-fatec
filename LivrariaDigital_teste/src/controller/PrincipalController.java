@@ -191,9 +191,13 @@ public class PrincipalController implements ComponentListener {
 	public void login(){
 
 		btnLogin.setText("Entrar");
-		
+
 		if ( logon.getLogon().size() > 0 ){
-			btnLogin.setText("Bem-vindo, " + logon.getLogon().get(0).getUsuario() + "!");
+			if ( !logon.getLogon().get(0).getNivel().equals( "Administrador" ) ){
+				btnLogin.setText("Painel do " + logon.getLogon().get(0).getUsuario() );
+			} else {
+				btnLogin.setText("Painel Administrativo");
+			}
 		}
 	}
 

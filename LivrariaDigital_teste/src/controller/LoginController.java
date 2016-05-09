@@ -54,7 +54,8 @@ public class LoginController implements ComponentListener {
 	private JLabel lblUsuario; 
 	private JLabel lblSenha; 
 	private JButton btnLivros; 
-	private JButton btnCliente; 
+	private JButton btnUsuarios; 
+	private JButton btnClientes; 
 	private JButton btnCadastrar; 
 	private JButton btnEntrar; 
 	private String diretorio = "../LivrariaDigital_teste/";
@@ -79,7 +80,8 @@ public class LoginController implements ComponentListener {
 			JLabel lblUsuario, 
 			JLabel lblSenha, 
 			JButton btnLivros, 
-			JButton btnCliente, 
+			JButton btnUsuarios, 
+			JButton btnClientes, 
 			JButton btnCadastrar, 
 			JButton btnEntrar 
 			) {
@@ -92,7 +94,8 @@ public class LoginController implements ComponentListener {
 		this.lblUsuario = lblUsuario;
 		this.lblSenha = lblSenha;
 		this.btnLivros = btnLivros;
-		this.btnCliente = btnCliente;
+		this.btnUsuarios = btnUsuarios;
+		this.btnClientes = btnClientes;
 		this.btnCadastrar = btnCadastrar;
 		this.btnEntrar = btnEntrar;
 		this.usuarios = new ArrayList<Administrador>();
@@ -123,21 +126,25 @@ public class LoginController implements ComponentListener {
 
 		if ( logon.getLogon().size() > 0 && 
 				logon.getLogon().get(0).getNivel().equalsIgnoreCase("Administrador") ){
-			btnCliente.setText( "Clientes" );
-			btnLivros.setBounds(50, 80, 117, 29);
+			
+			btnUsuarios.setVisible(true);
 			btnLivros.setVisible(true);
-			btnCliente.setBounds(50, 120, 117, 29);
+			btnClientes.setText( "Clientes" );
+			btnClientes.setBounds(395, 160, 117, 29);
+			txtaAviso.setVisible(true);
 			txtaAviso.setText(
 					"Bem-vindo "+ logon.getLogon().get(0).getUsuario() 
-					+ "!\n\n\nEste painel acessa funcões administrativas.");
+					+ "!\n\n\nEste painel acessa funcões administrativas."
+					+ "\nSelecione ao lado a função desejada.");
 			
 		} else if ( !logon.getLogon().isEmpty() ){
-			btnCliente.setText( "Seus Dados" );
+			btnClientes.setText( "Seus Dados" );
 			btnLivros.setVisible(false);
 			txtaAviso.setVisible(true);
 			txtaAviso.setText(
 					"Olá "+ logon.getLogon().get(0).getUsuario() 
-					+ "!\n\nVocê pode sair da Livraria Digital "
+					+ "!\n\nAqui você acessa seus dados.\n"
+					+ "Você pode sair da Livraria Digital "
 					+ "e retornar no momento que preferir…\n"
 					+ "No entanto, os itens adicionados no Carrinho serão perdidos!");
 		}
@@ -148,7 +155,7 @@ public class LoginController implements ComponentListener {
 			lblSenha.setVisible(false);
 			txtUsuario.setVisible(false);
 			pwdSenha.setVisible(false);
-			btnCliente.setVisible(true);
+			btnClientes.setVisible(true);
 			btnCadastrar.setVisible(false);
 			btnEntrar.setText("Sair");			
 		} else {			
@@ -156,11 +163,12 @@ public class LoginController implements ComponentListener {
 			lblSenha.setVisible(true);
 			txtUsuario.setVisible(true);
 			pwdSenha.setVisible(true);
+			btnUsuarios.setVisible(false);
 			btnLivros.setVisible(false);
-			btnCliente.setVisible(false);
+			btnClientes.setVisible(false);
 			btnCadastrar.setVisible(true);
 			txtaAviso.setVisible(false);
-			btnEntrar.setText("Entrar");
+			btnEntrar.setText("Acessar");
 		}
 	}
 	
@@ -206,12 +214,14 @@ public class LoginController implements ComponentListener {
 				FrmAdministrador usuario;
 				usuario = new FrmAdministrador();
 				usuario.setVisible(true);
+				fechar();
 			} else {
 				janelaUsuario.setVisible(true);
+				fechar();
 			}
 			break;
 			
-		case "usuario":
+		case "cliente":
 			if( janelaCliente == null ){
 				FrmCliente cliente;
 				try {
@@ -258,7 +268,7 @@ public class LoginController implements ComponentListener {
 
 	public void entrar() {
 
-		if ( btnEntrar.getText().equals("Entrar") ){
+		if ( btnEntrar.getText().equals("Acessar") ){
 			if ( !usuarios.isEmpty() || !clientes.isEmpty() ){
 				if (!txtUsuario.getText().isEmpty() 
 						&& pwdSenha.getPassword().length != 0) {
@@ -494,18 +504,20 @@ public class LoginController implements ComponentListener {
 						logon.getLogon().get(0).getNivel().equalsIgnoreCase("Administrador") ){
 					abrirJanela( "administrador" );
 				} else {
-					abrirJanela( "usuario" );
+					abrirJanela( "cliente" );
 				}
 			}
-
-			if(source == btnCliente){
-
-				abrirJanela( "usuario" );
-			}
-			
 			if(source == btnLivros){
 
 				abrirJanela( "livro" );
+			}
+			if(source == btnClientes){
+
+				abrirJanela( "cliente" );
+			}
+			if(source == btnUsuarios){
+
+				abrirJanela( "administrador" );
 			}
 		}
 	};

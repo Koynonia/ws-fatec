@@ -55,7 +55,7 @@ public class FrmPrincipal extends JFrame {
 	private JLabel lblLivroVend_6;
 	private JLabel lblLancamento;
 	private JLabel lblVendido;
-	private JButton btnSair;
+	private JButton btnFechar;
 	
 	public static void main(String[] args) {
 	
@@ -273,9 +273,9 @@ public class FrmPrincipal extends JFrame {
 		lblVendido.setBounds(36, 426, 135, 26);
 		painel.add(lblVendido);
 
-		btnSair = new JButton("Sair");
-		btnSair.setBounds(873, 36, 117, 29);
-		painel.add(btnSair);
+		btnFechar = new JButton("Fechar");
+		btnFechar.setBounds(873, 36, 117, 29);
+		painel.add(btnFechar);
 		
 		
 		PrincipalController principalCtrl = new PrincipalController(
@@ -303,7 +303,7 @@ public class FrmPrincipal extends JFrame {
 		btnPesquisar.addActionListener(principalCtrl.pesquisar);
 		btnLogin.addActionListener(principalCtrl.janelas);
 		btnCarrinho.addActionListener(principalCtrl.janelas);
-		btnSair.addActionListener(principalCtrl.sairSistema);
+		btnFechar.addActionListener(principalCtrl.sairSistema);
 		lblLivroLanc_1.addMouseListener(principalCtrl.clique);
 		lblLivroLanc_2.addMouseListener(principalCtrl.clique);
 		lblLivroLanc_3.addMouseListener(principalCtrl.clique);

@@ -104,16 +104,16 @@ public class FrmCliente extends JFrame {
 		painel.add(linha);
 			
 		lblPesquisar = new JLabel("Pesquisa");
-		lblPesquisar.setBounds(571, 42, 66, 16);
+		lblPesquisar.setBounds(429, 29, 66, 16);
 		painel.add(lblPesquisar);
 		
 		txtPesquisar = new JTextField(20);
 		txtPesquisar.setToolTipText("Digite aqui o termo que deseja pesquisar…");
-		txtPesquisar.setBounds(636, 36, 254, 28);
+		txtPesquisar.setBounds(427, 44, 254, 28);
 		painel.add(txtPesquisar);
 		
 		btnPesquisar = new JButton("Ir");
-		btnPesquisar.setBounds(902, 37, 75, 29);
+		btnPesquisar.setBounds(693, 44, 75, 29);
 		painel.add(btnPesquisar);
 		
 		lblId = new JLabel();

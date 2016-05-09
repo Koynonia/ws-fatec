@@ -178,11 +178,11 @@ public class CarrinhoController implements ComponentListener {
 		//TRAVA A EDIÇÃO DAS CELULAS
 		{  		  
 			boolean[] canEdit = new boolean []{    
-					false, false, false, false  
+					false, false, false, true, false, false  
 			};
 			@Override    
 			public boolean isCellEditable(int rowIndex, int columnIndex) {    
-				return canEdit [columnIndex];    
+				return canEdit [columnIndex];
 			}  
 		};
 

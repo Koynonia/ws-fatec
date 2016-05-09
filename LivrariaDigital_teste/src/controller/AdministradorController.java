@@ -29,10 +29,9 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import boundary.FrmPrincipal;
 import boundary.FrmAdministrador;
+import boundary.FrmPrincipal;
 import dao.ArquivoAdministrador;
-import dao.Arquivos;
 import entity.Administrador;
 
 
@@ -51,7 +50,6 @@ public class AdministradorController implements ComponentListener {
 	private boolean validar;
 	private String diretorio = "../LivrariaDigital_teste/";
 	private String arquivo = "administrador";
-	private Arquivos arquivos = new Arquivos();
 	private ArquivoAdministrador dao = new ArquivoAdministrador();
 	private SessaoController logon = SessaoController.getInstance();
 
@@ -147,48 +145,6 @@ public class AdministradorController implements ComponentListener {
 	// CRUD //////////////////////////
 
 
-	public void lerArquivo() {
-
-		String linha = new String();
-		ArrayList<String> list = new ArrayList<>();
-
-		try {
-			dao.lerArquivo( diretorio + "data/", arquivo );
-			linha = dao.getBuffer();
-			String[] listaUsuario = linha.split(";");
-			for (String s : listaUsuario) {
-				String text = s.replaceAll(".*: ", "");
-				list.add(text);
-				if (s.contains("---")) {
-					Administrador usuario = new Administrador();
-					usuario.setId(list.get(0));
-					usuario.setUsuario(list.get(1));
-					usuario.setSenha(list.get(2));
-					usuario.setNivel(list.get(3));
-					usuarios.add(usuario);
-					list.clear();
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-
-	public void atualizarDados(List<Administrador> lista) {
-
-		File f = new File( diretorio + "data/", arquivo );
-		f.delete();	
-		for (Administrador usuarios : lista) {
-			try {
-				arquivos.escreverArquivo( diretorio  + "data/", arquivo, "", usuarios);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
-
 	public void entrar() {
 
 		String n = "";
@@ -198,7 +154,7 @@ public class AdministradorController implements ComponentListener {
 				if (txtUsuario.getText().equalsIgnoreCase(usuarios.get(i).getUsuario())
 						&& validar(usuarios.get(i).getSenha()) == true) {
 					txtId.setText(usuarios.get(i).getId());
-					if (("Administrativo").equalsIgnoreCase(usuarios.get(i).getNivel())){
+					if (("Administrador").equalsIgnoreCase(usuarios.get(i).getNivel())){
 						chckbxAdm.setSelected(true);
 						//btnCadastrar.setVisible(true);
 						n = chckbxAdm.getText();
@@ -229,7 +185,7 @@ public class AdministradorController implements ComponentListener {
 		if (!txtUsuario.getText().isEmpty() 
 				&& pwdSenha.getPassword().length != 0) {
 			logon.carregar();
-			if (("Administrativo").equalsIgnoreCase(
+			if (("Administrador").equalsIgnoreCase(
 					logon.registrar(
 							txtId.getText(), 
 							txtUsuario.getText(), 
@@ -260,7 +216,7 @@ public class AdministradorController implements ComponentListener {
 				if (txtUsuario.getText().equalsIgnoreCase(usuarios.get(i).getId())) {
 					txtId.setText(usuarios.get(i).getId());
 					txtUsuario.setText(usuarios.get(i).getUsuario());
-					if (("Administrativo").equalsIgnoreCase(usuarios.get(i).getNivel())){
+					if (("Administrador").equalsIgnoreCase(usuarios.get(i).getNivel())){
 						chckbxAdm.setSelected(true);
 					} else if (("Operacional").equalsIgnoreCase(usuarios.get(i).getNivel())){
 						chckbxOpera.setSelected(true);
@@ -296,7 +252,7 @@ public class AdministradorController implements ComponentListener {
 					if (pesquisa.replaceAll(" : .*", "").equalsIgnoreCase(usuarios.get(i).getId())) {
 						txtId.setText(usuarios.get(i).getId());
 						txtUsuario.setText(usuarios.get(i).getUsuario());
-						if (("Administrativo").equalsIgnoreCase(usuarios.get(i).getNivel())){
+						if (("Administrador").equalsIgnoreCase(usuarios.get(i).getNivel())){
 							chckbxAdm.setSelected(true);
 						}else if (("Operacional").equalsIgnoreCase(usuarios.get(i).getNivel())){
 							chckbxOpera.setSelected(true);
@@ -420,6 +376,48 @@ public class AdministradorController implements ComponentListener {
 			}
 		} else {
 			msg("errornull", txtUsuario.getText());
+		}
+	}
+	
+	
+	public void lerArquivo() {
+
+		String linha = new String();
+		ArrayList<String> list = new ArrayList<>();
+
+		try {
+			dao.lerArquivo( diretorio + "dados/", arquivo );
+			linha = dao.getBuffer();
+			String[] listaUsuario = linha.split(";");
+			for (String s : listaUsuario) {
+				String text = s.replaceAll(".*: ", "");
+				list.add(text);
+				if (s.contains("---")) {
+					Administrador usuario = new Administrador();
+					usuario.setId(list.get(0));
+					usuario.setUsuario(list.get(1));
+					usuario.setSenha(list.get(2));
+					usuario.setNivel(list.get(3));
+					usuarios.add(usuario);
+					list.clear();
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+
+	public void atualizarDados( List<Administrador> listaUsuario ) {
+
+		File f = new File( diretorio + "dados/", arquivo );
+		f.delete();	
+		for ( Administrador usuarios : listaUsuario ) {
+			try {
+				dao.escreverArquivo( diretorio  + "dados/", arquivo, "", usuarios );
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

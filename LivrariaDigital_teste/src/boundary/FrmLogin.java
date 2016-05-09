@@ -37,12 +37,13 @@ public class FrmLogin extends JFrame {
 	private JLabel lblPagina; 
 	private JLabel lblUsuario; 
 	private JLabel lblSenha; 
-	private JButton btnCliente; 
+	private JButton btnLivros; 
+	private JButton btnUsuarios; 
+	private JButton btnClientes; 
 	private JButton btnCancelar; 
 	private JButton btnCadastrar; 
 	private JButton btnEntrar; 
 	private JPasswordField pwdSenha; 
-	private JButton btnLivros;
 	
 	
 	public FrmLogin( PrincipalController principalCtrl ) {
@@ -77,31 +78,35 @@ public class FrmLogin extends JFrame {
 		painel.add(lblPagina);
 		
 		lblUsuario = new JLabel("Usuário");
-		lblUsuario.setBounds(83, 95, 61, 16);
+		lblUsuario.setBounds(83, 86, 61, 16);
 		painel.add(lblUsuario);
 
 		txtUsuario = new JTextField();
 		txtUsuario.setToolTipText("Digite aqui o usuário…");
-		txtUsuario.setBounds(145, 89, 178, 28);
+		txtUsuario.setBounds(145, 80, 178, 28);
 		painel.add(txtUsuario);
 		txtUsuario.setColumns(10);
 		
 		lblSenha = new JLabel("Senha");
-		lblSenha.setBounds(83, 133, 61, 16);
+		lblSenha.setBounds(83, 126, 61, 16);
 		painel.add(lblSenha);
 		
 		pwdSenha = new JPasswordField();
 		pwdSenha.setToolTipText("Digite aqui a senha…");
-		pwdSenha.setBounds(145, 129, 178, 28);
+		pwdSenha.setBounds(145, 120, 178, 28);
 		painel.add(pwdSenha);
 		
+		btnUsuarios = new JButton("Usuários");
+		btnUsuarios.setBounds(395, 80, 117, 29);
+		painel.add(btnUsuarios);
+		
 		btnLivros = new JButton("Livros");
-		btnLivros.setBounds(397, 66, 117, 29);
+		btnLivros.setBounds(395, 120, 117, 29);
 		painel.add(btnLivros);
 		
-		btnCliente = new JButton("Seus Dados");
-		btnCliente.setBounds(139, 194, 117, 29);
-		painel.add(btnCliente);
+		btnClientes = new JButton("Seus Dados");
+		btnClientes.setBounds(139, 194, 117, 29);
+		painel.add(btnClientes);
 		
 		btnCancelar = new JButton("Cancelar");
 		btnCancelar.setBounds(268, 194, 117, 29);
@@ -111,7 +116,7 @@ public class FrmLogin extends JFrame {
 		btnCadastrar.setBounds(139, 194, 117, 29);
 		painel.add(btnCadastrar);
 
-		btnEntrar = new JButton("Entrar");
+		btnEntrar = new JButton("Acessar");
 		btnEntrar.setBounds(397, 194, 117, 29);
 		painel.add(btnEntrar);
 		
@@ -122,7 +127,7 @@ public class FrmLogin extends JFrame {
 		txtaAviso.setVisible(false);
 		txtaAviso.setLineWrap(true);
 		txtaAviso.setWrapStyleWord(true);
-		txtaAviso.setBounds(33, 96, 473, 65);
+		txtaAviso.setBounds(33, 75, 473, 86);
 		painel.add(txtaAviso);
 		
 				LoginController loginCtrl = new LoginController( 
@@ -134,7 +139,8 @@ public class FrmLogin extends JFrame {
 						lblUsuario, 
 						lblSenha, 
 						btnLivros, 
-						btnCliente, 
+						btnUsuarios, 
+						btnClientes, 
 						btnCadastrar, 
 						btnEntrar
 						);
@@ -143,7 +149,8 @@ public class FrmLogin extends JFrame {
 		txtUsuario.addActionListener(loginCtrl.entrar);
 		pwdSenha.addActionListener(loginCtrl.entrar);
 		btnLivros.addActionListener(loginCtrl.janelas);
-		btnCliente.addActionListener(loginCtrl.janelas);
+		btnUsuarios.addActionListener(loginCtrl.janelas);
+		btnClientes.addActionListener(loginCtrl.janelas);
 		btnCancelar.addActionListener(loginCtrl.fechar);
 		btnEntrar.addActionListener(loginCtrl.entrar);
 		btnCadastrar.addActionListener(loginCtrl.janelas);

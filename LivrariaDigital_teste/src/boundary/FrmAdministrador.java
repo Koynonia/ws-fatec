@@ -113,7 +113,7 @@ public class FrmAdministrador extends JFrame {
 		pwdSenha2.setBounds(128, 126, 149, 28);
 		painel.add(pwdSenha2);
 		
-		chckbxAdm = new JCheckBox("Administrativo");
+		chckbxAdm = new JCheckBox("Administrador");
 		buttonGroup.add(chckbxAdm);
 		chckbxAdm.setBounds(366, 98, 128, 23);
 		painel.add(chckbxAdm);

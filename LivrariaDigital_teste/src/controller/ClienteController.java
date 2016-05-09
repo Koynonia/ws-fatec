@@ -190,8 +190,11 @@ public class ClienteController implements ComponentListener{
 		lerArquivo();
 		lerEndereco();
 		
-		if ( cpf != null) {
+		if ( cpf != null && !cpf.contains( "USR" ) ) {
 			lblId.setText( cpf );
+			selecionar();
+		} else {
+			cpf = clientes.get(0).getCpf();
 			selecionar();
 		}
 	}
@@ -289,7 +292,7 @@ public class ClienteController implements ComponentListener{
 			ftxtCep.setEnabled(false);
 			pwdSenha.setVisible(false);
 			pwdSenha2.setVisible(false);
-			cboTipoEndereco.setEnabled(false);
+//			cboTipoEndereco.setEnabled(false);
 			cboEstado.setEnabled(false);
 			btnImagem.setVisible(false);
 			btnLimpar.setText("Novo");
@@ -326,7 +329,7 @@ public class ClienteController implements ComponentListener{
 			ftxtCep.setEnabled(true);
 			pwdSenha.setVisible(true);
 			pwdSenha2.setVisible(true);
-			cboTipoEndereco.setVisible(true);
+//			cboTipoEndereco.setVisible(true);
 			cboEstado.setEnabled(true);
 			btnImagem.setVisible(true);
 			btnLimpar.setText("Limpar");
@@ -528,7 +531,7 @@ public class ClienteController implements ComponentListener{
 					Endereco e = new Endereco();
 					for ( int i = 0; i < enderecos.size(); i++ ){
 						if ( lblId.getText().equals(enderecos.get(i).getCpf() )) {
-							e.setTipoEndereco( listaString.get(2) );
+							e.setTipoEndereco( listaString.get(1) );
 							listaEndereco.add( e );
 						}
 					}
@@ -548,7 +551,7 @@ public class ClienteController implements ComponentListener{
 		//Adicionar na combobox
 		cboTipoEndereco.addItem( "Residência" );
 		for ( int i = 0; i < listaEndereco.size(); i++ ){
-			if ( !enderecos[i].equals("Residênca" )) {
+			if ( !enderecos[i].equals("Residência" )) {
 			cboTipoEndereco.addItem( enderecos[i] );
 			}
 		}
