@@ -7,6 +7,7 @@
 
 package controller;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -370,19 +371,30 @@ public class ClienteController implements ComponentListener{
 	}
 	
 	
-	public void verificarCampos(){	
+	public void verificarCampos(){
+
 		
 		for (Component p : painel.getComponents()) {
+			
 			if ( p instanceof JTextField ) {
 				JTextField l = ( JTextField )p;
-				if ( l.getText().isEmpty() ){
+				if ( l.getText().isEmpty() && l.isVisible() ){
+					validar = false;
+					l.setVisible(true);
+					l.setBackground(new Color(255, 255, 153));
+				} else {
 					validar = true;
+					l.setBackground(new Color(255, 255, 255));
 				}
 			}
 			if ( p instanceof JFormattedTextField ) {
 				JFormattedTextField  l = ( JFormattedTextField )p;
 				if ( l.getText().isEmpty() ){
+					validar = false;
+					l.setBackground(new Color(255, 255, 153));
+				} else {
 					validar = true;
+					l.setBackground(new Color(255, 255, 255));
 				}
 			}
 			if (p instanceof JComboBox ) {
@@ -395,13 +407,17 @@ public class ClienteController implements ComponentListener{
 			if ( p instanceof JTextArea ) {
 				JTextArea  l = ( JTextArea )p;
 				if ( l.getText().isEmpty() ){
+					validar = false;
+					l.setBackground(new Color(255, 255, 153));
+				} else {
 					validar = true;
+					l.setBackground(new Color(255, 255, 255));
 				}
 			}
 		}
-		if ( validar != false ){
+		
+		if ( validar == false ){
 			msg("erroVazio", txtUsuario.getText());
-			validar = false;
 		}
 	}
 	
@@ -669,7 +685,7 @@ public class ClienteController implements ComponentListener{
 			}
 			if (pesquisa == "0" || pesquisa != null){
 				for (int i = 0; i < clientes.size(); i++) {
-					if (pesquisa.replaceAll(" : .*", "").equalsIgnoreCase(clientes.get(i).getCpf())) {
+					if ( pesquisa.replaceAll(" : .*", "").equalsIgnoreCase(clientes.get(i).getCpf() )) {
 						
 						lblId.setText( clientes.get(i).getCpf() );
 						txtUsuario.setText( clientes.get(i).getUsuario() );
@@ -710,13 +726,13 @@ public class ClienteController implements ComponentListener{
 		Cliente cliente = new Cliente();
 		Endereco endereco = new Endereco();
 
-		if ( !ftxtCpf.getText().isEmpty() ) {
-
+		if ( ! ftxtCpf.getText().isEmpty() ) {
+			verificarCampos();
+			
 			for (int i = 0; i < clientes.size(); i++) {
 				if ( lblId.getText().equals(clientes.get(i).getCpf() )) {
 					msg( "confirmaEditar", clientes.get(i).getUsuario() );
-//					verificarCampos();
-				}
+				} 
 			}			
 			if( validar == true ){
 
@@ -771,11 +787,16 @@ public class ClienteController implements ComponentListener{
 
 		if (!txtUsuario.getText().isEmpty() 
 				&& pwdSenha.getPassword().length != 0) {
-			if ( !ftxtCpf.getText().isEmpty() ) {		
+			if ( ! ftxtCpf.getText().isEmpty() ) {
 				for ( int i = 0; i < clientes.size(); i++ ) {
-					if ( logon.mascaraCampo( "999.999.999-99", ftxtCpf.getText(), ftxtCpf.equals("")).equals(clientes.get(i).getCpf() )) {
-						msg( "erroEditar", clientes.get(i).getNome() );
+					if ( logon.mascaraCampo( "999.999.999-99", ftxtCpf.getText(), ftxtCpf.equals("") ).equals( clientes.get(i).getCpf() ) ||
+							txtUsuario.getText().equalsIgnoreCase( clientes.get(i).getUsuario() )) {
+						msg( "erroSalvar", clientes.get(i).getNome() );
+						validar = false;
+					} else {
+						if ( i == clientes.size() -1 ){
 						verificarCampos();
+						}
 					}
 				}
 				if( validar == true ){
@@ -809,15 +830,25 @@ public class ClienteController implements ComponentListener{
 						atualizarEndereco( enderecos );
 
 						msg( "salvar", txtUsuario.getText() );
+						logon.registrar( 
+								clientes.get( clientes.size() -1 ).getCpf(), 
+								clientes.get( clientes.size() -1 ).getUsuario(), 
+								clientes.get( clientes.size() -1 ).getNome(), 
+								janela.getName());
 						limparCampos();
 						validar = false;
+						if ( ! logon.getLogon().get(0).getNivel().equalsIgnoreCase("Administrador") ){
+						abrirJanela ("principal");
+						}
 					} else {
 						msg("erroPwd2", txtUsuario.getText());
 					}
 				}
-			} 
+			} else {
+				verificarCampos();
+			}
 		} else {
-			msg("erroVazio", txtUsuario.getText());
+			verificarCampos();
 		}
 	}
 	
@@ -1020,10 +1051,10 @@ public class ClienteController implements ComponentListener{
 					new ImageIcon( diretorio + "/icons/warning.png" ));
 			break;
 			
-		case "erroEditar":
+		case "erroSalvar":
 			JOptionPane.showMessageDialog(null, 
-					"CPF já cadastrado para o Usuário " + mensagem + " !\n\n"
-							+ "Verifique sua digitação ou realize seu login com o Usuário correto.",
+					"Usuário ou CPF já cadastrado!\n\n"
+							+ "Verifique sua digitação ou escolha um nome de Usuário diferente.",
 					"Já Cadastrado", 
 					JOptionPane.PLAIN_MESSAGE, 
 					new ImageIcon( diretorio + "/icons/warning.png" ));

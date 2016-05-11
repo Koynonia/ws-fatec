@@ -18,11 +18,11 @@ Nome            : Fulano Silva
 Data Nascimento : 10/10/1975
 CPF             : 111.222.333-45
 Telefone        : (11) 2222-4444
-Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/avatares/Bioman-Avatar-6-Peebo-icon.png
+Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/avatares/Avengers-Black.png
 Tipo Endereço   : Residência
 Nível           : Usuario
 Data Cadastro   : 10/05/2016 13:47:05
-Data Alterado   : 10/05/2016 13:55:36
+Data Alterado   : 11/05/2016 04:01:49
 ------------------------------------
 Usuario         : Sincrano
 Senha           : 123
@@ -50,3 +50,43 @@ Nível           : Usuario
 Data Cadastro   : 10/05/2016 14:23:28
 Data Alterado   : 10/05/2016 14:33:50
 ------------------------------------
+Usuario         : Teste
+Senha           : 123
+Email           : teste@gmail.com
+Nome            : Teste Testando
+Data Nascimento : 20/01/2000
+CPF             : 123.123.123-32
+Telefone        : (11) 2222-3333
+Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/avatares/Halloween-Jack_Skellington.png
+Tipo Endereço   : Residência
+Nível           : Usuario
+Data Cadastro   : 11/05/2016 04:13:11
+Data Alterado   : 11/05/2016 04:13:11
+------------------------------------
+Usuario         : Teste2
+Senha           : 123
+Email           : teste@gmil.com
+Nome            : Teste
+Data Nascimento :   /  /    
+CPF             : 123.123.123-31
+Telefone        : (11) 2233-4455
+Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/avatares/Avengers-Giant-Man.png
+Tipo Endereço   : Residência
+Nível           : Usuario
+Data Cadastro   : 11/05/2016 04:24:29
+Data Alterado   : 11/05/2016 04:25:08
+------------------------------------
+Usuario         : Teste3
+Senha           : 123
+Email           : teste@gmail.com
+Nome            : Testete
+Data Nascimento : 01/01/1994
+CPF             : 123.123.123-33
+Telefone        : (11) 3344-6677
+Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/avatares/Avengers-Ironman-Mark-III.png
+Tipo Endereço   : Residência
+Nível           : Usuario
+Data Cadastro   : 11/05/2016 04:27:58
+Data Alterado   : 11/05/2016 04:27:58
+------------------------------------
+
