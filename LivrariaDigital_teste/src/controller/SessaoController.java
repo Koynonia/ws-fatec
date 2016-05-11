@@ -81,6 +81,44 @@ public class SessaoController {
 	}
 	
 	
+	public String mascaraCampo(String pMask, String pValue,
+			boolean pReturnValueEmpty){
+		
+		/* 
+		 * Verifica se foi configurado para nao retornar a  
+		 * mascara se a string for nula ou vazia se nao 
+		 * retorna somente a mascara. 
+		 */ 
+		if (pReturnValueEmpty == true
+				&& (pValue == null || pValue.trim().equals("")))
+			return "";
+		
+		if ( pValue.contains("-") || 
+				( pValue.contains(".") ) || 
+				( pValue.contains("(") ) || 
+				( pValue.contains(")") ))
+			return pValue;
+			
+		/* 
+		 * Substituir as mascaras passadas como  9, X, * por # para efetuar a formatcao
+		 */
+//		pMask = pMask.replaceAll("*", "#");
+		pMask = pMask.replaceAll("9", "#");
+//		pMask = pMask.toUpperCase().replaceAll("X", "#");
+		/* 
+		 * Formata valor com a mascara passada  
+		 */
+		for(int i = 0; i < pValue.length(); i++){
+			pMask = pMask.replaceFirst("#", pValue.substring(i, i + 1));
+		}
+		/* 
+		 * Subistitui por string vazia os digitos restantes da mascara 
+		 * quando o valor passado é menor que a mascara   
+		 */
+		return pMask.replaceAll("#", "");
+	}
+	
+	
 	public Boolean temporizador(){
 
 		boolean dt = false;
@@ -273,7 +311,7 @@ public class SessaoController {
 
 		if ( itens.size() > 0 ){
 			if ( logon.size() == 0 ){
-				int tempo = 1; //variavel que controla os minutos da sessão - colocar no Painel Administrador
+				int tempo = 2; //variavel que controla os minutos da sessão - colocar no Painel Administrador
 				String dtAtual = obterData();
 				String dtCarrinho = itens.get(0).getDtCadastro();
 

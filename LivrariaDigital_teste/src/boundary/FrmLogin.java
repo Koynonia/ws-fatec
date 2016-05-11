@@ -66,7 +66,7 @@ public class FrmLogin extends JFrame {
 		painel.add(linha);
 		
 		lblLogo = new JLabel("LIVRARIA DIGITAL");
-		lblLogo.setForeground(Color.GRAY);
+		lblLogo.setForeground(new Color(50, 205, 50));
 		lblLogo.setFont(new Font("Bauhaus 93", Font.PLAIN, 40));
 		lblLogo.setBounds(16, 16, 314, 45);
 		painel.add(lblLogo);

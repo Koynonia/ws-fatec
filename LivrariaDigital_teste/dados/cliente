@@ -3,24 +3,50 @@ Senha           : 123
 Email           : fernando@email.com
 Nome            : Fernando Borges
 Data Nascimento : 01/01/1970
-CPF             : 11122233344
-Telefone        : 1122223333
+CPF             : 111.222.333-44
+Telefone        : (11) 2222-3333
 Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/avatares/Comics-Ironman-Elm.png
 Tipo Endereço   : Residência
-Nível           : null
+Nível           : Usuario
 Data Cadastro   : 08/05/2016 03:52:48
-Data Alterado   : 09/05/2016 02:35:00
+Data Alterado   : 10/05/2016 13:16:02
 ------------------------------------
 Usuario         : Fulano
 Senha           : 123
-Email           : fulano@gmail.com
-Nome            : Fulano da Silva
-Data Nascimento : 01/01/2000
-CPF             : 11122233345
-Telefone        : 2345-6789
+Email           : Fulano@gmail.com
+Nome            : Fulano Silva
+Data Nascimento : 10/10/1975
+CPF             : 111.222.333-45
+Telefone        : (11) 2222-4444
+Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/avatares/Bioman-Avatar-6-Peebo-icon.png
+Tipo Endereço   : Residência
+Nível           : Usuario
+Data Cadastro   : 10/05/2016 13:47:05
+Data Alterado   : 10/05/2016 13:55:36
+------------------------------------
+Usuario         : Sincrano
+Senha           : 123
+Email           : sincrano@gmail.com
+Nome            : Sincrano Silva
+Data Nascimento : 10/10/1975
+CPF             : 111.222.333-46
+Telefone        : (11) 2222-5555
+Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/avatares/mike.png
+Tipo Endereço   : Residência
+Nível           : Usuario
+Data Cadastro   : 10/05/2016 13:47:05
+Data Alterado   : 10/05/2016 13:48:48
+------------------------------------
+Usuario         : Beltrano
+Senha           : 123
+Email           : beltrano@hotmail.com
+Nome            : Beltrano Bel
+Data Nascimento : 01/04/1995
+CPF             : 111.222.333-47
+Telefone        : (11) 2226-666
 Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/avatares/Avengers-Nick_Fury.png
 Tipo Endereço   : Residência
-Nível           : null
-Data Cadastro   : 09/05/2016 02:38:45
-Data Alterado   : 09/05/2016 02:38:45
+Nível           : Usuario
+Data Cadastro   : 10/05/2016 14:23:28
+Data Alterado   : 10/05/2016 14:33:50
 ------------------------------------

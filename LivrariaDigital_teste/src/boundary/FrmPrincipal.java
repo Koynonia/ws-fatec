@@ -89,7 +89,7 @@ public class FrmPrincipal extends JFrame {
 		painel.setLayout(null);
 		
 		lblLogo = new JLabel("LIVRARIA DIGITAL");
-		lblLogo.setForeground(Color.GRAY);
+		lblLogo.setForeground(new Color(50, 205, 50));
 		lblLogo.setFont(new Font("Bauhaus 93", Font.PLAIN, 40));
 		lblLogo.setBounds(36, 36, 314, 45);
 		painel.add(lblLogo);

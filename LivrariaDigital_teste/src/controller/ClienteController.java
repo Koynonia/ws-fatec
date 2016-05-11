@@ -182,13 +182,17 @@ public class ClienteController implements ComponentListener{
 	}
 	
 	
-	//   TELA   ////////////////////////
+	//   DADOS   ////////////////////////
 	
 	public void dados(){
 		
 		logon.rastrear( janela.getName() );
 		lerArquivo();
 		lerEndereco();
+		
+		if ( cpf == null ){
+			limparCampos();
+		} else {
 		
 		if ( cpf != null && !cpf.contains( "USR" ) ) {
 			lblId.setText( cpf );
@@ -197,12 +201,26 @@ public class ClienteController implements ComponentListener{
 			cpf = clientes.get(0).getCpf();
 			selecionar();
 		}
+		}
 	}
 	
+	public void permissao(){
+
+		if ( logon.rastrear( janela.getName()) != "administrador" ){
+
+			msg("erroAcesso", "Cadastro de Clientes");
+			fechar();
+		}
+	}
+
+	
+	//  TELA   ////////////////////////
 	
 	public void tela(){
+		
 		preencherEndereco();
 		preencherEstado();
+		
 		if ( logon.getLogon().isEmpty() ){
 		imagem = diretorio + "avatares/usuario.jpg";
 		carregarAvatar();
@@ -214,7 +232,7 @@ public class ClienteController implements ComponentListener{
 		}
 		
 		if ( logon.getLogon().size() > 0 && 
-				logon.getLogon().get(0).getNivel().equalsIgnoreCase("Administrador") ){
+			logon.getLogon().get(0).getNivel().equalsIgnoreCase("Administrador") ){
 			lblPesquisar.setVisible(true);
 			txtPesquisar.setVisible(true);
 			btnPesquisar.setVisible(true);
@@ -223,18 +241,9 @@ public class ClienteController implements ComponentListener{
 			txtPesquisar.setVisible(false);
 			btnPesquisar.setVisible(false);
 		}
-		
 		cboTipoEndereco.getModel().setSelectedItem("Residência");
 	}
 	
-	public void permissao(){
-		
-		if ( logon.rastrear( janela.getName()) != "administrador" ){
-			
-			msg("erroAcesso", "Cadastro de Clientes");
-			fechar();
-		}
-	}
 	
 	public void carregarAvatar(){
 		ImageIcon avatar = new ImageIcon( imagem );
@@ -271,28 +280,18 @@ public class ClienteController implements ComponentListener{
 			lblSenha.setVisible(false);
 			lblSenha2.setVisible(false);
 			txtUsuario.setEditable(false);
-			txtUsuario.setEnabled(false);
 			txtNome.setEditable(false);
-			txtNome.setEnabled(false);
 			txtEndereco.setEditable(false);
-			txtEndereco.setEnabled(false);
 			txtComplemento.setEditable(false);
-			txtComplemento.setEnabled(false);
 			txtBairro.setEditable(false);
-			txtBairro.setEnabled(false);
-			txtCidade.setEnabled(false);
+			txtCidade.setEditable(false);
 			ftxtEmail.setEditable(false);
-			ftxtEmail.setEnabled(false);
 			ftxtDtNasc.setEditable(false);
-			ftxtDtNasc.setEnabled(false);
 			ftxtCpf.setEditable(false);
-			ftxtCpf.setEnabled(false);
 			ftxtTelefone.setEditable(false);
-			ftxtTelefone.setEnabled(false);
-			ftxtCep.setEnabled(false);
+			ftxtCep.setEditable(false);
 			pwdSenha.setVisible(false);
 			pwdSenha2.setVisible(false);
-//			cboTipoEndereco.setEnabled(false);
 			cboEstado.setEnabled(false);
 			btnImagem.setVisible(false);
 			btnLimpar.setText("Novo");
@@ -308,28 +307,18 @@ public class ClienteController implements ComponentListener{
 			lblSenha.setVisible(true);
 			lblSenha2.setVisible(true);
 			txtUsuario.setEditable(true);
-			txtUsuario.setEnabled(true);
 			txtNome.setEditable(true);
-			txtNome.setEnabled(true);
 			txtEndereco.setEditable(true);
-			txtEndereco.setEnabled(true);
 			txtComplemento.setEditable(true);
-			txtComplemento.setEnabled(true);
 			txtBairro.setEditable(true);
-			txtBairro.setEnabled(true);
-			txtCidade.setEnabled(true);
+			txtCidade.setEditable(true);
 			ftxtEmail.setEditable(true);
-			ftxtEmail.setEnabled(true);
 			ftxtDtNasc.setEditable(true);
-			ftxtDtNasc.setEnabled(true);
 			ftxtCpf.setEditable(true);
-			ftxtCpf.setEnabled(true);
 			ftxtTelefone.setEditable(true);
-			ftxtTelefone.setEnabled(true);
-			ftxtCep.setEnabled(true);
+			ftxtCep.setEditable(true);
 			pwdSenha.setVisible(true);
 			pwdSenha2.setVisible(true);
-//			cboTipoEndereco.setVisible(true);
 			cboEstado.setEnabled(true);
 			btnImagem.setVisible(true);
 			btnLimpar.setText("Limpar");
@@ -356,10 +345,12 @@ public class ClienteController implements ComponentListener{
 				JFormattedTextField  l = ( JFormattedTextField )p;
 				l.setValue(null);
 			}
-			if (p instanceof JComboBox ) {
-				@SuppressWarnings("unchecked")
-				JComboBox<String> l = ( JComboBox<String> )p;
-				l.setSelectedIndex(0);
+			if ( cpf != null ){
+				if (p instanceof JComboBox ) {
+					@SuppressWarnings("unchecked")
+					JComboBox<String> l = ( JComboBox<String> )p;
+					l.setSelectedIndex(0);
+				}
 			}
 			if ( p instanceof JTextArea ) {
 				JTextArea  l = ( JTextArea )p;
@@ -741,8 +732,8 @@ public class ClienteController implements ComponentListener{
 						cliente.setEmail( ftxtEmail.getText() );
 						cliente.setNome( txtNome.getText() );
 						cliente.setDtNasc( ftxtDtNasc.getText());
-						cliente.setCpf( ftxtCpf.getText() );
-						cliente.setTelefone( ftxtTelefone.getText() );
+						cliente.setCpf( logon.mascaraCampo( "999.999.999-99", ftxtCpf.getText(), ftxtCpf.equals("") ));
+						cliente.setTelefone( logon.mascaraCampo( "(99) 9999-9999", ftxtTelefone.getText(), ftxtTelefone.equals("") ));
 						cliente.setImagem( imagem );
 						cliente.setTipoEndereco( cboTipoEndereco.getSelectedItem().toString() );
 						cliente.setNivel( "Usuario" );
@@ -751,14 +742,14 @@ public class ClienteController implements ComponentListener{
 						clientes.set( i, cliente );
 						atualizarArquivo( clientes );
 						
-						endereco.setCpf( ftxtCpf.getText() );
+						endereco.setCpf( logon.mascaraCampo( "999.999.999-99", ftxtCpf.getText(), ftxtCpf.equals("") ));
 						endereco.setTipoEndereco( cboTipoEndereco.getSelectedItem().toString() );
 						endereco.setEndereco( txtEndereco.getText() );
 						endereco.setComplemento( txtComplemento.getText() );
 						endereco.setBairro( txtBairro.getText() );
 						endereco.setCidade( txtCidade.getText() );
 						endereco.setEstado( cboEstado.getSelectedItem().toString() );
-						endereco.setCep( ftxtCep.getText() );
+						endereco.setCep( logon.mascaraCampo( "99.999-999", ftxtCep.getText(), ftxtCep.equals("") ));
 						endereco.setDtCadastro( enderecos.get(i).getDtCadastro() );
 						endereco.setDtAlterado( obterData() );
 						enderecos.set( i, endereco );
@@ -782,20 +773,20 @@ public class ClienteController implements ComponentListener{
 				&& pwdSenha.getPassword().length != 0) {
 			if ( !ftxtCpf.getText().isEmpty() ) {		
 				for ( int i = 0; i < clientes.size(); i++ ) {
-					if ( ftxtCpf.getText().equals(clientes.get(i).getCpf() )) {
+					if ( logon.mascaraCampo( "999.999.999-99", ftxtCpf.getText(), ftxtCpf.equals("")).equals(clientes.get(i).getCpf() )) {
 						msg( "erroEditar", clientes.get(i).getNome() );
-//						verificarCampos();
+						verificarCampos();
 					}
-				}			
-				if(!(validar == true)){
+				}
+				if( validar == true ){
 					if( pwdSenha.getText().equals(pwdSenha2.getText() )){
 						cliente.setUsuario( txtUsuario.getText() );
 						cliente.setSenha( pwdSenha.getText() );
 						cliente.setEmail( ftxtEmail.getText() );
 						cliente.setNome( txtNome.getText() );
 						cliente.setDtNasc( ftxtDtNasc.getText());
-						cliente.setCpf( ftxtCpf.getText() );
-						cliente.setTelefone( ftxtTelefone.getText() );
+						cliente.setCpf( logon.mascaraCampo( "999.999.999-99", ftxtCpf.getText(), ftxtCpf.equals("") ));
+						cliente.setTelefone( logon.mascaraCampo( "(99) 9999-9999", ftxtTelefone.getText(), ftxtTelefone.equals("") ));
 						cliente.setImagem( imagem );
 						cliente.setTipoEndereco( cboTipoEndereco.getSelectedItem().toString() );
 						cliente.setNivel( "Usuario" );
@@ -804,14 +795,14 @@ public class ClienteController implements ComponentListener{
 						clientes.add( cliente );
 						atualizarArquivo( clientes );
 
-						endereco.setCpf( ftxtCpf.getText() );
+						endereco.setCpf( logon.mascaraCampo( "999.999.999-99", ftxtCpf.getText(), ftxtCpf.equals("") ));
 						endereco.setTipoEndereco( cboTipoEndereco.getSelectedItem().toString() );
 						endereco.setEndereco( txtEndereco.getText() );
 						endereco.setComplemento( txtComplemento.getText() );
 						endereco.setBairro( txtBairro.getText() );
 						endereco.setCidade( txtCidade.getText() );
 						endereco.setEstado( cboEstado.getSelectedItem().toString() );
-						endereco.setCep( ftxtCep.getText() );
+						endereco.setCep( logon.mascaraCampo( "99.999-999", ftxtCep.getText(), ftxtCep.equals("") ));
 						endereco.setDtCadastro( obterData() );
 						endereco.setDtAlterado( obterData() );
 						enderecos.add( endereco );

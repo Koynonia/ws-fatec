@@ -1,22 +1,44 @@
-CPF           : 11122233344
+CPF           : 111.222.333-44
 TipoEndereco  : Residência
 Endereco      : Rua Um
 Complemento   : Fundos
 Bairro        : Ermelino Matarazzo
 Cidade        : São Paulo
 Estado        : Rio de Janeiro
-Cep           : 01122000
+Cep           : 03.322-000
 Data Cadastro : 08/05/2016 03:52:48
-Data Alterado : 09/05/2016 02:35:00
+Data Alterado : 10/05/2016 13:16:02
 ------------------------------------
-CPF           : 11122233345
+CPF           : 111.222.333-45
 TipoEndereco  : Residência
 Endereco      : Av. da Esquerda, 13
 Complemento   : apto 5
 Bairro        : Vila Formosa
 Cidade        : São Paulo
 Estado        : São Paulo
-Cep           : 012345000
-Data Cadastro : 09/05/2016 02:38:45
-Data Alterado : 09/05/2016 02:38:45
+Cep           : 01.234-500
+Data Cadastro : 10/05/2016 13:47:05
+Data Alterado : 10/05/2016 13:55:36
+------------------------------------
+CPF           : 111.222.333-46
+TipoEndereco  : Residência
+Endereco      : Av. da Direita, 13
+Complemento   : apto 5
+Bairro        : Vila Formosa
+Cidade        : São Paulo
+Estado        : São Paulo
+Cep           : 01.234-500
+Data Cadastro : 10/05/2016 13:47:05
+Data Alterado : 10/05/2016 13:55:36
+------------------------------------
+CPF           : 111.222.333-47
+TipoEndereco  : Residência
+Endereco      : Rua Central, 100
+Complemento   : 
+Bairro        : Vila Maria
+Cidade        : São Paulo
+Estado        : São Paulo
+Cep           : 03.833-000
+Data Cadastro : 10/05/2016 14:23:28
+Data Alterado : 10/05/2016 14:33:50
 ------------------------------------

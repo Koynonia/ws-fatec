@@ -121,7 +121,8 @@ public class LoginController implements ComponentListener {
 		
 		campos();
 	}
-
+	
+	
 	public void campos(){
 
 		if ( logon.getLogon().size() > 0 && 

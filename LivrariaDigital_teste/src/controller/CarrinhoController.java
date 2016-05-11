@@ -56,6 +56,7 @@ public class CarrinhoController implements ComponentListener {
 	private Arquivos arquivos = new Arquivos();
 	private boolean validar;
 	private int quantidade = 1;
+	private String imagem;
 
 	public CarrinhoController(
 			FrmCarrinho janela, 
@@ -255,6 +256,7 @@ public class CarrinhoController implements ComponentListener {
 
 		if ( !itens.isEmpty() ){
 			for ( int i = 0; i < itens.size(); i++ ){
+				imagem = itens.get(i).getCarrinho().getImagem();
 				//Verifica se o livro já está adicionado ao carrinho
 				if ( itens.get(i).getCarrinho().getIsbn().equals(livro.getIsbn())){
 					msg( "adicionar", livro.getTitulo() + "\n de " + livro.getAutor() );
@@ -277,19 +279,29 @@ public class CarrinhoController implements ComponentListener {
 			}
 			if ( validar == false) {
 				//Adiciona o livro se não estiver no carrinho
+				esconder();
+				imagem = livro.getImagem();
+				msg( "adicionarQtd", livro.getTitulo() + "\n de " + livro.getAutor() );
+				if ( validar != false ){
 				item.setQuantidade( quantidade );
 				item.setDesconto( 0 );
 				item.setCarrinho(livro);
 				item.setDtCadastro( obterData() );
 				itens.add(item);
+				}
 			}
 		} else {
 			//Adiciona ao Carrinho
+			esconder();
+			imagem = livro.getImagem();
+			msg( "adicionarQtd", livro.getTitulo() + "\n de " + livro.getAutor() );
+			if ( validar != false ){
 			item.setQuantidade( quantidade );
 			item.setDesconto( 0 );
 			item.setCarrinho(livro);
 			item.setDtCadastro( obterData() );
 			itens.add(item);
+			}
 		}
 		atualizarArquivo(itens);
 		formatarTabela();
@@ -297,7 +309,9 @@ public class CarrinhoController implements ComponentListener {
 	
 	
 	public void alterarQtd(){
-
+		
+		lerArquivo();
+		
 		if(tabela.getRowCount() > 0){
 			if ( tabela.getSelectedRowCount() != 0){
 				for(int i = 0; i <= itens.size(); i ++){
@@ -434,6 +448,30 @@ public class CarrinhoController implements ComponentListener {
 				validar = true;
 			} else {
 				validar = false;
+			}
+			break;
+			
+		case "adicionarQtd":
+			Object aQtd = JOptionPane.showInputDialog( null,
+					"Digite a quantidade desejada do Livro\n\n" + mensagem + ":",
+					"Informar a Quantidade…", JOptionPane.QUESTION_MESSAGE, 
+					new ImageIcon( imagem ), null, 1 );
+			if ( aQtd == null){
+				validar = false;
+				fechar();
+				return;
+			} else {
+				if ( !testarNumero( aQtd.toString() ) ){
+					msg( "erroDigit", aQtd.toString() );
+				} else {
+					if ( aQtd.toString().contains( "0" ) ) {
+						removeLinha();
+					} else {
+						quantidade = Integer.parseInt( aQtd.toString() );
+						mostrar();
+						validar = true;			
+					}
+				}
 			}
 			break;
 			

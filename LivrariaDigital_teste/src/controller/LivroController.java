@@ -250,28 +250,17 @@ public class LivroController implements ComponentListener{
 			btnProximo.setVisible(true);
 			lblRegistros.setVisible(true);
 			txtTitulo.setEditable(false);
-			txtTitulo.setEnabled(false);
 			txtAutor.setEditable(false);
-			txtAutor.setEnabled(false);
 			txtEstoque.setEditable(false);
-			txtEstoque.setEnabled(false);
 			txtCategoria.setEditable(false);
-			txtCategoria.setEnabled(false);
 			ftxtIsbn.setEditable(false);
-			ftxtIsbn.setEnabled(false);
 			ftxtDtPub.setEditable(false);
-			ftxtDtPub.setEnabled(false);
 			ftxtPaginas.setEditable(false);
-			ftxtPaginas.setEnabled(false);
 			ftxtPrecoCusto.setEditable(false);
-			ftxtPrecoCusto.setEnabled(false);
 			ftxtPrecoVenda.setEditable(false);
-			ftxtPrecoVenda.setEnabled(false);
 			ftxtMargem.setEnabled(false);
 			txtaSumario.setEditable(false);
-			txtaSumario.setEnabled(false);
 			txtaResumo.setEditable(false);
-			txtaResumo.setEnabled(false);
 			lblSelecione.setVisible(false);
 			lblTipoCapa.setVisible(false);
 			lblCategorias.setVisible(false);
@@ -294,27 +283,15 @@ public class LivroController implements ComponentListener{
 			btnProximo.setVisible(false);
 			lblRegistros.setVisible(false);
 			txtTitulo.setEditable(true);
-			txtTitulo.setEnabled(true);
 			txtAutor.setEditable(true);
-			txtAutor.setEnabled(true);
 			txtEstoque.setEditable(true);
-			txtEstoque.setEnabled(true);
 			txtCategoria.setEditable(true);
-			txtCategoria.setEnabled(true);
 			ftxtIsbn.setEditable(true);
-			ftxtIsbn.setEnabled(true);
 			ftxtDtPub.setEditable(true);
-			ftxtDtPub.setEnabled(true);
 			ftxtPaginas.setEditable(true);
-			ftxtPaginas.setEnabled(true);
 			ftxtPrecoCusto.setEditable(true);
-			ftxtPrecoCusto.setEnabled(true);
 			ftxtPrecoVenda.setEditable(true);
-			ftxtPrecoVenda.setEnabled(true);
-			ftxtMargem.setEnabled(true);
 			txtaSumario.setEditable(true);
-			txtaSumario.setEnabled(true);
-			txtaResumo.setEditable(true);
 			txtaResumo.setEnabled(true);
 			lblSelecione.setVisible(true);
 			lblTipoCapa.setVisible(true);
@@ -748,7 +725,7 @@ public class LivroController implements ComponentListener{
 				for (int i = 0; i < livros.size(); i++) {
 					if ( txtIsbnID.getText().equals(livros.get(i).getIsbn() )) {
 						
-						livro.setIsbn( ftxtIsbn.getText() );
+						livro.setIsbn( logon.mascaraCampo( "999-9-9999-9999-9", ftxtIsbn.getText(), ftxtIsbn.equals("") ));
 						livro.setTitulo( txtTitulo.getText() );
 						livro.setAutor( txtAutor.getText() );
 						livro.setEditora( cboEditora.getSelectedItem().toString() );
@@ -767,7 +744,7 @@ public class LivroController implements ComponentListener{
 						livros.set( i, livro );
 						atualizarArquivo( livros );
 						
-						estoque.setIsbn( ftxtIsbn.getText() );
+						estoque.setIsbn( logon.mascaraCampo( "999-9-9999-9999-9", ftxtIsbn.getText(), ftxtIsbn.equals("") ) );
 						estoque.setQtd( Integer.parseInt( txtEstoque.getText() ));
 						estoque.setDtCadastro( estoques.get(i).getDtCadastro() );
 						estoque.setDtAlterado( obterData() );
