@@ -7,8 +7,14 @@
 
 package controller;
 
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,6 +23,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.imageio.IIOImage;
+import javax.imageio.ImageIO;
+import javax.imageio.ImageTypeSpecifier;
+import javax.imageio.ImageWriter;
+import javax.imageio.metadata.IIOMetadata;
+import javax.imageio.stream.ImageOutputStream;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
@@ -339,7 +351,44 @@ public class SessaoController {
 				}	
 			}
 		}
-	}	
+	}
+	
+	
+	//Classe que reduz as capas dos livros para serem usadas em mensagens
+	public void reduzImagem (String orig, String thumb, int maxDim) { 
+		try { 
+
+			Image inImage = new ImageIcon(orig).getImage(); 
+			double scale = (double)maxDim/(double)inImage.getWidth(null); 
+
+			int scaledW = (int)(scale*inImage.getWidth(null)); 
+			int scaledH = (int)(scale*inImage.getHeight(null)); 
+			BufferedImage outImage = new BufferedImage(scaledW, scaledH, BufferedImage.TYPE_INT_RGB); 
+			AffineTransform tx = new AffineTransform(); 
+
+			if (scale < 1.0d) { 
+				tx.scale(scale, scale); 
+			} 
+
+			Graphics2D g2d = outImage.createGraphics(); 
+			g2d.drawImage(inImage, tx, null); 
+			g2d.dispose();
+			
+			// Diretório de saída
+			OutputStream os = new FileOutputStream( diretorio + "/miniaturas/" + thumb );
+			
+			//formato da imagem de saída
+			ImageWriter encoder = (ImageWriter)ImageIO.getImageWritersByFormatName( "jpg" ).next();
+			ImageOutputStream ios = ImageIO.createImageOutputStream( os );
+			encoder.setOutput( ios );
+			IIOMetadata imageMetaData = encoder.getDefaultImageMetadata(new ImageTypeSpecifier( outImage ), null);
+			encoder.write(imageMetaData, new IIOImage( outImage, null, null ), null);
+			os.close(); 
+		} catch (IOException e) { 
+			System.out.println("Erro: "+e.getMessage()); 
+			e.printStackTrace(); 
+		} 
+	} 
 	
 	
 	

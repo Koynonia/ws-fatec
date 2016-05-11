@@ -251,12 +251,12 @@ public class CarrinhoController implements ComponentListener {
 	
 
 	public void addItem( Livro livro ) {
-
+//		esconder();
 		Carrinho item = new Carrinho();
 
 		if ( !itens.isEmpty() ){
 			for ( int i = 0; i < itens.size(); i++ ){
-				imagem = itens.get(i).getCarrinho().getImagem();
+				imagem = itens.get(i).getCarrinho().getIsbn();
 				//Verifica se o livro já está adicionado ao carrinho
 				if ( itens.get(i).getCarrinho().getIsbn().equals(livro.getIsbn())){
 					msg( "adicionar", livro.getTitulo() + "\n de " + livro.getAutor() );
@@ -279,9 +279,11 @@ public class CarrinhoController implements ComponentListener {
 			}
 			if ( validar == false) {
 				//Adiciona o livro se não estiver no carrinho
-				esconder();
-				imagem = livro.getImagem();
-				msg( "adicionarQtd", livro.getTitulo() + "\n de " + livro.getAutor() );
+				imagem = livro.getIsbn();
+				msg( "adicionarQtd", "Livro: " + livro.getTitulo() 
+						+ "\nAutor(es): " 
+						+ livro.getAutor() 
+						+ "\n\nValor Unitário: R$ " + livro.getPrecoVenda() );
 				if ( validar != false ){
 				item.setQuantidade( quantidade );
 				item.setDesconto( 0 );
@@ -291,10 +293,12 @@ public class CarrinhoController implements ComponentListener {
 				}
 			}
 		} else {
-			//Adiciona ao Carrinho
-			esconder();
-			imagem = livro.getImagem();
-			msg( "adicionarQtd", livro.getTitulo() + "\n de " + livro.getAutor() );
+			//Adiciona ao Carrinho se já houver livros adicionados no Carrinho
+			imagem = livro.getIsbn();
+			msg( "adicionarQtd", "Livro: " 
+			+ livro.getTitulo() + "\nAutor(es): " 
+			+ livro.getAutor() + "\n\nValor Unitário: R$ " 
+			+ livro.getPrecoVenda() );
 			if ( validar != false ){
 			item.setQuantidade( quantidade );
 			item.setDesconto( 0 );
@@ -453,9 +457,9 @@ public class CarrinhoController implements ComponentListener {
 			
 		case "adicionarQtd":
 			Object aQtd = JOptionPane.showInputDialog( null,
-					"Digite a quantidade desejada do Livro\n\n" + mensagem + ":",
+					mensagem + "\n\nDigite a quantidade desejada do Livro:",
 					"Informar a Quantidade…", JOptionPane.QUESTION_MESSAGE, 
-					new ImageIcon( imagem ), null, 1 );
+					new ImageIcon( diretorio + "/miniaturas/" + imagem + "-thumb.jpg"  ), null, 1 );
 			if ( aQtd == null){
 				validar = false;
 				fechar();

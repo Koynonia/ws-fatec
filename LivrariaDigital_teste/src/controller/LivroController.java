@@ -39,8 +39,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import boundary.FrmPrincipal;
-import dao.ArquivoLivro;
 import dao.ArquivoEstoque;
+import dao.ArquivoLivro;
 import dao.Arquivos;
 import entity.Autor;
 import entity.Categoria;
@@ -750,6 +750,9 @@ public class LivroController implements ComponentListener{
 						estoque.setDtAlterado( obterData() );
 						estoques.set( i, estoque );
 						atualizarEstoque( estoques );
+						
+						//Gera miniarura da capa do Livro e salva no diretorio "miniaturas"
+						logon.reduzImagem( livro.getImagem(), livro.getIsbn() + "-thumb.jpg", 150);
 					}
 				}
 			} 
@@ -799,6 +802,12 @@ public class LivroController implements ComponentListener{
 				estoque.setDtAlterado( obterData() );
 				estoques.add( estoque );
 				atualizarEstoque( estoques );
+				
+				//Gera miniarura da capa do Livro e salva no diretorio "miniaturas"
+				logon.reduzImagem( livro.getImagem(), livro.getIsbn() + "-thumb.jpg", 150);
+				//Guarda a imagem para compor a Tela
+				imagem = livro.getImagem();
+				msg( "adicionarQtd", livro.getTitulo() + "\n de " + livro.getAutor() );
 				
 				msg( "salvar", txtTitulo.getText() );
 				limparCampos();

@@ -12,7 +12,7 @@ Preço Custo     : 19.88
 Preço Venda     : 39.9
 Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/capas/9788576572633.jpg
 Data Cadastro   : 02/05/2016 23:55:23
-Data Alterado   : 10/05/2016 13:25:57
+Data Alterado   : 11/05/2016 16:21:08
 --------------------------------------
 ISBN            : 978-8-5352-2626-3
 Título          : Princípios de Análise e Projeto de Sistemas com UML
@@ -22,13 +22,13 @@ Data Publicação : 01/01/2014
 Capa            : Brochura
 Páginas         : 416
 Categoria       : Engenharia de Software
-Sumário         : teste
+Sumário         : Há vários anos, a orientação a objetos se estabeleceu como paradigma vigente no contexto da análise e do projeto de sistemas de software, particularmente em sistemas de informação.
 Resumo          : A análise e o projeto orientados a objetos são comumente utilizados no desenvolvimento de software. Apesar disso, muitos conceitos da orientação a objetos ainda não são corretamente entendidos e aplicados na prática.
 Preço Custo     : 55.99
 Preço Venda     : 110.9
 Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/capas/9788535226263.jpg
 Data Cadastro   : 29/04/2016 04:04:27
-Data Alterado   : 10/05/2016 13:29:04
+Data Alterado   : 11/05/2016 16:19:06
 --------------------------------------
 ISBN            : 978-8-5633-0833-7
 Título          : Engenharia de Software - Uma Abordagem Profissional
@@ -38,13 +38,13 @@ Data Publicação : 01/01/2011
 Capa            : Brochura
 Páginas         : 780
 Categoria       : Engenharia de Software
-Sumário         : null
+Sumário         : Este livro apresenta uma excelente introdução aos fundamentos da engenharia de software.
 Resumo          : O livro é considerado obra de referência e já é amplamente adotado nos principais cursos de graduação e pós-graduação das principais instituições de ensino no Brasil. 
 Preço Custo     : 125.99
 Preço Venda     : 179.99
 Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/capas/9788563308337.jpg
 Data Cadastro   : 29/04/2016 04:11:27
-Data Alterado   : 10/05/2016 13:27:47
+Data Alterado   : 11/05/2016 16:22:06
 --------------------------------------
 ISBN            : 978-8-5352-4535-6
 Título          : Sistema de Banco de Dados
@@ -54,13 +54,13 @@ Data Publicação : 01/01/2012
 Capa            : Brochura
 Páginas         : 904
 Categoria       : Bancos de Dados
-Sumário         : null
+Sumário         : O texto enfatiza questões práticas, aplicações e implementação, junto com uma cobertura dos principais conceitos teóricos.
 Resumo          : Este é um livro-texto clássico sobre treinamento em banco de dados. A obra apresenta os conceitos fundamentais do gerenciamento de banco de dados de uma maneira intuitiva e motivadora para os alunos, inclusive com um novo exemplo de banco de dados de uma universidade, que ilustra escolhas mais complexas de projeto.
 Preço Custo     : 264.51
 Preço Venda     : 293.9
 Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/capas/9788535245356.jpg
 Data Cadastro   : 29/04/2016 04:14:32
-Data Alterado   : 10/05/2016 13:27:55
+Data Alterado   : 11/05/2016 16:22:00
 --------------------------------------
 ISBN            : 978-8-5765-7210-7
 Título          : Ascensão da Força Sombria
@@ -70,13 +70,13 @@ Data Publicação : 01/01/2015
 Capa            : Brochura
 Páginas         : 504
 Categoria       : Literatura Estrangeira, Ficção Científica
-Sumário         : null
+Sumário         : Quando Talon Karrde é capturado por forças inimigas, Mara Jade relutantemente recorre à ajuda de Luke Skywalker, que é forçado a interromper seu treinamento com um curioso mestre para ampliar o domínio da Força.
 Resumo          : No segundo volume da consagrada Trilogia Thrawn, a luta de Luke, Han e Leia em defesa da Nova República continua. Mais uma vez, eles enfrentarão as tropas imperiais dissidentes, comandadas pelo poderoso grão-almirante Thrawn.
 Preço Custo     : 21.84
 Preço Venda     : 39.9
 Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/capas/9788576572107.jpg
 Data Cadastro   : 02/05/2016 11:12:59
-Data Alterado   : 10/05/2016 13:28:06
+Data Alterado   : 11/05/2016 16:21:54
 --------------------------------------
 ISBN            : 978-8-5765-7211-4
 Título          : Star Wars - Um Novo Amanhecer
@@ -86,13 +86,13 @@ Data Publicação : 01/01/2015
 Capa            : Brochura
 Páginas         : 424
 Categoria       : Ficção Científica
-Sumário         : falta
+Sumário         : A honra e o senso de justiça do cavaleiro Jedi despertam, e ele volta à ação em uma batalha de grandes proporções contra o mal. Mas Kanan não vai lutar sozinho.
 Resumo          : Nesta primeira aventura juntos, os protagonistas da série Rebels conquistam seu espaço entre os maiores heróis da série STAR WARS, rumo à luta contra o Império.
 Preço Custo     : 19.89
 Preço Venda     : 39.9
 Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/capas/9788576572114.jpg
 Data Cadastro   : 29/04/2016 13:44:51
-Data Alterado   : 10/05/2016 13:28:14
+Data Alterado   : 11/05/2016 16:21:49
 --------------------------------------
 ISBN            : 978-8-5765-7209-1
 Título          : Star Wars - Provação
@@ -102,13 +102,13 @@ Data Publicação : 01/01/2015
 Capa            : Brochura
 Páginas         : 408
 Categoria       : Literatura Estrangeira, Ficção Científica
-Sumário         : null
+Sumário         : Provação se passa 40 anos após o acontecimentos do filme STAR WARS – Episódio VI. A trama se inicia quando Lando Calrissian pede ajuda para enfrentar um grupo de piratas em uma de suas minas.
 Resumo          : Provação traz de volta os principais personagens da saga Star Wars em uma trama que combina perfeitamente chantagens, sequestros e batalhas tão épicas quanto as da trilogia original. 
 Preço Custo     : 19.89
 Preço Venda     : 39.9
 Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/capas/9788576572091.jpg
 Data Cadastro   : 29/04/2015 04:12:51
-Data Alterado   : 10/05/2016 13:28:20
+Data Alterado   : 11/05/2016 16:21:43
 --------------------------------------
 ISBN            : 978-8-5735-1690-6
 Título          : Guerra Civil
@@ -118,13 +118,13 @@ Data Publicação : 01/01/2014
 Capa            : Dura
 Páginas         : 100
 Categoria       : Quadrinhos, Marvel Comic
-Sumário         : 
+Sumário         : A ação precipitada de um grupo de jovens super-heróis acarreta uma tragédia sem precedentes, deixando um saldo de centenas de mortos. Diante da pressão popular, o governo sanciona uma lei determinando que todos os superseres sejam registrados.
 Resumo          : O excesso de super-humanos incomoda os "mortais", que começam a pressionar o governo para que eles prestem contas sobre seus atos. Após um incidente com um grupo de novos heróis, que no ímpeto da audiência em um reality show, explodem o vilão Nitro, matando todos no local e uma dezena de crianças.
 Preço Custo     : 51.0
 Preço Venda     : 60.0
 Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/capas/9788573516906.jpg
 Data Cadastro   : 29/04/2016 23:21:13
-Data Alterado   : 10/05/2016 13:28:25
+Data Alterado   : 11/05/2016 16:21:37
 --------------------------------------
 ISBN            : 978-8-5441-0292-3
 Título          : A Guerra dos Tronos - Livro Um
@@ -140,7 +140,7 @@ Preço Custo     : 34.9
 Preço Venda     : 49.9
 Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/capas/9788544102923.jpg
 Data Cadastro   : 02/05/2016 04:51:31
-Data Alterado   : 10/05/2016 13:28:35
+Data Alterado   : 11/05/2016 16:21:31
 --------------------------------------
 ISBN            : 978-8-5760-8173-9
 Título          : Use a Cabeça! Java
@@ -156,7 +156,7 @@ Preço Custo     : 160.9
 Preço Venda     : 225.0
 Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/capas/9788576081739.jpeg
 Data Cadastro   : 04/05/2016 23:22:03
-Data Alterado   : 10/05/2016 13:28:43
+Data Alterado   : 11/05/2016 16:21:25
 --------------------------------------
 ISBN            : 978-8-5765-7270-1
 Título          : Star Wars - Troopers da Morte
@@ -172,5 +172,5 @@ Preço Custo     : 36.0
 Preço Venda     : 39.9
 Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/capas/9788576572701.jpg
 Data Cadastro   : 05/05/2016 00:02:48
-Data Alterado   : 10/05/2016 13:29:54
+Data Alterado   : 11/05/2016 16:21:16
 --------------------------------------
