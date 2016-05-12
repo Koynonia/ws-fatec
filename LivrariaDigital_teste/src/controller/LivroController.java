@@ -7,6 +7,7 @@
 
 package controller;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -292,7 +293,7 @@ public class LivroController implements ComponentListener{
 			ftxtPrecoCusto.setEditable(true);
 			ftxtPrecoVenda.setEditable(true);
 			txtaSumario.setEditable(true);
-			txtaResumo.setEnabled(true);
+			txtaResumo.setEditable(true);
 			lblSelecione.setVisible(true);
 			lblTipoCapa.setVisible(true);
 			lblCategorias.setVisible(true);
@@ -365,38 +366,54 @@ public class LivroController implements ComponentListener{
 	}
 	
 	
-	public void verificarCampos(){	
+	public void verificarCampos(){
+		
+		boolean vazio = false;
 		
 		for (Component p : painel.getComponents()) {
+
 			if ( p instanceof JTextField ) {
 				JTextField l = ( JTextField )p;
-				if ( l.getText().isEmpty() ){
-					validar = true;
+				if ( l.getText().isEmpty() && l.isVisible() ){
+					if ( l.getName() != "pesquisa" ){
+						vazio = true;
+						l.setBackground(new Color(255,240,245));
+					}
+				} else {
+					l.setBackground(new Color(255,255,255));
 				}
 			}
 			if ( p instanceof JFormattedTextField ) {
 				JFormattedTextField  l = ( JFormattedTextField )p;
 				if ( l.getText().isEmpty() ){
-					validar = true;
+					vazio = true;
+					l.setBackground(new Color(255,240,245));
+				} else {
+					l.setBackground(new Color(255,255,255));
 				}
 			}
 			if (p instanceof JComboBox ) {
 				@SuppressWarnings("unchecked")
 				JComboBox<String> l = ( JComboBox<String> )p;
 				if ( l.getSelectedIndex() > 0){
-					validar = true;
 				}
 			}
 			if ( p instanceof JTextArea ) {
 				JTextArea  l = ( JTextArea )p;
 				if ( l.getText().isEmpty() ){
-					validar = true;
+					vazio = true;
+					l.setBackground(new Color(255,240,245));
+				} else {
+					l.setBackground(new Color(255,255,255));
 				}
 			}
 		}
-		if ( validar != false ){
+		if ( vazio == true ){
 			msg("erroVazio", txtTitulo.getText());
 			validar = false;
+			return;
+		} else {
+			validar = true;
 		}
 	}
 	
@@ -557,6 +574,7 @@ public class LivroController implements ComponentListener{
 		}
 	}
 	
+	
 	public void preencherCategoria() {
 
 		String linha = new String();
@@ -654,7 +672,10 @@ public class LivroController implements ComponentListener{
 					if ( livros.size() == i+1 && txtIsbnID.getText().isEmpty() ){
 						msg("vazioPesquisa", txtPesquisar.getText());
 						if ( validar == true ){
+							String pesq = txtPesquisar.getText();
+							alterarCampos("desprotegerCampos");
 							limparCampos();
+							txtTitulo.setText( pesq );
 						} else {
 							return;
 						}
@@ -713,11 +734,10 @@ public class LivroController implements ComponentListener{
 		Estoque estoque = new Estoque();
 
 		if ( !ftxtIsbn.getText().isEmpty() ) {
-
+			verificarCampos();
 			for (int i = 0; i < livros.size(); i++) {
 				if ( txtIsbnID.getText().equals(livros.get(i).getIsbn() )) {
 					msg( "confirmaEditar", livros.get(i).getTitulo() );
-//					verificarCampos();
 				}
 			}			
 			if( validar == true ){
@@ -772,12 +792,17 @@ public class LivroController implements ComponentListener{
 			for ( int i = 0; i < livros.size(); i++ ) {	
 				if ( ftxtIsbn.getText().equals(livros.get(i).getIsbn() )) {
 					msg( "erroEditar", livros.get(i).getTitulo() );
-//					verificarCampos();
+					validar = false;
+					return;
+				} else {
+					if ( i == livros.size() -1 ){
+					verificarCampos();
+					}
 				}
 			}			
-			if(!(validar == true)){
+			if( validar == true ){
 				
-				livro.setIsbn( ftxtIsbn.getText() );
+				livro.setIsbn( logon.mascaraCampo( "999-9-9999-9999-9", ftxtIsbn.getText(), ftxtIsbn.equals("") ));
 				livro.setTitulo( txtTitulo.getText() );
 				livro.setAutor( txtAutor.getText() );
 				livro.setEditora( cboEditora.getSelectedItem().toString() );
@@ -796,7 +821,7 @@ public class LivroController implements ComponentListener{
 				livros.add(livro);
 				atualizarArquivo( livros );
 				
-				estoque.setIsbn( ftxtIsbn.getText() );
+				estoque.setIsbn( logon.mascaraCampo( "999-9-9999-9999-9", ftxtIsbn.getText(), ftxtIsbn.equals("") ));
 				estoque.setQtd( Integer.parseInt(txtEstoque.getText() ));
 				estoque.setDtCadastro( obterData() );
 				estoque.setDtAlterado( obterData() );

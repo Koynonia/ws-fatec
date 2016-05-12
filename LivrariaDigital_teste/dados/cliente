@@ -50,19 +50,6 @@ Nível           : Usuario
 Data Cadastro   : 10/05/2016 14:23:28
 Data Alterado   : 10/05/2016 14:33:50
 ------------------------------------
-Usuario         : Teste
-Senha           : 123
-Email           : teste@gmail.com
-Nome            : Teste Testando
-Data Nascimento : 20/01/2000
-CPF             : 123.123.123-32
-Telefone        : (11) 2222-3333
-Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/avatares/Halloween-Jack_Skellington.png
-Tipo Endereço   : Residência
-Nível           : Usuario
-Data Cadastro   : 11/05/2016 04:13:11
-Data Alterado   : 11/05/2016 04:13:11
-------------------------------------
 Usuario         : Teste2
 Senha           : 123
 Email           : teste@gmil.com
@@ -89,4 +76,16 @@ Nível           : Usuario
 Data Cadastro   : 11/05/2016 04:27:58
 Data Alterado   : 11/05/2016 04:27:58
 ------------------------------------
-
+Usuario         : fernandos
+Senha           : 123
+Email           : f
+Nome            : fernando
+Data Nascimento : 01/01/2000
+CPF             : 111.222.333-58
+Telefone        : (11) 2222-3333
+Imagem          : ../LivrariaDigital_teste/avatares/usuario.jpg
+Tipo Endereço   : Residência
+Nível           : Usuario
+Data Cadastro   : 11/05/2016 22:04:18
+Data Alterado   : 11/05/2016 22:04:18
+------------------------------------

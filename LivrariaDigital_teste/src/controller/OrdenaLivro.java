@@ -96,7 +96,7 @@ public class OrdenaLivro implements Comparator<Livro> {
 		@Override
 		public int compare(Livro primeiro, Livro segundo) {
 
-			return Float.toString( primeiro.getPrecoCusto() ).compareTo(Float.toString( segundo.getPrecoCusto() ));
+			return Double.toString( primeiro.getPrecoCusto() ).compareTo(Double.toString( segundo.getPrecoCusto() ));
 		}
 	}
 	
@@ -105,7 +105,7 @@ public class OrdenaLivro implements Comparator<Livro> {
 		@Override
 		public int compare(Livro primeiro, Livro segundo) {
 
-			return Float.toString( primeiro.getPrecoVenda() ).compareTo(Float.toString( segundo.getPrecoVenda() ));
+			return Double.toString( primeiro.getPrecoVenda() ).compareTo(Double.toString( segundo.getPrecoVenda() ));
 		}
 	}
 }

@@ -145,7 +145,7 @@ public class DetalheController implements ComponentListener {
 		if( livros.size() > 0 ){
 			
 			FrmCarrinho carrinho = new FrmCarrinho();
-			carrinho.setVisible(true);
+			carrinho.setVisible(false);
 			CarrinhoController carrinhoCtrl = new CarrinhoController(
 					carrinho, 
 					carrinho.tabCompra, 

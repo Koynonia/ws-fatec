@@ -8,11 +8,11 @@ Páginas         : 448
 Categoria       : Ficção Científica
 Sumário         : Para atender a ordem do imperador Palpatine, o Lorde Sombrio une seus esforços a Xizor, poderoso líder de uma organização criminosa. Mas Vader não é o único a querer as graças do imperador, e seus planos podem ser colocados em risco, já que o chamado Príncipe Negro pode ter outros interesses nessa empreitada.
 Resumo          : São tempos sombrios na galáxia. Enquanto a princesa Leia organiza uma missão para resgatar Han Solo do terrível Jabba, o Hutt, Darth Vader vasculha a galáxia atrás de Luke Skywalker, com o objetivo de recrutá-lo para o lado sombrio da Força
-Preço Custo     : 19.88
+Preço Custo     : 19.9
 Preço Venda     : 39.9
 Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/capas/9788576572633.jpg
 Data Cadastro   : 02/05/2016 23:55:23
-Data Alterado   : 11/05/2016 16:21:08
+Data Alterado   : 12/05/2016 02:00:33
 --------------------------------------
 ISBN            : 978-8-5352-2626-3
 Título          : Princípios de Análise e Projeto de Sistemas com UML
@@ -24,11 +24,11 @@ Páginas         : 416
 Categoria       : Engenharia de Software
 Sumário         : Há vários anos, a orientação a objetos se estabeleceu como paradigma vigente no contexto da análise e do projeto de sistemas de software, particularmente em sistemas de informação.
 Resumo          : A análise e o projeto orientados a objetos são comumente utilizados no desenvolvimento de software. Apesar disso, muitos conceitos da orientação a objetos ainda não são corretamente entendidos e aplicados na prática.
-Preço Custo     : 55.99
+Preço Custo     : 55.9
 Preço Venda     : 110.9
 Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/capas/9788535226263.jpg
 Data Cadastro   : 29/04/2016 04:04:27
-Data Alterado   : 11/05/2016 16:19:06
+Data Alterado   : 12/05/2016 01:51:16
 --------------------------------------
 ISBN            : 978-8-5633-0833-7
 Título          : Engenharia de Software - Uma Abordagem Profissional
@@ -40,11 +40,11 @@ Páginas         : 780
 Categoria       : Engenharia de Software
 Sumário         : Este livro apresenta uma excelente introdução aos fundamentos da engenharia de software.
 Resumo          : O livro é considerado obra de referência e já é amplamente adotado nos principais cursos de graduação e pós-graduação das principais instituições de ensino no Brasil. 
-Preço Custo     : 125.99
+Preço Custo     : 125.0
 Preço Venda     : 179.99
 Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/capas/9788563308337.jpg
 Data Cadastro   : 29/04/2016 04:11:27
-Data Alterado   : 11/05/2016 16:22:06
+Data Alterado   : 12/05/2016 02:00:50
 --------------------------------------
 ISBN            : 978-8-5352-4535-6
 Título          : Sistema de Banco de Dados
@@ -56,11 +56,11 @@ Páginas         : 904
 Categoria       : Bancos de Dados
 Sumário         : O texto enfatiza questões práticas, aplicações e implementação, junto com uma cobertura dos principais conceitos teóricos.
 Resumo          : Este é um livro-texto clássico sobre treinamento em banco de dados. A obra apresenta os conceitos fundamentais do gerenciamento de banco de dados de uma maneira intuitiva e motivadora para os alunos, inclusive com um novo exemplo de banco de dados de uma universidade, que ilustra escolhas mais complexas de projeto.
-Preço Custo     : 264.51
+Preço Custo     : 264.5
 Preço Venda     : 293.9
 Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/capas/9788535245356.jpg
 Data Cadastro   : 29/04/2016 04:14:32
-Data Alterado   : 11/05/2016 16:22:00
+Data Alterado   : 12/05/2016 01:52:13
 --------------------------------------
 ISBN            : 978-8-5765-7210-7
 Título          : Ascensão da Força Sombria
@@ -72,11 +72,11 @@ Páginas         : 504
 Categoria       : Literatura Estrangeira, Ficção Científica
 Sumário         : Quando Talon Karrde é capturado por forças inimigas, Mara Jade relutantemente recorre à ajuda de Luke Skywalker, que é forçado a interromper seu treinamento com um curioso mestre para ampliar o domínio da Força.
 Resumo          : No segundo volume da consagrada Trilogia Thrawn, a luta de Luke, Han e Leia em defesa da Nova República continua. Mais uma vez, eles enfrentarão as tropas imperiais dissidentes, comandadas pelo poderoso grão-almirante Thrawn.
-Preço Custo     : 21.84
+Preço Custo     : 21.85
 Preço Venda     : 39.9
 Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/capas/9788576572107.jpg
 Data Cadastro   : 02/05/2016 11:12:59
-Data Alterado   : 11/05/2016 16:21:54
+Data Alterado   : 12/05/2016 01:52:39
 --------------------------------------
 ISBN            : 978-8-5765-7211-4
 Título          : Star Wars - Um Novo Amanhecer
@@ -173,4 +173,36 @@ Preço Venda     : 39.9
 Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/capas/9788576572701.jpg
 Data Cadastro   : 05/05/2016 00:02:48
 Data Alterado   : 11/05/2016 16:21:16
+--------------------------------------
+ISBN            : 978-8-5216-1650-4
+Título          : Engenharia de Software - Fundamentos, Métodos e Padrões
+Autor           : Wilson De Padua Paula Filho
+Editora         : LTC
+Data Publicação : 01/01/2009
+Capa            : Brochura
+Páginas         : 1256
+Categoria       : Engenharia de Software
+Sumário         : Desde o ano de 2003, quando foi publicada a segunda edição deste livro, importantes mudanças aconteceram em várias áreas da Engenharia de software. Essas mudanças afetaram algumas das principais referências usadas no livro.
+Resumo          : O principal modelo de capacitação de organizações produtoras de software, o SW-CMM, foi substituído pelo CMMI, com muitas alterações importantes de escopo, estrutura e conteúdo.
+Preço Custo     : 252.45
+Preço Venda     : 297.0
+Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/capas/9788521616504.jpg
+Data Cadastro   : 12/05/2016 02:04:19
+Data Alterado   : 12/05/2016 02:06:16
+--------------------------------------
+ISBN            : 978-8-5657-6583-1
+Título          : Star Wars - Estrelas Perdidas
+Autor           : Claudia Gray
+Editora         : Seguinte
+Data Publicação : 01/01/2015
+Capa            : Brochura
+Páginas         : 488
+Categoria       : Ficção
+Sumário         : Ciena Ree e Thane Kyrell se conheceram na infância e cresceram com o mesmo sonho: pilotar as naves do Império. Durante a adolescência, sua amizade aos poucos se transforma em algo mais, porém diferenças políticas afastam seus caminhos.
+Resumo          : Você acompanhará os principais acontecimentos desde o surgimento da Rebelião até a queda do Império de um jeito absolutamente original e envolvente. O livro relata, ainda, eventos inéditos que se passam depois do episódio VI, O retorno de Jedi, e traz pistas sobre o episódio VII, O despertar da Força! 
+Preço Custo     : 43.9
+Preço Venda     : 61.0
+Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/capas/9788565765831.jpg
+Data Cadastro   : 12/05/2016 02:26:29
+Data Alterado   : 12/05/2016 02:26:29
 --------------------------------------

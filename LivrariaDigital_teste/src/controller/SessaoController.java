@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
@@ -90,6 +92,13 @@ public class SessaoController {
 		Date date = new Date();
 		String data = (dateFormat.format(date));
 		return data;
+	}
+	
+	
+	public boolean testarNumero(String str) {
+		Pattern p = Pattern.compile("[0-9]+");
+		Matcher m = p.matcher(str);
+		return m.find();    
 	}
 	
 	

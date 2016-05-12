@@ -42,17 +42,6 @@ Cep           : 03.833-000
 Data Cadastro : 10/05/2016 14:23:28
 Data Alterado : 10/05/2016 14:33:50
 ------------------------------------
-CPF           : 123.123.123-32
-TipoEndereco  : Residência
-Endereco      : Rua Teste, 1
-Complemento   : fundos
-Bairro        : Vila Teste
-Cidade        : Rio de Janeiro
-Estado        : Rio de Janeiro
-Cep           : 11.332-000
-Data Cadastro : 11/05/2016 04:13:11
-Data Alterado : 11/05/2016 04:13:11
-------------------------------------
 CPF           : 123.123.123-31
 TipoEndereco  : Residência
 Endereco      : Rua Testando, 1
@@ -74,4 +63,26 @@ Estado        : Bahia
 Cep           : 02.244-300
 Data Cadastro : 11/05/2016 04:27:58
 Data Alterado : 11/05/2016 04:27:58
+------------------------------------
+CPF           : 111.222.333-58
+TipoEndereco  : Residência
+Endereco      : teste
+Complemento   : 
+Bairro        : teste
+Cidade        : teste
+Estado        : Acre
+Cep           : 11.223-444
+Data Cadastro : 11/05/2016 22:04:18
+Data Alterado : 11/05/2016 22:04:18
+------------------------------------
+CPF           : 111.222.333-44
+TipoEndereco  : Escritório
+Endereco      : Rua Dois, 100
+Complemento   : 
+Bairro        : Tatuapé
+Cidade        : São Paulo
+Estado        : São Paulo
+Cep           : 02.234-400
+Data Cadastro : 12/05/2016 03:11:53
+Data Alterado : 12/05/2016 03:11:53
 ------------------------------------

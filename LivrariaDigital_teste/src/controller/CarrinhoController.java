@@ -23,9 +23,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import javax.swing.ImageIcon;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
@@ -105,13 +102,6 @@ public class CarrinhoController implements ComponentListener {
 		Date date = new Date();
 		String data = (dateFormat.format(date));
 		return data;
-	}
-	
-	
-	private boolean testarNumero(String str) {
-		Pattern p = Pattern.compile("[0-9]+");
-		Matcher m = p.matcher(str);
-		return m.find();    
 	}
 	
 	
@@ -314,6 +304,7 @@ public class CarrinhoController implements ComponentListener {
 	
 	public void alterarQtd(){
 		
+		itens.clear();
 		lerArquivo();
 		
 		if(tabela.getRowCount() > 0){
@@ -465,7 +456,7 @@ public class CarrinhoController implements ComponentListener {
 				fechar();
 				return;
 			} else {
-				if ( !testarNumero( aQtd.toString() ) ){
+				if ( ! logon.testarNumero( aQtd.toString() ) ){
 					msg( "erroDigit", aQtd.toString() );
 				} else {
 					if ( aQtd.toString().contains( "0" ) ) {
@@ -486,7 +477,7 @@ public class CarrinhoController implements ComponentListener {
 			if ( resp == null){
 				return;
 			} else {
-				if ( !testarNumero( resp ) ){
+				if ( ! logon.testarNumero( resp ) ){
 					msg( "erroDigit", resp );
 				} else {
 					if ( resp.contains( "0" ) ) {

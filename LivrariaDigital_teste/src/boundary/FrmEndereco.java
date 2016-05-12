@@ -115,7 +115,6 @@ public class FrmEndereco extends JFrame {
 		painel.add(cboTipoEndereco);
 		
 		txtTipoEndereco = new JTextField(10);
-		txtTipoEndereco.setHorizontalAlignment(SwingConstants.RIGHT);
 		txtTipoEndereco.setBounds(167, 145, 219, 28);
 		painel.add(txtTipoEndereco);
 		

@@ -397,7 +397,7 @@ public class ListaController implements ComponentListener {
 		if( livros.size() > 0 ){
 			
 			FrmCarrinho carrinho = new FrmCarrinho();
-			carrinho.setVisible(true);
+			carrinho.setVisible(false);
 			
 			CarrinhoController carrinhoCtrl = new CarrinhoController(
 					carrinho, 

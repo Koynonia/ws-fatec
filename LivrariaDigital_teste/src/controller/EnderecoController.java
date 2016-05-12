@@ -7,6 +7,7 @@
 
 package controller;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -69,7 +70,6 @@ public class EnderecoController implements ComponentListener{
 	private boolean validar;
 	private String diretorio = "../LivrariaDigital_teste/";
 	private String arquivo = "endereco";
-	
 
 	public EnderecoController( 
 			JFrame janela, 
@@ -229,50 +229,64 @@ public class EnderecoController implements ComponentListener{
 		btnExcluir.setVisible(false);
 	}
 	
-	
-	public void verificarCampos(){	
-		
+
+	public void verificarCampos(){
+
+		boolean vazio = false;
+
 		for (Component p : painel.getComponents()) {
+
 			if ( p instanceof JTextField ) {
 				JTextField l = ( JTextField )p;
-				if ( l.getText().isEmpty() ){
-					validar = true;
+				if ( l.getText().isEmpty() && l.isVisible() ){
+						vazio = true;
+						l.setBackground(new Color(255,240,245));
+				} else {
+					l.setBackground(new Color(255,255,255));
 				}
 			}
 			if ( p instanceof JFormattedTextField ) {
 				JFormattedTextField  l = ( JFormattedTextField )p;
 				if ( l.getText().isEmpty() ){
-					validar = true;
+					vazio = true;
+					l.setBackground(new Color(255,240,245));
+				} else {
+					l.setBackground(new Color(255,255,255));
 				}
 			}
 			if (p instanceof JComboBox ) {
 				@SuppressWarnings("unchecked")
 				JComboBox<String> l = ( JComboBox<String> )p;
 				if ( l.getSelectedIndex() > 0){
-					validar = true;
 				}
 			}
 			if ( p instanceof JTextArea ) {
 				JTextArea  l = ( JTextArea )p;
 				if ( l.getText().isEmpty() ){
-					validar = true;
+					vazio = true;
+					l.setBackground(new Color(255,240,245));
+				} else {
+					l.setBackground(new Color(255,255,255));
 				}
 			}
 		}
-		if ( validar != false ){
+		if ( vazio == true ){
 			msg("erroVazio", txtEndereco.getText());
 			validar = false;
+			return;
+		} else {
+			validar = true;
 		}
 	}
-	
-	
+
+
 	public String obterData(){
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		Date date = new Date();
 		String data = (dateFormat.format(date));
 		return data;
 	}
-	
+
 
 	public void abrirJanela ( String nome ){
 
@@ -299,8 +313,17 @@ public class EnderecoController implements ComponentListener{
 	public void preencherEndereco() {
 
 		ArrayList<Endereco> listaEndereco = new ArrayList<>();
-		
+
 		listaEndereco.addAll( enderecos );
+		
+		for ( int i = 0; i < enderecos.size(); i++ ){
+			if ( enderecos.get(i).getCpf().equals(lblId.getText() )){
+				
+//				listaEndereco.add( enderecos.get(i).getTipoEndereco() );
+			}
+		}
+		
+		
 		//Ordenar alfabeticamente
 		String[] enderecos = new String[listaEndereco.size()];
 		for ( int i = 0; i < listaEndereco.size(); i++ ){		
@@ -309,13 +332,15 @@ public class EnderecoController implements ComponentListener{
 		}
 		Arrays.sort(enderecos);
 		//Adicionar na combobox
-		cboTipoEndereco.addItem( "Selecione…" );
+		cboTipoEndereco.addItem( "Residência" );
 		for ( int i = 0; i < listaEndereco.size(); i++ ){
-			cboTipoEndereco.addItem( enderecos[i] );
+			if ( !enderecos[i].equals("Residência" )) {
+				cboTipoEndereco.addItem( enderecos[i] );
+			}
 		}
 		cboTipoEndereco.addItem( "Adicionar NOVO" );
 	}
-	
+
 	
 	public void preencherEstado() {
 
@@ -360,27 +385,27 @@ public class EnderecoController implements ComponentListener{
 
 		Endereco endereco = new Endereco();
 
-		if ( !txtEndereco.getText().isEmpty() ) {
-
+		if ( ! lblId.getText().isEmpty() ) {
+			verificarCampos();
+			
 			for (int i = 0; i < enderecos.size(); i++) {
 				if ( lblId.getText().equals(enderecos.get(i).getCpf() )) {
 					msg( "confirmaEditar", enderecos.get(i).getTipoEndereco() );
-//					verificarCampos();
-				}
+				} 
 			}			
 			if( validar == true ){
 
 				for (int i = 0; i < enderecos.size(); i++) {
 					if ( lblId.getText().equals(enderecos.get(i).getCpf() )) {
 						
-						endereco.setCpf( lblId.getText() );
-						endereco.setTipoEndereco( txtTipoEndereco.getText() );
+						endereco.setCpf( logon.mascaraCampo( "999.999.999-99", lblId.getText(), lblId.getText().equals("") ));
+						endereco.setTipoEndereco( cboTipoEndereco.getSelectedItem().toString() );
 						endereco.setEndereco( txtEndereco.getText() );
 						endereco.setComplemento( txtComplemento.getText() );
 						endereco.setBairro( txtBairro.getText() );
 						endereco.setCidade( txtCidade.getText() );
 						endereco.setEstado( cboEstado.getSelectedItem().toString() );
-						endereco.setCep( ftxtCep.getText() );
+						endereco.setCep( logon.mascaraCampo( "99.999-999", ftxtCep.getText(), ftxtCep.equals("") ));
 						endereco.setDtCadastro( enderecos.get(i).getDtCadastro() );
 						endereco.setDtAlterado( obterData() );
 						enderecos.set( i, endereco );
@@ -408,14 +433,14 @@ public class EnderecoController implements ComponentListener{
 			}			
 			if(!(validar == true)){
 				
-				endereco.setCpf( lblId.getText() );
+				endereco.setCpf( logon.mascaraCampo( "999.999.999-99", lblId.getText(), lblId.getText().equals("") ));
 				endereco.setTipoEndereco( txtTipoEndereco.getText() );
 				endereco.setEndereco( txtEndereco.getText() );
 				endereco.setComplemento( txtComplemento.getText() );
 				endereco.setBairro( txtBairro.getText() );
 				endereco.setCidade( txtCidade.getText() );
 				endereco.setEstado( cboEstado.getSelectedItem().toString() );
-				endereco.setCep( ftxtCep.getText() );
+				endereco.setCep( logon.mascaraCampo( "99.999-999", ftxtCep.getText(), ftxtCep.equals("") ));
 				endereco.setDtCadastro( obterData() );
 				endereco.setDtAlterado( obterData() );
 				enderecos.add( endereco );

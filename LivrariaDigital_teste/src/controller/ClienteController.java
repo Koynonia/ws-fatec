@@ -237,10 +237,16 @@ public class ClienteController implements ComponentListener{
 			lblPesquisar.setVisible(true);
 			txtPesquisar.setVisible(true);
 			btnPesquisar.setVisible(true);
+			btnLimpar.setVisible(true);
 		} else {
 			lblPesquisar.setVisible(false);
 			txtPesquisar.setVisible(false);
 			btnPesquisar.setVisible(false);
+			if ( btnLimpar.getText() != "Novo" ){
+				btnLimpar.setVisible(true);
+			} else {
+				btnLimpar.setVisible(false);
+			}
 		}
 		cboTipoEndereco.getModel().setSelectedItem("Residência");
 	}
@@ -371,53 +377,54 @@ public class ClienteController implements ComponentListener{
 	}
 	
 	
-	public void verificarCampos(){
-
+public void verificarCampos(){
+		
+		boolean vazio = false;
 		
 		for (Component p : painel.getComponents()) {
-			
+
 			if ( p instanceof JTextField ) {
 				JTextField l = ( JTextField )p;
 				if ( l.getText().isEmpty() && l.isVisible() ){
-					validar = false;
-					l.setVisible(true);
-					l.setBackground(new Color(255, 255, 153));
+					if ( l.getName() != "pesquisa" ){
+						vazio = true;
+						l.setBackground(new Color(255,240,245));
+					}
 				} else {
-					validar = true;
-					l.setBackground(new Color(255, 255, 255));
+					l.setBackground(new Color(255,255,255));
 				}
 			}
 			if ( p instanceof JFormattedTextField ) {
 				JFormattedTextField  l = ( JFormattedTextField )p;
 				if ( l.getText().isEmpty() ){
-					validar = false;
-					l.setBackground(new Color(255, 255, 153));
+					vazio = true;
+					l.setBackground(new Color(255,240,245));
 				} else {
-					validar = true;
-					l.setBackground(new Color(255, 255, 255));
+					l.setBackground(new Color(255,255,255));
 				}
 			}
 			if (p instanceof JComboBox ) {
 				@SuppressWarnings("unchecked")
 				JComboBox<String> l = ( JComboBox<String> )p;
 				if ( l.getSelectedIndex() > 0){
-					validar = true;
 				}
 			}
 			if ( p instanceof JTextArea ) {
 				JTextArea  l = ( JTextArea )p;
 				if ( l.getText().isEmpty() ){
-					validar = false;
-					l.setBackground(new Color(255, 255, 153));
+					vazio = true;
+					l.setBackground(new Color(255,240,245));
 				} else {
-					validar = true;
-					l.setBackground(new Color(255, 255, 255));
+					l.setBackground(new Color(255,255,255));
 				}
 			}
 		}
-		
-		if ( validar == false ){
+		if ( vazio == true ){
 			msg("erroVazio", txtUsuario.getText());
+			validar = false;
+			return;
+		} else {
+			validar = true;
 		}
 	}
 	
@@ -444,6 +451,28 @@ public class ClienteController implements ComponentListener{
 	}
 	
 	
+	public void usuarios(){
+
+		if ( logon.getLogon().size() == 0 || 
+				logon.getLogon().get(0).getNivel().contentEquals( "Administrador" )){
+			for ( int i = 0; i < clientes.size(); i++ ) {
+				if ( txtUsuario.getText().equalsIgnoreCase( clientes.get(i).getUsuario() )) {
+					msg( "erroUsuario", clientes.get(i).getNome() );
+					txtUsuario.setText(null);
+					validar = false;
+
+					SwingUtilities.invokeLater(new Runnable() {  
+						public void run() {  
+							txtUsuario.requestFocus();  
+						}  
+					});
+					return;
+				}
+			}
+		}
+	}
+	
+	
 	@SuppressWarnings("deprecation")
 	public void senhas(){
 	
@@ -461,6 +490,30 @@ public class ClienteController implements ComponentListener{
 		}
 	}
 	
+	
+	public void cpfs(){
+		
+		if ( logon.getLogon().size() == 0 || 
+				logon.getLogon().get(0).getNivel().contentEquals( "Administrador" ) ||
+				! logon.getLogon().get(0).getId().contentEquals( ftxtCpf.getText() )
+				){
+			for ( int i = 0; i < clientes.size(); i++ ) {
+				if ( logon.mascaraCampo( "999.999.999-99", ftxtCpf.getText(), ftxtCpf.equals("") ).equals( clientes.get(i).getCpf() ))  {
+					msg( "erroCpf", clientes.get(i).getNome() );
+					ftxtCpf.setText(null);
+					validar = false;
+
+					SwingUtilities.invokeLater(new Runnable() {  
+						public void run() {  
+							ftxtCpf.requestFocus();  
+						}  
+					});
+					return;
+				}
+			}
+		}
+	}
+
 	
 	public boolean validar(String validaSenha) {  
 
@@ -530,17 +583,15 @@ public class ClienteController implements ComponentListener{
 		try {
 			arquivos.lerArquivo(diretorio + "dados/", "endereco");
 			linha = arquivos.getBuffer();
-			String[] autor = linha.split(";");
-			for ( String d : autor ) {
-				String text = d.replaceAll(".*: ", "");
+			String[] endereco = linha.split(";");
+			for ( String s : endereco ) {
+				String text = s.replaceAll(".*: ", "");
 				listaString.add( text );
-				if (d.contains("---")) {
+				if (s.contains("---")) {
 					Endereco e = new Endereco();
-					for ( int i = 0; i < enderecos.size(); i++ ){
-						if ( lblId.getText().equals(enderecos.get(i).getCpf() )) {
-							e.setTipoEndereco( listaString.get(1) );
-							listaEndereco.add( e );
-						}
+					if ( listaString.get(0).equals( lblId.getText() )) {
+						e.setTipoEndereco( listaString.get(1) );
+						listaEndereco.add(e);
 					}
 					listaString.clear();
 				}
@@ -551,7 +602,7 @@ public class ClienteController implements ComponentListener{
 		//Ordenar alfabeticamente
 		String[] enderecos = new String[listaEndereco.size()];
 		for ( int i = 0; i < listaEndereco.size(); i++ ){		
-			String endereco = listaEndereco.get(i).getTipoEndereco();		
+			String endereco = listaEndereco.get(i).getTipoEndereco();
 			enderecos[i] = endereco;	
 		}
 		Arrays.sort(enderecos);
@@ -636,6 +687,51 @@ public class ClienteController implements ComponentListener{
 				alterarCampos ("protegerCampos");
 			}
 		} 
+	}
+	
+	
+	public void selecionarEndereco(){
+		
+		String linha = new String();
+		arquivos = new Arquivos();
+		ArrayList<String> listaString = new ArrayList<>();
+		ArrayList<Endereco> listaEndereco = new ArrayList<>();
+		try {
+			arquivos.lerArquivo(diretorio + "dados/", "endereco");
+			linha = arquivos.getBuffer();
+			String[] endereco = linha.split(";");
+			for ( String s : endereco ) {
+				String text = s.replaceAll(".*: ", "");
+				listaString.add( text );
+				if (s.contains("---")) {
+					Endereco e = new Endereco();
+					if ( listaString.get(0).equals( lblId.getText() )) {
+						e.setCpf( listaString.get(0) );
+						e.setTipoEndereco( listaString.get(1) );
+						e.setEndereco( listaString.get(2) );
+						e.setComplemento( listaString.get(3) );
+						e.setBairro( listaString.get(4) );
+						e.setCidade( listaString.get(5) );
+						e.setEstado( listaString.get(6) );
+						e.setCep( listaString.get(7) );
+						listaEndereco.add(e);
+					}
+					listaString.clear();
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		for (int i = 0; i < listaEndereco.size(); i++) {
+			if ( cboTipoEndereco.getSelectedItem().equals( listaEndereco.get(i).getTipoEndereco() )){		
+				txtEndereco.setText( listaEndereco.get(i).getEndereco() );
+				txtComplemento.setText( listaEndereco.get(i).getComplemento() );
+				txtBairro.setText( listaEndereco.get(i).getBairro() );
+				txtCidade.setText( listaEndereco.get(i).getCidade() );
+				cboEstado.getModel().setSelectedItem( listaEndereco.get(i).getEstado() );
+				ftxtCep.setText( listaEndereco.get(i).getCep() );
+			}
+		}
 	}
 
 	
@@ -793,6 +889,7 @@ public class ClienteController implements ComponentListener{
 							txtUsuario.getText().equalsIgnoreCase( clientes.get(i).getUsuario() )) {
 						msg( "erroSalvar", clientes.get(i).getNome() );
 						validar = false;
+						return;
 					} else {
 						if ( i == clientes.size() -1 ){
 						verificarCampos();
@@ -1068,11 +1165,29 @@ public class ClienteController implements ComponentListener{
 					new ImageIcon( diretorio + "/icons/warning.png" ));
 			break;
 			
+		case "erroUsuario":
+			JOptionPane.showMessageDialog(null, 
+					"Usuário já cadastrado!\n\n"
+							+ "Verifique sua digitação ou escolha um nome de Usuário diferente.",
+					"Já Cadastrado", 
+					JOptionPane.PLAIN_MESSAGE, 
+					new ImageIcon( diretorio + "/icons/warning.png" ));
+			break;
+			
 		case "erroPwd2":
 			JOptionPane.showMessageDialog(null, 
 					"A senha e a confirmação são diferentes… '" + mensagem 
 					+ "' !\n\nVerifique sua digitação e tente novamente.",
 					"Erro", 
+					JOptionPane.PLAIN_MESSAGE, 
+					new ImageIcon( diretorio + "/icons/warning.png" ));
+			break;
+			
+		case "erroCpf":
+			JOptionPane.showMessageDialog(null, 
+					"CPF já cadastrado!\n\n"
+							+ "Verifique sua digitação.",
+					"Já Cadastrado", 
 					JOptionPane.PLAIN_MESSAGE, 
 					new ImageIcon( diretorio + "/icons/warning.png" ));
 			break;
@@ -1243,6 +1358,8 @@ public class ClienteController implements ComponentListener{
 				
 				if ( cboTipoEndereco.getSelectedItem().equals( "Adicionar NOVO" )){
 					abrirJanela( "endereco" );
+				} else {
+					selecionarEndereco();
 				}
 			}
 		};
@@ -1350,6 +1467,8 @@ public class ClienteController implements ComponentListener{
 					public void focusLost(FocusEvent e) {
 						
 						senhas();
+//						usuarios();
+//						cpfs();
 					}
 					
 				};

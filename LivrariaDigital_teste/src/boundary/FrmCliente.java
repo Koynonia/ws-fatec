@@ -223,6 +223,7 @@ public class FrmCliente extends JFrame {
 		painel.add(lblComplemento);	
 		
 		txtComplemento = new JTextField(20);
+		txtComplemento.setName("complemento");
 		txtComplemento.setHorizontalAlignment(SwingConstants.CENTER);
 		txtComplemento.setBounds(431, 460, 219, 28);
 		txtComplemento.setColumns(10);
@@ -344,7 +345,9 @@ public class FrmCliente extends JFrame {
 		btnPesquisar.addActionListener(clienteCtrl.pesquisar);
 		txtPesquisar.addKeyListener(clienteCtrl.tecla);
 		txtUsuario.addKeyListener(clienteCtrl.tecla);
+		txtUsuario.addFocusListener(clienteCtrl.foco);
 		pwdSenha2.addFocusListener(clienteCtrl.foco);
+		ftxtCpf.addFocusListener(clienteCtrl.foco);
 		cboTipoEndereco.addActionListener(clienteCtrl.adicionar);
 		btnImagem.addActionListener(clienteCtrl.carregarImagem);
 		btnPedidos.addActionListener(clienteCtrl.pedidos);

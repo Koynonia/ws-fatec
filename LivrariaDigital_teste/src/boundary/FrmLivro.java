@@ -128,6 +128,7 @@ public class FrmLivro extends JFrame {
 		painel.add(lblPesquisa);
 		
 		txtPesquisar = new JTextField(20);
+		txtPesquisar.setName("pesquisa");
 		txtPesquisar.setToolTipText("Digite aqui o termo que deseja pesquisar…");
 		txtPesquisar.setBounds(636, 36, 254, 28);
 		painel.add(txtPesquisar);
