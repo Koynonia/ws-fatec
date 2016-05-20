@@ -19,6 +19,15 @@ public class OrdenaLivro implements Comparator<Livro> {
 		return primeiro.getDtCadastro().compareTo(segundo.getDtCadastro());
 	}
 	
+	public class OrdenaPublicacao implements Comparator<Livro> {
+
+		@Override
+		public int compare(Livro primeiro, Livro segundo) {
+
+			return primeiro.getDtPublicacao().compareTo(segundo.getDtPublicacao());
+		}
+	}
+	
 	public class OrdenaCadastro implements Comparator<Livro> {
 
 		@Override
@@ -55,14 +64,6 @@ public class OrdenaLivro implements Comparator<Livro> {
 		}
 	}
 	
-	public class OrdenaPublicacao implements Comparator<Livro> {
-
-		@Override
-		public int compare(Livro primeiro, Livro segundo) {
-
-			return primeiro.getDtPublicacao().compareTo(segundo.getDtPublicacao());
-		}
-	}
 	
 	public class OrdenaCapa implements Comparator<Livro> {
 

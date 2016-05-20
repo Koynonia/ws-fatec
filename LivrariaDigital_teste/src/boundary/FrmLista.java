@@ -244,9 +244,9 @@ public class FrmLista extends JFrame {
 		btnAddCarrinho_1.addFocusListener(listaCtrl.foco);
 		btnAddCarrinho_2.addFocusListener(listaCtrl.foco);
 		btnCarrinho.addFocusListener(listaCtrl.foco);
-		btnCarrinho.addKeyListener(listaCtrl.tecla);
-		btnAnterior.addKeyListener(listaCtrl.tecla);
-		btnProximo.addKeyListener(listaCtrl.tecla);
+//		btnCarrinho.addKeyListener(listaCtrl.tecla);
+//		btnAnterior.addKeyListener(listaCtrl.tecla);
+//		btnProximo.addKeyListener(listaCtrl.tecla);
 		
 	}
 }

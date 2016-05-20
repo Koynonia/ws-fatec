@@ -200,7 +200,8 @@ public class FrmEndereco extends JFrame {
 		
 		EnderecoController enderecoCtrl = new EnderecoController( 
 				this, 
-				painel, 
+				painel,
+				cpf, 
 				lblId, 
 				txtTipoEndereco, 
 				txtEndereco, 
@@ -219,6 +220,7 @@ public class FrmEndereco extends JFrame {
 				 );
 		
 		cboTipoEndereco.addKeyListener(enderecoCtrl.tecla);
+		cboTipoEndereco.addFocusListener(enderecoCtrl.foco);
 		btnExcluir.addActionListener(enderecoCtrl.excluir);
 		btnEditar.addActionListener(enderecoCtrl.editar);
 		btnSalvar.addActionListener(enderecoCtrl.salvar);

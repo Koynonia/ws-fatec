@@ -108,6 +108,7 @@ public class FrmCliente extends JFrame {
 		painel.add(lblPesquisar);
 		
 		txtPesquisar = new JTextField(20);
+		txtPesquisar.setName("pesquisa");
 		txtPesquisar.setToolTipText("Digite aqui o termo que deseja pesquisar…");
 		txtPesquisar.setBounds(427, 44, 254, 28);
 		painel.add(txtPesquisar);
@@ -349,6 +350,7 @@ public class FrmCliente extends JFrame {
 		pwdSenha2.addFocusListener(clienteCtrl.foco);
 		ftxtCpf.addFocusListener(clienteCtrl.foco);
 		cboTipoEndereco.addActionListener(clienteCtrl.adicionar);
+		cboTipoEndereco.addFocusListener(clienteCtrl.foco);
 		btnImagem.addActionListener(clienteCtrl.carregarImagem);
 		btnPedidos.addActionListener(clienteCtrl.pedidos);
 		btnExcluir.addActionListener(clienteCtrl.excluir);

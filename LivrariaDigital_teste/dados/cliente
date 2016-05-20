@@ -6,10 +6,10 @@ Data Nascimento : 01/01/1970
 CPF             : 111.222.333-44
 Telefone        : (11) 2222-3333
 Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/avatares/Comics-Ironman-Elm.png
-Tipo Endereço   : Residência
+Tipo Endereço   : Escritório
 Nível           : Usuario
 Data Cadastro   : 08/05/2016 03:52:48
-Data Alterado   : 10/05/2016 13:16:02
+Data Alterado   : 12/05/2016 17:01:56
 ------------------------------------
 Usuario         : Fulano
 Senha           : 123
@@ -50,42 +50,16 @@ Nível           : Usuario
 Data Cadastro   : 10/05/2016 14:23:28
 Data Alterado   : 10/05/2016 14:33:50
 ------------------------------------
-Usuario         : Teste2
+Usuario         : teste
 Senha           : 123
-Email           : teste@gmil.com
-Nome            : Teste
-Data Nascimento :   /  /    
-CPF             : 123.123.123-31
-Telefone        : (11) 2233-4455
-Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/avatares/Avengers-Giant-Man.png
-Tipo Endereço   : Residência
-Nível           : Usuario
-Data Cadastro   : 11/05/2016 04:24:29
-Data Alterado   : 11/05/2016 04:25:08
-------------------------------------
-Usuario         : Teste3
-Senha           : 123
-Email           : teste@gmail.com
-Nome            : Testete
-Data Nascimento : 01/01/1994
-CPF             : 123.123.123-33
-Telefone        : (11) 3344-6677
-Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/avatares/Avengers-Ironman-Mark-III.png
-Tipo Endereço   : Residência
-Nível           : Usuario
-Data Cadastro   : 11/05/2016 04:27:58
-Data Alterado   : 11/05/2016 04:27:58
-------------------------------------
-Usuario         : fernandos
-Senha           : 123
-Email           : f
-Nome            : fernando
+Email           : teste
+Nome            : teste
 Data Nascimento : 01/01/2000
-CPF             : 111.222.333-58
-Telefone        : (11) 2222-3333
-Imagem          : ../LivrariaDigital_teste/avatares/usuario.jpg
+CPF             : 123.123.123-42
+Telefone        : (11) 2222-4444
+Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/avatares/mike.png
 Tipo Endereço   : Residência
 Nível           : Usuario
-Data Cadastro   : 11/05/2016 22:04:18
-Data Alterado   : 11/05/2016 22:04:18
+Data Cadastro   : 12/05/2016 18:46:47
+Data Alterado   : 12/05/2016 18:46:47
 ------------------------------------

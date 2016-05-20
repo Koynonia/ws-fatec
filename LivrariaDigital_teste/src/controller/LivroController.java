@@ -832,7 +832,7 @@ public class LivroController implements ComponentListener{
 				logon.reduzImagem( livro.getImagem(), livro.getIsbn() + "-thumb.jpg", 150);
 				//Guarda a imagem para compor a Tela
 				imagem = livro.getImagem();
-				msg( "adicionarQtd", livro.getTitulo() + "\n de " + livro.getAutor() );
+//				msg( "adicionarQtd", livro.getTitulo() + "\n de " + livro.getAutor() );
 				
 				msg( "salvar", txtTitulo.getText() );
 				limparCampos();

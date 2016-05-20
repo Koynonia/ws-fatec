@@ -222,6 +222,7 @@ public class ClienteController implements ComponentListener{
 		preencherEndereco();
 		preencherEstado();
 		
+		
 		if ( logon.getLogon().isEmpty() ){
 		imagem = diretorio + "avatares/usuario.jpg";
 		carregarAvatar();
@@ -386,10 +387,11 @@ public void verificarCampos(){
 			if ( p instanceof JTextField ) {
 				JTextField l = ( JTextField )p;
 				if ( l.getText().isEmpty() && l.isVisible() ){
-					if ( l.getName() != "pesquisa" ){
+//					if ( ! l.getName().equals( "pesquisa" ) || ! l.getName().equals( "complemento" ) ){
+//						System.out.println(l.getName());
 						vazio = true;
 						l.setBackground(new Color(255,240,245));
-					}
+//					}
 				} else {
 					l.setBackground(new Color(255,255,255));
 				}
@@ -453,8 +455,9 @@ public void verificarCampos(){
 	
 	public void usuarios(){
 
-		if ( logon.getLogon().size() == 0 || 
-				logon.getLogon().get(0).getNivel().contentEquals( "Administrador" )){
+		if ( logon.getLogon().size() == 0 //|| 
+//				logon.getLogon().get(0).getNivel().contentEquals( "Administrador" )
+			){
 			for ( int i = 0; i < clientes.size(); i++ ) {
 				if ( txtUsuario.getText().equalsIgnoreCase( clientes.get(i).getUsuario() )) {
 					msg( "erroUsuario", clientes.get(i).getNome() );
@@ -493,9 +496,9 @@ public void verificarCampos(){
 	
 	public void cpfs(){
 		
-		if ( logon.getLogon().size() == 0 || 
-				logon.getLogon().get(0).getNivel().contentEquals( "Administrador" ) ||
-				! logon.getLogon().get(0).getId().contentEquals( ftxtCpf.getText() )
+		if ( logon.getLogon().size() == 0 //|| 
+//				logon.getLogon().get(0).getNivel().contentEquals( "Administrador" ) ||
+//				! logon.getLogon().get(0).getId().contentEquals( ftxtCpf.getText() )
 				){
 			for ( int i = 0; i < clientes.size(); i++ ) {
 				if ( logon.mascaraCampo( "999.999.999-99", ftxtCpf.getText(), ftxtCpf.equals("") ).equals( clientes.get(i).getCpf() ))  {
@@ -958,13 +961,16 @@ public void verificarCampos(){
 				if ( lblId.getText().equals(clientes.get(i).getCpf() )) {
 					msg( "confirmaExcluir", clientes.get(i).getUsuario() );
 					if(!(validar == true)){
-					clientes.remove(i);
-					enderecos.remove(i);
-					atualizarArquivo( clientes );
-					atualizarEndereco( enderecos );
-					msg("excluir", txtUsuario.getText());
-					limparCampos();
-					validar = false;
+						clientes.remove(i);
+						enderecos.remove(i);
+						atualizarArquivo( clientes );
+						atualizarEndereco( enderecos );
+						msg("excluir", txtUsuario.getText());
+						limparCampos();
+						validar = false;
+						if ( logon.getLogon().get(0).getId().equals( lblId.getText() )){
+							logon.encerrar();
+						}
 					}
 				} else {
 					if(i == clientes.size()){
@@ -1461,14 +1467,15 @@ public void verificarCampos(){
 
 					@Override
 					public void focusGained(FocusEvent e) {
+//						preencherEndereco();
 					}
 
 					@Override
 					public void focusLost(FocusEvent e) {
 						
 						senhas();
-//						usuarios();
-//						cpfs();
+						usuarios();
+						cpfs();
 					}
 					
 				};

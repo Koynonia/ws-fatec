@@ -13,6 +13,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -68,12 +70,14 @@ public class EnderecoController implements ComponentListener{
 	private Arquivos arquivos = new Arquivos();
 	private List<Endereco> enderecos;
 	private boolean validar;
+	String cpf;
 	private String diretorio = "../LivrariaDigital_teste/";
 	private String arquivo = "endereco";
 
 	public EnderecoController( 
 			JFrame janela, 
 			JPanel painel, 
+			String cpf, 
 			JLabel lblId, 
 			JTextField txtTipoEndereco,
 			JTextField txtEndereco, 
@@ -94,6 +98,7 @@ public class EnderecoController implements ComponentListener{
 		
 		this.janela = janela;
 		this.painel = painel;
+		this.cpf = cpf;
 		this.lblId = lblId;
 		this.txtTipoEndereco = txtTipoEndereco;
 		this.txtEndereco = txtEndereco;
@@ -122,6 +127,7 @@ public class EnderecoController implements ComponentListener{
 		
 		logon.rastrear( janela.getName() );
 		lerArquivo();
+		lblId.setText( cpf );
 	}
 	
 	
@@ -129,6 +135,11 @@ public class EnderecoController implements ComponentListener{
 		preencherEndereco();
 		preencherEstado();
 		txtTipoEndereco.setVisible(false);
+		limparCampos();
+		alterarCampos ("desprotegerCampos");
+		btnEditar.setVisible(false);
+		btnExcluir.setVisible(false);
+		btnSalvar.setVisible(true);
 	}
 	
 	public void permissao(){
@@ -822,6 +833,21 @@ public class EnderecoController implements ComponentListener{
 			public void keyReleased(KeyEvent e) {
 							
 			}
+		};
+		
+		// CONTROLE FOCO ///////////////////////////////
+		
+		public FocusListener foco = new FocusListener(){
+
+			@Override
+			public void focusGained(FocusEvent e) {
+//				preencherEndereco();
+			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+			}
+			
 		};
 
 

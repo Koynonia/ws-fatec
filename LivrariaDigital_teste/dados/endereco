@@ -1,13 +1,13 @@
 CPF           : 111.222.333-44
 TipoEndereco  : Residência
-Endereco      : Rua Um
-Complemento   : Fundos
-Bairro        : Ermelino Matarazzo
+Endereco      : Rua UM
+Complemento   : 
+Bairro        : Teste
 Cidade        : São Paulo
-Estado        : Rio de Janeiro
-Cep           : 03.322-000
+Estado        : São Paulo
+Cep           : 12.345-000
 Data Cadastro : 08/05/2016 03:52:48
-Data Alterado : 10/05/2016 13:16:02
+Data Alterado : 12/05/2016 16:45:01
 ------------------------------------
 CPF           : 111.222.333-45
 TipoEndereco  : Residência
@@ -42,47 +42,36 @@ Cep           : 03.833-000
 Data Cadastro : 10/05/2016 14:23:28
 Data Alterado : 10/05/2016 14:33:50
 ------------------------------------
-CPF           : 123.123.123-31
-TipoEndereco  : Residência
-Endereco      : Rua Testando, 1
-Complemento   : teste
-Bairro        : Teste
-Cidade        : TEste
-Estado        : Alagoas
-Cep           : 11.223-555
-Data Cadastro : 11/05/2016 04:24:29
-Data Alterado : 11/05/2016 04:25:08
+CPF           : 111.222.333-44
+TipoEndereco  : Sítio
+Endereco      : Rua TRES
+Complemento   : 
+Bairro        : Campo
+Cidade        : Campo
+Estado        : Bahia
+Cep           : 12.345-000
+Data Cadastro : 12/05/2016 16:55:46
+Data Alterado : 12/05/2016 16:55:46
 ------------------------------------
-CPF           : 123.123.123-33
+CPF           : 123.123.123-50
 TipoEndereco  : Residência
-Endereco      : Rua Teste, 300
+Endereco      : Rua Teste
 Complemento   : teste
 Bairro        : Teste
 Cidade        : Teste
-Estado        : Bahia
-Cep           : 02.244-300
-Data Cadastro : 11/05/2016 04:27:58
-Data Alterado : 11/05/2016 04:27:58
+Estado        : Amapá
+Cep           : 12.345-000
+Data Cadastro : 12/05/2016 18:39:29
+Data Alterado : 12/05/2016 18:39:29
 ------------------------------------
-CPF           : 111.222.333-58
+CPF           : 123.123.123-42
 TipoEndereco  : Residência
-Endereco      : teste
-Complemento   : 
-Bairro        : teste
+Endereco      : Rua Teste
+Complemento   : teste
+Bairro        : Teste
 Cidade        : teste
-Estado        : Acre
-Cep           : 11.223-444
-Data Cadastro : 11/05/2016 22:04:18
-Data Alterado : 11/05/2016 22:04:18
-------------------------------------
-CPF           : 111.222.333-44
-TipoEndereco  : Escritório
-Endereco      : Rua Dois, 100
-Complemento   : 
-Bairro        : Tatuapé
-Cidade        : São Paulo
-Estado        : São Paulo
-Cep           : 02.234-400
-Data Cadastro : 12/05/2016 03:11:53
-Data Alterado : 12/05/2016 03:11:53
+Estado        : Amazonas
+Cep           : 12.345-000
+Data Cadastro : 12/05/2016 18:46:47
+Data Alterado : 12/05/2016 18:46:47
 ------------------------------------
