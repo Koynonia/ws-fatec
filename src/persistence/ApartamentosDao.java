@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Apartamentos;
-import model.Moradores;
 
 public class ApartamentosDao implements IApartamentosDao {
 	
@@ -34,13 +33,13 @@ public class ApartamentosDao implements IApartamentosDao {
 
 	@Override
 	public void atualizaApartamento(Apartamentos apartamento) throws SQLException {
-		String sql = "UPDATE apartamento SET numero = ?, quartos = ?, ocupacao = ?, id_morador = ? WHERE id = ?";
+		String sql = "UPDATE apartamento SET numero = ?, quartos = ?, ocupacao = ?, id_morador = ? WHERE numero = ?";
 		PreparedStatement ps = c.prepareStatement(sql);
 		ps.setInt(1, apartamento.getNumero());
 		ps.setInt(2, apartamento.getQuartos());
 		ps.setString(3, apartamento.getOcupacao());
 		ps.setInt(4, apartamento.getId_morador());
-		ps.setInt(5, apartamento.getId());
+		ps.setInt(5, apartamento.getNumero());
 		
 		ps.execute();
 		ps.close();
@@ -48,9 +47,9 @@ public class ApartamentosDao implements IApartamentosDao {
 
 	@Override
 	public void excluiApartamento(Apartamentos apartamento) throws SQLException {
-		String sql = "DELETE apartamento WHERE id = ?";
+		String sql = "DELETE FROM apartamento WHERE numero = ?";
 		PreparedStatement ps = c.prepareStatement(sql);
-		ps.setInt(1, apartamento.getId());
+		ps.setInt(1, apartamento.getNumero());
 		ps.execute();
 		ps.close();
 	}
@@ -63,7 +62,6 @@ public class ApartamentosDao implements IApartamentosDao {
 		List<Apartamentos> ListaApartamentos = new ArrayList<Apartamentos>();
 		while (rs.next()) {
 			Apartamentos ape = new Apartamentos();
-			Moradores mor = new Moradores();
 			ape.setId(rs.getInt("id"));
 			ape.setNumero(rs.getInt("numero"));
 			ape.setQuartos(rs.getInt("quartos"));

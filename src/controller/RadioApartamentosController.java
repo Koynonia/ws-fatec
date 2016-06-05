@@ -9,11 +9,12 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 public class RadioApartamentosController implements ActionListener {
-	
-	JRadioButton rdbtnInquilino, rdbtnProprietario ,rdbtnVazio;
+
+	JRadioButton rdbtnInquilino, rdbtnProprietario, rdbtnVazio;
 	JTextField txtNome, txtTelefone;
 	JButton btnAtualizarMorador, btnExcluirMorador, btnPesquisarMorador, btnGravarMorador;
-	
+	ButtonGroup bg = new ButtonGroup();
+
 	private static String ocupacao;
 
 	public RadioApartamentosController(JRadioButton rdbtnInquilino, JRadioButton rdbtnProprietario,
@@ -29,70 +30,69 @@ public class RadioApartamentosController implements ActionListener {
 		this.btnPesquisarMorador = btnPesquisarMorador;
 		this.btnGravarMorador = btnGravarMorador;
 		groupButton();
-		
-		
 	}
-	
-	public RadioApartamentosController(){
-		
-	}
-	
-	private void groupButton( ) {
 
-		ButtonGroup bg = new ButtonGroup( );
+	public RadioApartamentosController() {
+	}
+
+	private void groupButton() {
 
 		bg.add(rdbtnInquilino);
 		bg.add(rdbtnProprietario);
 		bg.add(rdbtnVazio);
+
 		rdbtnInquilino.setSelected(true);
 		setSelectedButton(rdbtnInquilino.getText());
-		}
-	
-	public void selecionaRadio(String ocupacao){
-		if(ocupacao.contains("Vazio")){
+	}
+
+	// contratar um exorcista para o problema do metodo abaixo
+	public void selecionaRadio(String ocupacao) {
+		if (ocupacao.equals("Vazio")) {
 			rdbtnVazio.setSelected(true);
-		}else{
-			if(ocupacao.contains("Inquilino")){
+			rdbtnVazio.addActionListener(this);
+		} else {
+			if (ocupacao.contains("Inquilino")) {
 				rdbtnInquilino.setSelected(true);
-			}else{
+				rdbtnInquilino.addActionListener(this);
+			} else {
 				rdbtnProprietario.setSelected(true);
+				rdbtnProprietario.addActionListener(this);
 			}
 		}
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(rdbtnVazio.isSelected()){
+		if (rdbtnVazio.isSelected()) {
 			txtNome.setEditable(false);
 			txtTelefone.setEditable(false);
 			btnAtualizarMorador.setEnabled(false);
 			btnExcluirMorador.setEnabled(false);
 			btnPesquisarMorador.setEnabled(false);
 			btnGravarMorador.setEnabled(false);
-			
+
 			setSelectedButton(rdbtnVazio.getText());
-		}else{
+		} else {
 			txtNome.setEditable(true);
 			txtTelefone.setEditable(true);
 			btnAtualizarMorador.setEnabled(true);
 			btnExcluirMorador.setEnabled(true);
 			btnPesquisarMorador.setEnabled(true);
 			btnGravarMorador.setEnabled(true);
-			if(rdbtnInquilino.isSelected()){
+			if (rdbtnInquilino.isSelected()) {
 				setSelectedButton(rdbtnInquilino.getText());
-			}else{
+			} else {
 				setSelectedButton(rdbtnProprietario.getText());
 			}
 		}
-		System.out.println(getSelectedButton() + " está selecionado");
 	}
-	public void setSelectedButton(String ocupacao){
-		this.ocupacao = ocupacao;
+
+	public void setSelectedButton(String ocupacao) {
+		RadioApartamentosController.ocupacao = ocupacao;
 	}
-	
-	public String getSelectedButton(){
-		return ocupacao;	
+
+	public String getSelectedButton() {
+		return ocupacao;
 	}
-	
 
 }

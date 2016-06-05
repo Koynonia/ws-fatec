@@ -14,19 +14,25 @@ import javax.swing.border.EmptyBorder;
 
 import controller.BotaoApartamentosController;
 import controller.RadioApartamentosController;
+import javax.swing.JSpinner;
+
 
 public class TelaApartamento extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField txtNum;
-	private JTextField txtQuartos;
 	private JTextField txtNome;
 	private JTextField txtTelefone;
+	
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+	
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -43,6 +49,7 @@ public class TelaApartamento extends JFrame {
 	 * Create the frame.
 	 */
 	public TelaApartamento() {
+		setTitle("Gerenciamento dos Apartamentos");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 680, 587);
@@ -55,19 +62,9 @@ public class TelaApartamento extends JFrame {
 		lblNumeroDoApartamento.setBounds(109, 64, 126, 14);
 		contentPane.add(lblNumeroDoApartamento);
 
-		txtNum = new JTextField();
-		txtNum.setBounds(259, 61, 86, 20);
-		contentPane.add(txtNum);
-		txtNum.setColumns(10);
-
 		JButton btnPesqApto = new JButton("Pesquisar");
 		btnPesqApto.setBounds(377, 60, 89, 23);
 		contentPane.add(btnPesqApto);
-
-		txtQuartos = new JTextField();
-		txtQuartos.setBounds(259, 111, 86, 20);
-		contentPane.add(txtQuartos);
-		txtQuartos.setColumns(10);
 
 		JLabel lblQuantidadeDeQuartos = new JLabel("Quantidade de Quartos:");
 		lblQuantidadeDeQuartos.setBounds(109, 114, 126, 14);
@@ -95,37 +92,37 @@ public class TelaApartamento extends JFrame {
 		contentPane.add(separator);
 
 		JLabel lblMorador = new JLabel("Morador");
-		lblMorador.setBounds(32, 313, 46, 14);
+		lblMorador.setBounds(32, 313, 83, 14);
 		contentPane.add(lblMorador);
 
 		JLabel lblNome = new JLabel("Nome:");
-		lblNome.setBounds(57, 360, 46, 14);
+		lblNome.setBounds(32, 386, 67, 14);
 		contentPane.add(lblNome);
 
 		txtNome = new JTextField();
-		txtNome.setBounds(109, 357, 248, 20);
+		txtNome.setBounds(110, 383, 248, 20);
 		contentPane.add(txtNome);
 		txtNome.setColumns(10);
 
 		JLabel lblTelefone = new JLabel("Telefone:");
-		lblTelefone.setBounds(42, 413, 46, 14);
+		lblTelefone.setBounds(32, 351, 67, 14);
 		contentPane.add(lblTelefone);
 
 		txtTelefone = new JTextField();
-		txtTelefone.setBounds(109, 410, 193, 20);
+		txtTelefone.setBounds(109, 348, 193, 20);
 		contentPane.add(txtTelefone);
 		txtTelefone.setColumns(10);
 
 		JButton btnAtualizarMorador = new JButton("Atualizar");
-		btnAtualizarMorador.setBounds(514, 409, 89, 23);
+		btnAtualizarMorador.setBounds(514, 382, 89, 23);
 		contentPane.add(btnAtualizarMorador);
 
 		JButton btnExcluirMorador = new JButton("Excluir");
-		btnExcluirMorador.setBounds(514, 441, 89, 23);
+		btnExcluirMorador.setBounds(514, 416, 89, 23);
 		contentPane.add(btnExcluirMorador);
 
 		JButton btnPesquisarMorador = new JButton("Pesquisar");
-		btnPesquisarMorador.setBounds(377, 356, 89, 23);
+		btnPesquisarMorador.setBounds(312, 347, 89, 23);
 		contentPane.add(btnPesquisarMorador);
 
 		JSeparator separator_1 = new JSeparator();
@@ -156,8 +153,16 @@ public class TelaApartamento extends JFrame {
 		contentPane.add(btnAtualizar);
 
 		JButton btnGravarMorador = new JButton("Gravar");
-		btnGravarMorador.setBounds(514, 375, 89, 23);
+		btnGravarMorador.setBounds(514, 347, 89, 23);
 		contentPane.add(btnGravarMorador);
+		
+		JSpinner spinnerNum = new JSpinner();
+		spinnerNum.setBounds(245, 61, 89, 20);
+		contentPane.add(spinnerNum);
+		
+		JSpinner spinnerQuartos = new JSpinner();
+		spinnerQuartos.setBounds(245, 111, 89, 20);
+		contentPane.add(spinnerQuartos);
 
 		RadioApartamentosController rController = new RadioApartamentosController(rdbtnInquilino, rdbtnProprietario,
 				rdbtnVazio, txtNome, txtTelefone, btnAtualizarMorador, btnExcluirMorador, btnPesquisarMorador,
@@ -167,9 +172,11 @@ public class TelaApartamento extends JFrame {
 		rdbtnProprietario.addActionListener(rController);
 		rdbtnVazio.addActionListener(rController);
 
-		BotaoApartamentosController apeController = new BotaoApartamentosController(txtNum, txtQuartos, txtNome,
+		BotaoApartamentosController apeController = new BotaoApartamentosController(spinnerNum, spinnerQuartos, txtNome,
 				txtTelefone, btnAtualizar, btnExcluir, btnGravar, btnPesqApto, rController.getSelectedButton(),
 				btnGravarMorador, btnExcluirMorador, btnPesquisarMorador, btnAtualizarMorador);
+		
+	
 
 		btnAtualizar.addActionListener(apeController);
 		btnExcluir.addActionListener(apeController);
@@ -181,4 +188,6 @@ public class TelaApartamento extends JFrame {
 		btnPesquisarMorador.addActionListener(apeController);
 
 	}
+	
+
 }

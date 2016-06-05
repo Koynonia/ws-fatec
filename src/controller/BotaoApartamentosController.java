@@ -6,6 +6,7 @@ import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
 
 import model.Apartamentos;
@@ -17,18 +18,20 @@ import persistence.MoradoresDao;
 
 public class BotaoApartamentosController implements ActionListener {
 
-	JTextField txtNum, txtQuartos, txtNome, txtTelefone;
+	JSpinner spinnerNum, spinnerQuartos;
+	JTextField txtNome, txtTelefone;
 	JButton btnAtualizar, btnExcluir, btnGravar, btnPesqApto, btnGravarMorador, btnExcluirMorador, btnPesquisarMorador,
 			btnAtualizarMorador;
 	String selectedRadio;
+	int idMorador;
 
-	public BotaoApartamentosController(JTextField txtNum, JTextField txtQuartos, JTextField txtNome,
+	public BotaoApartamentosController(JSpinner spinnerNum, JSpinner spinnerQuartos, JTextField txtNome,
 			JTextField txtTelefone, JButton btnAtualizar, JButton btnExcluir, JButton btnGravar, JButton btnPesqApto,
 			String selectedRadio, JButton btnGravarMorador, JButton btnExcluirMorador, JButton btnPesquisarMorador,
 			JButton btnAtualizarMorador) {
 		this.txtNome = txtNome;
-		this.txtNum = txtNum;
-		this.txtQuartos = txtQuartos;
+		this.spinnerNum = spinnerNum;
+		this.spinnerQuartos = spinnerQuartos;
 		this.txtTelefone = txtTelefone;
 		this.btnAtualizar = btnAtualizar;
 		this.btnExcluir = btnExcluir;
@@ -49,20 +52,20 @@ public class BotaoApartamentosController implements ActionListener {
 
 		selectedRadio = rAController.getSelectedButton();
 
-		a.setNumero(Integer.parseInt(txtNum.getText()));
+		a.setNumero(Integer.parseInt(spinnerNum.getValue().toString()));
 		a.setOcupacao(selectedRadio);
-		a.setQuartos(Integer.parseInt(txtQuartos.getText()));
-		
+		a.setQuartos(Integer.parseInt(spinnerQuartos.getValue().toString()));
 
+		System.out.println("o selecionado foi " + selectedRadio);
 		if (!selectedRadio.equals("Vazio")) {
 			m.setNome(txtNome.getText());
 			m.setTelefone(txtTelefone.getText());
-
+			// m.setId(idMorador);
 		} else {
 			m.setId(verificaMorador());
+
 		}
-		
-		a.setId_morador(m.getId());
+		a.setId_morador(idMorador);
 
 		if (e.getSource() == btnGravar) {
 			gravarApartamento(a);
@@ -78,8 +81,10 @@ public class BotaoApartamentosController implements ActionListener {
 			excluirMorador(m);
 		} else if (e.getSource() == btnGravarMorador) {
 			gravarMorador(m);
+			pesquisarMorador(m);
 		} else if (e.getSource() == btnPesquisarMorador) {
 			pesquisarMorador(m);
+			System.out.println(idMorador);
 		}
 
 	}
@@ -93,7 +98,7 @@ public class BotaoApartamentosController implements ActionListener {
 
 		try {
 			m1 = mDao.consultaMorador(m);
-			if (m1.getTelefone() == m.getTelefone()) {
+			if (m1.getTelefone() != null) {
 				return m1.getId();
 			} else {
 				mDao.insereMorador(m);
@@ -126,6 +131,7 @@ public class BotaoApartamentosController implements ActionListener {
 		try {
 			morador = mDao.consultaMorador(m);
 			preencheCamposMorador(morador);
+			idMorador = morador.getId();
 			// trocar isso aqui
 			JOptionPane.showMessageDialog(null, "Morador encontrado", "SUCESSO", JOptionPane.INFORMATION_MESSAGE);
 		} catch (SQLException e) {
@@ -137,10 +143,10 @@ public class BotaoApartamentosController implements ActionListener {
 		RadioApartamentosController rAController = new RadioApartamentosController();
 		Moradores m = new Moradores();
 
-		txtNum.setText(Integer.toString(a.getNumero()));
-		txtQuartos.setText(Integer.toString(a.getQuartos()));
+		spinnerNum.setValue(Integer.valueOf(a.getNumero()));
+		spinnerQuartos.setValue(Integer.valueOf(a.getQuartos()));
 
-		rAController.selecionaRadio(a.getOcupacao());
+//		 rAController.selecionaRadio(a.getOcupacao());
 
 		m.setId(a.getId_morador());
 
@@ -175,6 +181,7 @@ public class BotaoApartamentosController implements ActionListener {
 	}
 
 	private void atualizarApartamento(Apartamentos a) {
+		System.out.println("id morador:" + a.getId_morador());
 		IApartamentosDao aDao = new ApartamentosDao();
 		try {
 			aDao.atualizaApartamento(a);
@@ -196,14 +203,15 @@ public class BotaoApartamentosController implements ActionListener {
 
 	public void limpaCampos() {
 		txtNome.setText("");
-		txtNum.setText("");
-		txtQuartos.setText("");
+		spinnerNum.setValue(0);
+		spinnerQuartos.setValue(0);
 		txtTelefone.setText("");
 		RadioApartamentosController rAController = new RadioApartamentosController();
 		rAController.setSelectedButton("Vazio");
 	}
 
 	private void gravarApartamento(Apartamentos a) {
+
 		IApartamentosDao aDao = new ApartamentosDao();
 		try {
 			aDao.insereApartamento(a);
