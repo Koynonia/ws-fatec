@@ -15,5 +15,5 @@ public interface IMoradoresDao {
 
 	public List<Moradores> consultaMoradores() throws SQLException;
 
-	public Moradores consultaMoradores(Moradores morador) throws SQLException;
+	public Moradores consultaMorador(Moradores morador) throws SQLException;
 }

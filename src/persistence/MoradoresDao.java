@@ -9,11 +9,11 @@ import java.util.List;
 
 import model.Moradores;
 
-public class MoradoresDao implements IMoradoresDao{
-	
+public class MoradoresDao implements IMoradoresDao {
+
 	private Connection c;
-	
-	public MoradoresDao(){
+
+	public MoradoresDao() {
 		GenericDao gDao = new GenericDao();
 		c = gDao.getConnection();
 	}
@@ -30,20 +30,20 @@ public class MoradoresDao implements IMoradoresDao{
 
 	@Override
 	public void atualizaMorador(Moradores morador) throws SQLException {
-		String sql = "UPDATE morador SET nome = ?, telefone = ? WHERE id = ?";
+		String sql = "UPDATE morador SET nome = ?, telefone = ? WHERE telefone = ?";
 		PreparedStatement ps = c.prepareStatement(sql);
 		ps.setString(1, morador.getNome());
 		ps.setString(2, morador.getTelefone());
-		ps.setInt(3, morador.getId());
+		ps.setString(3, morador.getTelefone());
 		ps.execute();
 		ps.close();
 	}
 
 	@Override
 	public void excluiMorador(Moradores morador) throws SQLException {
-		String sql = "DELETE morador WHERE id = ?";
+		String sql = "DELETE FROM morador WHERE telefone = ?";
 		PreparedStatement ps = c.prepareStatement(sql);
-		ps.setInt(1, morador.getId());
+		ps.setString(1, morador.getTelefone());
 		ps.execute();
 		ps.close();
 	}
@@ -67,10 +67,17 @@ public class MoradoresDao implements IMoradoresDao{
 	}
 
 	@Override
-	public Moradores consultaMoradores(Moradores morador) throws SQLException {
-		String sql = "SELECT id, nome, telefone FROM morador WHERE id = ?";
-		PreparedStatement ps = c.prepareStatement(sql);
-		ps.setInt(1, morador.getId());
+	public Moradores consultaMorador(Moradores morador) throws SQLException {
+		PreparedStatement ps;
+		if (morador.getId() == 0) {
+			String sql = "SELECT id, nome, telefone FROM morador WHERE telefone = ?";
+			ps = c.prepareStatement(sql);
+			ps.setString(1, morador.getTelefone());
+		} else {
+			String sql = "SELECT id, nome, telefone FROM morador WHERE id = ?";
+			ps = c.prepareStatement(sql);
+			ps.setInt(1, morador.getId());
+		}
 		ResultSet rs = ps.executeQuery();
 		Moradores m = new Moradores();
 		if (rs.next()) {
@@ -80,6 +87,7 @@ public class MoradoresDao implements IMoradoresDao{
 		}
 		rs.close();
 		ps.close();
+		System.out.println(m.getNome());
 		return m;
 	}
 

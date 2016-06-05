@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import model.Apartamentos;
+import model.Moradores;
 
 public interface IApartamentosDao {
 	
@@ -16,4 +17,5 @@ public interface IApartamentosDao {
 	public List<Apartamentos> consultaApartamentos() throws SQLException;
 	
 	public Apartamentos consultaApartamento(Apartamentos apartamento) throws SQLException;
+
 }
