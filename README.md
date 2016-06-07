@@ -31,9 +31,7 @@ CREATE TABLE despesa_condominio(
   valor FLOAT NOT NULL,
   dtVencimento DATE NOT NULL,
   dtCadastro DATE NOT NULL,
-  dtAlterado DATE NOT NULL,
-  id_condominio INT NULL,
-  FOREIGN KEY(id_condominio) REFERENCES despesa_condominio(id)
+  dtAlterado DATE NOT NULL
 );
 
 ```
