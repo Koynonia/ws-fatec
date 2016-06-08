@@ -1,26 +1,25 @@
 package view;
 
 import java.awt.EventQueue;
-import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
 
 import controller.BotaoDespesasApartamentoController;
-import controller.TableDespesasAptoController;
-import controller.TableModelDespesasApto;
 
 public class TelaDespesaApartamento extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField txtNumApto;
 	private JTextField txtDespesa;
@@ -125,34 +124,28 @@ public class TelaDespesaApartamento extends JFrame {
 
 		table = new JTable();
 		scrollPane.setViewportView(table);
-		Object[][] dados = new Object[][] {};
-		String[] cabecalho = new String[5];
+		
 
-		cabecalho[0] = "Nome da Despesa";
-		cabecalho[1] = "Referencia";
-		cabecalho[2] = "Vencimento";
-		cabecalho[3] = "Valor";
-		cabecalho[4] = "Seleção";
-
-		DefaultTableModel model = new TableModelDespesasApto(dados,
-				cabecalho);
-
-		table.setModel(model);
-		table.getColumnModel().getColumn(0).setPreferredWidth(418);
-		table.getColumnModel().getColumn(1).setPreferredWidth(121);
-		table.getColumnModel().getColumn(2).setPreferredWidth(121);
-		table.getColumnModel().getColumn(3).setPreferredWidth(121);
-		table.getColumnModel().getColumn(4).setPreferredWidth(80);
-
-//		DespesasApartamentoTableController dAController = new DespesasApartamentoTableController(
-//				model);
+		
+//		Object[][] dados = new Object[][] {};
+//		String[] cabecalho = new String[5];
 //
-//		try {
-//			dAController.preencheTable();
-//		} catch (SQLException e) {
-//			JOptionPane.showMessageDialog(null, e.getMessage(), "ERRO",
-//					JOptionPane.ERROR_MESSAGE);
-//		}
+//		cabecalho[0] = "Nome da Despesa";
+//		cabecalho[1] = "Referencia";
+//		cabecalho[2] = "Vencimento";
+//		cabecalho[3] = "Valor";
+//		cabecalho[4] = "Seleção";
+//
+//		DefaultTableModel model = new TableModelDespesasApto(dados,
+//				cabecalho);
+//
+//		table.setModel(model);
+//		table.getColumnModel().getColumn(0).setPreferredWidth(418);
+//		table.getColumnModel().getColumn(1).setPreferredWidth(121);
+//		table.getColumnModel().getColumn(2).setPreferredWidth(121);
+//		table.getColumnModel().getColumn(3).setPreferredWidth(121);
+//		table.getColumnModel().getColumn(4).setPreferredWidth(80);
+
 
 		JButton btnExcluirSeleo = new JButton("Excluir Selecionado(s)");
 		btnExcluirSeleo.setBounds(279, 477, 165, 33);
@@ -175,6 +168,7 @@ public class TelaDespesaApartamento extends JFrame {
 				txtNumApto, txtDespesa, txtRef, txtValor, txtVencimento,
 				btnPesquisar, btnAtualizarDespesa, btnExcluirSeleo,
 				btnGravarDespesa, btnSelecionarTudo);
+		
 		
 		btnPesquisar.addActionListener(bDAController);
 		btnAtualizarDespesa.addActionListener(bDAController);

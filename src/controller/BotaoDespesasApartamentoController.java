@@ -7,9 +7,12 @@ import java.sql.SQLException;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 import persistence.ApartamentosDao;
+import persistence.DespesasApartamentoDao;
 import persistence.IApartamentosDao;
+import persistence.IDespesasApartamentoDao;
 import model.Apartamentos;
 import model.Despesas;
 
@@ -25,7 +28,7 @@ public class BotaoDespesasApartamentoController implements ActionListener {
 	JButton btnExcluirSeleo;
 	JButton btnGravarDespesa;
 	JButton btnSelecionarTudo;
-
+	private static int idApto;
 
 	public BotaoDespesasApartamentoController(JTextField txtNumApto,
 			JTextField txtDespesa, JTextField txtRef, JTextField txtValor,
@@ -49,43 +52,75 @@ public class BotaoDespesasApartamentoController implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Despesas despesa = new Despesas();
+		Apartamentos a = new Apartamentos();
+		Despesas d = new Despesas();
 		
 		if(e.getSource() == btnPesquisar){
-			Apartamentos a = new Apartamentos();
-			int idApto;
-			
 			a.setNumero(Integer.parseInt(txtNumApto.getText()));
 			idApto = pesquisarApto(a);
-			
+
 			if(idApto > 0){
-				
-				TableDespesasAptoController dATController = new TableDespesasAptoController();
+			
+				TableDespesasAptoController tDAController = new TableDespesasAptoController();
 				try {
-					dATController.preencheTable(idApto);
+					tDAController.preencheTable(idApto);
 				} catch (SQLException e1) {
 					JOptionPane.showMessageDialog(null, e1.getMessage(),
 							"ERRO", JOptionPane.ERROR_MESSAGE);
 				}
-				
 			}else{
 				//arrumar isso depois
 				JOptionPane.showMessageDialog(null, "Apartamento não encontrado",
 						"ERRO", JOptionPane.ERROR_MESSAGE);
 			}
-		}else if(e.getSource() == btnAtualizarDespesa){
-			
+		
+	   }else if(e.getSource() == btnAtualizarDespesa){
+			//TODO
 		}else if(e.getSource() == btnExcluirSeleo){
-			
+			//TODO
 		}else if(e.getSource() == btnSelecionarTudo){
-			
+			//TODO
 		}else{
-			despesa.setDespesa(txtDespesa.getText());
-			//PAROU AQUI VERIFICAR VARIAVEIS DA ENTIDADE
+			d.setDespesa(txtDespesa.getText());
+			d.setDtReferencia(txtRef.getText());
+			d.setDtVencimento(txtVencimento.getText());
+			d.setValor(Integer.parseInt(txtValor.getText()));
+			gravarDespesa(d,idApto);
+			//TODO reload the table to show newer dispenses
 		}
 	}
 
+	
+	private void constroiTable(){
+		
+		Object[][] dados = new Object[][] {};
+		String[] cabecalho = new String[5];
 
+		cabecalho[0] = "Nome da Despesa";
+		cabecalho[1] = "Referencia";
+		cabecalho[2] = "Vencimento";
+		cabecalho[3] = "Valor";
+		cabecalho[4] = "Seleção";
+
+		DefaultTableModel model = new TableModelDespesasApto(dados,
+				cabecalho);
+	}
+		
+		
+		
+
+
+	private void gravarDespesa(Despesas despesa, int idApartamento) {
+		IDespesasApartamentoDao dADao = new DespesasApartamentoDao();
+		try {
+			dADao.insereDespesaApartamento(despesa, idApartamento);
+			JOptionPane.showMessageDialog(null, "Despesa inserida", "SUCESSO", JOptionPane.INFORMATION_MESSAGE);
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	//ap pesquisar apto deve carregar as despesas na table
 	private int pesquisarApto(Apartamentos a) {
 		IApartamentosDao aDao = new ApartamentosDao();
 		Apartamentos apartamento = new Apartamentos();

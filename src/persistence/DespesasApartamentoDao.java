@@ -51,14 +51,15 @@ public class DespesasApartamentoDao implements IDespesasApartamentoDao {
 	@Override
 	public void insereDespesaApartamento(Despesas despesa, int idApartamento) throws SQLException {
 		String sql = "INSERT INTO despesa_apartamento "
-				+ "(despesa, valor, dtVencimento, dtReferencia, id_apartamento) "
+				+ "(id_apartamento, despesa, valor, dtVencimento, dtReferencia) "
 				+ "VALUES (?,?,?,?,?)";
 		PreparedStatement ps = c.prepareStatement(sql);
-		ps.setString(1, despesa.getDespesa());
-		ps.setFloat(2, despesa.getValor());
-		ps.setString(3, despesa.getDtVencimento());
-		ps.setString(4, despesa.getDtReferencia());
-		ps.setInt(5, idApartamento);
+		ps.setInt(1, idApartamento);
+		ps.setString(2, despesa.getDespesa());
+		ps.setFloat(3, despesa.getValor());
+		ps.setString(4, despesa.getDtVencimento());
+		ps.setString(5, despesa.getDtReferencia());
+		
 		
 		ps.execute();
 		ps.close();
@@ -68,13 +69,16 @@ public class DespesasApartamentoDao implements IDespesasApartamentoDao {
 	@Override
 	public List<Despesas> consultaDespesasApartamento(int numApto) throws SQLException {
 		String sql = "SELECT da.id, da.despesa, da.valor, da.dtVencimento, da.dtReferencia"
-				+ "FROM despesa_apartamento da, apartamento a "
+				+ " FROM despesa_apartamento da, apartamento a "
 				+ "WHERE da.id_apartamento = a.id AND a.numero = ?";
 		PreparedStatement ps = c.prepareStatement(sql);
+		
+		ps.setInt(1, numApto);
+		
 		ResultSet rs = ps.executeQuery();
 		List<Despesas> ListaDespesas = new ArrayList<Despesas>();
 		
-		ps.setInt(1, numApto);
+		
 		
 		while(rs.next()){
 			Despesas d = new Despesas();
