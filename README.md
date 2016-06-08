@@ -36,13 +36,12 @@ CREATE TABLE despesa_condominio(
   FOREIGN KEY(id_condominio) REFERENCES despesa_condominio(id)
 );
 
-CREATE TABLE despesa_apartamento(
+create table despesa_apartamento(
 	id int primary key auto_increment,
 	despesa char(50) not null,
 	valor decimal(7,2) not null,
-	dtVencimento char(10),
-	dtCadastro char(10),
-	dtAlterado char(10),
+	dtVencimento DATE NOT NULL,
+	dtReferencia DATE NOT NULL),
 	id_apartamento int,
 	foreign key (id_apartamento) references apartamento(id)
 	);
