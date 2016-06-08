@@ -19,18 +19,13 @@ import javax.swing.JSpinner;
 
 public class TelaApartamento extends JFrame {
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField txtNome;
 	private JTextField txtTelefone;
 	
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 	
 		EventQueue.invokeLater(new Runnable() {
@@ -45,9 +40,6 @@ public class TelaApartamento extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public TelaApartamento() {
 		setTitle("Gerenciamento dos Apartamentos");
 		setResizable(false);
@@ -75,6 +67,7 @@ public class TelaApartamento extends JFrame {
 		contentPane.add(lblTipoDeOcupao);
 
 		JRadioButton rdbtnInquilino = new JRadioButton("Inquilino");
+		rdbtnInquilino.setSelected(true);
 		rdbtnInquilino.setBounds(109, 201, 109, 23);
 		contentPane.add(rdbtnInquilino);
 
@@ -172,8 +165,8 @@ public class TelaApartamento extends JFrame {
 		rdbtnProprietario.addActionListener(rController);
 		rdbtnVazio.addActionListener(rController);
 
-		BotaoApartamentosController apeController = new BotaoApartamentosController(spinnerNum, spinnerQuartos, txtNome,
-				txtTelefone, btnAtualizar, btnExcluir, btnGravar, btnPesqApto, rController.getSelectedButton(),
+		BotaoApartamentosController apeController = new BotaoApartamentosController(spinnerNum, spinnerQuartos, 
+				txtNome,txtTelefone, btnAtualizar, btnExcluir, btnGravar, btnPesqApto, rController.getSelectedButton(),
 				btnGravarMorador, btnExcluirMorador, btnPesquisarMorador, btnAtualizarMorador);
 		
 	

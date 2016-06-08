@@ -56,7 +56,6 @@ public class BotaoApartamentosController implements ActionListener {
 		a.setOcupacao(selectedRadio);
 		a.setQuartos(Integer.parseInt(spinnerQuartos.getValue().toString()));
 
-		System.out.println("o selecionado foi " + selectedRadio);
 		if (!selectedRadio.equals("Vazio")) {
 			m.setNome(txtNome.getText());
 			m.setTelefone(txtTelefone.getText());
@@ -146,8 +145,7 @@ public class BotaoApartamentosController implements ActionListener {
 		spinnerNum.setValue(Integer.valueOf(a.getNumero()));
 		spinnerQuartos.setValue(Integer.valueOf(a.getQuartos()));
 
-//		 rAController.selecionaRadio(a.getOcupacao());
-
+	    rAController.selecionaRadio(a.getOcupacao());
 		m.setId(a.getId_morador());
 
 		pesquisarMorador(m);
