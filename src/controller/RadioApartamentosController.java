@@ -2,6 +2,8 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -10,12 +12,14 @@ import javax.swing.JTextField;
 
 public class RadioApartamentosController implements ActionListener {
 
-	JRadioButton rdbtnInquilino, rdbtnProprietario, rdbtnVazio;
+	JRadioButton rdbtnInquilino = new JRadioButton();
+	JRadioButton rdbtnProprietario = new JRadioButton();
+	JRadioButton rdbtnVazio = new JRadioButton();
 	JTextField txtNome, txtTelefone;
 	JButton btnAtualizarMorador, btnExcluirMorador, btnPesquisarMorador, btnGravarMorador;
-	ButtonGroup bg = new ButtonGroup();
-
-	private static String ocupacao;
+	RadioHandler handler = new RadioHandler();
+	
+	public static String ocupacao;
 
 	public RadioApartamentosController(JRadioButton rdbtnInquilino, JRadioButton rdbtnProprietario,
 			JRadioButton rdbtnVazio, JTextField txtNome, JTextField txtTelefone, JButton btnAtualizarMorador,
@@ -29,38 +33,61 @@ public class RadioApartamentosController implements ActionListener {
 		this.btnExcluirMorador = btnExcluirMorador;
 		this.btnPesquisarMorador = btnPesquisarMorador;
 		this.btnGravarMorador = btnGravarMorador;
+		
+		setSelectedButton(rdbtnInquilino.getText());
 		groupButton();
+
 	}
 
 	public RadioApartamentosController() {
+		groupButton();
+	}
+	
+	private class RadioHandler implements ItemListener{
+
+		@Override
+		public void itemStateChanged(ItemEvent e) {
+			if(e.getSource() == rdbtnVazio){
+				rdbtnVazio.setSelected(true);
+			}else if( e.getSource() == rdbtnInquilino){
+				rdbtnInquilino.setSelected(true);
+			}else{
+				rdbtnProprietario.setSelected(true);
+			}
+			
+		}
+		
 	}
 
 	private void groupButton() {
-
+		ButtonGroup bg = new ButtonGroup();
+		
 		bg.add(rdbtnInquilino);
 		bg.add(rdbtnProprietario);
 		bg.add(rdbtnVazio);
-
-		rdbtnInquilino.setSelected(true);
-		setSelectedButton(rdbtnInquilino.getText());
 	}
 
-	// contratar um exorcista para o problema do metodo abaixo
-	public void selecionaRadio(String ocupacao) {
-		if (ocupacao.equals("Vazio")) {
+	public void selecionaRadio(String o) {
+		if (o.equals("Vazio")) {
+			
 			rdbtnVazio.setSelected(true);
-			rdbtnVazio.addActionListener(this);
-		} else {
-			if (ocupacao.contains("Inquilino")) {
-				rdbtnInquilino.setSelected(true);
-				rdbtnInquilino.addActionListener(this);
-			} else {
-				rdbtnProprietario.setSelected(true);
-				rdbtnProprietario.addActionListener(this);
-			}
+			setSelectedButton(rdbtnVazio.getText());
+			
+		}else 	if (o.equals("Inquilino")) {
+			
+			rdbtnInquilino.setSelected(true);
+			setSelectedButton(rdbtnInquilino.getText());
+			
+		}else {
+			
+			rdbtnProprietario.setSelected(true);
+			setSelectedButton(rdbtnProprietario.getText());
+			
 		}
-	}
+		
+		groupButton();
 
+	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (rdbtnVazio.isSelected()) {

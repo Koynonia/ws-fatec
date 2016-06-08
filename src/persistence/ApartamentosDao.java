@@ -33,7 +33,8 @@ public class ApartamentosDao implements IApartamentosDao {
 
 	@Override
 	public void atualizaApartamento(Apartamentos apartamento) throws SQLException {
-		String sql = "UPDATE apartamento SET numero = ?, quartos = ?, ocupacao = ?, id_morador = ? WHERE numero = ?";
+		String sql = "UPDATE apartamento SET numero = ?, quartos = ?,"
+				+ " ocupacao = ?, id_morador = ? WHERE numero = ?";
 		PreparedStatement ps = c.prepareStatement(sql);
 		ps.setInt(1, apartamento.getNumero());
 		ps.setInt(2, apartamento.getQuartos());
@@ -50,6 +51,7 @@ public class ApartamentosDao implements IApartamentosDao {
 		String sql = "DELETE FROM apartamento WHERE numero = ?";
 		PreparedStatement ps = c.prepareStatement(sql);
 		ps.setInt(1, apartamento.getNumero());
+		
 		ps.execute();
 		ps.close();
 	}
@@ -69,6 +71,7 @@ public class ApartamentosDao implements IApartamentosDao {
 			ape.setId_morador(rs.getInt("id_morador"));
 			ListaApartamentos.add(ape);
 		}
+		
 		rs.close();
 		ps.close();
 		return ListaApartamentos;
