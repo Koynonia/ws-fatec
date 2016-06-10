@@ -2,7 +2,7 @@ package controller;
 
 import java.sql.SQLException;
 
-public interface ICondominioController {
+public interface IDespesasCondominioController {
 
 	public void ListaDespesas() throws SQLException;
 }

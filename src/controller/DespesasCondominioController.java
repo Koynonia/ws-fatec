@@ -45,12 +45,12 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import model.Despesas;
-import persistence.CondominioDao;
-import view.TelaCondominio;
+import persistence.DespesasCondominioDao;
+import view.TelaDespesaCondominio;
 
-public class CondominioController implements ComponentListener {
+public class DespesasCondominioController implements ComponentListener {
 
-	private TelaCondominio janela; 
+	private TelaDespesaCondominio janela; 
 	private JPanel painel; 
 	private JTable tabela;
 	private JLabel lblDtVenc;
@@ -77,10 +77,10 @@ public class CondominioController implements ComponentListener {
 	private String diretorio = "../4716_Condominio/";
 	private List<Despesas> despesas;
 	private Despesas condominio = new Despesas();
-	private CondominioDao dao = new CondominioDao();
+	private DespesasCondominioDao dao = new DespesasCondominioDao();
 
-	public CondominioController( 
-			TelaCondominio janela, 
+	public DespesasCondominioController( 
+			TelaDespesaCondominio janela, 
 			JPanel painel, 
 			JTable tabela, 
 			JLabel lblDtVenc, 
@@ -134,12 +134,7 @@ public class CondominioController implements ComponentListener {
 	
 
 	public void dados(){
-		try {
-			carregarCondominio();
-		} catch (SQLException e) {
-			msg( "erro", e.getMessage() );
-		}
-		
+		carregarCondominio();
 		preencherRef();
 	}
 
@@ -296,7 +291,7 @@ public class CondominioController implements ComponentListener {
 		ArrayList<String> referencias = new ArrayList<>();
 
 		for ( int i = 0; i < despesas.size(); i++ ){
-			ordena[i] = obterMesRef( despesas.get(i).getDtVencimento() );
+			ordena[i] = despesas.get(i).getDtReferencia();
 		}
 		Arrays.sort( ordena );
 
@@ -330,11 +325,11 @@ public class CondominioController implements ComponentListener {
 			DecimalFormat formato = new DecimalFormat("#,##0.00");
 			for ( int i = 0; i < despesas.size(); i++ ) {
 				if ( cboReferencia.getSelectedItem() == "Todos os Meses" ||
-						obterMesRef(despesas.get(i).getDtVencimento() ).equals( cboReferencia.getSelectedItem()) ){
+						despesas.get(i).getDtReferencia().equals( cboReferencia.getSelectedItem()) ){
 				String[] item = { 
 						Integer.toString ( despesas.get(i).getId() ), 
 						despesas.get(i).getDespesa(), 
-						obterMesRef( despesas.get(i).getDtVencimento() ), 
+						despesas.get(i).getDtReferencia(), 
 						despesas.get(i).getDtVencimento(), 
 						formato.format( despesas.get(i).getValor() ), 
 				};
@@ -403,37 +398,28 @@ public class CondominioController implements ComponentListener {
 			msg( "erroLinha", "" );
 		} else {
 			if(tabela.getRowCount() > 0){
-				msg( "retirar", "" );
-
-				if (validar != false){
-					for(int i = 0; i < despesas.size(); i ++){
-						if((tabela.getValueAt(tabela.getSelectedRow(), 0).toString())
-								.equals(despesas.get(i).getId())){
-							despesas.remove(i);
-						}
-					}
-					validar = false;
-//					atualizarDao();
-
-					((DefaultTableModel) tabela.getModel()).removeRow(tabela.getSelectedRow());
-					tabela.updateUI();
-					atualizarTotal();
-				} 
+				((DefaultTableModel) tabela.getModel()).removeRow(tabela.getSelectedRow());
+				tabela.updateUI();
+				atualizarTotal();
 			}
 		}
 	}
+
 	
-	
-	public void carregarCondominio() throws SQLException{
+	public void carregarCondominio(){
 		
-		despesas = dao.consultaDespesas();
+		try {
+			despesas = dao.consultaDespesas();
+		} catch (SQLException e) {
+			msg( "erro", e.getMessage() );
+		}
 	}
 
 	
 	public void pesquisar(){
 		condominio.setDespesa( txtId.getText() );
 		try {
-			System.out.println( dao.consultaDespesa( condominio ));
+			System.out.println( dao.consultaDespesa( condominio ) );
 		} catch (SQLException e) {
 			msg( "erro", e.getMessage() );
 		}
@@ -450,17 +436,15 @@ public class CondominioController implements ComponentListener {
 		if ( !txtDespesa.getText().isEmpty() &&
 				!ftxtDtVenc.getText().isEmpty() &&
 				!ftxtValor.getText().isEmpty() ){
+			
 			condominio.setDespesa( txtDespesa.getText() );
 			condominio.setValor( Float.parseFloat( ftxtValor.getValue().toString() ));
 			condominio.setDtVencimento( ftxtDtVenc.getText() );
-			condominio.setDtReferencia( obterData() );
-
+			condominio.setDtReferencia( txtReferencia.getText() );
 			try {
 				dao.insereDespesa( condominio );
+				despesas.add( condominio );
 				msg( "salvar", txtDespesa.getText() );
-				limparCampos();
-				carregarCondominio();
-				formatarTabela();
 			} catch (SQLException e) {
 				msg( "erro", e.getMessage() );
 			}
@@ -471,25 +455,32 @@ public class CondominioController implements ComponentListener {
 	
 	
 	public void excluir() {
+
 		for(int i = 0; i < despesas.size(); i ++){
-			System.out.println((tabela.getValueAt(tabela.getSelectedRow(), 0).toString()));
 			if( (tabela.getValueAt(tabela.getSelectedRow(), 0).toString())
-					.equals(despesas.get(i).getId())){
-				Despesas despesa = new Despesas();
-				despesa.setId( despesas.get(i).getId() );
-				despesa.setDespesa( despesas.get(i).getDespesa());
-				despesa.setValor(despesas.get(i).getValor());
-				despesa.setDtVencimento(despesas.get(i).getDtVencimento());
-				despesa.setDtReferencia(despesas.get(i).getDtReferencia());
-				try {
-					dao.excluiDespesa( despesa );
-					msg( "excluir", txtDespesa.getText() );
-				} catch (SQLException e) {
-					msg( "erro", e.getMessage() );
+					.equals(Integer.toString(despesas.get(i).getId()))){
+
+				msg( "confirmaExcluir", txtDespesa.getText() );
+				if (validar != false){
+
+					Despesas despesa = new Despesas();
+					despesa.setId( despesas.get(i).getId() );
+					despesa.setDespesa( despesas.get(i).getDespesa() );
+					despesa.setValor( despesas.get(i).getValor() );
+					despesa.setDtVencimento( despesas.get(i).getDtVencimento() );
+					despesa.setDtReferencia( despesas.get(i).getDtReferencia() );
+					try {
+						dao.excluiDespesa( despesa );
+						despesas.remove(i);
+						removeLinha();
+						msg( "excluir", txtDespesa.getText() );
+					} catch (SQLException e) {
+						msg( "erro", e.getMessage() );
+					}
 				}
+				validar = false; 
 			}
 		}
-		removeLinha();
 	}
 	
 	public void atualizarDao () {
@@ -497,7 +488,7 @@ public class CondominioController implements ComponentListener {
 		condominio.setDespesa( txtDespesa.getText() );
 		condominio.setValor( Float.parseFloat( ftxtValor.getValue().toString() ));
 		condominio.setDtVencimento( ftxtDtVenc.getText() );
-		condominio.setDtReferencia( obterData() );	
+		condominio.setDtReferencia( txtReferencia.getText() );	
 		try {
 			dao.atualizaDespesa( condominio );
 			msg( "editar", txtDespesa.getText() );
@@ -549,11 +540,11 @@ public class CondominioController implements ComponentListener {
 		case "confirmaExcluir":
 			Object[] excluir = { "Confirmar", "Cancelar" };  
 			int ex = JOptionPane.showOptionDialog(null, 
-					"Você confirma a exclusão da Despesa " + mensagem + " ?",
+					"Você confirma a exclusão da despesa " + mensagem + " ?",
 					"Exclusão de Despesa", 
 					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
 					new ImageIcon( diretorio + "/icons/warning.png" ), excluir, excluir[1]);
-			if (ex == 1) { validar = true; } else { validar = false; }
+			if (ex == 0) { validar = true; } else { validar = false; }
 			break;
 			
 		case "vazioPesquisa":
@@ -598,20 +589,6 @@ public class CondominioController implements ComponentListener {
 					"Erro", 
 					JOptionPane.PLAIN_MESSAGE, 
 					new ImageIcon( diretorio + "/icons/warning.png" ));
-			break;
-
-		case "retirar":
-			Object[] opt = { "Confirmar", "Cancelar" };
-			int retirar = JOptionPane.showOptionDialog(null, mensagem +
-					"\n\nDeseja retirar a Despesa da Tabela?",
-					"Retirar Despesa…", 
-					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
-					new ImageIcon( diretorio + "/icons/error.png" ), opt, opt[1]);
-			if (retirar == 0) {
-				validar = true;
-			} else {
-				validar = false;
-			}
 			break;
 
 		case "erroLinha":
@@ -752,7 +729,7 @@ public class CondominioController implements ComponentListener {
 				btnLimpar.setEnabled(false);
 			} else {
 				editar();
-				alterarCampos ("protegerCampos");                                                                                                                                                                               
+				alterarCampos ("protegerCampos");                                                                                                                                                                              
 			}
 		}
 	};
@@ -763,6 +740,8 @@ public class CondominioController implements ComponentListener {
 		public void actionPerformed(ActionEvent e) {
 
 			salvar();
+			limparCampos();
+			formatarTabela();
 			alterarCampos ("protegerCampos"); 
 		}
 	};
@@ -771,9 +750,10 @@ public class CondominioController implements ComponentListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-
+			
 			excluir();
-			alterarCampos ("protegerCampos");
+//			alterarCampos ("protegerCampos");
+//			btnLimpar.setEnabled(true);
 		}
 	};
 	
@@ -880,8 +860,10 @@ public class CondominioController implements ComponentListener {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 
-			if(e.getClickCount() == 2){  
-				removeLinha();
+			if(e.getClickCount() == 2){
+				if ( btnExcluir.isEnabled() ){
+					excluir();
+				}
 			}
 		}
 	};

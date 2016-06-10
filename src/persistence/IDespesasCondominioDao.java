@@ -5,7 +5,7 @@ import java.util.List;
 
 import model.Despesas;
 
-public interface ICondominioDao {
+public interface IDespesasCondominioDao {
 
 	public void insereDespesa(Despesas despesa) throws SQLException;
 

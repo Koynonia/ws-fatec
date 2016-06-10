@@ -31,9 +31,9 @@ import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
 import javax.swing.text.NumberFormatter;
 
-import controller.CondominioController;
+import controller.DespesasCondominioController;
 
-public class TelaCondominio extends JFrame {
+public class TelaDespesaCondominio extends JFrame {
 
 	private static final long serialVersionUID = 6992276966995839544L;
 	
@@ -75,7 +75,7 @@ public class TelaCondominio extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaCondominio frame = new TelaCondominio();
+					TelaDespesaCondominio frame = new TelaDespesaCondominio();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -84,7 +84,7 @@ public class TelaCondominio extends JFrame {
 		});
 	}
 	
-	public TelaCondominio() throws ParseException {
+	public TelaDespesaCondominio() throws ParseException {
 		
 		setTitle("Despesas do Condomínio");
 		setName("AptoDespesa");
@@ -104,10 +104,10 @@ public class TelaCondominio extends JFrame {
 		lblLogo.setBounds(48, 36, 410, 45);
 		painel.add(lblLogo);
 		
-		lblPagina = new JLabel("Cadastro de Despesas");
+		lblPagina = new JLabel("Cadastro de Despesas do Condomínio");
 		lblPagina.setEnabled(false);
 		lblPagina.setFont(new Font("Century Gothic", Font.BOLD, 17));
-		lblPagina.setBounds(789, 76, 183, 22);
+		lblPagina.setBounds(656, 76, 316, 22);
 		painel.add(lblPagina);
 		
 		linha = new JSeparator();
@@ -256,7 +256,7 @@ public class TelaCondominio extends JFrame {
 		painel.add(btnVoltar);
 		
 		
-		CondominioController condominioCtrl = new CondominioController(
+		DespesasCondominioController condominioCtrl = new DespesasCondominioController(
 				this, 
 				painel, 
 				tabDespesa, 
