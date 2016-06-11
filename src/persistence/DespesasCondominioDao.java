@@ -20,11 +20,11 @@ import java.util.List;
 
 import model.Despesas;
 
-public class CondominioDao implements ICondominioDao {
+public class DespesasCondominioDao implements IDespesasCondominioDao {
 	
 	private Connection c;
 
-	public CondominioDao() {
+	public DespesasCondominioDao() {
 		GenericDao gDao = new GenericDao();
 		c = gDao.getConnection();
 	}
@@ -32,28 +32,23 @@ public class CondominioDao implements ICondominioDao {
 	@Override
 	public void insereDespesa(Despesas despesa) throws SQLException {
 		
-		String sql = "INSERT INTO despesa_condominio ("
-				+ "despesa, valor, dtVencimento, dtCadastro, dtAlterado) VALUES (?,?,?,?,?)";
+		String sql = "INSERT INTO despesas_condominio ("
+				+ "despesa, valor, dtVencimento, dtReferencia) VALUES (?,?,?,?)";
 		PreparedStatement ps = c.prepareStatement( sql );
 		ps.setString( 1, despesa.getDespesa() );
 		ps.setFloat( 2, despesa.getValor() );
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		Date vencimento = null;
-		Date cadastro = null;
-		Date alterado = null;
 		
 		try {
 			vencimento = sdf.parse( despesa.getDtVencimento() );
-//			cadastro = sdf.parse( despesa.getDtCadastro() );
-//			alterado = sdf.parse( despesa.getDtAlterado() );
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 		
 		ps.setDate( 3, new java.sql.Date( vencimento.getTime( ) ));
-		ps.setDate( 4, new java.sql.Date( cadastro.getTime( ) ));
-		ps.setDate( 5, new java.sql.Date( alterado.getTime( ) ));
+		ps.setString( 4, despesa.getDtReferencia() );
 		ps.execute();
 		ps.close();
 	}
@@ -61,15 +56,14 @@ public class CondominioDao implements ICondominioDao {
 	@Override
 	public void atualizaDespesa(Despesas despesa) throws SQLException {
 		
-		String sql = "UPDATE despesa_condominio SET despesa = ?, valor = ?, "
-				+ "dtVencimento = ?, dtCadastro = ?, dtAlterad = ? WHERE id = ?";
+		String sql = "UPDATE despesas_condominio SET despesa = ?, valor = ?, "
+				+ "dtVencimento = ?, dtReferencia = ? WHERE id = ?";
 		PreparedStatement ps = c.prepareStatement(sql);
 		ps.setInt(1, despesa.getId());
 		ps.setString( 2, despesa.getDespesa() );
 		ps.setFloat( 3, despesa.getValor() );
 		ps.setDate( 4, new java.sql.Date( Long.parseLong( despesa.getDtVencimento() )));
-//		ps.setDate( 5, new java.sql.Date( Long.parseLong( despesa.getDtCadastro() )));
-//		ps.setDate( 6, new java.sql.Date( Long.parseLong( despesa.getDtAlterado() )));
+		ps.setString( 5, despesa.getDtReferencia() );
 		ps.execute();
 		ps.close();
 	}
@@ -77,9 +71,9 @@ public class CondominioDao implements ICondominioDao {
 	@Override
 	public void excluiDespesa(Despesas despesa) throws SQLException {
 		
-		String sql = "DELETE despesa_condominio WHERE id = ?";
+		String sql = "DELETE FROM despesas_condominio WHERE id = ?";
 		PreparedStatement ps = c.prepareStatement(sql);
-		ps.setInt(1, despesa.getId());
+		ps.setInt( 1, despesa.getId() );
 		ps.execute();
 		ps.close();
 	}
@@ -87,8 +81,8 @@ public class CondominioDao implements ICondominioDao {
 	@Override
 	public List<Despesas> consultaDespesas() throws SQLException {
 		
-		String sql = "SELECT id, despesa, valor, dtVencimento, dtCadastro, "
-				+ "dtAlterado FROM despesa_condominio";
+		String sql = "SELECT id, despesa, valor, dtVencimento, dtReferencia "
+				+ "FROM despesas_condominio";
 		PreparedStatement ps = c.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
 		List<Despesas> ListaDespesas = new ArrayList<Despesas>();
@@ -100,15 +94,10 @@ public class CondominioDao implements ICondominioDao {
 			
 			DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 			java.util.Date venc = rs.getDate("dtVencimento");
-			java.util.Date cad = rs.getDate("dtCadastro");
-			java.util.Date alt = rs.getDate("dtAlterado");
 			String dtVenc =  sdf.format( venc );
-//			String dtCad =  sdf.format( cad );
-//			String dtAlt =  sdf.format( alt );
 			
 			despesas.setDtVencimento( dtVenc );
-//			despesas.setDtCadastro( dtCad );
-//			despesas.setDtAlterado( dtAlt );
+			despesas.setDtReferencia( rs.getString("dtReferencia") );
 			ListaDespesas.add( despesas );
 		}
 		rs.close();
@@ -120,8 +109,8 @@ public class CondominioDao implements ICondominioDao {
 	public Despesas consultaDespesa(Despesas despesa)
 			throws SQLException {
 		
-		String sql = "SELECT id, despesa, valor, dtVencimento, dtCadastro, "
-				+ "dtAlterado FROM despesa_condominio WHERE id = ?";
+		String sql = "SELECT id, despesa, valor, dtVencimento, dtReferencia "
+				+ "FROM despesas_condominio WHERE id = ?";
 		PreparedStatement ps = c.prepareStatement(sql);
 		ps.setInt(1, despesa.getId());
 		ResultSet rs = ps.executeQuery();
@@ -131,8 +120,7 @@ public class CondominioDao implements ICondominioDao {
 			desp.setDespesa( rs.getString("despesa") );
 			desp.setValor( rs.getFloat("valor") );
 			desp.setDtVencimento( rs.getString("dtVencimento") );
-//			desp.setDtCadastro( rs.getString("dtCadastro") );
-//			desp.setDtAlterado( rs.getString("dtAlterado") );
+			desp.setDtReferencia( rs.getString("dtReferencia") );
 		}
 		rs.close();
 		ps.close();
