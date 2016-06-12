@@ -33,7 +33,7 @@ public class DespesasCondominioDao implements IDespesasCondominioDao {
 	public void insereDespesa(Despesas despesa) throws SQLException {
 		
 		String sql = "INSERT INTO despesas_condominio ("
-				+ "despesa, valor, dtVencimento, dtReferencia) VALUES (?,?,?,?)";
+				+ "despesa, valor, dtVencimento) VALUES (?,?,?)";
 		PreparedStatement ps = c.prepareStatement( sql );
 		ps.setString( 1, despesa.getDespesa() );
 		ps.setFloat( 2, despesa.getValor() );
@@ -48,7 +48,6 @@ public class DespesasCondominioDao implements IDespesasCondominioDao {
 		}
 		
 		ps.setDate( 3, new java.sql.Date( vencimento.getTime( ) ));
-		ps.setString( 4, despesa.getDtReferencia() );
 		ps.execute();
 		ps.close();
 	}
@@ -57,13 +56,22 @@ public class DespesasCondominioDao implements IDespesasCondominioDao {
 	public void atualizaDespesa(Despesas despesa) throws SQLException {
 		
 		String sql = "UPDATE despesas_condominio SET despesa = ?, valor = ?, "
-				+ "dtVencimento = ?, dtReferencia = ? WHERE id = ?";
+				+ "dtVencimento = ? WHERE id = ?";
 		PreparedStatement ps = c.prepareStatement(sql);
-		ps.setInt(1, despesa.getId());
-		ps.setString( 2, despesa.getDespesa() );
-		ps.setFloat( 3, despesa.getValor() );
-		ps.setDate( 4, new java.sql.Date( Long.parseLong( despesa.getDtVencimento() )));
-		ps.setString( 5, despesa.getDtReferencia() );
+		ps.setString( 1, despesa.getDespesa() );
+		ps.setFloat( 2, despesa.getValor() );
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		Date vencimento = null;
+		
+		try {
+			vencimento = sdf.parse( despesa.getDtVencimento() );
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		ps.setDate( 3, new java.sql.Date( vencimento.getTime( ) ));
+		ps.setInt( 4, despesa.getId() );
 		ps.execute();
 		ps.close();
 	}
@@ -81,7 +89,7 @@ public class DespesasCondominioDao implements IDespesasCondominioDao {
 	@Override
 	public List<Despesas> consultaDespesas() throws SQLException {
 		
-		String sql = "SELECT id, despesa, valor, dtVencimento, dtReferencia "
+		String sql = "SELECT id, despesa, valor, dtVencimento "
 				+ "FROM despesas_condominio";
 		PreparedStatement ps = c.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
@@ -97,7 +105,6 @@ public class DespesasCondominioDao implements IDespesasCondominioDao {
 			String dtVenc =  sdf.format( venc );
 			
 			despesas.setDtVencimento( dtVenc );
-			despesas.setDtReferencia( rs.getString("dtReferencia") );
 			ListaDespesas.add( despesas );
 		}
 		rs.close();
@@ -109,7 +116,7 @@ public class DespesasCondominioDao implements IDespesasCondominioDao {
 	public Despesas consultaDespesa(Despesas despesa)
 			throws SQLException {
 		
-		String sql = "SELECT id, despesa, valor, dtVencimento, dtReferencia "
+		String sql = "SELECT id, despesa, valor, dtVencimento "
 				+ "FROM despesas_condominio WHERE id = ?";
 		PreparedStatement ps = c.prepareStatement(sql);
 		ps.setInt(1, despesa.getId());
@@ -120,7 +127,6 @@ public class DespesasCondominioDao implements IDespesasCondominioDao {
 			desp.setDespesa( rs.getString("despesa") );
 			desp.setValor( rs.getFloat("valor") );
 			desp.setDtVencimento( rs.getString("dtVencimento") );
-			desp.setDtReferencia( rs.getString("dtReferencia") );
 		}
 		rs.close();
 		ps.close();

@@ -43,8 +43,9 @@ public class TelaDespesaCondominio extends JFrame {
 	private JLabel lblLogo;
 	private JLabel lblPagina;
 	private JLabel lblDtVenc;
-	private JLabel lblDt;
 	private JLabel lblId;
+	private JLabel lblDtReg;
+	private JLabel lblDtAlt;
 	private JLabel lblReferencia;
 	private JLabel lblVlr;
 	private JLabel lblDespesa;
@@ -54,11 +55,13 @@ public class TelaDespesaCondominio extends JFrame {
 	private JTextField txtReferencia;
 	private JTextField txtDespesa;
 	private JFormattedTextField ftxtDtVenc;
-	private JFormattedTextField ftxtData;
+	private JFormattedTextField ftxtDtReg;
+	private JFormattedTextField ftxtDtAlt;
 	private JFormattedTextField ftxtValor;
 	private JFormattedTextField ftxtQtd;
 	private JFormattedTextField ftxtVlrTotal;
 	private JComboBox<String> cboReferencia;
+	private JComboBox<String> cboDespesa;
 	private JButton btnPesquisar;
 	private JButton btnLimpar;
 	private JButton btnEditar;
@@ -125,29 +128,42 @@ public class TelaDespesaCondominio extends JFrame {
 		ftxtDtVenc.setColumns(10);
 		painel.add(ftxtDtVenc);
 		
-		lblDt = new JLabel("Data de Registro");
-		lblDt.setBounds(719, 151, 104, 16);
-		painel.add(lblDt);
-		
-		maskData = new MaskFormatter("##/##/####");
-		ftxtData = new JFormattedTextField(maskData);
-		ftxtData.setEnabled(false);
-		ftxtData.setEditable(false);
-		ftxtData.setHorizontalAlignment(SwingConstants.CENTER);
-		ftxtData.setBounds(834, 145, 142, 28);
-		ftxtData.setColumns(10);
-		painel.add(ftxtData);
-		
 		lblId = new JLabel("Código");
-		lblId.setBounds(778, 185, 45, 16);
+		lblId.setBounds(778, 151, 45, 16);
 		painel.add(lblId);
 		
 		txtId = new JTextField(20);
 		txtId.setEnabled(false);
 		txtId.setEditable(false);
-		txtId.setBounds(834, 179, 142, 28);
+		txtId.setBounds(834, 145, 142, 28);
 		txtId.setHorizontalAlignment(SwingConstants.CENTER);
 		painel.add(txtId);
+		
+		lblDtReg = new JLabel("Data de Registro");
+		lblDtReg.setBounds(719, 185, 104, 16);
+		painel.add(lblDtReg);
+		
+		maskData = new MaskFormatter("##/##/####");
+		ftxtDtReg = new JFormattedTextField(maskData);
+		ftxtDtReg.setEnabled(false);
+		ftxtDtReg.setEditable(false);
+		ftxtDtReg.setHorizontalAlignment(SwingConstants.CENTER);
+		ftxtDtReg.setBounds(834, 179, 142, 28);
+		ftxtDtReg.setColumns(10);
+		painel.add(ftxtDtReg);
+		
+		lblDtAlt = new JLabel("Data de Alteração");
+		lblDtAlt.setBounds(719, 219, 117, 16);
+		painel.add(lblDtAlt);
+		
+		maskData = new MaskFormatter("##/##/####");
+		ftxtDtAlt = new JFormattedTextField(maskData);
+		ftxtDtAlt.setEnabled(false);
+		ftxtDtAlt.setEditable(false);
+		ftxtDtAlt.setHorizontalAlignment(SwingConstants.CENTER);
+		ftxtDtAlt.setBounds(834, 213, 142, 28);
+		ftxtDtAlt.setColumns(10);
+		painel.add(ftxtDtAlt);
 		
 		lblReferencia = new JLabel("Mês de Referência");
 		lblReferencia.setBounds(59, 185, 117, 16);
@@ -187,6 +203,10 @@ public class TelaDespesaCondominio extends JFrame {
 		txtDespesa.setToolTipText("Digite aqui o termo que deseja pesquisar…");
 		txtDespesa.setBounds(187, 247, 254, 28);
 		painel.add(txtDespesa);
+		
+		cboDespesa = new JComboBox<String>();
+		cboDespesa.setBounds(187, 247, 254, 28);
+		painel.add(cboDespesa);
 		
 		btnPesquisar = new JButton("Pesquisa");
 		btnPesquisar.setBounds(453, 247, 95, 29);
@@ -256,23 +276,26 @@ public class TelaDespesaCondominio extends JFrame {
 		painel.add(btnVoltar);
 		
 		
-		DespesasCondominioController condominioCtrl = new DespesasCondominioController(
+		DespesasCondominioController despesasCtrl = new DespesasCondominioController(
 				this, 
 				painel, 
 				tabDespesa, 
 				lblDtVenc, 
 				lblVlr, 
-				lblDt, 
 				lblId, 
+				lblDtReg, 
+				lblDtAlt, 
 				txtId, 
 				txtReferencia,  
 				txtDespesa, 
 				ftxtDtVenc, 
-				ftxtData, 
+				ftxtDtReg, 
+				ftxtDtAlt, 
 				ftxtValor, 
 				ftxtQtd, 
 				ftxtVlrTotal, 
-				cboReferencia, 
+				cboReferencia,
+				cboDespesa, 
 				btnPesquisar, 
 				btnLimpar, 
 				btnEditar, 
@@ -280,16 +303,19 @@ public class TelaDespesaCondominio extends JFrame {
 				btnSalvar, 
 				btnCancelar );
 		
-		tabDespesa.addMouseListener(condominioCtrl.clique);
-		tabDespesa.addKeyListener(condominioCtrl.tecla);
-		ftxtDtVenc.addFocusListener(condominioCtrl.foco);
-		cboReferencia.addActionListener(condominioCtrl.filtrar);
-		btnPesquisar.addActionListener(condominioCtrl.pesquisar);
-		btnLimpar.addActionListener(condominioCtrl.limpar);
-		btnEditar.addActionListener(condominioCtrl.editar);
-		btnExcluir.addActionListener(condominioCtrl.excluir);
-		btnCancelar.addActionListener(condominioCtrl.cancelar);
-		btnSalvar.addActionListener(condominioCtrl.salvar);
-		btnVoltar.addActionListener(condominioCtrl.voltar);
+		tabDespesa.addMouseListener(despesasCtrl.clique);
+		tabDespesa.addKeyListener(despesasCtrl.tecla);
+		txtDespesa.addActionListener(despesasCtrl.pesquisar);
+		txtDespesa.addFocusListener(despesasCtrl.foco);
+		ftxtDtVenc.addFocusListener(despesasCtrl.foco);
+		cboReferencia.addActionListener(despesasCtrl.filtrar);
+		cboDespesa.addActionListener(despesasCtrl.adicionar);
+		btnPesquisar.addActionListener(despesasCtrl.pesquisar);
+		btnLimpar.addActionListener(despesasCtrl.limpar);
+		btnEditar.addActionListener(despesasCtrl.editar);
+		btnExcluir.addActionListener(despesasCtrl.excluir);
+		btnCancelar.addActionListener(despesasCtrl.cancelar);
+		btnSalvar.addActionListener(despesasCtrl.inserir);
+		btnVoltar.addActionListener(despesasCtrl.voltar);
 	}
 }

@@ -30,8 +30,7 @@ CREATE TABLE despesas_condominio(
   id INT PRIMARY KEY AUTO_INCREMENT,
   despesa CHAR(50) NOT NULL,
   valor FLOAT NOT NULL,
-  dtVencimento DATE NOT NULL,
-  dtReferencia CHAR(10) NOT NULL
+  dtVencimento DATE NOT NULL
 );
 
 create table despesa_apartamento(
