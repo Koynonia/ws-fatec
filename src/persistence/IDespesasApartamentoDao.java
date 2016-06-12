@@ -11,7 +11,7 @@ public interface IDespesasApartamentoDao {
 
 	public void atualizaDespesaApartamento(Despesas despesa) throws SQLException;
 
-	public void excluiDespesaApartamento(Despesas despesa) throws SQLException;
+	public void excluiDespesaApartamento(List<Integer> d) throws SQLException;
 
 	public List<Despesas> consultaDespesasApartamento(int numApto) throws SQLException;
 

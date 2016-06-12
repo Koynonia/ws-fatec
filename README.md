@@ -38,7 +38,7 @@ create table despesa_apartamento(
 	despesa char(50) not null,
 	valor decimal(7,2) not null,
 	dtVencimento DATE NOT NULL,
-	dtReferencia DATE NOT NULL),
+	dtReferencia DATE NOT NULL,
 	id_apartamento int,
 	foreign key (id_apartamento) references apartamento(id)
 	);

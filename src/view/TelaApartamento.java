@@ -1,33 +1,81 @@
 package view;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import controller.BotaoApartamentosController;
-import controller.RadioApartamentosController;
-import javax.swing.JSpinner;
+import controller.ApartamentosController;
+import model.Apartamentos;
+import model.Moradores;
 
-
-public class TelaApartamento extends JFrame {
-
+public class TelaApartamento extends JFrame implements ActionListener, ItemListener {
 
 	private static final long serialVersionUID = 1L;
+
+	private JButton btnAtualizar;
+	private JButton btnAtualizarMorador;
+	private JButton btnExcluir;
+	private JButton btnExcluirMorador;
+	private JButton btnGravar;
+	private JButton btnGravarMorador;
+	private JButton btnPesqApto;
+	private JButton btnPesquisarMorador;
+	
 	private JPanel contentPane;
+	
+	private JLabel lblMorador;
+	private JLabel lblNome;
+	private JLabel lblNumeroDoApartamento;
+	private JLabel lblQuantidadeDeQuartos;
+	private JLabel lblTelefone;
+	private JLabel lblTipoDeOcupao;
+	private JLabel lblLogo;
+	private JLabel lblPagina;
+	
+	private JRadioButton rdbtnInquilino;
+	private JRadioButton rdbtnProprietario;
+	private JRadioButton rdbtnVazio;
+	
+	private JSeparator separator;
+	private JSeparator separator_1;
+	private JSeparator separator_2;
+	private JSeparator separator_3;
+	
+	private JSpinner spinnerNum;
+	private JSpinner spinnerQuartos;
+	
 	private JTextField txtNome;
 	private JTextField txtTelefone;
-	
+
+	private String selectedRadio;
+
+	private int idMorador;
+
+	private Apartamentos a = new Apartamentos();
+
+	private Moradores m = new Moradores();
+
+	private ApartamentosController apeController;
+	private JSeparator separator_4;
 
 	public static void main(String[] args) {
-	
+
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -44,143 +92,283 @@ public class TelaApartamento extends JFrame {
 		setTitle("Gerenciamento dos Apartamentos");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 680, 587);
+		setBounds(100, 100, 680, 686);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel lblNumeroDoApartamento = new JLabel("Numero do Apartamento:");
-		lblNumeroDoApartamento.setBounds(109, 64, 126, 14);
+		lblNumeroDoApartamento = new JLabel("Numero do Apartamento:");
+		lblNumeroDoApartamento.setBounds(109, 202, 126, 14);
 		contentPane.add(lblNumeroDoApartamento);
 
-		JButton btnPesqApto = new JButton("Pesquisar");
-		btnPesqApto.setBounds(377, 60, 89, 23);
+		btnPesqApto = new JButton("Pesquisar");
+		btnPesqApto.setBounds(377, 198, 89, 23);
 		contentPane.add(btnPesqApto);
 
-		JLabel lblQuantidadeDeQuartos = new JLabel("Quantidade de Quartos:");
-		lblQuantidadeDeQuartos.setBounds(109, 114, 126, 14);
+		lblQuantidadeDeQuartos = new JLabel("Quantidade de Quartos:");
+		lblQuantidadeDeQuartos.setBounds(109, 244, 126, 14);
 		contentPane.add(lblQuantidadeDeQuartos);
 
-		JLabel lblTipoDeOcupao = new JLabel("Tipo de Ocupa\u00E7\u00E3o:");
-		lblTipoDeOcupao.setBounds(109, 169, 126, 14);
+		lblTipoDeOcupao = new JLabel("Tipo de Ocupa\u00E7\u00E3o:");
+		lblTipoDeOcupao.setBounds(109, 286, 126, 14);
 		contentPane.add(lblTipoDeOcupao);
 
-		JRadioButton rdbtnInquilino = new JRadioButton("Inquilino");
+		rdbtnInquilino = new JRadioButton("Inquilino");
 		rdbtnInquilino.setSelected(true);
-		rdbtnInquilino.setBounds(109, 201, 109, 23);
+		rdbtnInquilino.setBounds(109, 318, 109, 23);
 		contentPane.add(rdbtnInquilino);
+		rdbtnInquilino.setSelected(true);
+		a.setOcupacao(rdbtnInquilino.getText());
 
-		JRadioButton rdbtnProprietario = new JRadioButton("Proprietario");
-		rdbtnProprietario.setBounds(249, 201, 109, 23);
+		rdbtnProprietario = new JRadioButton("Proprietario");
+		rdbtnProprietario.setBounds(249, 318, 109, 23);
 		contentPane.add(rdbtnProprietario);
 
-		JRadioButton rdbtnVazio = new JRadioButton("Vazio");
-		rdbtnVazio.setBounds(377, 201, 109, 23);
+		rdbtnVazio = new JRadioButton("Vazio");
+		rdbtnVazio.setBounds(377, 318, 109, 23);
 		contentPane.add(rdbtnVazio);
 
-		JSeparator separator = new JSeparator();
+		separator = new JSeparator();
 		separator.setToolTipText("");
-		separator.setBounds(10, 288, 654, 14);
+		separator.setBounds(10, 377, 654, 14);
 		contentPane.add(separator);
+		
+		lblLogo = new JLabel("CONDOMÌNIO DIGITAL");
+		lblLogo.setForeground(Color.GRAY);
+		lblLogo.setFont(new Font("Bauhaus 93", Font.PLAIN, 40));
+		lblLogo.setBounds(32, 42, 410, 45);
+		contentPane.add(lblLogo);
+		
+		lblPagina = new JLabel("Cadastro de Apartamentos");
+		lblPagina.setEnabled(false);
+		lblPagina.setFont(new Font("Century Gothic", Font.BOLD, 17));
+		lblPagina.setBounds(324, 98, 340, 22);
+		contentPane.add(lblPagina);
 
-		JLabel lblMorador = new JLabel("Morador");
-		lblMorador.setBounds(32, 313, 83, 14);
+		lblMorador = new JLabel("Morador");
+		lblMorador.setBounds(32, 402, 83, 14);
 		contentPane.add(lblMorador);
 
-		JLabel lblNome = new JLabel("Nome:");
-		lblNome.setBounds(32, 386, 67, 14);
+		lblNome = new JLabel("Nome:");
+		lblNome.setBounds(32, 475, 67, 14);
 		contentPane.add(lblNome);
 
 		txtNome = new JTextField();
-		txtNome.setBounds(110, 383, 248, 20);
+		txtNome.setBounds(110, 472, 248, 20);
 		contentPane.add(txtNome);
 		txtNome.setColumns(10);
 
-		JLabel lblTelefone = new JLabel("Telefone:");
-		lblTelefone.setBounds(32, 351, 67, 14);
+		lblTelefone = new JLabel("Telefone:");
+		lblTelefone.setBounds(32, 440, 67, 14);
 		contentPane.add(lblTelefone);
 
 		txtTelefone = new JTextField();
-		txtTelefone.setBounds(109, 348, 193, 20);
+		txtTelefone.setBounds(109, 437, 249, 20);
 		contentPane.add(txtTelefone);
 		txtTelefone.setColumns(10);
 
-		JButton btnAtualizarMorador = new JButton("Atualizar");
-		btnAtualizarMorador.setBounds(514, 382, 89, 23);
+		btnAtualizarMorador = new JButton("Atualizar");
+		btnAtualizarMorador.setBounds(514, 471, 89, 23);
 		contentPane.add(btnAtualizarMorador);
 
-		JButton btnExcluirMorador = new JButton("Excluir");
-		btnExcluirMorador.setBounds(514, 416, 89, 23);
+		btnExcluirMorador = new JButton("Excluir");
+		btnExcluirMorador.setBounds(514, 505, 89, 23);
 		contentPane.add(btnExcluirMorador);
 
-		JButton btnPesquisarMorador = new JButton("Pesquisar");
-		btnPesquisarMorador.setBounds(312, 347, 89, 23);
+		btnPesquisarMorador = new JButton("Pesquisar");
+		btnPesquisarMorador.setBounds(377, 436, 89, 23);
 		contentPane.add(btnPesquisarMorador);
 
-		JSeparator separator_1 = new JSeparator();
+		separator_1 = new JSeparator();
 		separator_1.setOrientation(SwingConstants.VERTICAL);
-		separator_1.setBounds(10, 288, 12, 190);
+		separator_1.setBounds(10, 377, 12, 190);
 		contentPane.add(separator_1);
 
-		JSeparator separator_2 = new JSeparator();
+		separator_2 = new JSeparator();
 		separator_2.setOrientation(SwingConstants.VERTICAL);
-		separator_2.setBounds(662, 288, 12, 190);
+		separator_2.setBounds(662, 377, 12, 190);
 		contentPane.add(separator_2);
 
-		JSeparator separator_3 = new JSeparator();
+		separator_3 = new JSeparator();
 		separator_3.setToolTipText("");
-		separator_3.setBounds(10, 477, 654, 14);
+		separator_3.setBounds(10, 566, 654, 14);
 		contentPane.add(separator_3);
 
-		JButton btnGravar = new JButton("Gravar");
-		btnGravar.setBounds(109, 502, 89, 23);
+		btnGravar = new JButton("Gravar");
+		btnGravar.setBounds(109, 591, 89, 23);
 		contentPane.add(btnGravar);
 
-		JButton btnExcluir = new JButton("Excluir");
-		btnExcluir.setBounds(446, 502, 89, 23);
+		btnExcluir = new JButton("Excluir");
+		btnExcluir.setBounds(446, 591, 89, 23);
 		contentPane.add(btnExcluir);
 
-		JButton btnAtualizar = new JButton("Atualizar");
-		btnAtualizar.setBounds(288, 502, 89, 23);
+		btnAtualizar = new JButton("Atualizar");
+		btnAtualizar.setBounds(288, 591, 89, 23);
 		contentPane.add(btnAtualizar);
 
-		JButton btnGravarMorador = new JButton("Gravar");
-		btnGravarMorador.setBounds(514, 347, 89, 23);
+		btnGravarMorador = new JButton("Gravar");
+		btnGravarMorador.setBounds(514, 436, 89, 23);
 		contentPane.add(btnGravarMorador);
-		
-		JSpinner spinnerNum = new JSpinner();
-		spinnerNum.setBounds(245, 61, 89, 20);
+
+		spinnerNum = new JSpinner();
+		spinnerNum.setBounds(245, 199, 89, 20);
 		contentPane.add(spinnerNum);
-		
-		JSpinner spinnerQuartos = new JSpinner();
-		spinnerQuartos.setBounds(245, 111, 89, 20);
+
+		spinnerQuartos = new JSpinner();
+		spinnerQuartos.setBounds(245, 241, 89, 20);
 		contentPane.add(spinnerQuartos);
 
-		RadioApartamentosController rController = new RadioApartamentosController(rdbtnInquilino, rdbtnProprietario,
-				rdbtnVazio, txtNome, txtTelefone, btnAtualizarMorador, btnExcluirMorador, btnPesquisarMorador,
-				btnGravarMorador);
+		rdbtnInquilino.addItemListener(this);
+		rdbtnProprietario.addItemListener(this);
+		rdbtnVazio.addItemListener(this);
 
-		rdbtnInquilino.addActionListener(rController);
-		rdbtnProprietario.addActionListener(rController);
-		rdbtnVazio.addActionListener(rController);
-
-		BotaoApartamentosController apeController = new BotaoApartamentosController(spinnerNum, spinnerQuartos, 
-				txtNome,txtTelefone, btnAtualizar, btnExcluir, btnGravar, btnPesqApto, rController.getSelectedButton(),
-				btnGravarMorador, btnExcluirMorador, btnPesquisarMorador, btnAtualizarMorador);
+		apeController = new ApartamentosController(spinnerNum, spinnerQuartos, rdbtnInquilino, rdbtnProprietario,
+				rdbtnVazio);
 		
-	
+		separator_4 = new JSeparator();
+		separator_4.setBounds(21, 150, 643, 14);
+		contentPane.add(separator_4);
 
-		btnAtualizar.addActionListener(apeController);
-		btnExcluir.addActionListener(apeController);
-		btnGravar.addActionListener(apeController);
-		btnPesqApto.addActionListener(apeController);
-		btnAtualizarMorador.addActionListener(apeController);
-		btnExcluirMorador.addActionListener(apeController);
-		btnGravarMorador.addActionListener(apeController);
-		btnPesquisarMorador.addActionListener(apeController);
+		btnAtualizar.addActionListener(this);
+		btnExcluir.addActionListener(this);
+		btnGravar.addActionListener(this);
+		btnPesqApto.addActionListener(this);
+		btnAtualizarMorador.addActionListener(this);
+		btnExcluirMorador.addActionListener(this);
+		btnGravarMorador.addActionListener(this);
+		btnPesquisarMorador.addActionListener(this);
+		groupButton();
 
 	}
-	
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+
+		a.setNumero(Integer.parseInt(spinnerNum.getValue().toString()));
+		a.setQuartos(Integer.parseInt(spinnerQuartos.getValue().toString()));
+
+		if (!a.getOcupacao().equals("Vazio")) {
+			m.setNome(txtNome.getText());
+			m.setTelefone(txtTelefone.getText());
+		} else {
+			m.setId(apeController.verificaMorador().getId());
+			a.setId_morador(m.getId());
+		}
+
+		if (e.getSource() == btnGravar) {
+			apeController.gravarApartamento(a);
+		} else if (e.getSource() == btnAtualizar) {
+			apeController.atualizarApartamento(a);
+		} else if (e.getSource() == btnExcluir) {
+			apeController.excluirApartamento(a);
+		} else if (e.getSource() == btnPesqApto) {
+			preencheCamposApartamento(apeController.pesquisarApto(a));
+		} else if (e.getSource() == btnAtualizarMorador) {
+			apeController.atualizarMorador(m);
+		} else if (e.getSource() == btnExcluirMorador) {
+			apeController.excluirMorador(m);
+		} else if (e.getSource() == btnGravarMorador) {
+			apeController.gravarMorador(m);
+			apeController.pesquisarMorador(m);
+		} else if (e.getSource() == btnPesquisarMorador) {
+			m = apeController.pesquisarMorador(m);
+			preencheCamposMorador(m);
+			a.setId_morador(m.getId());
+			System.out.println(idMorador);
+		}
+
+	}
+
+	public void preencheCamposMorador(Moradores m) {
+
+		txtNome.setText(m.getNome());
+		txtTelefone.setText(m.getTelefone());
+
+	}
+
+	public void preencheCamposApartamento(Apartamentos a) {
+
+		spinnerNum.setValue(Integer.valueOf(a.getNumero()));
+		spinnerQuartos.setValue(Integer.valueOf(a.getQuartos()));
+
+		if (!(a.getId() == -1)) {
+			selecionaRadio(a.getOcupacao());
+		}
+
+		m.setId(a.getId_morador());
+
+		preencheCamposMorador(apeController.pesquisarMorador(m));
+
+	}
+
+	public void selecionaRadio(String o) {
+		if (o.equals("Vazio")) {
+
+			rdbtnVazio.setSelected(true);
+			a.setOcupacao(rdbtnVazio.getText());
+
+		} else if (o.equals("Inquilino")) {
+
+			rdbtnInquilino.setSelected(true);
+			a.setOcupacao(rdbtnInquilino.getText());
+
+		} else {
+
+			rdbtnProprietario.setSelected(true);
+			a.setOcupacao(rdbtnProprietario.getText());
+
+		}
+
+	}
+
+	private void groupButton() {
+		ButtonGroup bg = new ButtonGroup();
+
+		bg.add(rdbtnInquilino);
+		bg.add(rdbtnProprietario);
+		bg.add(rdbtnVazio);
+	}
+
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+		if (e.getStateChange() == ItemEvent.SELECTED) {
+			if (e.getSource() == rdbtnVazio) {
+				txtNome.setEditable(false);
+				txtTelefone.setEditable(false);
+				btnAtualizarMorador.setEnabled(false);
+				btnExcluirMorador.setEnabled(false);
+				btnPesquisarMorador.setEnabled(false);
+				btnGravarMorador.setEnabled(false);
+
+				a.setOcupacao(rdbtnVazio.getText());
+				m = apeController.verificaMorador();
+			} else {
+				txtNome.setEditable(true);
+				txtTelefone.setEditable(true);
+				btnAtualizarMorador.setEnabled(true);
+				btnExcluirMorador.setEnabled(true);
+				btnPesquisarMorador.setEnabled(true);
+				btnGravarMorador.setEnabled(true);
+
+				if (rdbtnInquilino.isSelected()) {
+					a.setOcupacao(rdbtnInquilino.getText());
+				} else {
+					a.setOcupacao(rdbtnProprietario.getText());
+				}
+			}
+			apeController = new ApartamentosController(a.getOcupacao());
+		} else if (e.getStateChange() == ItemEvent.DESELECTED) {
+		}
+	}
+
+	public void limpaCampos() {
+
+		txtNome.setText("");
+		spinnerNum.setValue(0);
+		spinnerQuartos.setValue(0);
+		txtTelefone.setText("");
+
+	}
 
 }
