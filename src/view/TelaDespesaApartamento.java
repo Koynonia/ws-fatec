@@ -48,10 +48,10 @@ public class TelaDespesaApartamento extends JFrame implements ActionListener {
 	private JTextField txtValor;
 	private JTextField idDespesa;
 	private JTextField txtTotal;
-	
+
 	private JLabel lblLogo;
 	private JLabel lblPagina;
-	private JLabel lblNomeDaDespesa ;
+	private JLabel lblNomeDaDespesa;
 	private JLabel lblReferncia;
 	private JLabel lblVencimento;
 	private JLabel lblValor;
@@ -63,10 +63,11 @@ public class TelaDespesaApartamento extends JFrame implements ActionListener {
 	private JButton btnExcluirSeleo;
 	private JButton btnPesquisar;
 	private JButton btnSelecionarTudo;
-	
-	JSeparator separator;
+	private JButton btnVoltar;
 
-	JSeparator separator_1;
+	private JSeparator separator;
+
+	private JSeparator separator_1;
 
 	private JFormattedTextField txtRef;
 	private JFormattedTextField txtVencimento;
@@ -105,20 +106,21 @@ public class TelaDespesaApartamento extends JFrame implements ActionListener {
 	 * Create the frame.
 	 */
 	public TelaDespesaApartamento() {
+		setTitle("Cadastro de Despesas do Apartamento");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 706, 721);
+		setBounds(100, 100, 706, 758);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		lblLogo = new JLabel("CONDOMÌNIO DIGITAL");
 		lblLogo.setForeground(Color.GRAY);
 		lblLogo.setFont(new Font("Bauhaus 93", Font.PLAIN, 40));
 		lblLogo.setBounds(46, 11, 410, 45);
 		contentPane.add(lblLogo);
-		
+
 		lblPagina = new JLabel("Cadastro de Despesas do Apartamento");
 		lblPagina.setEnabled(false);
 		lblPagina.setFont(new Font("Century Gothic", Font.BOLD, 17));
@@ -247,25 +249,31 @@ public class TelaDespesaApartamento extends JFrame implements ActionListener {
 
 		TableClickDespesaApto tCDApto = new TableClickDespesaApto(table, model, txtDespesa, txtRef, txtVencimento,
 				txtValor, idDespesa, btnAtualizarDespesa);
-		
+
 		separator_1 = new JSeparator();
 		separator_1.setBounds(10, 115, 671, 14);
 		contentPane.add(separator_1);
+
+		btnVoltar = new JButton("Voltar");
+		btnVoltar.setBounds(592, 695, 89, 23);
+		contentPane.add(btnVoltar);
 		// btnPesquisar.addActionListener(bDAController);
-		
+
 		btnAtualizarDespesa.addActionListener(this);
 		btnExcluirSeleo.addActionListener(this);
 		btnGravarDespesa.addActionListener(this);
 		btnSelecionarTudo.addActionListener(this);
 		btnPesquisar.addActionListener(this);
+		btnVoltar.addActionListener(this);
 		txtNumApto.addActionListener(this);
+
 		table.addMouseListener(tCDApto);
 
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
+
 		if (e.getSource() == btnPesquisar || e.getSource() == txtNumApto) {
 
 			try {
@@ -286,6 +294,10 @@ public class TelaDespesaApartamento extends JFrame implements ActionListener {
 
 		} else if (e.getSource() == btnSelecionarTudo) {
 			selecionaTudo();
+		} else if (e.getSource() == btnVoltar) {
+			TelaMenu menu = new TelaMenu();
+			menu.setVisible(true);
+			this.dispose();
 		}
 
 	}

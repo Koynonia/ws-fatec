@@ -19,8 +19,14 @@ public class TableClickDespesaApto implements MouseListener {
 	private JTextField idDespesa;
 	private JButton btnAtualizarDespesa;
 
-	public TableClickDespesaApto(JTable table, DefaultTableModel model, JTextField txtDespesa, JTextField txtRef,
-			JTextField txtVencimento, JTextField txtValor, JTextField idDespesa, JButton btnAtualizarDespesa) {
+	public TableClickDespesaApto(JTable table,
+								 DefaultTableModel model, 
+								 JTextField txtDespesa, 
+								 JTextField txtRef,
+								 JTextField txtVencimento, 
+								 JTextField txtValor, 
+								 JTextField idDespesa, 
+								 JButton btnAtualizarDespesa) {
 		this.table = table;
 		this.model = model;
 		this.txtDespesa = txtDespesa;
