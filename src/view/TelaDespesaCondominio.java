@@ -89,13 +89,8 @@ public class TelaDespesaCondominio extends JFrame {
 	
 	public TelaDespesaCondominio() throws ParseException {
 		
-<<<<<<< HEAD
 		setTitle("Despesas do Condomínio");
 		setName("CondDesp");
-=======
-		setTitle("Despesas do CondomÃ­nio");
-		setName("AptoDespesa");
->>>>>>> eac9c82e59a9437b048973dcdf6a18d4f970775b
 		setResizable(false);
 		setSize( 1024, 710 );
 		setLocationRelativeTo(null);
@@ -219,13 +214,8 @@ public class TelaDespesaCondominio extends JFrame {
 		
 		spDespesas = new JScrollPane();
 		spDespesas.setToolTipText("Selecione uma despesa para alterar"
-<<<<<<< HEAD
 				+ " ou clique 2 vezes para excluir…");
 		spDespesas.setBounds(48, 298, 928, 241);
-=======
-				+ " ou clique 2 vezes para excluirâ€¦");
-		spDespesas.setBounds(48, 298, 928, 250);
->>>>>>> eac9c82e59a9437b048973dcdf6a18d4f970775b
 		painel.add(spDespesas);
 		
 		tabDespesa = new JTable();

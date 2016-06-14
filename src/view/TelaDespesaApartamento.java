@@ -110,24 +110,15 @@ public class TelaDespesaApartamento extends JFrame implements ActionListener {
 		setTitle("Cadastro de Despesas do Apartamento");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-<<<<<<< HEAD
 		setBounds(100, 100, 706, 721);
 		setLocationRelativeTo(null);
 		
-=======
-		setBounds(100, 100, 706, 758);
->>>>>>> eac9c82e59a9437b048973dcdf6a18d4f970775b
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-<<<<<<< HEAD
 		
 		lblLogo = new JLabel("CONDOMINIO DIGITAL");
-=======
-
-		lblLogo = new JLabel("CONDOMíNIO DIGITAL");
->>>>>>> eac9c82e59a9437b048973dcdf6a18d4f970775b
 		lblLogo.setForeground(Color.GRAY);
 		lblLogo.setFont(new Font("Bauhaus 93", Font.PLAIN, 40));
 		lblLogo.setBounds(48, 36, 410, 45);

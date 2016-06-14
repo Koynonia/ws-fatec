@@ -95,13 +95,9 @@ public class TelaApartamento extends JFrame implements ActionListener, ItemListe
 		setResizable(false);
 		setTitle("Controle de Apartamentos");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-<<<<<<< HEAD
 		setBounds(100, 100, 680, 686);
 		setLocationRelativeTo(null);
-		
-=======
-		setBounds(100, 100, 680, 735);
->>>>>>> eac9c82e59a9437b048973dcdf6a18d4f970775b
+
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -388,10 +384,5 @@ public class TelaApartamento extends JFrame implements ActionListener, ItemListe
 		spinnerQuartos.setValue(0);
 		txtTelefone.setText("");
 	}
-<<<<<<< HEAD
-}
-=======
-
 
 }
->>>>>>> eac9c82e59a9437b048973dcdf6a18d4f970775b

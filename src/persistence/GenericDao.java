@@ -15,13 +15,9 @@ public class GenericDao {
 
 		try {
 			Class.forName("org.gjt.mm.mysql.Driver");
-<<<<<<< HEAD
-			con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/bancoCondominio", "root", "aluno");
-=======
-			con = DriverManager.getConnection("jdbc:mysql://"
-					+ "127.0.0.1:3306/bancoCondominio",
-					"root", "1234");
->>>>>>> eac9c82e59a9437b048973dcdf6a18d4f970775b
+
+			con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/bancoCondominio", "root", "1234");
+
 //			System.out.println("Conexao ok");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
