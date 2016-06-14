@@ -34,6 +34,7 @@ import model.Apartamentos;
 import model.Despesas;
 import persistence.DespesasApartamentoDao;
 import persistence.IDespesasApartamentoDao;
+import javax.swing.ImageIcon;
 
 public class TelaDespesaApartamento extends JFrame implements ActionListener {
 
@@ -57,6 +58,7 @@ public class TelaDespesaApartamento extends JFrame implements ActionListener {
 	private JLabel lblValor;
 	private JLabel lblTotal;
 	private JLabel lblNmeroDoApartamento;
+	private JLabel lblBack;
 
 	private JButton btnAtualizarDespesa;
 	private JButton btnGravarDespesa;
@@ -83,6 +85,7 @@ public class TelaDespesaApartamento extends JFrame implements ActionListener {
 	private static final DateFormat df = new SimpleDateFormat("dd/mm/yyyy");
 
 	private static int idApto;
+	
 
 	// private static int idDespesa;
 
@@ -128,38 +131,38 @@ public class TelaDespesaApartamento extends JFrame implements ActionListener {
 		contentPane.add(lblPagina);
 
 		lblNmeroDoApartamento = new JLabel("N\u00FAmero do Apartamento:");
-		lblNmeroDoApartamento.setBounds(58, 143, 165, 14);
+		lblNmeroDoApartamento.setBounds(58, 147, 165, 14);
 		contentPane.add(lblNmeroDoApartamento);
 
 		txtNumApto = new JTextField();
-		txtNumApto.setBounds(233, 140, 86, 20);
+		txtNumApto.setBounds(233, 140, 86, 28);
 		contentPane.add(txtNumApto);
 		txtNumApto.setColumns(10);
 
 		btnPesquisar = new JButton("Pesquisar");
-		btnPesquisar.setBounds(355, 139, 89, 23);
+		btnPesquisar.setBounds(355, 139, 101, 28);
 		contentPane.add(btnPesquisar);
 
 		separator = new JSeparator();
-		separator.setBounds(10, 168, 671, 14);
+		separator.setBounds(10, 189, 671, 14);
 		contentPane.add(separator);
 
 		lblNomeDaDespesa = new JLabel("Nome da despesa:");
-		lblNomeDaDespesa.setBounds(58, 237, 141, 14);
+		lblNomeDaDespesa.setBounds(58, 221, 141, 14);
 		contentPane.add(lblNomeDaDespesa);
 
 		txtDespesa = new JTextField();
-		txtDespesa.setBounds(185, 234, 220, 20);
+		txtDespesa.setBounds(184, 214, 220, 28);
 		contentPane.add(txtDespesa);
 		txtDespesa.setColumns(10);
 
 		txtRef = new JFormattedTextField(df);
-		txtRef.setBounds(185, 265, 108, 20);
+		txtRef.setBounds(184, 253, 108, 28);
 		contentPane.add(txtRef);
 		txtRef.setColumns(10);
 
 		txtVencimento = new JFormattedTextField(df);
-		txtVencimento.setBounds(185, 296, 108, 20);
+		txtVencimento.setBounds(184, 292, 108, 28);
 		contentPane.add(txtVencimento);
 		txtVencimento.setColumns(10);
 
@@ -169,7 +172,7 @@ public class TelaDespesaApartamento extends JFrame implements ActionListener {
 		idDespesa.setFocusable(false);
 
 		lblReferncia = new JLabel("Refer\u00EAncia:");
-		lblReferncia.setBounds(89, 268, 86, 14);
+		lblReferncia.setBounds(89, 260, 86, 14);
 		contentPane.add(lblReferncia);
 
 		lblVencimento = new JLabel("Vencimento:");
@@ -187,25 +190,25 @@ public class TelaDespesaApartamento extends JFrame implements ActionListener {
 		}
 
 		txtValor = new JTextField();
-		txtValor.setBounds(185, 324, 108, 20);
+		txtValor.setBounds(184, 331, 108, 28);
 		contentPane.add(txtValor);
 		txtValor.setColumns(10);
 
 		lblValor = new JLabel("Valor:");
-		lblValor.setBounds(120, 327, 46, 14);
+		lblValor.setBounds(119, 338, 46, 14);
 		contentPane.add(lblValor);
 
 		btnAtualizarDespesa = new JButton("Atualizar Despesa");
-		btnAtualizarDespesa.setBounds(456, 290, 189, 23);
+		btnAtualizarDespesa.setBounds(456, 292, 189, 28);
 		contentPane.add(btnAtualizarDespesa);
 		btnAtualizarDespesa.setEnabled(false);
 
 		btnGravarDespesa = new JButton("Gravar Despesa");
-		btnGravarDespesa.setBounds(456, 323, 189, 23);
+		btnGravarDespesa.setBounds(456, 331, 189, 28);
 		contentPane.add(btnGravarDespesa);
 
 		btnExcluirSeleo = new JButton("Excluir Selecionado(s)");
-		btnExcluirSeleo.setBounds(279, 610, 165, 33);
+		btnExcluirSeleo.setBounds(279, 610, 165, 28);
 		contentPane.add(btnExcluirSeleo);
 
 		scrollPane = new JScrollPane();
@@ -234,7 +237,7 @@ public class TelaDespesaApartamento extends JFrame implements ActionListener {
 		table.getColumnModel().getColumn(4).setPreferredWidth(121);
 
 		txtTotal = new JTextField();
-		txtTotal.setBounds(559, 610, 86, 20);
+		txtTotal.setBounds(559, 610, 86, 28);
 		contentPane.add(txtTotal);
 		txtTotal.setColumns(10);
 		txtTotal.setEditable(false);
@@ -244,7 +247,7 @@ public class TelaDespesaApartamento extends JFrame implements ActionListener {
 		contentPane.add(lblTotal);
 
 		btnSelecionarTudo = new JButton("Selecionar\r\n Tudo");
-		btnSelecionarTudo.setBounds(58, 610, 165, 33);
+		btnSelecionarTudo.setBounds(58, 610, 165, 28);
 		contentPane.add(btnSelecionarTudo);
 
 		TableClickDespesaApto tCDApto = new TableClickDespesaApto(table, model, txtDespesa, txtRef, txtVencimento,
@@ -255,8 +258,13 @@ public class TelaDespesaApartamento extends JFrame implements ActionListener {
 		contentPane.add(separator_1);
 
 		btnVoltar = new JButton("Voltar");
-		btnVoltar.setBounds(592, 695, 89, 23);
+		btnVoltar.setBounds(592, 690, 89, 28);
 		contentPane.add(btnVoltar);
+		
+		lblBack = new JLabel("");
+		lblBack.setIcon(new ImageIcon(TelaDespesaApartamento.class.getResource("/resources/back.jpg")));
+		lblBack.setBounds(1, 0, 699, 729);
+		contentPane.add(lblBack);
 		// btnPesquisar.addActionListener(bDAController);
 
 		btnAtualizarDespesa.addActionListener(this);
