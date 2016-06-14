@@ -673,7 +673,7 @@ public class CondominioController implements ComponentListener {
 					"A despesa '" + mensagem + "' foi salva com sucesso.", 
 					"Confirmação", 
 					JOptionPane.PLAIN_MESSAGE, 
-					new ImageIcon( diretorio + "/icons/record.png" ));
+					new ImageIcon( diretorio + "/resources/record.png" ));
 			break;
 			
 		case "editar":
@@ -681,7 +681,7 @@ public class CondominioController implements ComponentListener {
 					"A despesa '" + mensagem + "' foi editada com sucesso.", 
 					"Confirmação", 
 					JOptionPane.PLAIN_MESSAGE, 
-					new ImageIcon( diretorio + "/icons/record.png" ));
+					new ImageIcon( diretorio + "/resources/record.png" ));
 			break;
 		
 		case "excluir":
@@ -689,7 +689,7 @@ public class CondominioController implements ComponentListener {
 					"A despesa '" + mensagem + "' foi excluída com sucesso.", 
 					"Confirmação", 
 					JOptionPane.PLAIN_MESSAGE, 
-					new ImageIcon( diretorio + "/icons/record.png" ));
+					new ImageIcon( diretorio + "/resources/record.png" ));
 			break;
 		
 		case "confirmaEditar":
@@ -698,7 +698,7 @@ public class CondominioController implements ComponentListener {
 					"Você confirma a edição da despesa '" + mensagem + "' ?",
 					"Edição de Despesa", 
 					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
-					new ImageIcon( diretorio + "/icons/warning.png" ), editar, editar[1]);
+					new ImageIcon( diretorio + "/resources/warning.png" ), editar, editar[1]);
 			if (ed == 1) { validar = false; } else { validar = true; }
 			break;
 			
@@ -708,7 +708,7 @@ public class CondominioController implements ComponentListener {
 					"Você confirma a exclusão da despesa '" + mensagem + "' ?",
 					"Exclusão de Despesa", 
 					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
-					new ImageIcon( diretorio + "/icons/warning.png" ), excluir, excluir[1]);
+					new ImageIcon( diretorio + "/resources/warning.png" ), excluir, excluir[1]);
 			if (ex == 0) { validar = true; } else { validar = false; }
 			break;
 			
@@ -719,7 +719,7 @@ public class CondominioController implements ComponentListener {
 					+ "\n Gostaria de adicionar como nova Despesa?", 
 					"Despesa não Localizada", 
 					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
-					new ImageIcon( diretorio + "/icons/warning.png" ), pesquisar, pesquisar[1]);
+					new ImageIcon( diretorio + "/resources/warning.png" ), pesquisar, pesquisar[1]);
 			if (pq == 0) { 
 				String d = txtDespesa.getText();
 				limparCampos();
@@ -733,7 +733,7 @@ public class CondominioController implements ComponentListener {
 					"ATENÇÃO! Por favor, digite algo para pesquisar!", 
 					"Erro",
 					JOptionPane.PLAIN_MESSAGE, 
-					new ImageIcon( diretorio + "/icons/warning.png" ));
+					new ImageIcon( diretorio + "/resources/warning.png" ));
 			break;
 			
 		case "erroSalvar":
@@ -742,7 +742,7 @@ public class CondominioController implements ComponentListener {
 							+ "Verifique sua digitação ou escolha um nome de Usuário diferente.",
 					"Já Cadastrada", 
 					JOptionPane.PLAIN_MESSAGE, 
-					new ImageIcon( diretorio + "/icons/warning.png" ));
+					new ImageIcon( diretorio + "/resources/warning.png" ));
 			break;
 		
 		case "erroExcluir":
@@ -750,7 +750,7 @@ public class CondominioController implements ComponentListener {
 					"A Despesa " + mensagem + " não pode ser alterado para a exclusão.",
 					"Erro", 
 					JOptionPane.PLAIN_MESSAGE, 
-					new ImageIcon( diretorio + "/icons/warning.png" ));
+					new ImageIcon( diretorio + "/resources/warning.png" ));
 			break;
 			
 		case "erroVazio":
@@ -758,7 +758,7 @@ public class CondominioController implements ComponentListener {
 					"Os campos da nova Despesa têm que estar preenchidos.",
 					"Erro", 
 					JOptionPane.PLAIN_MESSAGE, 
-					new ImageIcon( diretorio + "/icons/warning.png" ));
+					new ImageIcon( diretorio + "/resources/warning.png" ));
 			break;
 
 		case "erroLinha":
@@ -766,7 +766,7 @@ public class CondominioController implements ComponentListener {
 					"Por favor, selecione uma despesa para editar ou excluir.", 
 					"Despesa não selecionado…", 
 					JOptionPane.PLAIN_MESSAGE,
-					new ImageIcon( diretorio + "/icons/error.png" ));
+					new ImageIcon( diretorio + "/resources/error.png" ));
 			break;
 
 		case "sistema":
@@ -775,7 +775,7 @@ public class CondominioController implements ComponentListener {
 					+ " do sistema!\n\nDeseja encerrar a aplicação?",
 					"Fechamento do Programa!", 
 					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
-					new ImageIcon( diretorio + "/icons/warning.png" ), exit, exit[1] );
+					new ImageIcon( diretorio + "/resources/warning.png" ), exit, exit[1] );
 			if ( fechar == 0 ) { validar = true; } else { validar = false; }
 			break;
 
@@ -784,7 +784,7 @@ public class CondominioController implements ComponentListener {
 					mensagem, 
 					"Erro no Sistema", 
 					JOptionPane.PLAIN_MESSAGE,
-					new ImageIcon( diretorio + "/icons/error.png" ));
+					new ImageIcon( diretorio + "/resources/error.png" ));
 		}
 		janela.setAlwaysOnTop ( true );
 	}
