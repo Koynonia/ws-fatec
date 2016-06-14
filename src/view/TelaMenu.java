@@ -71,7 +71,7 @@ public class TelaMenu extends JFrame implements ActionListener {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		lblLogo = new JLabel("CONDOMÌNIO DIGITAL");
+		lblLogo = new JLabel("CONDOMINIO DIGITAL");
 		lblLogo.setForeground(Color.GRAY);
 		lblLogo.setFont(new Font("Bauhaus 93", Font.PLAIN, 42));
 		lblLogo.setBounds(32, 42, 469, 45);

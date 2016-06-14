@@ -15,6 +15,7 @@ import java.text.DecimalFormat;
 import java.text.Format;
 import java.text.ParseException;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
@@ -41,7 +42,9 @@ public class TelaCondominio extends JFrame {
 	private JScrollPane spDespesas;
 	private JSeparator linha;
 	private JLabel lblLogo;
+	private JLabel lblBackground; 
 	private JLabel lblPagina;
+	private JLabel lblApto;
 	private JLabel lblDtVenc;
 	private JLabel lblId;
 	private JLabel lblDtReg;
@@ -61,7 +64,7 @@ public class TelaCondominio extends JFrame {
 	private JFormattedTextField ftxtQtd;
 	private JFormattedTextField ftxtVlrTotal;
 	private JComboBox<String> cboReferencia;
-	private JComboBox<String> cboDespesa;
+	private JComboBox<String> cboApto;
 	private JButton btnPesquisar;
 	private JButton btnLimpar;
 	private JButton btnEditar;
@@ -116,6 +119,14 @@ public class TelaCondominio extends JFrame {
 		linha = new JSeparator();
 		linha.setBounds(6, 93, 1012, 12);
 		painel.add(linha);
+		
+		lblApto = new JLabel("Apartamento");
+		lblApto.setBounds(95, 118, 81, 16);
+		painel.add(lblApto);
+		
+		cboApto = new JComboBox<String>();
+		cboApto.setBounds(187, 112, 160, 28);
+		painel.add(cboApto);
 		
 		lblDtVenc = new JLabel("Data de Vencimento");
 		lblDtVenc.setBounds(48, 151, 128, 16);
@@ -174,7 +185,7 @@ public class TelaCondominio extends JFrame {
 		painel.add(cboReferencia);
 		
 		txtReferencia = new JTextField(20);
-		txtReferencia.setBounds(187, 179, 142, 28);
+		txtReferencia.setBounds(387, 179, 142, 28);
 		txtReferencia.setHorizontalAlignment(SwingConstants.CENTER);
 		painel.add(txtReferencia);
 		
@@ -204,22 +215,15 @@ public class TelaCondominio extends JFrame {
 		txtDespesa.setBounds(187, 247, 254, 28);
 		painel.add(txtDespesa);
 		
-		cboDespesa = new JComboBox<String>();
-		cboDespesa.setBounds(187, 247, 254, 28);
-		painel.add(cboDespesa);
-		
 		btnPesquisar = new JButton("Pesquisa");
 		btnPesquisar.setBounds(453, 247, 95, 29);
 		painel.add(btnPesquisar);
 		
 		spDespesas = new JScrollPane();
-		spDespesas.setToolTipText("Selecione uma despesa para alterar"
-				+ " ou clique 2 vezes para excluir…");
 		spDespesas.setBounds(48, 298, 928, 241);
 		painel.add(spDespesas);
 		
 		tabDespesa = new JTable();
-		tabDespesa.setToolTipText("clique 2 vezes para excluir…");
 		spDespesas.setViewportView(tabDespesa);
 		tabDespesa.setBorder(null);
 		
@@ -275,6 +279,10 @@ public class TelaCondominio extends JFrame {
 		btnVoltar.setBounds(860, 625, 117, 29);
 		painel.add(btnVoltar);
 		
+		lblBackground = new JLabel("");
+		lblBackground.setIcon(new ImageIcon(TelaMenu.class.getResource("/resources/back.jpg")));
+		lblBackground.setBounds(0, 0, 1024, 710);
+		painel.add(lblBackground);
 		
 		CondominioController despesasCtrl = new CondominioController(
 				this, 
@@ -295,7 +303,7 @@ public class TelaCondominio extends JFrame {
 				ftxtQtd, 
 				ftxtVlrTotal, 
 				cboReferencia,
-				cboDespesa, 
+				cboApto, 
 				btnPesquisar, 
 				btnLimpar, 
 				btnEditar, 
@@ -309,7 +317,7 @@ public class TelaCondominio extends JFrame {
 		txtDespesa.addFocusListener(despesasCtrl.foco);
 		ftxtDtVenc.addFocusListener(despesasCtrl.foco);
 		cboReferencia.addActionListener(despesasCtrl.filtrar);
-		cboDespesa.addActionListener(despesasCtrl.adicionar);
+		cboApto.addActionListener(despesasCtrl.adicionar);
 		btnPesquisar.addActionListener(despesasCtrl.pesquisar);
 		btnLimpar.addActionListener(despesasCtrl.limpar);
 		btnEditar.addActionListener(despesasCtrl.editar);

@@ -2,8 +2,7 @@ package model;
 
 public class Condominio {
 	private int id;
-	private int apto;
-	private int quartos;
+	private int idApto;
 	private String despesa;
 	private float valor;
 	private String dtVencimento;
@@ -15,17 +14,11 @@ public class Condominio {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getApto() {
-		return apto;
+	public int getIdApto() {
+		return idApto;
 	}
-	public void setApto(int apto) {
-		this.apto = apto;
-	}
-	public int getQuartos() {
-		return quartos;
-	}
-	public void setQuartos(int quartos) {
-		this.quartos = quartos;
+	public void setIdApto(int idApto) {
+		this.idApto = idApto;
 	}
 	public String getDespesa() {
 		return despesa;

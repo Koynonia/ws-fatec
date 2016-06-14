@@ -69,8 +69,9 @@ public class DespesasApartamentoDao implements IDespesasApartamentoDao {
 
 	@Override
 	public List<Despesas> consultaDespesasApartamento(int idApto) throws SQLException {
-		String sql = "SELECT da.id, da.despesa, da.valor, da.dtVencimento, " + "da.dtReferencia"
-				+ " FROM despesa_apartamento da, apartamento a " + " WHERE da.id_apartamento = a.id AND a.id = ?";
+		String sql = "SELECT da.id, da.despesa, da.valor, da.dtVencimento, da.dtReferencia"
+				+ " FROM despesa_apartamento da, apartamento a " 
+				+ " WHERE da.id_apartamento = a.id AND a.id = ?";
 		PreparedStatement ps = c.prepareStatement(sql);
 
 		ps.setInt(1, idApto);

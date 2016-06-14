@@ -46,6 +46,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import model.Condominio;
+import model.Despesas;
 import persistence.CondominioDao;
 import view.TelaCondominio;
 
@@ -69,7 +70,7 @@ public class CondominioController implements ComponentListener {
 	private JFormattedTextField ftxtQtd;
 	private JFormattedTextField ftxtVlrTotal;
 	private JComboBox<String> cboReferencia; 
-	private JComboBox<String> cboDespesa; 
+	private JComboBox<String> cboApto; 
 	private JButton btnPesquisar; 
 	private JButton btnLimpar; 
 	private JButton btnEditar; 
@@ -78,8 +79,6 @@ public class CondominioController implements ComponentListener {
 	private JButton btnCancelar;
 	private boolean validar;
 	private String diretorio = "../projects/";
-	private List<Condominio> despesasApto;
-	private List<Condominio> despesasCond;
 	private List<Condominio> condominio;
 	private List<Condominio> despesas;
 	private CondominioDao dao = new CondominioDao();
@@ -103,7 +102,7 @@ public class CondominioController implements ComponentListener {
 			JFormattedTextField ftxtQtd, 
 			JFormattedTextField ftxtVlrTotal, 
 			JComboBox<String> cboReferencia, 
-			JComboBox<String> cboDespesa, 
+			JComboBox<String> cboApto, 
 			JButton btnPesquisar, 
 			JButton btnLimpar, 
 			JButton btnEditar, 
@@ -129,15 +128,13 @@ public class CondominioController implements ComponentListener {
 		this.ftxtQtd = ftxtQtd;
 		this.ftxtVlrTotal = ftxtVlrTotal;
 		this.cboReferencia = cboReferencia;
-		this.cboDespesa = cboDespesa;
+		this.cboApto = cboApto;
 		this.btnPesquisar = btnPesquisar;
 		this.btnLimpar = btnLimpar;
 		this.btnEditar = btnEditar;
 		this.btnExcluir = btnExcluir;
 		this.btnSalvar = btnSalvar;
 		this.btnCancelar = btnCancelar;
-		this.despesasApto = new ArrayList<Condominio>();
-		this.despesasCond = new ArrayList<Condominio>();
 		this.despesas = new ArrayList<Condominio>();
 		this.condominio = new ArrayList<Condominio>();
 
@@ -151,7 +148,7 @@ public class CondominioController implements ComponentListener {
 		carregarDespesasCond();
 		carregarCondominio();
 		preencherReferencia();
-		preencherDespesa();
+		preencherApto();
 	}
 
 
@@ -214,7 +211,7 @@ public class CondominioController implements ComponentListener {
 
 		case "novo":
 			
-			cboDespesa.setVisible(true);
+			cboApto.setVisible(true);
 			tabela.setEnabled(false);
 			tabela.setForeground(Color.GRAY);
 			tabela.clearSelection();
@@ -226,20 +223,16 @@ public class CondominioController implements ComponentListener {
 			
 			tabela.setEnabled(true);
 			tabela.setForeground(Color.black);
-			lblDtVenc.setVisible(false);
-			lblVlr.setVisible(false);
 			lblId.setVisible(false);
 			lblDtReg.setVisible(false);
 			lblDtAlt.setVisible(false);
-			txtReferencia.setVisible(false);
-			txtDespesa.setVisible(true);
+			txtReferencia.setEnabled(false);
 			txtId.setVisible(false);
-			ftxtDtVenc.setVisible(false);
-			ftxtValor.setVisible(false);
+			ftxtDtVenc.setEnabled(false);
+			ftxtValor.setEnabled(false);
 			ftxtDtReg.setVisible(false);
 			ftxtDtAlt.setVisible(false);
 			cboReferencia.setVisible(true);
-			cboDespesa.setVisible(false);
 			btnPesquisar.setVisible(true);
 			btnLimpar.setText("Novo");
 			btnCancelar.setEnabled(false);
@@ -251,20 +244,16 @@ public class CondominioController implements ComponentListener {
 
 		case "desprotegerCampos":
 			
-			lblDtVenc.setVisible(true);
-			lblVlr.setVisible(true);
 			lblId.setVisible(true);
 			lblDtReg.setVisible(false);
 			lblDtAlt.setVisible(false);
 			txtReferencia.setVisible(true);
-			txtDespesa.setVisible(false);
 			txtId.setVisible(true);
-			ftxtDtVenc.setVisible(true);
-			ftxtValor.setVisible(true);
+			ftxtDtVenc.setEnabled(true);
+			ftxtValor.setEnabled(true);
 			ftxtDtReg.setVisible(false);
 			ftxtDtAlt.setVisible(false);
 			cboReferencia.setVisible(false);
-			cboDespesa.setVisible(true);
 			btnPesquisar.setVisible(false);
 			btnLimpar.setText("Limpar");
 			btnCancelar.setEnabled(true);
@@ -326,7 +315,7 @@ public class CondominioController implements ComponentListener {
 		int qtd = 1;
 
 		for( int i = 0; i < lista.size(); i++ ){
-			if ( lista.get(i).getApto() != 0 ){
+			if ( lista.get(i).getIdApto() != 0 ){
 				apto++;
 			}
 		}
@@ -336,7 +325,7 @@ public class CondominioController implements ComponentListener {
 			if ( cboReferencia.getSelectedItem() == "Todos os Meses" 
 					|| obterMesRef(lista.get(i).getDtVencimento() ).equals( cboReferencia.getSelectedItem()) ){
 
-				if ( lista.get(i).getApto() == 0 ){
+				if ( lista.get(i).getIdApto() == 0 ){
 					condVlr = condVlr + ( lista.get(i).getValor() );
 				} else {
 					totalVlr = totalVlr + ( lista.get(i).getValor() );
@@ -379,7 +368,7 @@ public class CondominioController implements ComponentListener {
 	}
 	
 	
-	public void preencherDespesa(){
+	public void preencherApto(){
 
 		ArrayList<String> d = new ArrayList<>();
 		for ( int i = 0; i < despesas.size(); i++ ){
@@ -394,28 +383,28 @@ public class CondominioController implements ComponentListener {
 					j--;
 				}			
 			}
-			cboDespesa.addItem( d.get(i) );
+			cboApto.addItem( d.get(i) );
 		}
-		cboDespesa.addItem( ">>> NOVA DESPESA" );
+		cboApto.addItem( ">>> NOVA DESPESA" );
 	}
 
 
-	public void formatarTabela( List<Condominio> lista ){
+	public void formatarTabela( List<Condominio> despesas ){
 
 		List<String[]> linhas = new ArrayList<>(); 
 
-		if(lista != null){
+		if(despesas != null){
 			DecimalFormat formato = new DecimalFormat("#,##0.00");
-			for ( int i = 0; i < lista.size(); i++ ) {
+			for ( int i = 0; i < despesas.size(); i++ ) {
 				if ( cboReferencia.getSelectedItem() == "Todos os Meses" ||
-						obterMesRef( lista.get(i).getDtVencimento()).equals( cboReferencia.getSelectedItem()) ){
+						obterMesRef( despesas.get(i).getDtVencimento()).equals( cboReferencia.getSelectedItem()) ){
 				String[] item = { 
-						Integer.toString ( lista.get(i).getId() ), 
-						lista.get(i).getDespesa(), 
-						Integer.toString ( lista.get(i).getApto() ), 
-						obterMesRef( lista.get(i).getDtVencimento() ), 
-						lista.get(i).getDtVencimento(), 
-						formato.format( lista.get(i).getValor() ),  
+						Integer.toString ( despesas.get(i).getId() ), 
+						despesas.get(i).getDespesa(), 
+						Integer.toString ( despesas.get(i).getIdApto() ), 
+						obterMesRef( despesas.get(i).getDtVencimento() ), 
+						despesas.get(i).getDtVencimento(), 
+						formato.format( despesas.get(i).getValor() ),  
 				};
 				linhas.add(item);
 				}
@@ -474,8 +463,8 @@ public class CondominioController implements ComponentListener {
 		tabela.getColumnModel().getColumn(6).setMaxWidth(0);
 		tabela.getColumnModel().getColumn(6).setPreferredWidth(0);
 
-		atualizarTotal( lista );
-		atualizarMensal( lista );
+		atualizarTotal( despesas );
+		atualizarMensal( despesas );
 	}
 	
 	
@@ -499,7 +488,7 @@ public class CondominioController implements ComponentListener {
 					}
 				}
 			}
-			cboDespesa.setSelectedItem( txtDespesa.getText() );
+			cboApto.setSelectedItem( txtDespesa.getText() );
 			validar = false;
 		}
 	}
@@ -532,7 +521,7 @@ public class CondominioController implements ComponentListener {
 	public void carregarDespesasApto(){
 
 		try {
-			despesas.addAll( dao.consultaDespesasApto() );
+			despesas = dao.consultaDespesasApto();
 		} catch (SQLException e) {
 			msg( "erro", e.getMessage() );
 		}
@@ -854,12 +843,12 @@ public class CondominioController implements ComponentListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
-			if ( cboDespesa.getSelectedItem().equals( ">>> NOVA DESPESA" ) ){
+			if ( cboApto.getSelectedItem().equals( ">>> NOVA DESPESA" ) ){
 				
-				cboDespesa.setVisible(false);
+				cboApto.setVisible(false);
 				txtDespesa.setVisible(true);
 			} else {
-				txtDespesa.setText( cboDespesa.getSelectedItem().toString() );
+				txtDespesa.setText( cboApto.getSelectedItem().toString() );
 			}
 		}
 	};
@@ -872,7 +861,7 @@ public class CondominioController implements ComponentListener {
 			txtId.setText( null );
 			ftxtDtReg.setText( null );
 			ftxtDtAlt.setText( null );
-			cboDespesa.setSelectedIndex(0);
+			cboApto.setSelectedIndex(0);
 			txtDespesa.setText(null);
 			alterarCampos ("protegerCampos");
 			btnLimpar.setEnabled(true);

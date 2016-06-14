@@ -18,7 +18,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import model.Condominio;;
+import model.Apartamentos;
+import model.Condominio;
 
 public class CondominioDao implements ICondominioDao {
 	
@@ -133,8 +134,6 @@ public class CondominioDao implements ICondominioDao {
 			String dtVenc =  sdf.format( venc );
 			
 			despesas.setDtVencimento( dtVenc );
-			despesas.setApto( 0 );
-			despesas.setQuartos( 0 );
 			listaDespesas.add( despesas );
 		}
 		rs.close();
@@ -145,10 +144,8 @@ public class CondominioDao implements ICondominioDao {
 	@Override
 	public List<Condominio> consultaDespesasApto() throws SQLException {
 		
-		String sql = "SELECT d.*, a.`numero`, a.`quartos` "
-				+ "FROM `despesa_apartamento` AS d "
-				+ "INNER JOIN `apartamento` AS a ON d.`id_apartamento` = a.`id` "
-				+ "ORDER BY a.`numero` ASC";
+		String sql = "SELECT id, despesa, valor, dtVencimento, id_apartamento "
+				+ "FROM despesa_apartamento";
 		
 		PreparedStatement ps = c.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
@@ -165,12 +162,18 @@ public class CondominioDao implements ICondominioDao {
 			String dtVenc =  sdf.format( venc );
 			
 			despesas.setDtVencimento( dtVenc );
-			despesas.setApto( rs.getInt("numero") );
-			despesas.setQuartos( rs.getInt("quartos") );
 			listaDespesas.add( despesas );
 		}
 		rs.close();
 		ps.close();
 		return listaDespesas;
 	}
+
+	@Override
+	public List<Apartamentos> consultaApto() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
 }

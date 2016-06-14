@@ -3,6 +3,7 @@ package persistence;
 import java.sql.SQLException;
 import java.util.List;
 
+import model.Apartamentos;
 import model.Condominio;
 
 public interface ICondominioDao {
@@ -18,4 +19,6 @@ public interface ICondominioDao {
 	public List<Condominio> consultaDespesasCond() throws SQLException;
 	
 	public List<Condominio> consultaDespesasApto() throws SQLException;
+	
+	public List<Apartamentos> consultaApto() throws SQLException;
 }
