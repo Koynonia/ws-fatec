@@ -14,6 +14,4 @@ public interface IDespesasCondominioDao {
 	public void excluiDespesa(Despesas despesa) throws SQLException;
 
 	public List<Despesas> consultaDespesas() throws SQLException;
-
-	public Despesas consultaDespesa(Despesas despesa) throws SQLException;
 }

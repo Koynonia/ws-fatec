@@ -23,6 +23,7 @@ import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
@@ -112,22 +113,24 @@ public class TelaDespesaApartamento extends JFrame implements ActionListener {
 		setTitle("Cadastro de Despesas do Apartamento");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 706, 758);
+		setBounds(100, 100, 706, 721);
+		setLocationRelativeTo(null);
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-
-		lblLogo = new JLabel("CONDOMíNIO DIGITAL");
+		
+		lblLogo = new JLabel("CONDOMINIO DIGITAL");
 		lblLogo.setForeground(Color.GRAY);
 		lblLogo.setFont(new Font("Bauhaus 93", Font.PLAIN, 40));
-		lblLogo.setBounds(46, 11, 410, 45);
+		lblLogo.setBounds(48, 36, 410, 45);
 		contentPane.add(lblLogo);
 
 		lblPagina = new JLabel("Cadastro de Despesas do Apartamento");
 		lblPagina.setEnabled(false);
 		lblPagina.setFont(new Font("Century Gothic", Font.BOLD, 17));
-		lblPagina.setBounds(331, 82, 340, 22);
+		lblPagina.setBounds(357, 94, 324, 22);
 		contentPane.add(lblPagina);
 
 		lblNmeroDoApartamento = new JLabel("N\u00FAmero do Apartamento:");
@@ -158,11 +161,15 @@ public class TelaDespesaApartamento extends JFrame implements ActionListener {
 
 		txtRef = new JFormattedTextField(df);
 		txtRef.setBounds(184, 253, 108, 28);
+		txtRef.setHorizontalAlignment(SwingConstants.CENTER);
+		txtRef.setBounds(185, 265, 108, 20);
 		contentPane.add(txtRef);
 		txtRef.setColumns(10);
 
 		txtVencimento = new JFormattedTextField(df);
 		txtVencimento.setBounds(184, 292, 108, 28);
+		txtVencimento.setHorizontalAlignment(SwingConstants.CENTER);
+		txtVencimento.setBounds(185, 296, 108, 20);
 		contentPane.add(txtVencimento);
 		txtVencimento.setColumns(10);
 
@@ -173,10 +180,11 @@ public class TelaDespesaApartamento extends JFrame implements ActionListener {
 
 		lblReferncia = new JLabel("Refer\u00EAncia:");
 		lblReferncia.setBounds(89, 260, 86, 14);
+		lblReferncia.setBounds(104, 268, 69, 14);
 		contentPane.add(lblReferncia);
 
 		lblVencimento = new JLabel("Vencimento:");
-		lblVencimento.setBounds(89, 299, 77, 14);
+		lblVencimento.setBounds(95, 299, 78, 14);
 		contentPane.add(lblVencimento);
 
 		formater = new MaskFormatter();
@@ -196,6 +204,7 @@ public class TelaDespesaApartamento extends JFrame implements ActionListener {
 
 		lblValor = new JLabel("Valor:");
 		lblValor.setBounds(119, 338, 46, 14);
+		lblValor.setBounds(137, 327, 36, 14);
 		contentPane.add(lblValor);
 
 		btnAtualizarDespesa = new JButton("Atualizar Despesa");
@@ -412,7 +421,7 @@ public class TelaDespesaApartamento extends JFrame implements ActionListener {
 			}
 			txtTotal.setText(valorTotal.toString());
 		} else {
-			JOptionPane.showMessageDialog(null, "ERRO", "Apartamento não encontrado", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "ERRO", "Apartamento nï¿½o encontrado", JOptionPane.ERROR_MESSAGE);
 		}
 
 	}

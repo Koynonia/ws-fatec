@@ -98,6 +98,9 @@ public class TelaApartamento extends JFrame implements ActionListener, ItemListe
 		setTitle("Controle de Apartamentos");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 680, 691);
+		setBounds(100, 100, 680, 686);
+		setLocationRelativeTo(null);
+
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -105,6 +108,7 @@ public class TelaApartamento extends JFrame implements ActionListener, ItemListe
 
 		lblNumeroDoApartamento = new JLabel("Numero do Apartamento:");
 		lblNumeroDoApartamento.setBounds(32, 175, 126, 14);
+		lblNumeroDoApartamento.setBounds(76, 202, 159, 14);
 		contentPane.add(lblNumeroDoApartamento);
 
 		btnPesqApto = new JButton("Pesquisar");
@@ -113,6 +117,7 @@ public class TelaApartamento extends JFrame implements ActionListener, ItemListe
 
 		lblQuantidadeDeQuartos = new JLabel("Quantidade de Quartos:");
 		lblQuantidadeDeQuartos.setBounds(32, 217, 126, 14);
+		lblQuantidadeDeQuartos.setBounds(86, 244, 149, 14);
 		contentPane.add(lblQuantidadeDeQuartos);
 
 		lblTipoDeOcupao = new JLabel("Tipo de Ocupa\u00E7\u00E3o:");
@@ -139,16 +144,16 @@ public class TelaApartamento extends JFrame implements ActionListener, ItemListe
 		separator.setBounds(10, 345, 654, 14);
 		contentPane.add(separator);
 		
-		lblLogo = new JLabel("CONDOMÌNIO DIGITAL");
+		lblLogo = new JLabel("CONDOMINIO DIGITAL");
 		lblLogo.setForeground(Color.GRAY);
 		lblLogo.setFont(new Font("Bauhaus 93", Font.PLAIN, 40));
-		lblLogo.setBounds(32, 42, 410, 45);
+		lblLogo.setBounds(32, 42, 437, 45);
 		contentPane.add(lblLogo);
 		
 		lblPagina = new JLabel("Controle de Apartamentos");
 		lblPagina.setEnabled(false);
 		lblPagina.setFont(new Font("Century Gothic", Font.BOLD, 17));
-		lblPagina.setBounds(324, 98, 340, 22);
+		lblPagina.setBounds(435, 128, 222, 22);
 		contentPane.add(lblPagina);
 
 		lblMorador = new JLabel("Morador");
@@ -157,6 +162,7 @@ public class TelaApartamento extends JFrame implements ActionListener, ItemListe
 
 		lblNome = new JLabel("Nome:");
 		lblNome.setBounds(33, 447, 67, 14);
+		lblNome.setBounds(49, 475, 41, 14);
 		contentPane.add(lblNome);
 
 		txtNome = new JTextField();
@@ -166,6 +172,7 @@ public class TelaApartamento extends JFrame implements ActionListener, ItemListe
 
 		lblTelefone = new JLabel("Telefone:");
 		lblTelefone.setBounds(33, 412, 67, 14);
+		lblTelefone.setBounds(32, 440, 58, 14);
 		contentPane.add(lblTelefone);
 
 		txtTelefone = new JTextField();
@@ -388,6 +395,6 @@ public class TelaApartamento extends JFrame implements ActionListener, ItemListe
 		spinnerNum.setValue(0);
 		spinnerQuartos.setValue(0);
 		txtTelefone.setText("");
-
 	}
 }
+

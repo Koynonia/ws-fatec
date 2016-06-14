@@ -1,8 +1,8 @@
 /**
  * @author Fernando Moraes Oliveira
- * MatÃ©ria 4716 - Engenharia de Software 2
- * 3Âº ADS - Tarde
- * Iniciado em 04/05/2016
+ * Matéria 4716 - Engenharia de Software 2
+ * 3º ADS - Tarde
+ * Iniciado em 12/06/2016
  */
 
 package view;
@@ -31,12 +31,12 @@ import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
 import javax.swing.text.NumberFormatter;
 
-import controller.DespesasCondominioController;
+import controller.CondominioController;
 
-public class TelaDespesaCondominio extends JFrame {
+public class TelaCondominio extends JFrame {
 
-	private static final long serialVersionUID = 6992276966995839544L;
-	
+	private static final long serialVersionUID = 1231426486405818296L;
+
 	private JPanel painel;
 	private JScrollPane spDespesas;
 	private JSeparator linha;
@@ -78,7 +78,7 @@ public class TelaDespesaCondominio extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaDespesaCondominio frame = new TelaDespesaCondominio();
+					TelaCondominio frame = new TelaCondominio();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -87,10 +87,10 @@ public class TelaDespesaCondominio extends JFrame {
 		});
 	}
 	
-	public TelaDespesaCondominio() throws ParseException {
+	public TelaCondominio() throws ParseException {
 		
-		setTitle("Despesas do Condomínio");
-		setName("CondDesp");
+		setTitle("Condomínio Mensal");
+		setName("CondMes");
 		setResizable(false);
 		setSize( 1024, 710 );
 		setLocationRelativeTo(null);
@@ -101,16 +101,16 @@ public class TelaDespesaCondominio extends JFrame {
 		painel.setName("Despesa");
 		painel.setLayout(null);
 		
-		lblLogo = new JLabel("CONDOMÃ�NIO DIGITAL");
+		lblLogo = new JLabel("CONDOMÍNIO DIGITAL");
 		lblLogo.setForeground(Color.GRAY);
 		lblLogo.setFont(new Font("Bauhaus 93", Font.PLAIN, 40));
 		lblLogo.setBounds(48, 36, 410, 45);
 		painel.add(lblLogo);
 		
-		lblPagina = new JLabel("Cadastro de Despesas do CondomÃ­nio");
+		lblPagina = new JLabel("Condomínio Mensal");
 		lblPagina.setEnabled(false);
 		lblPagina.setFont(new Font("Century Gothic", Font.BOLD, 17));
-		lblPagina.setBounds(656, 76, 316, 22);
+		lblPagina.setBounds(808, 76, 164, 22);
 		painel.add(lblPagina);
 		
 		linha = new JSeparator();
@@ -128,7 +128,7 @@ public class TelaDespesaCondominio extends JFrame {
 		ftxtDtVenc.setColumns(10);
 		painel.add(ftxtDtVenc);
 		
-		lblId = new JLabel("CÃ³digo");
+		lblId = new JLabel("Código");
 		lblId.setBounds(778, 151, 45, 16);
 		painel.add(lblId);
 		
@@ -152,7 +152,7 @@ public class TelaDespesaCondominio extends JFrame {
 		ftxtDtReg.setColumns(10);
 		painel.add(ftxtDtReg);
 		
-		lblDtAlt = new JLabel("Data de AlteraÃ§Ã£o");
+		lblDtAlt = new JLabel("Data de Alteração");
 		lblDtAlt.setBounds(719, 219, 117, 16);
 		painel.add(lblDtAlt);
 		
@@ -165,7 +165,7 @@ public class TelaDespesaCondominio extends JFrame {
 		ftxtDtAlt.setColumns(10);
 		painel.add(ftxtDtAlt);
 		
-		lblReferencia = new JLabel("MÃªs de ReferÃªncia");
+		lblReferencia = new JLabel("Mês de Referência");
 		lblReferencia.setBounds(59, 185, 117, 16);
 		painel.add(lblReferencia);
 		
@@ -200,7 +200,7 @@ public class TelaDespesaCondominio extends JFrame {
 		
 		txtDespesa = new JTextField(20);
 		txtDespesa.setName("despesa");
-		txtDespesa.setToolTipText("Digite aqui o termo que deseja pesquisarâ€¦");
+		txtDespesa.setToolTipText("Digite aqui o termo que deseja pesquisar…");
 		txtDespesa.setBounds(187, 247, 254, 28);
 		painel.add(txtDespesa);
 		
@@ -219,7 +219,7 @@ public class TelaDespesaCondominio extends JFrame {
 		painel.add(spDespesas);
 		
 		tabDespesa = new JTable();
-		tabDespesa.setToolTipText("clique 2 vezes para excluirâ€¦");
+		tabDespesa.setToolTipText("clique 2 vezes para excluir…");
 		spDespesas.setViewportView(tabDespesa);
 		tabDespesa.setBorder(null);
 		
@@ -276,7 +276,7 @@ public class TelaDespesaCondominio extends JFrame {
 		painel.add(btnVoltar);
 		
 		
-		DespesasCondominioController despesasCtrl = new DespesasCondominioController(
+		CondominioController despesasCtrl = new CondominioController(
 				this, 
 				painel, 
 				tabDespesa, 
