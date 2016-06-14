@@ -20,11 +20,11 @@ public class DespesasAptoController   {
 		try {
 			dADao.insereDespesaApartamento(despesa, idApartamento);
 		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, e.getMessage(), 
+					"ERRO", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
-	//ap pesquisar apto deve carregar as despesas na table
 	public int pesquisarApto(Apartamentos a) {
 		IApartamentosDao aDao = new ApartamentosDao();
 		Apartamentos apartamento = new Apartamentos();
@@ -32,7 +32,8 @@ public class DespesasAptoController   {
 			apartamento = aDao.consultaApartamento(a);
 			return apartamento.getId();
 		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, e.getMessage(),
+					"ERRO", JOptionPane.ERROR_MESSAGE);
 			return 0;
 		}
 		
@@ -43,7 +44,8 @@ public class DespesasAptoController   {
 		try {
 			dADao.atualizaDespesaApartamento(d);
 		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, e.getMessage(), 
+					"ERRO", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -52,7 +54,8 @@ public class DespesasAptoController   {
 		try {
 			dADao.excluiDespesaApartamento(d);
 		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, e.getMessage(), 
+					"ERRO", JOptionPane.ERROR_MESSAGE);
 		}
 		
 	}

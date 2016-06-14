@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -36,6 +38,7 @@ public class TelaApartamento extends JFrame implements ActionListener, ItemListe
 	private JButton btnGravarMorador;
 	private JButton btnPesqApto;
 	private JButton btnPesquisarMorador;
+	private JButton btnVoltar;
 	
 	private JPanel contentPane;
 	
@@ -89,12 +92,16 @@ public class TelaApartamento extends JFrame implements ActionListener, ItemListe
 	}
 
 	public TelaApartamento() {
-		setTitle("Gerenciamento dos Apartamentos");
 		setResizable(false);
+		setTitle("Controle de Apartamentos");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+<<<<<<< HEAD
 		setBounds(100, 100, 680, 686);
 		setLocationRelativeTo(null);
 		
+=======
+		setBounds(100, 100, 680, 735);
+>>>>>>> eac9c82e59a9437b048973dcdf6a18d4f970775b
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -142,7 +149,7 @@ public class TelaApartamento extends JFrame implements ActionListener, ItemListe
 		lblLogo.setBounds(32, 42, 437, 45);
 		contentPane.add(lblLogo);
 		
-		lblPagina = new JLabel("Cadastro de Apartamentos");
+		lblPagina = new JLabel("Controle de Apartamentos");
 		lblPagina.setEnabled(false);
 		lblPagina.setFont(new Font("Century Gothic", Font.BOLD, 17));
 		lblPagina.setBounds(435, 128, 222, 22);
@@ -231,6 +238,10 @@ public class TelaApartamento extends JFrame implements ActionListener, ItemListe
 		separator_4 = new JSeparator();
 		separator_4.setBounds(21, 150, 643, 14);
 		contentPane.add(separator_4);
+		
+		btnVoltar = new JButton("Voltar");
+		btnVoltar.setBounds(575, 672, 89, 23);
+		contentPane.add(btnVoltar);
 
 		btnAtualizar.addActionListener(this);
 		btnExcluir.addActionListener(this);
@@ -240,6 +251,7 @@ public class TelaApartamento extends JFrame implements ActionListener, ItemListe
 		btnExcluirMorador.addActionListener(this);
 		btnGravarMorador.addActionListener(this);
 		btnPesquisarMorador.addActionListener(this);
+		btnVoltar.addActionListener(this);
 		groupButton();
 
 	}
@@ -278,9 +290,14 @@ public class TelaApartamento extends JFrame implements ActionListener, ItemListe
 			preencheCamposMorador(m);
 			a.setId_morador(m.getId());
 			System.out.println(idMorador);
+		}else if (e.getSource() == btnVoltar){
+			TelaMenu menu = new TelaMenu();
+			menu.setVisible(true);
+			this.dispose();
 		}
 
 	}
+	
 
 	public void preencheCamposMorador(Moradores m) {
 
@@ -371,4 +388,10 @@ public class TelaApartamento extends JFrame implements ActionListener, ItemListe
 		spinnerQuartos.setValue(0);
 		txtTelefone.setText("");
 	}
+<<<<<<< HEAD
 }
+=======
+
+
+}
+>>>>>>> eac9c82e59a9437b048973dcdf6a18d4f970775b

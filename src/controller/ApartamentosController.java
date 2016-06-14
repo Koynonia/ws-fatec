@@ -26,9 +26,11 @@ public class ApartamentosController {
 	
 	private Apartamentos a = new Apartamentos();
 
-	public ApartamentosController(JSpinner spinnerNum, JSpinner spinnerQuartos, 
-			JRadioButton rdbtnInquilino, JRadioButton rdbtnProprietario,
-			JRadioButton rdbtnVazio) {
+	public ApartamentosController(JSpinner spinnerNum, 
+								  JSpinner spinnerQuartos, 
+								  JRadioButton rdbtnInquilino,
+								  JRadioButton rdbtnProprietario,
+								  JRadioButton rdbtnVazio) {
 		this.rdbtnInquilino = rdbtnInquilino;
 		this.rdbtnProprietario = rdbtnProprietario;
 		this.rdbtnVazio = rdbtnVazio;
@@ -60,7 +62,8 @@ public class ApartamentosController {
 
 		} catch (SQLException e) {
 
-			JOptionPane.showMessageDialog(null, e.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, e.getMessage(), 
+					"ERRO", JOptionPane.ERROR_MESSAGE);
 			return null;
 
 		}
@@ -75,7 +78,8 @@ public class ApartamentosController {
 
 			apartamento = aDao.consultaApartamento(a);
 			if (apartamento.getOcupacao() == null) {
-				JOptionPane.showMessageDialog(null, "Apartamento não encontrado", "ERRO",
+				JOptionPane.showMessageDialog(null, 
+						"Apartamento não encontrado", "ERRO",
 						JOptionPane.INFORMATION_MESSAGE);
 				apartamento.setId(-1);
 				return apartamento;
@@ -85,7 +89,8 @@ public class ApartamentosController {
 
 		} catch (SQLException e) {
 
-			JOptionPane.showMessageDialog(null, e.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, e.getMessage(),
+					"ERRO", JOptionPane.ERROR_MESSAGE);
 			apartamento.setId(-1);
 			return apartamento;
 		}
@@ -104,7 +109,8 @@ public class ApartamentosController {
 			// trocar isso aqui
 		} catch (SQLException e) {
 
-			JOptionPane.showMessageDialog(null, e.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, e.getMessage(),
+					"ERRO", JOptionPane.ERROR_MESSAGE);
 			return null;
 		}
 		
@@ -120,11 +126,13 @@ public class ApartamentosController {
 		try {
 
 			aDao.excluiApartamento(a);
-			JOptionPane.showMessageDialog(null, "Apartamento excluido", "SUCESSO", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Apartamento excluido",
+					"SUCESSO", JOptionPane.INFORMATION_MESSAGE);
 
 		} catch (SQLException e) {
 
-			JOptionPane.showMessageDialog(null, e.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, e.getMessage(),
+					"ERRO", JOptionPane.ERROR_MESSAGE);
 
 		}
 
@@ -136,11 +144,13 @@ public class ApartamentosController {
 		try {
 
 			mDao.excluiMorador(m);
-			JOptionPane.showMessageDialog(null, "Morador excluido", "SUCESSO", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Morador excluido",
+					"SUCESSO", JOptionPane.INFORMATION_MESSAGE);
 
 		} catch (SQLException e) {
 
-			JOptionPane.showMessageDialog(null, e.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, e.getMessage(), 
+					"ERRO", JOptionPane.ERROR_MESSAGE);
 
 		}
 	}
@@ -153,11 +163,13 @@ public class ApartamentosController {
 				a.setId_morador(verificaMorador().getId());
 			}
 			aDao.atualizaApartamento(a);
-			JOptionPane.showMessageDialog(null, "Apartamento atualizado", "SUCESSO", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Apartamento atualizado",
+					"SUCESSO", JOptionPane.INFORMATION_MESSAGE);
 
 		} catch (SQLException e) {
 
-			JOptionPane.showMessageDialog(null, e.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, e.getMessage(), 
+					"ERRO", JOptionPane.ERROR_MESSAGE);
 
 		}
 
@@ -168,11 +180,13 @@ public class ApartamentosController {
 		try {
 
 			mDao.atualizaMorador(m);
-			JOptionPane.showMessageDialog(null, "Morador atualizado", "SUCESSO", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Morador atualizado",
+					"SUCESSO", JOptionPane.INFORMATION_MESSAGE);
 
 		} catch (SQLException e) {
 
-			JOptionPane.showMessageDialog(null, e.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, e.getMessage(), "ERRO",
+					JOptionPane.ERROR_MESSAGE);
 
 		}
 	}
@@ -186,11 +200,13 @@ public class ApartamentosController {
 		try {
 
 			aDao.insereApartamento(a);
-			JOptionPane.showMessageDialog(null, "Apartamento inserido", "SUCESSO", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Apartamento inserido",
+					"SUCESSO", JOptionPane.INFORMATION_MESSAGE);
 
 		} catch (SQLException e) {
 
-			JOptionPane.showMessageDialog(null, e.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, e.getMessage(), "ERRO",
+					JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -200,11 +216,13 @@ public class ApartamentosController {
 		try {
 
 			mDao.insereMorador(m);
-			JOptionPane.showMessageDialog(null, "Morador inserido", "SUCESSO", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Morador inserido",
+					"SUCESSO", JOptionPane.INFORMATION_MESSAGE);
 
 		} catch (SQLException e) {
 
-			JOptionPane.showMessageDialog(null, e.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, e.getMessage(), 
+					"ERRO", JOptionPane.ERROR_MESSAGE);
 
 		}
 	}

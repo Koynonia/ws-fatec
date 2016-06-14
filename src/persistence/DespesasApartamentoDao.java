@@ -66,8 +66,7 @@ public class DespesasApartamentoDao implements IDespesasApartamentoDao {
 
 	}
 
-	// DATE_FORMAT( `date` , '%d/%c/%Y %H:%i:%s' )
-	// select( 'DB::raw('DATE_FORMAT(my_date, \'%m-%d-%Y\') AS arrival')' );
+
 	@Override
 	public List<Despesas> consultaDespesasApartamento(int idApto) throws SQLException {
 		String sql = "SELECT da.id, da.despesa, da.valor, da.dtVencimento, " + "da.dtReferencia"

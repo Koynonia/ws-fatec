@@ -1,7 +1,7 @@
 /**
  * @author Fernando Moraes Oliveira
- * Matéria 4716 - Engenharia de Software 2
- * 3º ADS - Tarde
+ * MatÃ©ria 4716 - Engenharia de Software 2
+ * 3Âº ADS - Tarde
  * Iniciado em 04/05/2016
  */
 
@@ -89,8 +89,13 @@ public class TelaDespesaCondominio extends JFrame {
 	
 	public TelaDespesaCondominio() throws ParseException {
 		
+<<<<<<< HEAD
 		setTitle("Despesas do Condomínio");
 		setName("CondDesp");
+=======
+		setTitle("Despesas do CondomÃ­nio");
+		setName("AptoDespesa");
+>>>>>>> eac9c82e59a9437b048973dcdf6a18d4f970775b
 		setResizable(false);
 		setSize( 1024, 710 );
 		setLocationRelativeTo(null);
@@ -101,13 +106,13 @@ public class TelaDespesaCondominio extends JFrame {
 		painel.setName("Despesa");
 		painel.setLayout(null);
 		
-		lblLogo = new JLabel("CONDOMÍNIO DIGITAL");
+		lblLogo = new JLabel("CONDOMÃ�NIO DIGITAL");
 		lblLogo.setForeground(Color.GRAY);
 		lblLogo.setFont(new Font("Bauhaus 93", Font.PLAIN, 40));
 		lblLogo.setBounds(48, 36, 410, 45);
 		painel.add(lblLogo);
 		
-		lblPagina = new JLabel("Cadastro de Despesas do Condomínio");
+		lblPagina = new JLabel("Cadastro de Despesas do CondomÃ­nio");
 		lblPagina.setEnabled(false);
 		lblPagina.setFont(new Font("Century Gothic", Font.BOLD, 17));
 		lblPagina.setBounds(656, 76, 316, 22);
@@ -128,7 +133,7 @@ public class TelaDespesaCondominio extends JFrame {
 		ftxtDtVenc.setColumns(10);
 		painel.add(ftxtDtVenc);
 		
-		lblId = new JLabel("Código");
+		lblId = new JLabel("CÃ³digo");
 		lblId.setBounds(778, 151, 45, 16);
 		painel.add(lblId);
 		
@@ -152,7 +157,7 @@ public class TelaDespesaCondominio extends JFrame {
 		ftxtDtReg.setColumns(10);
 		painel.add(ftxtDtReg);
 		
-		lblDtAlt = new JLabel("Data de Alteração");
+		lblDtAlt = new JLabel("Data de AlteraÃ§Ã£o");
 		lblDtAlt.setBounds(719, 219, 117, 16);
 		painel.add(lblDtAlt);
 		
@@ -165,7 +170,7 @@ public class TelaDespesaCondominio extends JFrame {
 		ftxtDtAlt.setColumns(10);
 		painel.add(ftxtDtAlt);
 		
-		lblReferencia = new JLabel("Mês de Referência");
+		lblReferencia = new JLabel("MÃªs de ReferÃªncia");
 		lblReferencia.setBounds(59, 185, 117, 16);
 		painel.add(lblReferencia);
 		
@@ -200,7 +205,7 @@ public class TelaDespesaCondominio extends JFrame {
 		
 		txtDespesa = new JTextField(20);
 		txtDespesa.setName("despesa");
-		txtDespesa.setToolTipText("Digite aqui o termo que deseja pesquisar…");
+		txtDespesa.setToolTipText("Digite aqui o termo que deseja pesquisarâ€¦");
 		txtDespesa.setBounds(187, 247, 254, 28);
 		painel.add(txtDespesa);
 		
@@ -214,12 +219,17 @@ public class TelaDespesaCondominio extends JFrame {
 		
 		spDespesas = new JScrollPane();
 		spDespesas.setToolTipText("Selecione uma despesa para alterar"
+<<<<<<< HEAD
 				+ " ou clique 2 vezes para excluir…");
 		spDespesas.setBounds(48, 298, 928, 241);
+=======
+				+ " ou clique 2 vezes para excluirâ€¦");
+		spDespesas.setBounds(48, 298, 928, 250);
+>>>>>>> eac9c82e59a9437b048973dcdf6a18d4f970775b
 		painel.add(spDespesas);
 		
 		tabDespesa = new JTable();
-		tabDespesa.setToolTipText("clique 2 vezes para excluir…");
+		tabDespesa.setToolTipText("clique 2 vezes para excluirâ€¦");
 		spDespesas.setViewportView(tabDespesa);
 		tabDespesa.setBorder(null);
 		
