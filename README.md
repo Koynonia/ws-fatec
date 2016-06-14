@@ -26,7 +26,7 @@ CREATE TABLE apartamento(
   FOREIGN KEY(id_morador) REFERENCES morador(id)
 );
 
-CREATE TABLE despesas_condominio(
+CREATE TABLE despesa_condominio(
   id INT PRIMARY KEY AUTO_INCREMENT,
   despesa CHAR(50) NOT NULL,
   valor FLOAT NOT NULL,

@@ -45,13 +45,13 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import model.Despesas;
-import persistence.DespesasCondominioDao;
-import view.TelaDespesaCondominio;
+import model.Condominio;
+import persistence.CondominioDao;
+import view.TelaCondominio;
 
-public class DespesasCondominioController implements ComponentListener {
+public class CondominioController implements ComponentListener {
 
-	private TelaDespesaCondominio janela; 
+	private TelaCondominio janela; 
 	private JPanel painel; 
 	private JTable tabela;
 	private JLabel lblDtVenc;
@@ -78,11 +78,14 @@ public class DespesasCondominioController implements ComponentListener {
 	private JButton btnCancelar;
 	private boolean validar;
 	private String diretorio = "../projects/";
-	private List<Despesas> despesas;
-	private DespesasCondominioDao dao = new DespesasCondominioDao();
+	private List<Condominio> despesasApto;
+	private List<Condominio> despesasCond;
+	private List<Condominio> condominio;
+	private List<Condominio> despesas;
+	private CondominioDao dao = new CondominioDao();
 
-	public DespesasCondominioController( 
-			TelaDespesaCondominio janela, 
+	public CondominioController( 
+			TelaCondominio janela, 
 			JPanel painel, 
 			JTable tabela, 
 			JLabel lblDtVenc, 
@@ -133,7 +136,10 @@ public class DespesasCondominioController implements ComponentListener {
 		this.btnExcluir = btnExcluir;
 		this.btnSalvar = btnSalvar;
 		this.btnCancelar = btnCancelar;
-		this.despesas = new ArrayList<Despesas>();
+		this.despesasApto = new ArrayList<Condominio>();
+		this.despesasCond = new ArrayList<Condominio>();
+		this.despesas = new ArrayList<Condominio>();
+		this.condominio = new ArrayList<Condominio>();
 
 		dados();
 		tela();
@@ -141,7 +147,9 @@ public class DespesasCondominioController implements ComponentListener {
 	
 
 	public void dados(){
-		carregarDespesas();
+		carregarDespesasApto();
+		carregarDespesasCond();
+		carregarCondominio();
 		preencherReferencia();
 		preencherDespesa();
 	}
@@ -197,23 +205,6 @@ public class DespesasCondominioController implements ComponentListener {
 				ftxtDtVenc.requestFocus();  
 			}  
 		});
-	}
-
-
-	public void atualizarTotal( List<Despesas> lista ){
-		
-		float totalVlr = 0;
-		int qtd = 1;
-		for( int i = 0; i < lista.size(); i++ ){
-			if ( cboReferencia.getSelectedItem() == "Todos os Meses" ||
-					obterMesRef(lista.get(i).getDtVencimento() ).equals( cboReferencia.getSelectedItem()) ){
-			
-			totalVlr = totalVlr + ( lista.get(i).getValor() );
-		
-		ftxtQtd.setValue( Integer.toString ( qtd++ ));
-		ftxtVlrTotal.setValue( totalVlr );
-			}
-		}
 	}
 	
 	
@@ -310,6 +301,56 @@ public class DespesasCondominioController implements ComponentListener {
 	}
 	
 	
+	public void atualizarTotal( List<Condominio> lista ){
+
+		float totalVlr = 0;
+		int qtd = 1;
+		for( int i = 0; i < lista.size(); i++ ){
+			if ( cboReferencia.getSelectedItem() == "Todos os Meses" ||
+					obterMesRef(lista.get(i).getDtVencimento() ).equals( cboReferencia.getSelectedItem()) ){
+
+				totalVlr = totalVlr + ( lista.get(i).getValor() );
+
+				ftxtQtd.setValue( Integer.toString ( qtd++ ));
+				ftxtVlrTotal.setValue( totalVlr );
+			}
+		}
+	}
+	
+	
+	public void atualizarMensal( List<Condominio> lista ){
+
+		float condVlr = 0;
+		float totalVlr = 0;
+		int apto = 0;
+		int qtd = 1;
+
+		for( int i = 0; i < lista.size(); i++ ){
+			if ( lista.get(i).getApto() != 0 ){
+				apto++;
+			}
+		}
+
+		for( int i = 0; i < lista.size(); i++ ){
+
+			if ( cboReferencia.getSelectedItem() == "Todos os Meses" 
+					|| obterMesRef(lista.get(i).getDtVencimento() ).equals( cboReferencia.getSelectedItem()) ){
+
+				if ( lista.get(i).getApto() == 0 ){
+					condVlr = condVlr + ( lista.get(i).getValor() );
+				} else {
+					totalVlr = totalVlr + ( lista.get(i).getValor() );
+				}
+
+				ftxtQtd.setValue( Integer.toString ( qtd++ ));	
+			}	
+		}
+		condVlr = condVlr / apto;
+		totalVlr = totalVlr + condVlr;
+		ftxtVlrTotal.setValue( totalVlr );
+	}
+	
+	
 	public void preencherReferencia(){
 
 		String [] ordena = new String[despesas.size()];
@@ -339,14 +380,10 @@ public class DespesasCondominioController implements ComponentListener {
 	
 	
 	public void preencherDespesa(){
-		String [] ordena = new String[despesas.size()];
+
 		ArrayList<String> d = new ArrayList<>();
 		for ( int i = 0; i < despesas.size(); i++ ){
-			ordena[i] = despesas.get(i).getDespesa();
-		}
-		Arrays.sort( ordena );
-		for ( int i = 0; i < ordena.length; i++ ){
-			d.add(i, ordena[i].toString() );
+			d.add( i, despesas.get(i).getDespesa() );
 		}
 		for ( int i = 0; i < d.size(); i++ ){
 			Object a = d.get(i);
@@ -363,7 +400,7 @@ public class DespesasCondominioController implements ComponentListener {
 	}
 
 
-	public void formatarTabela( List<Despesas> lista ){
+	public void formatarTabela( List<Condominio> lista ){
 
 		List<String[]> linhas = new ArrayList<>(); 
 
@@ -375,6 +412,7 @@ public class DespesasCondominioController implements ComponentListener {
 				String[] item = { 
 						Integer.toString ( lista.get(i).getId() ), 
 						lista.get(i).getDespesa(), 
+						Integer.toString ( lista.get(i).getApto() ), 
 						obterMesRef( lista.get(i).getDtVencimento() ), 
 						lista.get(i).getDtVencimento(), 
 						formato.format( lista.get(i).getValor() ),  
@@ -397,14 +435,14 @@ public class DespesasCondominioController implements ComponentListener {
 		centralizado.setHorizontalAlignment(SwingConstants.CENTER);  
 		direita.setHorizontalAlignment(SwingConstants.RIGHT);
 
-		String[] nomesColunas = { "","Despesa", "Referência", "Data de Vencimento", "Valor", "Selecionar"};
+		String[] nomesColunas = { "","Despesa", "Apartamento", "Referência", "Data de Vencimento", "Valor", "Selecionar"};
 
 		@SuppressWarnings("serial")
 		DefaultTableModel model = new DefaultTableModel(
 				linhas.toArray(new String[ linhas.size() ][]), nomesColunas)
 		{  		  
 			boolean[] canEdit = new boolean []{    
-					false, false, false, false, false, true   
+					false, false, false, false, false, false, true   
 			};
 			@Override    
 			public boolean isCellEditable(int rowIndex, int columnIndex) {    
@@ -420,8 +458,9 @@ public class DespesasCondominioController implements ComponentListener {
 		tabela.getColumnModel().getColumn(1).setCellRenderer(esquerda);
 		tabela.getColumnModel().getColumn(2).setCellRenderer(centralizado);
 		tabela.getColumnModel().getColumn(3).setCellRenderer(centralizado);
-		tabela.getColumnModel().getColumn(4).setCellRenderer(direita);
-		tabela.getColumnModel().getColumn(5).setCellRenderer(centralizado);
+		tabela.getColumnModel().getColumn(4).setCellRenderer(centralizado);
+		tabela.getColumnModel().getColumn(5).setCellRenderer(direita);
+		tabela.getColumnModel().getColumn(6).setCellRenderer(centralizado);
 
 		tabela.getColumnModel().getColumn(0).setMinWidth(0);
 		tabela.getColumnModel().getColumn(0).setMaxWidth(0);
@@ -430,11 +469,13 @@ public class DespesasCondominioController implements ComponentListener {
 		tabela.getColumnModel().getColumn(2).setPreferredWidth(10);
 		tabela.getColumnModel().getColumn(3).setPreferredWidth(10);
 		tabela.getColumnModel().getColumn(4).setPreferredWidth(10);
-		tabela.getColumnModel().getColumn(5).setMinWidth(0);
-		tabela.getColumnModel().getColumn(5).setMaxWidth(0);
-		tabela.getColumnModel().getColumn(5).setPreferredWidth(0);
+		tabela.getColumnModel().getColumn(5).setPreferredWidth(10);
+		tabela.getColumnModel().getColumn(6).setMinWidth(0);
+		tabela.getColumnModel().getColumn(6).setMaxWidth(0);
+		tabela.getColumnModel().getColumn(6).setPreferredWidth(0);
 
 		atualizarTotal( lista );
+		atualizarMensal( lista );
 	}
 	
 	
@@ -478,10 +519,30 @@ public class DespesasCondominioController implements ComponentListener {
 	}
 
 	
-	public void carregarDespesas(){
+	public void carregarCondominio(){
 		
 		try {
-			despesas = dao.consultaDespesas();
+			condominio = dao.consultaCondominio();
+		} catch (SQLException e) {
+			msg( "erro", e.getMessage() );
+		}
+	}
+	
+	
+	public void carregarDespesasApto(){
+
+		try {
+			despesas.addAll( dao.consultaDespesasApto() );
+		} catch (SQLException e) {
+			msg( "erro", e.getMessage() );
+		}
+	}
+	
+	
+	public void carregarDespesasCond(){
+
+		try {
+			despesas.addAll( dao.consultaDespesasCond() );
 		} catch (SQLException e) {
 			msg( "erro", e.getMessage() );
 		}
@@ -490,7 +551,7 @@ public class DespesasCondominioController implements ComponentListener {
 	
 	public void pesquisar(){
 
-		ArrayList<Despesas> lista = new ArrayList<>();
+		ArrayList<Condominio> lista = new ArrayList<>();
 
 		if ( !txtDespesa.getText().isEmpty() ) {
 			cboReferencia.setSelectedIndex(0);
@@ -500,7 +561,7 @@ public class DespesasCondominioController implements ComponentListener {
 
 				if ( filtro == true ) {
 
-					Despesas d = new Despesas();
+					Condominio d = new Condominio();
 					d.setId( despesas.get(i).getId() );
 					d.setDespesa( despesas.get(i).getDespesa() );
 					d.setValor( despesas.get(i).getValor() );
@@ -533,7 +594,7 @@ public class DespesasCondominioController implements ComponentListener {
 					.equals(Integer.toString(despesas.get(i).getId()))){			
 				msg( "confirmaEditar", txtDespesa.getText() );
 				if (validar != false){
-					Despesas despesa = new Despesas();
+					Condominio despesa = new Condominio();
 					despesa.setId( Integer.parseInt( txtId.getText() ));
 					despesa.setDespesa( txtDespesa.getText() );
 					despesa.setValor( Float.parseFloat( ftxtValor.getValue().toString() ));
@@ -557,7 +618,7 @@ public class DespesasCondominioController implements ComponentListener {
 		if ( !txtDespesa.getText().isEmpty() &&
 				!ftxtDtVenc.getText().isEmpty() &&
 				!ftxtValor.getText().isEmpty() ){			
-			Despesas despesa = new Despesas();
+			Condominio despesa = new Condominio();
 			despesa.setDespesa( txtDespesa.getText() );
 			despesa.setValor( Float.parseFloat( ftxtValor.getValue().toString() ));
 			despesa.setDtVencimento( ftxtDtVenc.getText() );
@@ -581,7 +642,7 @@ public class DespesasCondominioController implements ComponentListener {
 					.equals(Integer.toString(despesas.get(i).getId()))){
 				msg( "confirmaExcluir", txtDespesa.getText() );
 				if (validar != false){
-					Despesas despesa = new Despesas();
+					Condominio despesa = new Condominio();
 					despesa.setId( despesas.get(i).getId() );
 					despesa.setDespesa( despesas.get(i).getDespesa() );
 					despesa.setValor( despesas.get(i).getValor() );

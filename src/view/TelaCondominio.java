@@ -2,7 +2,7 @@
  * @author Fernando Moraes Oliveira
  * Matéria 4716 - Engenharia de Software 2
  * 3º ADS - Tarde
- * Iniciado em 04/05/2016
+ * Iniciado em 12/06/2016
  */
 
 package view;
@@ -31,12 +31,12 @@ import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
 import javax.swing.text.NumberFormatter;
 
-import controller.DespesasCondominioController;
+import controller.CondominioController;
 
-public class TelaDespesaCondominio extends JFrame {
+public class TelaCondominio extends JFrame {
 
-	private static final long serialVersionUID = 6992276966995839544L;
-	
+	private static final long serialVersionUID = 1231426486405818296L;
+
 	private JPanel painel;
 	private JScrollPane spDespesas;
 	private JSeparator linha;
@@ -78,7 +78,7 @@ public class TelaDespesaCondominio extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaDespesaCondominio frame = new TelaDespesaCondominio();
+					TelaCondominio frame = new TelaCondominio();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -87,10 +87,10 @@ public class TelaDespesaCondominio extends JFrame {
 		});
 	}
 	
-	public TelaDespesaCondominio() throws ParseException {
+	public TelaCondominio() throws ParseException {
 		
-		setTitle("Despesas do Condomínio");
-		setName("CondDesp");
+		setTitle("Condomínio Mensal");
+		setName("CondMes");
 		setResizable(false);
 		setSize( 1024, 710 );
 		setLocationRelativeTo(null);
@@ -107,10 +107,10 @@ public class TelaDespesaCondominio extends JFrame {
 		lblLogo.setBounds(48, 36, 410, 45);
 		painel.add(lblLogo);
 		
-		lblPagina = new JLabel("Cadastro de Despesas do Condomínio");
+		lblPagina = new JLabel("Condomínio Mensal");
 		lblPagina.setEnabled(false);
 		lblPagina.setFont(new Font("Century Gothic", Font.BOLD, 17));
-		lblPagina.setBounds(656, 76, 316, 22);
+		lblPagina.setBounds(808, 76, 164, 22);
 		painel.add(lblPagina);
 		
 		linha = new JSeparator();
@@ -276,7 +276,7 @@ public class TelaDespesaCondominio extends JFrame {
 		painel.add(btnVoltar);
 		
 		
-		DespesasCondominioController despesasCtrl = new DespesasCondominioController(
+		CondominioController despesasCtrl = new CondominioController(
 				this, 
 				painel, 
 				tabDespesa, 
