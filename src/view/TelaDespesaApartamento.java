@@ -267,12 +267,12 @@ public class TelaDespesaApartamento extends JFrame implements ActionListener {
 		contentPane.add(separator_1);
 
 		btnVoltar = new JButton("Voltar");
-		btnVoltar.setBounds(592, 690, 89, 28);
+		btnVoltar.setBounds(556, 650, 89, 28);
 		contentPane.add(btnVoltar);
 		
 		lblBack = new JLabel("");
 		lblBack.setIcon(new ImageIcon(TelaDespesaApartamento.class.getResource("/resources/back.jpg")));
-		lblBack.setBounds(1, 0, 699, 729);
+		lblBack.setBounds(1, 0, 706, 721);
 		contentPane.add(lblBack);
 		// btnPesquisar.addActionListener(bDAController);
 

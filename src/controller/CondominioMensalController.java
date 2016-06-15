@@ -2,7 +2,7 @@
  * @author Fernando Moraes Oliveira
  * Matéria 4716 - Engenharia de Software 2
  * 3º ADS - Tarde
- * Iniciado em 04/05/2016
+ * Iniciado em 10/06/2016
  */
 
 package controller;
@@ -46,13 +46,12 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import model.Condominio;
-import model.Despesas;
-import persistence.CondominioDao;
-import view.TelaCondominio;
+import persistence.CondominioMensalDao;
+import view.TelaCondominioMensal;
 
-public class CondominioController implements ComponentListener {
+public class CondominioMensalController implements ComponentListener {
 
-	private TelaCondominio janela; 
+	private TelaCondominioMensal janela; 
 	private JPanel painel; 
 	private JTable tabela;
 	private JLabel lblDtVenc;
@@ -79,12 +78,14 @@ public class CondominioController implements ComponentListener {
 	private JButton btnCancelar;
 	private boolean validar;
 	private String diretorio = "../projects/";
+	private List<Condominio> despesasApto;
+	private List<Condominio> despesasCond;
 	private List<Condominio> condominio;
 	private List<Condominio> despesas;
-	private CondominioDao dao = new CondominioDao();
+	private CondominioMensalDao dao = new CondominioMensalDao();
 
-	public CondominioController( 
-			TelaCondominio janela, 
+	public CondominioMensalController( 
+			TelaCondominioMensal janela, 
 			JPanel painel, 
 			JTable tabela, 
 			JLabel lblDtVenc, 
@@ -135,6 +136,8 @@ public class CondominioController implements ComponentListener {
 		this.btnExcluir = btnExcluir;
 		this.btnSalvar = btnSalvar;
 		this.btnCancelar = btnCancelar;
+		this.despesasApto = new ArrayList<Condominio>();
+		this.despesasCond = new ArrayList<Condominio>();
 		this.despesas = new ArrayList<Condominio>();
 		this.condominio = new ArrayList<Condominio>();
 
@@ -211,7 +214,6 @@ public class CondominioController implements ComponentListener {
 
 		case "novo":
 			
-			cboApto.setVisible(true);
 			tabela.setEnabled(false);
 			tabela.setForeground(Color.GRAY);
 			tabela.clearSelection();
@@ -232,8 +234,6 @@ public class CondominioController implements ComponentListener {
 			ftxtValor.setEnabled(false);
 			ftxtDtReg.setVisible(false);
 			ftxtDtAlt.setVisible(false);
-			cboReferencia.setVisible(true);
-			btnPesquisar.setVisible(true);
 			btnLimpar.setText("Novo");
 			btnCancelar.setEnabled(false);
 			btnEditar.setText("Editar");
@@ -247,14 +247,12 @@ public class CondominioController implements ComponentListener {
 			lblId.setVisible(true);
 			lblDtReg.setVisible(false);
 			lblDtAlt.setVisible(false);
-			txtReferencia.setVisible(true);
+			txtReferencia.setEnabled(true);
 			txtId.setVisible(true);
 			ftxtDtVenc.setEnabled(true);
 			ftxtValor.setEnabled(true);
 			ftxtDtReg.setVisible(false);
 			ftxtDtAlt.setVisible(false);
-			cboReferencia.setVisible(false);
-			btnPesquisar.setVisible(false);
 			btnLimpar.setText("Limpar");
 			btnCancelar.setEnabled(true);
 			btnEditar.setText("Salvar");
@@ -315,7 +313,7 @@ public class CondominioController implements ComponentListener {
 		int qtd = 1;
 
 		for( int i = 0; i < lista.size(); i++ ){
-			if ( lista.get(i).getIdApto() != 0 ){
+			if ( lista.get(i).getApto() != 0 ){
 				apto++;
 			}
 		}
@@ -325,7 +323,7 @@ public class CondominioController implements ComponentListener {
 			if ( cboReferencia.getSelectedItem() == "Todos os Meses" 
 					|| obterMesRef(lista.get(i).getDtVencimento() ).equals( cboReferencia.getSelectedItem()) ){
 
-				if ( lista.get(i).getIdApto() == 0 ){
+				if ( lista.get(i).getApto() == 0 ){
 					condVlr = condVlr + ( lista.get(i).getValor() );
 				} else {
 					totalVlr = totalVlr + ( lista.get(i).getValor() );
@@ -370,41 +368,50 @@ public class CondominioController implements ComponentListener {
 	
 	public void preencherApto(){
 
-		ArrayList<String> d = new ArrayList<>();
+		int [] ordena = new int[despesas.size()];
+		ArrayList<String> apto = new ArrayList<>();
+
 		for ( int i = 0; i < despesas.size(); i++ ){
-			d.add( i, despesas.get(i).getDespesa() );
+			ordena[i] = despesas.get(i).getApto();
 		}
-		for ( int i = 0; i < d.size(); i++ ){
-			Object a = d.get(i);
-			for (int j = i+1; j < d.size(); j++) {
-				Object b = d.get(j);
+		Arrays.sort( ordena );
+		for ( int i = 0; i < ordena.length; i++ ){
+			apto.add(i, Integer.toString( ordena[i] ));
+		}
+		cboApto.addItem( "Todos" );
+		for ( int i = 0; i < apto.size(); i++ ){
+			Object a = apto.get(i);
+			for (int j = i+1; j < apto.size(); j++) {
+				Object b = apto.get(j);
 				if (a.equals(b)) {
-					d.remove(j);
+					apto.remove(j);
 					j--;
 				}			
 			}
-			cboApto.addItem( d.get(i) );
+			cboApto.addItem( apto.get(i) );
 		}
-		cboApto.addItem( ">>> NOVA DESPESA" );
 	}
 
 
-	public void formatarTabela( List<Condominio> despesas ){
+	public void formatarTabela( List<Condominio> lista ){
 
 		List<String[]> linhas = new ArrayList<>(); 
 
-		if(despesas != null){
+		if(lista != null){
 			DecimalFormat formato = new DecimalFormat("#,##0.00");
-			for ( int i = 0; i < despesas.size(); i++ ) {
+			for ( int i = 0; i < lista.size(); i++ ) {
 				if ( cboReferencia.getSelectedItem() == "Todos os Meses" ||
-						obterMesRef( despesas.get(i).getDtVencimento()).equals( cboReferencia.getSelectedItem()) ){
+						obterMesRef( lista.get(i).getDtVencimento()).equals( cboReferencia.getSelectedItem()) &&
+						cboApto.getSelectedItem() == "Todos" ||
+						Integer.toString( lista.get(i).getApto()).equals( cboApto.getSelectedItem() )
+						){
 				String[] item = { 
-						Integer.toString ( despesas.get(i).getId() ), 
-						despesas.get(i).getDespesa(), 
-						Integer.toString ( despesas.get(i).getIdApto() ), 
-						obterMesRef( despesas.get(i).getDtVencimento() ), 
-						despesas.get(i).getDtVencimento(), 
-						formato.format( despesas.get(i).getValor() ),  
+						Integer.toString ( lista.get(i).getId() ), 
+						lista.get(i).getDespesa(), 
+						Integer.toString ( lista.get(i).getApto() ), 
+						obterMesRef( lista.get(i).getDtVencimento() ), 
+						lista.get(i).getDtVencimento(), 
+						formato.format( lista.get(i).getValor() ),  
 				};
 				linhas.add(item);
 				}
@@ -463,8 +470,8 @@ public class CondominioController implements ComponentListener {
 		tabela.getColumnModel().getColumn(6).setMaxWidth(0);
 		tabela.getColumnModel().getColumn(6).setPreferredWidth(0);
 
-		atualizarTotal( despesas );
-		atualizarMensal( despesas );
+		atualizarTotal( lista );
+		atualizarMensal( lista );
 	}
 	
 	
@@ -521,7 +528,7 @@ public class CondominioController implements ComponentListener {
 	public void carregarDespesasApto(){
 
 		try {
-			despesas = dao.consultaDespesasApto();
+			despesas.addAll( dao.consultaDespesasApto() );
 		} catch (SQLException e) {
 			msg( "erro", e.getMessage() );
 		}
@@ -659,62 +666,54 @@ public class CondominioController implements ComponentListener {
 
 		case "salvar":
 			JOptionPane.showMessageDialog(null, 
-					"A despesa '" + mensagem + "' foi salva com sucesso.", 
+					"O condomínio mensal '" + mensagem + "' foi salvo com sucesso.", 
 					"Confirmação", 
 					JOptionPane.PLAIN_MESSAGE, 
-					new ImageIcon( diretorio + "/resources/record.png" ));
+					new ImageIcon( diretorio + "/src/resources/record.png" ));
 			break;
 			
 		case "editar":
 			JOptionPane.showMessageDialog(null, 
-					"A despesa '" + mensagem + "' foi editada com sucesso.", 
+					"O condomínio mensal '" + mensagem + "' foi editado com sucesso.", 
 					"Confirmação", 
 					JOptionPane.PLAIN_MESSAGE, 
-					new ImageIcon( diretorio + "/resources/record.png" ));
+					new ImageIcon( diretorio + "/src/resources/record.png" ));
 			break;
 		
 		case "excluir":
 			JOptionPane.showMessageDialog(null, 
-					"A despesa '" + mensagem + "' foi excluída com sucesso.", 
+					"O condomínio mensal '" + mensagem + "' foi excluído com sucesso.", 
 					"Confirmação", 
 					JOptionPane.PLAIN_MESSAGE, 
-					new ImageIcon( diretorio + "/resources/record.png" ));
+					new ImageIcon( diretorio + "/src/resources/record.png" ));
 			break;
 		
 		case "confirmaEditar":
 			Object[] editar = { "Confirmar", "Cancelar" };  
 			int ed = JOptionPane.showOptionDialog(null, 
-					"Você confirma a edição da despesa '" + mensagem + "' ?",
-					"Edição de Despesa", 
+					"Você confirma a edição da condomínio mensal '" + mensagem + "' ?",
+					"Edição de Condomínio", 
 					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
-					new ImageIcon( diretorio + "/resources/warning.png" ), editar, editar[1]);
+					new ImageIcon( diretorio + "/src/resources/warning.png" ), editar, editar[1]);
 			if (ed == 1) { validar = false; } else { validar = true; }
 			break;
 			
 		case "confirmaExcluir":
 			Object[] excluir = { "Confirmar", "Cancelar" };  
 			int ex = JOptionPane.showOptionDialog(null, 
-					"Você confirma a exclusão da despesa '" + mensagem + "' ?",
-					"Exclusão de Despesa", 
+					"Você confirma a exclusão do condomínio '" + mensagem + "' ?",
+					"Exclusão de Condomínio", 
 					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
-					new ImageIcon( diretorio + "/resources/warning.png" ), excluir, excluir[1]);
+					new ImageIcon( diretorio + "/src/resources/warning.png" ), excluir, excluir[1]);
 			if (ex == 0) { validar = true; } else { validar = false; }
 			break;
 			
 		case "vazioPesquisa":
-			Object[] pesquisar = { "Confirmar", "Cancelar" };  
-			int pq = JOptionPane.showOptionDialog(null, 
-					"ATENÇÃO!\n\nNenhum resultado foi encontrado com: " + mensagem
-					+ "\n Gostaria de adicionar como nova Despesa?", 
-					"Despesa não Localizada", 
-					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
-					new ImageIcon( diretorio + "/resources/warning.png" ), pesquisar, pesquisar[1]);
-			if (pq == 0) { 
-				String d = txtDespesa.getText();
-				limparCampos();
-				this.editar.actionPerformed(null);
-				txtDespesa.setText(d);
-			} else { return; }
+			JOptionPane.showMessageDialog(null, 
+					"ATENÇÃO!\n\nNenhum resultado foi encontrado com: " + mensagem, 
+					"Não Localizado", 
+					JOptionPane.PLAIN_MESSAGE, 
+					new ImageIcon( diretorio + "/src/resources/warning.png" ));
 			break;
 			
 		case "erroPesquisa":
@@ -722,40 +721,40 @@ public class CondominioController implements ComponentListener {
 					"ATENÇÃO! Por favor, digite algo para pesquisar!", 
 					"Erro",
 					JOptionPane.PLAIN_MESSAGE, 
-					new ImageIcon( diretorio + "/resources/warning.png" ));
+					new ImageIcon( diretorio + "/src/resources/warning.png" ));
 			break;
 			
 		case "erroSalvar":
 			JOptionPane.showMessageDialog(null, 
-					"Despesa já cadastrada!\n\n"
+					"Condomínio já cadastrado!\n\n"
 							+ "Verifique sua digitação ou escolha um nome de Usuário diferente.",
-					"Já Cadastrada", 
+					"Já Cadastrado", 
 					JOptionPane.PLAIN_MESSAGE, 
-					new ImageIcon( diretorio + "/resources/warning.png" ));
+					new ImageIcon( diretorio + "/src/resources/warning.png" ));
 			break;
 		
 		case "erroExcluir":
 			JOptionPane.showMessageDialog(null, 
-					"A Despesa " + mensagem + " não pode ser alterado para a exclusão.",
+					"O condomínio mensal" + mensagem + " não pode ser alterado para a exclusão.",
 					"Erro", 
 					JOptionPane.PLAIN_MESSAGE, 
-					new ImageIcon( diretorio + "/resources/warning.png" ));
+					new ImageIcon( diretorio + "/src/resources/warning.png" ));
 			break;
 			
 		case "erroVazio":
 			JOptionPane.showMessageDialog(null, 
-					"Os campos da nova Despesa têm que estar preenchidos.",
+					"Os campos do novo condomínio mensal têm que estar preenchidos.",
 					"Erro", 
 					JOptionPane.PLAIN_MESSAGE, 
-					new ImageIcon( diretorio + "/resources/warning.png" ));
+					new ImageIcon( diretorio + "/src/resources/warning.png" ));
 			break;
 
 		case "erroLinha":
 			JOptionPane.showMessageDialog(null, 
-					"Por favor, selecione uma despesa para editar ou excluir.", 
-					"Despesa não selecionado…", 
+					"Por favor, selecione um condomínio para editar ou excluir.", 
+					"condomínio não selecionado…", 
 					JOptionPane.PLAIN_MESSAGE,
-					new ImageIcon( diretorio + "/resources/error.png" ));
+					new ImageIcon( diretorio + "/src/resources/error.png" ));
 			break;
 
 		case "sistema":
@@ -764,7 +763,7 @@ public class CondominioController implements ComponentListener {
 					+ " do sistema!\n\nDeseja encerrar a aplicação?",
 					"Fechamento do Programa!", 
 					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
-					new ImageIcon( diretorio + "/resources/warning.png" ), exit, exit[1] );
+					new ImageIcon( diretorio + "/src/resources/warning.png" ), exit, exit[1] );
 			if ( fechar == 0 ) { validar = true; } else { validar = false; }
 			break;
 
@@ -773,7 +772,7 @@ public class CondominioController implements ComponentListener {
 					mensagem, 
 					"Erro no Sistema", 
 					JOptionPane.PLAIN_MESSAGE,
-					new ImageIcon( diretorio + "/resources/error.png" ));
+					new ImageIcon( diretorio + "/src/resources/error.png" ));
 		}
 		janela.setAlwaysOnTop ( true );
 	}
@@ -838,20 +837,6 @@ public class CondominioController implements ComponentListener {
 		}
 	};
 	
-	public ActionListener adicionar = new ActionListener() {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			
-			if ( cboApto.getSelectedItem().equals( ">>> NOVA DESPESA" ) ){
-				
-				cboApto.setVisible(false);
-				txtDespesa.setVisible(true);
-			} else {
-				txtDespesa.setText( cboApto.getSelectedItem().toString() );
-			}
-		}
-	};
 
 	public ActionListener cancelar = new ActionListener() {
 

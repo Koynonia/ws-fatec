@@ -66,6 +66,8 @@ public class TelaMenu extends JFrame implements ActionListener {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 855, 672);
+		setLocationRelativeTo(null);
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -136,7 +138,7 @@ public class TelaMenu extends JFrame implements ActionListener {
 		
 		lblBackground = new JLabel("");
 		lblBackground.setIcon(new ImageIcon(TelaMenu.class.getResource("/resources/back.jpg")));
-		lblBackground.setBounds(0, 0, 849, 643);
+		lblBackground.setBounds(0, 0, 855, 672);
 		contentPane.add(lblBackground);
 
 		btnCadApartamentos.addActionListener(this);
@@ -168,7 +170,8 @@ public class TelaMenu extends JFrame implements ActionListener {
 			tDApto.setVisible(true);
 			this.dispose();
 		} else if (e.getSource() == btnCondMensal) {
-			// TODO
+			TelaCondominioMensal tMensal = new TelaCondominioMensal();
+			tMensal.setVisible(true);
 			this.dispose();
 		}
 	}

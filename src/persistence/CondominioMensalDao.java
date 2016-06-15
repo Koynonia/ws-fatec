@@ -2,7 +2,7 @@
  * @author Fernando Moraes Oliveira
  * Matéria 4716 - Engenharia de Software 2
  * 3º ADS - Tarde
- * Iniciado em 04/05/2016
+ * Iniciado em 10/06/2016
  */
 
 package persistence;
@@ -19,13 +19,13 @@ import java.util.Date;
 import java.util.List;
 
 import model.Apartamentos;
-import model.Condominio;
+import model.Condominio;;
 
-public class CondominioDao implements ICondominioDao {
+public class CondominioMensalDao implements ICondominioMensalDao {
 	
 	private Connection c;
 
-	public CondominioDao() {
+	public CondominioMensalDao() {
 		GenericDao gDao = new GenericDao();
 		c = gDao.getConnection();
 	}
@@ -134,6 +134,8 @@ public class CondominioDao implements ICondominioDao {
 			String dtVenc =  sdf.format( venc );
 			
 			despesas.setDtVencimento( dtVenc );
+			despesas.setApto( 0 );
+			despesas.setQuartos( 0 );
 			listaDespesas.add( despesas );
 		}
 		rs.close();
@@ -144,8 +146,10 @@ public class CondominioDao implements ICondominioDao {
 	@Override
 	public List<Condominio> consultaDespesasApto() throws SQLException {
 		
-		String sql = "SELECT id, despesa, valor, dtVencimento, id_apartamento "
-				+ "FROM despesa_apartamento";
+		String sql = "SELECT d.*, a.`numero`, a.`quartos` "
+				+ "FROM `despesa_apartamento` AS d "
+				+ "INNER JOIN `apartamento` AS a ON d.`id_apartamento` = a.`id` "
+				+ "ORDER BY a.`numero` ASC";
 		
 		PreparedStatement ps = c.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
@@ -162,6 +166,8 @@ public class CondominioDao implements ICondominioDao {
 			String dtVenc =  sdf.format( venc );
 			
 			despesas.setDtVencimento( dtVenc );
+			despesas.setApto( rs.getInt("numero") );
+			despesas.setQuartos( rs.getInt("quartos") );
 			listaDespesas.add( despesas );
 		}
 		rs.close();
@@ -174,6 +180,4 @@ public class CondominioDao implements ICondominioDao {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	
 }

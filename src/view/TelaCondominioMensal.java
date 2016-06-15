@@ -32,9 +32,9 @@ import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
 import javax.swing.text.NumberFormatter;
 
-import controller.CondominioController;
+import controller.CondominioMensalController;
 
-public class TelaCondominio extends JFrame {
+public class TelaCondominioMensal extends JFrame {
 
 	private static final long serialVersionUID = 1231426486405818296L;
 
@@ -81,7 +81,7 @@ public class TelaCondominio extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaCondominio frame = new TelaCondominio();
+					TelaCondominioMensal frame = new TelaCondominioMensal();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -90,7 +90,7 @@ public class TelaCondominio extends JFrame {
 		});
 	}
 	
-	public TelaCondominio() throws ParseException {
+	public TelaCondominioMensal()  {
 		
 		setTitle("Condomínio Mensal");
 		setName("CondMes");
@@ -132,7 +132,11 @@ public class TelaCondominio extends JFrame {
 		lblDtVenc.setBounds(48, 151, 128, 16);
 		painel.add(lblDtVenc);
 		
-		maskData = new MaskFormatter("##/##/####");
+		try {
+			maskData = new MaskFormatter("##/##/####");
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		ftxtDtVenc = new JFormattedTextField(maskData);
 		ftxtDtVenc.setHorizontalAlignment(SwingConstants.CENTER);
 		ftxtDtVenc.setBounds(187, 145, 142, 28);
@@ -154,7 +158,11 @@ public class TelaCondominio extends JFrame {
 		lblDtReg.setBounds(719, 185, 104, 16);
 		painel.add(lblDtReg);
 		
-		maskData = new MaskFormatter("##/##/####");
+		try {
+			maskData = new MaskFormatter("##/##/####");
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		ftxtDtReg = new JFormattedTextField(maskData);
 		ftxtDtReg.setEnabled(false);
 		ftxtDtReg.setEditable(false);
@@ -167,7 +175,11 @@ public class TelaCondominio extends JFrame {
 		lblDtAlt.setBounds(719, 219, 117, 16);
 		painel.add(lblDtAlt);
 		
-		maskData = new MaskFormatter("##/##/####");
+		try {
+			maskData = new MaskFormatter("##/##/####");
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		ftxtDtAlt = new JFormattedTextField(maskData);
 		ftxtDtAlt.setEnabled(false);
 		ftxtDtAlt.setEditable(false);
@@ -284,7 +296,7 @@ public class TelaCondominio extends JFrame {
 		lblBackground.setBounds(0, 0, 1024, 710);
 		painel.add(lblBackground);
 		
-		CondominioController despesasCtrl = new CondominioController(
+		CondominioMensalController despesasCtrl = new CondominioMensalController(
 				this, 
 				painel, 
 				tabDespesa, 
@@ -317,7 +329,6 @@ public class TelaCondominio extends JFrame {
 		txtDespesa.addFocusListener(despesasCtrl.foco);
 		ftxtDtVenc.addFocusListener(despesasCtrl.foco);
 		cboReferencia.addActionListener(despesasCtrl.filtrar);
-		cboApto.addActionListener(despesasCtrl.adicionar);
 		btnPesquisar.addActionListener(despesasCtrl.pesquisar);
 		btnLimpar.addActionListener(despesasCtrl.limpar);
 		btnEditar.addActionListener(despesasCtrl.editar);
