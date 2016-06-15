@@ -48,6 +48,7 @@ import javax.swing.table.DefaultTableModel;
 import model.Condominio;
 import persistence.CondominioMensalDao;
 import view.TelaCondominioMensal;
+import view.TelaMenu;
 
 public class CondominioMensalController implements ComponentListener {
 
@@ -899,6 +900,8 @@ public class CondominioMensalController implements ComponentListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			TelaMenu menu = new TelaMenu();
+			menu.setVisible(true);
 			fechar();
 		}
 	};
