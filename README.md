@@ -1,7 +1,6 @@
 PROJETO REALIZAO POR
 
-DENYS WYLLIAM SILVA
-FERNANDO MORAES OLVIEIRA
+DENYS WYLLIAM SILVA & FERNANDO MORAES OLVIEIRA
 
 
 Tabelas do Banco
@@ -37,14 +36,14 @@ CREATE TABLE despesa_condominio(
   dtVencimento DATE NOT NULL
 );
 
-create table despesa_apartamento(
-	id int primary key auto_increment,
-	despesa char(50) not null,
-	valor decimal(7,2) not null,
-	dtVencimento DATE NOT NULL,
-	dtReferencia DATE NOT NULL,
-	id_apartamento int,
-	foreign key (id_apartamento) references apartamento(id)
-	);
+CREATE TABLE despesa_apartamento(
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  despesa CHAR(50) NOT NULL,
+  valor DECIMAL(7, 2) NOT NULL,
+  dtVencimento DATE NOT NULL,
+  dtReferencia DATE NOT NULL,
+  id_apartamento INT,
+  FOREIGN KEY(id_apartamento) REFERENCES apartamento(id)
+);
 
 ```
