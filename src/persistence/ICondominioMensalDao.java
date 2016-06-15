@@ -20,5 +20,5 @@ public interface ICondominioMensalDao {
 	
 	public List<Condominio> consultaDespesasApto() throws SQLException;
 	
-	public List<Apartamentos> consultaApto() throws SQLException;
+	public List<Apartamentos> consultaAptos() throws SQLException;
 }

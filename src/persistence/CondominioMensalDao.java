@@ -176,8 +176,27 @@ public class CondominioMensalDao implements ICondominioMensalDao {
 	}
 
 	@Override
-	public List<Apartamentos> consultaApto() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Apartamentos> consultaAptos() throws SQLException {
+		
+		String sql = "SELECT a.`id`, a.`numero`, a.`quartos`, m.`nome` "
+		+ "FROM `apartamento` AS a "
+		+ "INNER JOIN `morador` AS m ON a.`id_morador` = m.`id` "
+		+ "ORDER BY a.`numero`, m.`nome` ASC";
+		
+		PreparedStatement ps = c.prepareStatement(sql);
+		ResultSet rs = ps.executeQuery();
+		List<Apartamentos> listaAptos = new ArrayList<Apartamentos>();
+		
+		while (rs.next()) {
+			Apartamentos apto = new Apartamentos();
+			apto.setId( rs.getInt("id") );
+			apto.setNumero( rs.getInt("numero") );
+			apto.setQuartos( rs.getInt("quartos") );
+//			apto.setNome( rs.getString( "nome" ) );
+			listaAptos.add( apto );
+		}
+		rs.close();
+		ps.close();
+		return listaAptos;
 	}
 }

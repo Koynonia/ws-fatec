@@ -45,6 +45,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import model.Apartamentos;
 import model.Condominio;
 import persistence.CondominioMensalDao;
 import view.TelaCondominioMensal;
@@ -79,10 +80,9 @@ public class CondominioMensalController implements ComponentListener {
 	private JButton btnCancelar;
 	private boolean validar;
 	private String diretorio = "../projects/";
-	private List<Condominio> despesasApto;
-	private List<Condominio> despesasCond;
-	private List<Condominio> condominio;
+	private List<Apartamentos> apartamentos;
 	private List<Condominio> despesas;
+	private List<Condominio> condominioMensal;
 	private CondominioMensalDao dao = new CondominioMensalDao();
 
 	public CondominioMensalController( 
@@ -137,10 +137,9 @@ public class CondominioMensalController implements ComponentListener {
 		this.btnExcluir = btnExcluir;
 		this.btnSalvar = btnSalvar;
 		this.btnCancelar = btnCancelar;
-		this.despesasApto = new ArrayList<Condominio>();
-		this.despesasCond = new ArrayList<Condominio>();
+		this.apartamentos = new ArrayList<Apartamentos>();
 		this.despesas = new ArrayList<Condominio>();
-		this.condominio = new ArrayList<Condominio>();
+		this.condominioMensal = new ArrayList<Condominio>();
 
 		dados();
 		tela();
@@ -148,9 +147,11 @@ public class CondominioMensalController implements ComponentListener {
 	
 
 	public void dados(){
+		
+		carregarAptos();
 		carregarDespesasApto();
 		carregarDespesasCond();
-		carregarCondominio();
+		carregarCondominioMensal();
 		preencherReferencia();
 		preencherApto();
 	}
@@ -516,10 +517,10 @@ public class CondominioMensalController implements ComponentListener {
 	}
 
 	
-	public void carregarCondominio(){
+	public void carregarCondominioMensal(){
 		
 		try {
-			condominio = dao.consultaCondominio();
+			condominioMensal = dao.consultaCondominio();
 		} catch (SQLException e) {
 			msg( "erro", e.getMessage() );
 		}
@@ -540,6 +541,16 @@ public class CondominioMensalController implements ComponentListener {
 
 		try {
 			despesas.addAll( dao.consultaDespesasCond() );
+		} catch (SQLException e) {
+			msg( "erro", e.getMessage() );
+		}
+	}
+	
+	
+	public void carregarAptos(){
+
+		try {
+			apartamentos.addAll( dao.consultaAptos() );
 		} catch (SQLException e) {
 			msg( "erro", e.getMessage() );
 		}
