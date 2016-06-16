@@ -20,6 +20,10 @@ SET time_zone = "+00:00";
 -- Database: `bancocondominio`
 --
 
+CREATE DATABASE bancoCondominio;
+
+USE bancoCondominio;
+
 -- --------------------------------------------------------
 
 --
