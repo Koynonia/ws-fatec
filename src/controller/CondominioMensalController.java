@@ -307,36 +307,47 @@ public class CondominioMensalController implements ComponentListener {
 	}
 	
 	
-	public void atualizarMensal( List<Condominio> lista ){
+	public void atualizarMensal( List<Condominio> despesa ){
 
 		float condVlr = 0;
-		float totalVlr = 0;
-		int apto = 0;
+		float aptoVlr = 0;
+		int apto = apartamentos.size();
+		int quartos = 0;
 		int qtd = 1;
 
-		for( int i = 0; i < lista.size(); i++ ){
-			if ( lista.get(i).getApto() != 0 ){
-				apto++;
-			}
+		for( int i = 0; i < apartamentos.size(); i++ ){
+
+			quartos = quartos + apartamentos.get(i).getQuartos();
 		}
 
-		for( int i = 0; i < lista.size(); i++ ){
+		for( int i = 0; i < despesa.size(); i++ ){
 
 			if ( cboReferencia.getSelectedItem() == "Todos os Meses" 
-					|| obterMesRef(lista.get(i).getDtVencimento() ).equals( cboReferencia.getSelectedItem()) ){
+					|| obterMesRef(despesa.get(i).getDtVencimento() ).equals( cboReferencia.getSelectedItem()) ){
 
-				if ( lista.get(i).getApto() == 0 ){
-					condVlr = condVlr + ( lista.get(i).getValor() );
+				if ( despesa.get(i).getApto() == 0 ){
+					condVlr = condVlr + ( despesa.get(i).getValor() );
 				} else {
-					totalVlr = totalVlr + ( lista.get(i).getValor() );
+					aptoVlr = aptoVlr + ( despesa.get(i).getValor() );
 				}
 
 				ftxtQtd.setValue( Integer.toString ( qtd++ ));	
 			}	
 		}
-		condVlr = condVlr / apto;
-		totalVlr = totalVlr + condVlr;
-		ftxtVlrTotal.setValue( totalVlr );
+
+		if( cboApto.getSelectedItem() == "Todos" ){
+			condVlr = condVlr / apto;
+			aptoVlr = aptoVlr + condVlr;
+		} else {
+			for( int i = 0; i < apartamentos.size(); i++ ){
+				if( cboApto.getSelectedItem().equals( Integer.toString( apartamentos.get(i).getNumero() ))){
+					condVlr = condVlr / quartos * apartamentos.get(i).getQuartos();
+					aptoVlr = aptoVlr + condVlr;
+				}
+			}
+		}
+		ftxtValor.setValue( aptoVlr );
+		ftxtVlrTotal.setValue( aptoVlr );
 	}
 	
 	
@@ -402,15 +413,23 @@ public class CondominioMensalController implements ComponentListener {
 		if(lista != null){
 			DecimalFormat formato = new DecimalFormat("#,##0.00");
 			for ( int i = 0; i < lista.size(); i++ ) {
-				if ( cboReferencia.getSelectedItem() == "Todos os Meses" ||
+				if ( cboReferencia.getSelectedItem() == "Todos os Meses" && cboApto.getSelectedItem() == "Todos" ||
 						obterMesRef( lista.get(i).getDtVencimento()).equals( cboReferencia.getSelectedItem()) &&
-						cboApto.getSelectedItem() == "Todos" ||
-						Integer.toString( lista.get(i).getApto()).equals( cboApto.getSelectedItem() )
+						lista.get(i).getApto() == 0 ||
+						Integer.toString( lista.get(i).getApto()).equals( cboApto.getSelectedItem() ) 
 						){
+
+					String numApto = null;
+					if ( lista.get(i).getApto() == 0 ){
+						numApto = "";
+					} else {
+						numApto = Integer.toString ( lista.get(i).getApto() );
+					}
+					
 				String[] item = { 
 						Integer.toString ( lista.get(i).getId() ), 
 						lista.get(i).getDespesa(), 
-						Integer.toString ( lista.get(i).getApto() ), 
+						numApto, 
 						obterMesRef( lista.get(i).getDtVencimento() ), 
 						lista.get(i).getDtVencimento(), 
 						formato.format( lista.get(i).getValor() ),  
@@ -472,7 +491,7 @@ public class CondominioMensalController implements ComponentListener {
 		tabela.getColumnModel().getColumn(6).setMaxWidth(0);
 		tabela.getColumnModel().getColumn(6).setPreferredWidth(0);
 
-		atualizarTotal( lista );
+//		atualizarTotal( lista );
 		atualizarMensal( lista );
 	}
 	
@@ -512,6 +531,7 @@ public class CondominioMensalController implements ComponentListener {
 				(( DefaultTableModel ) tabela.getModel()).removeRow(tabela.getSelectedRow());
 				tabela.updateUI();
 				atualizarTotal( despesas );
+				atualizarMensal( despesas );
 			}
 		}
 	}
@@ -831,6 +851,7 @@ public class CondominioMensalController implements ComponentListener {
 			txtId.setText( gerarId() );
 			ftxtDtReg.setText( obterData() );
 			ftxtDtAlt.setText( obterData() );
+			atualizarMensal( despesas );
 			atualizarTotal( despesas );
 			
 			if ( btnLimpar.getText() == "Novo" ){
@@ -862,6 +883,7 @@ public class CondominioMensalController implements ComponentListener {
 			txtDespesa.setText(null);
 			alterarCampos ("protegerCampos");
 			btnLimpar.setEnabled(true);
+			atualizarMensal( despesas );
 			atualizarTotal( despesas );
 		}
 	};
