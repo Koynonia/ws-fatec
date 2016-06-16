@@ -97,7 +97,7 @@ public class TelaApartamento extends JFrame implements ActionListener, ItemListe
 		setResizable(false);
 		setTitle("Controle de Apartamentos");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 680, 691);
+		setBounds(100, 100, 680, 675);
 		setBounds(100, 100, 680, 686);
 		setLocationRelativeTo(null);
 
@@ -107,17 +107,15 @@ public class TelaApartamento extends JFrame implements ActionListener, ItemListe
 		contentPane.setLayout(null);
 
 		lblNumeroDoApartamento = new JLabel("Numero do Apartamento:");
-		lblNumeroDoApartamento.setBounds(32, 175, 126, 14);
-		lblNumeroDoApartamento.setBounds(76, 202, 159, 14);
+		lblNumeroDoApartamento.setBounds(49, 179, 159, 14);
 		contentPane.add(lblNumeroDoApartamento);
 
 		btnPesqApto = new JButton("Pesquisar");
-		btnPesqApto.setBounds(300, 168, 109, 28);
+		btnPesqApto.setBounds(322, 172, 109, 28);
 		contentPane.add(btnPesqApto);
 
 		lblQuantidadeDeQuartos = new JLabel("Quantidade de Quartos:");
-		lblQuantidadeDeQuartos.setBounds(32, 217, 126, 14);
-		lblQuantidadeDeQuartos.setBounds(86, 244, 149, 14);
+		lblQuantidadeDeQuartos.setBounds(49, 221, 149, 14);
 		contentPane.add(lblQuantidadeDeQuartos);
 
 		lblTipoDeOcupao = new JLabel("Tipo de Ocupa\u00E7\u00E3o:");
@@ -161,8 +159,7 @@ public class TelaApartamento extends JFrame implements ActionListener, ItemListe
 		contentPane.add(lblMorador);
 
 		lblNome = new JLabel("Nome:");
-		lblNome.setBounds(33, 447, 67, 14);
-		lblNome.setBounds(49, 475, 41, 14);
+		lblNome.setBounds(49, 447, 41, 14);
 		contentPane.add(lblNome);
 
 		txtNome = new JTextField();
@@ -172,7 +169,6 @@ public class TelaApartamento extends JFrame implements ActionListener, ItemListe
 
 		lblTelefone = new JLabel("Telefone:");
 		lblTelefone.setBounds(33, 412, 67, 14);
-		lblTelefone.setBounds(32, 440, 58, 14);
 		contentPane.add(lblTelefone);
 
 		txtTelefone = new JTextField();
@@ -224,11 +220,11 @@ public class TelaApartamento extends JFrame implements ActionListener, ItemListe
 		contentPane.add(btnGravarMorador);
 
 		spinnerNum = new JSpinner();
-		spinnerNum.setBounds(168, 172, 89, 28);
+		spinnerNum.setBounds(203, 172, 89, 28);
 		contentPane.add(spinnerNum);
 
 		spinnerQuartos = new JSpinner();
-		spinnerQuartos.setBounds(168, 214, 89, 28);
+		spinnerQuartos.setBounds(203, 214, 89, 28);
 		contentPane.add(spinnerQuartos);
 
 		rdbtnInquilino.addItemListener(this);
@@ -248,7 +244,7 @@ public class TelaApartamento extends JFrame implements ActionListener, ItemListe
 		
 		lblBack = new JLabel("");
 		lblBack.setIcon(new ImageIcon(TelaApartamento.class.getResource("/resources/back.jpg")));
-		lblBack.setBounds(0, 0, 674, 706);
+		lblBack.setBounds(0, -16, 674, 673);
 		contentPane.add(lblBack);
 
 		btnAtualizar.addActionListener(this);
