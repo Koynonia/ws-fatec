@@ -589,8 +589,7 @@ public class CondominioMensalController implements ComponentListener {
 
 		ArrayList<Despesas> lista = new ArrayList<>();
 
-		if ( !txtDespesa.getText().isEmpty() ) {
-			cboReferencia.setSelectedIndex(0);
+		if ( !despesas.isEmpty() ) {
 			for ( int i = 0; i < despesas.size(); i++ ) {
 				boolean filtro = despesas.get(i).getDespesa().toLowerCase()
 						.contains( txtDespesa.getText().toLowerCase() );
@@ -648,20 +647,42 @@ public class CondominioMensalController implements ComponentListener {
 	}
 	
 	
-	public void inserir() {
-		
-		if ( !txtDespesa.getText().isEmpty() &&
-				!ftxtDtVenc.getText().isEmpty() &&
-				!ftxtValor.getText().isEmpty() ){			
-			Condominio despesa = new Condominio();
-			despesa.setValor( Float.parseFloat( ftxtValor.getValue().toString() ));
-			despesa.setDtVencimento( ftxtDtVenc.getText() );
-			try {
-				dao.insereCondominio( despesa );
-				condominioMensal.add( despesa );
-				msg( "salvar", txtDespesa.getText() );
-			} catch (SQLException e) {
-				msg( "erro", e.getMessage() );
+	public void salvar() {
+
+		if ( cboApto.getSelectedItem() != "Todos" &&
+				ftxtDtVenc.getValue() != null 
+				&& ftxtDtPagto.getValue() != null
+				&& !ftxtValor.getText().isEmpty() ){
+			
+			msg( "confirmaSalvar", cboApto.getSelectedItem().toString() );
+			
+			if ( validar != false ){
+				
+			for( int i = 0; i < despesas.size(); i++ ){
+				
+					if ( obterMesRef( despesas.get(i).getDtVencimento() ).equals( cboReferencia.getSelectedItem() )
+							){
+						
+						Condominio despesa = new Condominio();
+						
+						if ( despesas.get(i).getIdApto() > 0 ){
+							despesa.setIdDespesaApto( despesas.get(i).getId() );
+						} else {
+							despesa.setIdDespesaCond( despesas.get(i).getId() );
+						}
+						despesa.setMulta( Float.parseFloat( ftxtMulta.getValue().toString() ));
+						despesa.setValor( Float.parseFloat( ftxtValor.getValue().toString() ));
+						despesa.setDtVencimento( ftxtDtVenc.getText() );
+						despesa.setDtPagamento( ftxtDtVenc.getText() );
+						try {
+							dao.insereCondominio( despesa );
+							condominioMensal.add( despesa );
+							msg( "salvar", txtDespesa.getText() );
+						} catch (SQLException e) {
+							msg( "erro", e.getMessage() );
+						}
+					}
+				}
 			}
 		} else {
 			msg( "erroVazio", "" );
@@ -724,7 +745,17 @@ public class CondominioMensalController implements ComponentListener {
 					JOptionPane.PLAIN_MESSAGE, 
 					new ImageIcon( diretorio + "/src/resources/record.png" ));
 			break;
-		
+
+		case "confirmaSalvar":
+			Object[] salvar = { "Confirmar", "Cancelar" };  
+			int sv = JOptionPane.showOptionDialog(null, 
+					"Você confirma a gravação da mensalidade do apto " + mensagem + "?",
+					"Mensalidade de Condomínio", 
+					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
+					new ImageIcon( diretorio + "/src/resources/warning.png" ), salvar, salvar[1]);
+			if (sv != 1) { validar = true; } else { validar = false; }
+			break;
+
 		case "confirmaEditar":
 			Object[] editar = { "Confirmar", "Cancelar" };  
 			int ed = JOptionPane.showOptionDialog(null, 
@@ -732,7 +763,7 @@ public class CondominioMensalController implements ComponentListener {
 					"Edição de Condomínio", 
 					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
 					new ImageIcon( diretorio + "/src/resources/warning.png" ), editar, editar[1]);
-			if (ed == 1) { validar = false; } else { validar = true; }
+			if (ed != 1) { validar = true; } else { validar = false; }
 			break;
 			
 		case "confirmaExcluir":
@@ -742,7 +773,7 @@ public class CondominioMensalController implements ComponentListener {
 					"Exclusão de Condomínio", 
 					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
 					new ImageIcon( diretorio + "/src/resources/warning.png" ), excluir, excluir[1]);
-			if (ex == 0) { validar = true; } else { validar = false; }
+			if (ex != 1) { validar = true; } else { validar = false; }
 			break;
 			
 		case "vazioPesquisa":
@@ -780,7 +811,7 @@ public class CondominioMensalController implements ComponentListener {
 			
 		case "erroVazio":
 			JOptionPane.showMessageDialog(null, 
-					"Os campos do novo condomínio mensal têm que estar preenchidos.",
+					"Os campos da Mensalidade do Condomínio têm que estar preenchidos.",
 					"Erro", 
 					JOptionPane.PLAIN_MESSAGE, 
 					new ImageIcon( diretorio + "/src/resources/warning.png" ));
@@ -801,7 +832,7 @@ public class CondominioMensalController implements ComponentListener {
 					"Fechamento do Programa!", 
 					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
 					new ImageIcon( diretorio + "/src/resources/warning.png" ), exit, exit[1] );
-			if ( fechar == 0 ) { validar = true; } else { validar = false; }
+			if ( fechar != 1 ) { validar = true; } else { validar = false; }
 			break;
 
 		default:
@@ -909,10 +940,9 @@ public class CondominioMensalController implements ComponentListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
-			inserir();
-			limparCampos();
+			salvar();
+//			limparCampos();
 			formatarTabela( despesas );
-			alterarCampos ("protegerCampos"); 
 		}
 	};
 
@@ -994,10 +1024,12 @@ public class CondominioMensalController implements ComponentListener {
 
 		@Override
 		public void focusGained(FocusEvent e) {
+			
 		}
 
 		@Override
 		public void focusLost(FocusEvent e) {
+			atualizarMensal( despesas );
 		}	
 	};
 	

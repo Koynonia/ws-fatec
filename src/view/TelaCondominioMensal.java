@@ -124,11 +124,11 @@ public class TelaCondominioMensal extends JFrame {
 		painel.add(linha);
 		
 		lblApto = new JLabel("Apartamento");
-		lblApto.setBounds(84, 174, 81, 16);
+		lblApto.setBounds(84, 206, 81, 16);
 		painel.add(lblApto);
 		
 		cboApto = new JComboBox<String>();
-		cboApto.setBounds(176, 168, 160, 28);
+		cboApto.setBounds(176, 200, 160, 28);
 		painel.add(cboApto);
 		
 		lblDtVenc = new JLabel("Data de Vencimento");
@@ -207,11 +207,11 @@ public class TelaCondominioMensal extends JFrame {
 		painel.add(ftxtDtAlt);
 		
 		lblReferencia = new JLabel("Mês de Referência");
-		lblReferencia.setBounds(48, 206, 117, 16);
+		lblReferencia.setBounds(48, 174, 117, 16);
 		painel.add(lblReferencia);
 		
 		cboReferencia = new JComboBox<String>();
-		cboReferencia.setBounds(176, 200, 160, 28);
+		cboReferencia.setBounds(176, 168, 160, 28);
 		painel.add(cboReferencia);
 		
 		lblNome = new JLabel("Morador");
@@ -353,6 +353,7 @@ public class TelaCondominioMensal extends JFrame {
 		txtDespesa.addActionListener(despesasCtrl.pesquisar);
 		txtDespesa.addFocusListener(despesasCtrl.foco);
 		ftxtDtVenc.addFocusListener(despesasCtrl.foco);
+		ftxtDtPagto.addFocusListener(despesasCtrl.foco);
 		cboApto.addActionListener(despesasCtrl.filtrar);
 		cboReferencia.addActionListener(despesasCtrl.filtrar);
 		btnPesquisar.addActionListener(despesasCtrl.pesquisar);

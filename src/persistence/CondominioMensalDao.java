@@ -35,22 +35,31 @@ public class CondominioMensalDao implements ICondominioMensalDao {
 	@Override
 	public void insereCondominio(Condominio despesa) throws SQLException {
 		
-		String sql = "INSERT INTO despesa_condominio ("
-				+ "despesa, valor, dtVencimento) VALUES (?,?,?)";
+		String sql = "INSERT INTO condominio_mensal ("
+				+ "idApto, idDespesaApto, idDespesaCond, multa, "
+				+ "valor, dtVencimento, dtPagamento) "
+				+ "VALUES (?,?,?,?,?,?,?)";
+		
 		PreparedStatement ps = c.prepareStatement( sql );
-//		ps.setString( 1, despesa.getDespesa() );
-		ps.setFloat( 2, despesa.getValor() );
+		ps.setInt( 1, despesa.getIdApto() );
+		ps.setInt(2, despesa.getIdDespesaApto());
+		ps.setInt(3, despesa.getIdDespesaCond());
+		ps.setFloat( 4, despesa.getMulta() );
+		ps.setFloat( 5, despesa.getValor() );
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		Date vencimento = null;
+		Date pagamento = null;
 		
 		try {
 			vencimento = sdf.parse( despesa.getDtVencimento() );
+			pagamento = sdf.parse( despesa.getDtPagamento() );
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 		
-		ps.setDate( 3, new java.sql.Date( vencimento.getTime( ) ));
+		ps.setDate( 6, new java.sql.Date( vencimento.getTime( ) ));
+		ps.setDate( 7, new java.sql.Date( pagamento.getTime( ) ));
 		ps.execute();
 		ps.close();
 	}
@@ -58,23 +67,30 @@ public class CondominioMensalDao implements ICondominioMensalDao {
 	@Override
 	public void atualizaCondominio(Condominio despesa) throws SQLException {
 		
-		String sql = "UPDATE despesa_condominio SET despesa = ?, valor = ?, "
-				+ "dtVencimento = ? WHERE id = ?";
+		String sql = "UPDATE condominio_mensal SET "
+				+ "idApto = ?, idDespesaApto = ?, idDespesaCond = ?, multa = ?, "
+				+ "valor = ?, dtVencimento = ?, dtPagamento = ? WHERE id = ?";
+		
 		PreparedStatement ps = c.prepareStatement(sql);
-//		ps.setString( 1, despesa.getDespesa() );
-		ps.setFloat( 2, despesa.getValor() );
+		ps.setInt( 1, despesa.getIdApto() );
+		ps.setInt(2, despesa.getIdDespesaApto());
+		ps.setInt(3, despesa.getIdDespesaCond());
+		ps.setFloat( 4, despesa.getMulta() );
+		ps.setFloat( 5, despesa.getValor() );
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		Date vencimento = null;
+		Date pagamento = null;
 		
 		try {
 			vencimento = sdf.parse( despesa.getDtVencimento() );
+			pagamento = sdf.parse( despesa.getDtPagamento() );
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 		
-		ps.setDate( 3, new java.sql.Date( vencimento.getTime( ) ));
-		ps.setInt( 4, despesa.getId() );
+		ps.setDate( 6, new java.sql.Date( vencimento.getTime( ) ));
+		ps.setDate( 7, new java.sql.Date( pagamento.getTime( ) ));
 		ps.execute();
 		ps.close();
 	}
@@ -82,7 +98,7 @@ public class CondominioMensalDao implements ICondominioMensalDao {
 	@Override
 	public void excluiCondominio(Condominio despesa) throws SQLException {
 		
-		String sql = "DELETE FROM despesa_condominio WHERE id = ?";
+		String sql = "DELETE FROM condominio_mensal WHERE id = ?";
 		PreparedStatement ps = c.prepareStatement(sql);
 		ps.setInt( 1, despesa.getId() );
 		ps.execute();
