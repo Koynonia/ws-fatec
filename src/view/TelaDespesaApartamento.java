@@ -130,7 +130,7 @@ public class TelaDespesaApartamento extends JFrame implements ActionListener {
 		lblPagina = new JLabel("Cadastro de Despesas do Apartamento");
 		lblPagina.setEnabled(false);
 		lblPagina.setFont(new Font("Century Gothic", Font.BOLD, 17));
-		lblPagina.setBounds(357, 94, 324, 22);
+		lblPagina.setBounds(320, 92, 361, 22);
 		contentPane.add(lblPagina);
 
 		lblNmeroDoApartamento = new JLabel("N\u00FAmero do Apartamento:");
@@ -162,14 +162,12 @@ public class TelaDespesaApartamento extends JFrame implements ActionListener {
 		txtRef = new JFormattedTextField(df);
 		txtRef.setBounds(184, 253, 108, 28);
 		txtRef.setHorizontalAlignment(SwingConstants.CENTER);
-		txtRef.setBounds(185, 265, 108, 20);
 		contentPane.add(txtRef);
 		txtRef.setColumns(10);
 
 		txtVencimento = new JFormattedTextField(df);
 		txtVencimento.setBounds(184, 292, 108, 28);
 		txtVencimento.setHorizontalAlignment(SwingConstants.CENTER);
-		txtVencimento.setBounds(185, 296, 108, 20);
 		contentPane.add(txtVencimento);
 		txtVencimento.setColumns(10);
 
@@ -180,7 +178,6 @@ public class TelaDespesaApartamento extends JFrame implements ActionListener {
 
 		lblReferncia = new JLabel("Refer\u00EAncia:");
 		lblReferncia.setBounds(89, 260, 86, 14);
-		lblReferncia.setBounds(104, 268, 69, 14);
 		contentPane.add(lblReferncia);
 
 		lblVencimento = new JLabel("Vencimento:");
@@ -204,7 +201,6 @@ public class TelaDespesaApartamento extends JFrame implements ActionListener {
 
 		lblValor = new JLabel("Valor:");
 		lblValor.setBounds(119, 338, 46, 14);
-		lblValor.setBounds(137, 327, 36, 14);
 		contentPane.add(lblValor);
 
 		btnAtualizarDespesa = new JButton("Atualizar Despesa");
