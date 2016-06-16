@@ -172,7 +172,7 @@ public class DespesasCondominioController implements ComponentListener {
 		} catch (ParseException e) {
 			msg( "erro", e.getMessage() );
 		}
-		DateFormat ref = new SimpleDateFormat("MMM yyyy");
+		DateFormat ref = new SimpleDateFormat("MMMM/yyyy");
 		String mesRef = (ref.format(dt).toUpperCase());
 		return mesRef;
 	}
@@ -419,7 +419,7 @@ public class DespesasCondominioController implements ComponentListener {
 
 		tabela.getColumnModel().getColumn(0).setCellRenderer(esquerda);
 		tabela.getColumnModel().getColumn(1).setCellRenderer(esquerda);
-		tabela.getColumnModel().getColumn(2).setCellRenderer(centralizado);
+		tabela.getColumnModel().getColumn(2).setCellRenderer(esquerda);
 		tabela.getColumnModel().getColumn(3).setCellRenderer(centralizado);
 		tabela.getColumnModel().getColumn(4).setCellRenderer(direita);
 		tabela.getColumnModel().getColumn(5).setCellRenderer(centralizado);

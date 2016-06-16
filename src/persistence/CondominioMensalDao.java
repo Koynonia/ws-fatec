@@ -18,8 +18,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import model.Despesas;
+import model.Moradores;
 import model.Apartamentos;
-import model.Condominio;;
+import model.Condominio;
 
 public class CondominioMensalDao implements ICondominioMensalDao {
 	
@@ -31,12 +33,12 @@ public class CondominioMensalDao implements ICondominioMensalDao {
 	}
 
 	@Override
-	public void insereDespesa(Condominio despesa) throws SQLException {
+	public void insereCondominio(Condominio despesa) throws SQLException {
 		
 		String sql = "INSERT INTO despesa_condominio ("
 				+ "despesa, valor, dtVencimento) VALUES (?,?,?)";
 		PreparedStatement ps = c.prepareStatement( sql );
-		ps.setString( 1, despesa.getDespesa() );
+//		ps.setString( 1, despesa.getDespesa() );
 		ps.setFloat( 2, despesa.getValor() );
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -54,12 +56,12 @@ public class CondominioMensalDao implements ICondominioMensalDao {
 	}
 
 	@Override
-	public void atualizaDespesa(Condominio despesa) throws SQLException {
+	public void atualizaCondominio(Condominio despesa) throws SQLException {
 		
 		String sql = "UPDATE despesa_condominio SET despesa = ?, valor = ?, "
 				+ "dtVencimento = ? WHERE id = ?";
 		PreparedStatement ps = c.prepareStatement(sql);
-		ps.setString( 1, despesa.getDespesa() );
+//		ps.setString( 1, despesa.getDespesa() );
 		ps.setFloat( 2, despesa.getValor() );
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -78,7 +80,7 @@ public class CondominioMensalDao implements ICondominioMensalDao {
 	}
 
 	@Override
-	public void excluiDespesa(Condominio despesa) throws SQLException {
+	public void excluiCondominio(Condominio despesa) throws SQLException {
 		
 		String sql = "DELETE FROM despesa_condominio WHERE id = ?";
 		PreparedStatement ps = c.prepareStatement(sql);
@@ -88,10 +90,9 @@ public class CondominioMensalDao implements ICondominioMensalDao {
 	}
 
 	@Override
-	public List<Condominio> consultaCondominio() throws SQLException {
+	public List<Condominio> consultaCondominioMensal() throws SQLException {
 		
-		String sql = "SELECT id, despesa, valor, dtVencimento "
-				+ "FROM despesa_condominio";
+		String sql = "SELECT * FROM condominio_mensal";
 		PreparedStatement ps = c.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
 		List<Condominio> listaCondominio = new ArrayList<Condominio>();
@@ -99,7 +100,7 @@ public class CondominioMensalDao implements ICondominioMensalDao {
 		while (rs.next()) {
 			Condominio despesas = new Condominio();
 			despesas.setId( rs.getInt("id") );
-			despesas.setDespesa( rs.getString("despesa") );
+//			despesas.setDespesa( rs.getString("despesa") );
 			despesas.setValor( rs.getFloat("valor") );
 			
 			DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -113,75 +114,35 @@ public class CondominioMensalDao implements ICondominioMensalDao {
 		ps.close();
 		return listaCondominio;
 	}
-
+	
 	@Override
-	public List<Condominio> consultaDespesasCond() throws SQLException {
+	public List<Moradores> consultaMoradores() throws SQLException {
 		
-		String sql = "SELECT id, despesa, valor, dtVencimento "
-				+ "FROM despesa_condominio";
+		String sql = "SELECT * FROM `morador`";
 		PreparedStatement ps = c.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
-		List<Condominio> listaDespesas = new ArrayList<Condominio>();
+		List<Moradores> listaMoradores = new ArrayList<Moradores>();
 		
 		while (rs.next()) {
-			Condominio despesas = new Condominio();
-			despesas.setId( rs.getInt("id") );
-			despesas.setDespesa( rs.getString("despesa") );
-			despesas.setValor( rs.getFloat("valor") );
-			
-			DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-			java.util.Date venc = rs.getDate("dtVencimento");
-			String dtVenc =  sdf.format( venc );
-			
-			despesas.setDtVencimento( dtVenc );
-			despesas.setApto( 0 );
-			despesas.setQuartos( 0 );
-			listaDespesas.add( despesas );
+			Moradores m = new Moradores();
+			m.setId( rs.getInt("id") );
+			m.setNome( rs.getString( "nome" ) );
+			listaMoradores.add( m );
 		}
 		rs.close();
 		ps.close();
-		return listaDespesas;
+		return listaMoradores;
 	}
-
-	@Override
-	public List<Condominio> consultaDespesasApto() throws SQLException {
-		
-		String sql = "SELECT d.*, a.`numero`, a.`quartos` "
-				+ "FROM `despesa_apartamento` AS d "
-				+ "INNER JOIN `apartamento` AS a ON d.`id_apartamento` = a.`id` "
-				+ "ORDER BY a.`numero` ASC";
-		
-		PreparedStatement ps = c.prepareStatement(sql);
-		ResultSet rs = ps.executeQuery();
-		List<Condominio> listaDespesas = new ArrayList<Condominio>();
-		
-		while (rs.next()) {
-			Condominio despesas = new Condominio();
-			despesas.setId( rs.getInt("id") );
-			despesas.setDespesa( rs.getString("despesa") );
-			despesas.setValor( rs.getFloat("valor") );
-			
-			DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-			java.util.Date venc = rs.getDate("dtVencimento");
-			String dtVenc =  sdf.format( venc );
-			
-			despesas.setDtVencimento( dtVenc );
-			despesas.setApto( rs.getInt("numero") );
-			despesas.setQuartos( rs.getInt("quartos") );
-			listaDespesas.add( despesas );
-		}
-		rs.close();
-		ps.close();
-		return listaDespesas;
-	}
-
+	
 	@Override
 	public List<Apartamentos> consultaAptos() throws SQLException {
 		
-		String sql = "SELECT a.`id`, a.`numero`, a.`quartos`, m.`nome` "
-		+ "FROM `apartamento` AS a "
-		+ "INNER JOIN `morador` AS m ON a.`id_morador` = m.`id` "
-		+ "ORDER BY a.`numero`, m.`nome` ASC";
+//		String sql = "SELECT a.`id`, a.`numero`, a.`quartos`, m.`nome` "
+//		+ "FROM `apartamento` AS a "
+//		+ "INNER JOIN `morador` AS m ON a.`id_morador` = m.`id` "
+//		+ "ORDER BY a.`numero`, m.`nome` ASC";
+		
+		String sql = "SELECT * FROM `apartamento` ";
 		
 		PreparedStatement ps = c.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
@@ -192,11 +153,72 @@ public class CondominioMensalDao implements ICondominioMensalDao {
 			apto.setId( rs.getInt("id") );
 			apto.setNumero( rs.getInt("numero") );
 			apto.setQuartos( rs.getInt("quartos") );
-//			apto.setNome( rs.getString( "nome" ) );
+			apto.setOcupacao( rs.getString( "ocupacao" ) );
+			apto.setId_morador( rs.getInt("id_morador") );
 			listaAptos.add( apto );
 		}
 		rs.close();
 		ps.close();
 		return listaAptos;
 	}
+
+	@Override
+	public List<Despesas> despesasCond() throws SQLException {
+		
+		String sql = "SELECT * FROM despesa_condominio";
+		
+		PreparedStatement ps = c.prepareStatement(sql);
+		ResultSet rs = ps.executeQuery();
+		List<Despesas> listaDespesas = new ArrayList<Despesas>();
+		
+		while (rs.next()) {
+			Despesas despesas = new Despesas();
+			despesas.setId( rs.getInt("id") );
+			despesas.setDespesa( rs.getString("despesa") );
+			despesas.setValor( rs.getFloat("valor") );
+			
+			DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			java.util.Date venc = rs.getDate("dtVencimento");
+			String dtVenc =  sdf.format( venc );
+			
+			despesas.setDtVencimento( dtVenc );
+			listaDespesas.add( despesas );
+		}
+		rs.close();
+		ps.close();
+		return listaDespesas;
+	}
+
+	@Override
+	public List<Despesas> despesasApto() throws SQLException {
+		
+//		String sql = "SELECT d.*, a.`numero`, a.`quartos` "
+//				+ "FROM `despesa_apartamento` AS d "
+//				+ "INNER JOIN `apartamento` AS a ON d.`id_apartamento` = a.`id` "
+//				+ "ORDER BY a.`numero` ASC";
+		
+		String sql = "SELECT * FROM `despesa_apartamento`";
+		
+		PreparedStatement ps = c.prepareStatement(sql);
+		ResultSet rs = ps.executeQuery();
+		List<Despesas> listaDespesas = new ArrayList<Despesas>();
+		
+		while (rs.next()) {
+			Despesas despesas = new Despesas();
+			despesas.setId( rs.getInt("id") );
+			despesas.setIdApto( rs.getInt("id_apartamento") );
+			despesas.setDespesa( rs.getString("despesa") );
+			despesas.setValor( rs.getFloat("valor") );
+			
+			DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			java.util.Date venc = rs.getDate("dtVencimento");
+			String dtVenc =  sdf.format( venc );
+			
+			despesas.setDtVencimento( dtVenc );
+			listaDespesas.add( despesas );
+		}
+		rs.close();
+		ps.close();
+		return listaDespesas;
+	}	
 }

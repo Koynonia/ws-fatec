@@ -9,12 +9,14 @@ package model;
 
 public class Condominio {
 	private int id;
-	private int apto;
-	private int quartos;
-	private String despesa;
+	private int idApto;
+	private int idDespesaApto;
+	private int idDespesaCond;
+	private float multa;
 	private float valor;
 	private String dtVencimento;
 	private String dtPagamento;
+	
 	
 	public int getId() {
 		return id;
@@ -22,23 +24,29 @@ public class Condominio {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getApto() {
-		return apto;
+	public int getIdApto() {
+		return idApto;
 	}
-	public void setApto(int apto) {
-		this.apto = apto;
+	public void setIdApto(int idApto) {
+		this.idApto = idApto;
 	}
-	public int getQuartos() {
-		return quartos;
+	public int getIdDespesaApto() {
+		return idDespesaApto;
 	}
-	public void setQuartos(int quartos) {
-		this.quartos = quartos;
+	public void setIdDespesaApto(int idDespesaApto) {
+		this.idDespesaApto = idDespesaApto;
 	}
-	public String getDespesa() {
-		return despesa;
+	public int getIdDespesaCond() {
+		return idDespesaCond;
 	}
-	public void setDespesa(String despesa) {
-		this.despesa = despesa;
+	public void setIdDespesaCond(int idDespesaCond) {
+		this.idDespesaCond = idDespesaCond;
+	}
+	public float getMulta() {
+		return multa;
+	}
+	public void setMulta(float multa) {
+		this.multa = multa;
 	}
 	public float getValor() {
 		return valor;

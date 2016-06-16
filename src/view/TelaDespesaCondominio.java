@@ -210,7 +210,7 @@ public class TelaDespesaCondominio extends JFrame {
 		cboDespesa.setBounds(187, 247, 254, 28);
 		painel.add(cboDespesa);
 		
-		btnPesquisar = new JButton("Pesquisa");
+		btnPesquisar = new JButton("Pesquisar");
 		btnPesquisar.setBounds(453, 247, 95, 29);
 		painel.add(btnPesquisar);
 		

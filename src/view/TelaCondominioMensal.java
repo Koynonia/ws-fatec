@@ -17,6 +17,7 @@ import java.text.ParseException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
@@ -46,20 +47,25 @@ public class TelaCondominioMensal extends JFrame {
 	private JLabel lblPagina;
 	private JLabel lblApto;
 	private JLabel lblDtVenc;
+	private JLabel lblDtPagto;
 	private JLabel lblId;
 	private JLabel lblDtReg;
 	private JLabel lblDtAlt;
 	private JLabel lblReferencia;
 	private JLabel lblVlr;
+	private JLabel lblMulta;
+	private JLabel lblNome;
 	private JLabel lblDespesa;
 	private JLabel lblQtd;
 	private JLabel lblVlrTotal;
 	private JTextField txtId;
-	private JTextField txtReferencia;
+	private JTextField txtNome;
 	private JTextField txtDespesa;
 	private JFormattedTextField ftxtDtVenc;
+	private JFormattedTextField ftxtDtPagto;
 	private JFormattedTextField ftxtDtReg;
 	private JFormattedTextField ftxtDtAlt;
+	private JFormattedTextField ftxtMulta;
 	private JFormattedTextField ftxtValor;
 	private JFormattedTextField ftxtQtd;
 	private JFormattedTextField ftxtVlrTotal;
@@ -67,10 +73,7 @@ public class TelaCondominioMensal extends JFrame {
 	private JComboBox<String> cboApto;
 	private JButton btnPesquisar;
 	private JButton btnLimpar;
-	private JButton btnEditar;
 	private JButton btnSalvar;
-	private JButton btnExcluir;
-	private JButton btnCancelar;
 	private JButton btnVoltar;
 	private JTable tabDespesa;
 	private MaskFormatter maskData;
@@ -121,15 +124,15 @@ public class TelaCondominioMensal extends JFrame {
 		painel.add(linha);
 		
 		lblApto = new JLabel("Apartamento");
-		lblApto.setBounds(95, 118, 81, 16);
+		lblApto.setBounds(84, 174, 81, 16);
 		painel.add(lblApto);
 		
 		cboApto = new JComboBox<String>();
-		cboApto.setBounds(187, 112, 160, 28);
+		cboApto.setBounds(176, 168, 160, 28);
 		painel.add(cboApto);
 		
 		lblDtVenc = new JLabel("Data de Vencimento");
-		lblDtVenc.setBounds(48, 151, 128, 16);
+		lblDtVenc.setBounds(688, 139, 128, 16);
 		painel.add(lblDtVenc);
 		
 		try {
@@ -139,23 +142,38 @@ public class TelaCondominioMensal extends JFrame {
 		}
 		ftxtDtVenc = new JFormattedTextField(maskData);
 		ftxtDtVenc.setHorizontalAlignment(SwingConstants.CENTER);
-		ftxtDtVenc.setBounds(187, 145, 142, 28);
+		ftxtDtVenc.setBounds(827, 133, 142, 28);
 		ftxtDtVenc.setColumns(10);
 		painel.add(ftxtDtVenc);
 		
+		lblDtPagto = new JLabel("Data de Pagamento");
+		lblDtPagto.setBounds(688, 174, 128, 16);
+		painel.add(lblDtPagto);
+		
+		try {
+			maskData = new MaskFormatter("##/##/####");
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		ftxtDtPagto = new JFormattedTextField(maskData);
+		ftxtDtPagto.setHorizontalAlignment(SwingConstants.CENTER);
+		ftxtDtPagto.setBounds(827, 168, 142, 28);
+		ftxtDtPagto.setColumns(10);
+		painel.add(ftxtDtPagto);
+		
 		lblId = new JLabel("Código");
-		lblId.setBounds(778, 151, 45, 16);
+		lblId.setBounds(107, 565, 45, 16);
 		painel.add(lblId);
 		
 		txtId = new JTextField(20);
 		txtId.setEnabled(false);
 		txtId.setEditable(false);
-		txtId.setBounds(834, 145, 142, 28);
+		txtId.setBounds(163, 559, 142, 28);
 		txtId.setHorizontalAlignment(SwingConstants.CENTER);
 		painel.add(txtId);
 		
 		lblDtReg = new JLabel("Data de Registro");
-		lblDtReg.setBounds(719, 185, 104, 16);
+		lblDtReg.setBounds(48, 600, 104, 16);
 		painel.add(lblDtReg);
 		
 		try {
@@ -167,12 +185,12 @@ public class TelaCondominioMensal extends JFrame {
 		ftxtDtReg.setEnabled(false);
 		ftxtDtReg.setEditable(false);
 		ftxtDtReg.setHorizontalAlignment(SwingConstants.CENTER);
-		ftxtDtReg.setBounds(834, 179, 142, 28);
+		ftxtDtReg.setBounds(163, 594, 142, 28);
 		ftxtDtReg.setColumns(10);
 		painel.add(ftxtDtReg);
 		
 		lblDtAlt = new JLabel("Data de Alteração");
-		lblDtAlt.setBounds(719, 219, 117, 16);
+		lblDtAlt.setBounds(48, 632, 117, 16);
 		painel.add(lblDtAlt);
 		
 		try {
@@ -184,51 +202,70 @@ public class TelaCondominioMensal extends JFrame {
 		ftxtDtAlt.setEnabled(false);
 		ftxtDtAlt.setEditable(false);
 		ftxtDtAlt.setHorizontalAlignment(SwingConstants.CENTER);
-		ftxtDtAlt.setBounds(834, 213, 142, 28);
+		ftxtDtAlt.setBounds(163, 626, 142, 28);
 		ftxtDtAlt.setColumns(10);
 		painel.add(ftxtDtAlt);
 		
 		lblReferencia = new JLabel("Mês de Referência");
-		lblReferencia.setBounds(59, 185, 117, 16);
+		lblReferencia.setBounds(48, 206, 117, 16);
 		painel.add(lblReferencia);
 		
 		cboReferencia = new JComboBox<String>();
-		cboReferencia.setBounds(187, 179, 160, 28);
+		cboReferencia.setBounds(176, 200, 160, 28);
 		painel.add(cboReferencia);
 		
-		txtReferencia = new JTextField(20);
-		txtReferencia.setBounds(387, 179, 142, 28);
-		txtReferencia.setHorizontalAlignment(SwingConstants.CENTER);
-		painel.add(txtReferencia);
+		lblNome = new JLabel("Morador");
+		lblNome.setBounds(104, 240, 61, 16);
+		painel.add(lblNome);
 		
-		lblVlr = new JLabel("Valor");
-		lblVlr.setBounds(144, 219, 32, 16);
+		txtNome = new JTextField(20);
+		txtNome.setBounds(176, 234, 254, 28);
+		painel.add(txtNome);
+		
+		lblMulta = new JLabel("Valor Total");
+		lblMulta.setBounds(748, 240, 68, 16);
+		painel.add(lblMulta);
+		
+		maskValor = new DecimalFormat("#,###,##0.00");
+		NumberFormatter multa = new NumberFormatter(maskValor);
+		multa.setFormat(maskValor);
+		multa.setAllowsInvalid(false);
+		DefaultFormatterFactory dfFactory = new DefaultFormatterFactory(multa);
+		ftxtMulta = new JFormattedTextField(dfFactory);
+		ftxtMulta.setBackground(Color.WHITE);
+		ftxtMulta.setHorizontalAlignment(SwingConstants.RIGHT);
+		ftxtMulta.setBounds(830, 234, 142, 28);
+		ftxtMulta.setColumns(10);
+		painel.add(ftxtMulta);
+		
+		lblVlr = new JLabel("Multa");
+		lblVlr.setBounds(781, 206, 35, 16);
 		painel.add(lblVlr);
 		
 		maskValor = new DecimalFormat("#,###,##0.00");
 		NumberFormatter valor = new NumberFormatter(maskValor);
 		valor.setFormat(maskValor);
 		valor.setAllowsInvalid(false);
-		DefaultFormatterFactory dfFactory = new DefaultFormatterFactory(valor);
-		ftxtValor = new JFormattedTextField(dfFactory);
+		DefaultFormatterFactory dff = new DefaultFormatterFactory(valor);
+		ftxtValor = new JFormattedTextField(dff);
 		ftxtValor.setBackground(Color.WHITE);
 		ftxtValor.setHorizontalAlignment(SwingConstants.RIGHT);
-		ftxtValor.setBounds(187, 213, 142, 28);
+		ftxtValor.setBounds(827, 200, 142, 28);
 		ftxtValor.setColumns(10);
 		painel.add(ftxtValor);
 		
 		lblDespesa = new JLabel("Despesa");
-		lblDespesa.setBounds(123, 253, 53, 16);
+		lblDespesa.setBounds(107, 139, 53, 16);
 		painel.add(lblDespesa);
 		
 		txtDespesa = new JTextField(20);
 		txtDespesa.setName("despesa");
 		txtDespesa.setToolTipText("Digite aqui o termo que deseja pesquisar…");
-		txtDespesa.setBounds(187, 247, 254, 28);
+		txtDespesa.setBounds(171, 133, 254, 28);
 		painel.add(txtDespesa);
 		
-		btnPesquisar = new JButton("Pesquisa");
-		btnPesquisar.setBounds(453, 247, 95, 29);
+		btnPesquisar = new JButton("Pesquisar");
+		btnPesquisar.setBounds(437, 133, 95, 29);
 		painel.add(btnPesquisar);
 		
 		spDespesas = new JScrollPane();
@@ -251,8 +288,8 @@ public class TelaCondominioMensal extends JFrame {
 		ftxtQtd.setBounds(661, 547, 58, 28);
 		painel.add(ftxtQtd);
 		
-		lblVlrTotal = new JLabel("Valor Total");
-		lblVlrTotal.setBounds(750, 553, 73, 16);
+		lblVlrTotal = new JLabel("Valor Mensal");
+		lblVlrTotal.setBounds(742, 553, 81, 16);
 		painel.add(lblVlrTotal);
 		
 		maskValor = new DecimalFormat("R$ #,###,##0.00");
@@ -267,24 +304,16 @@ public class TelaCondominioMensal extends JFrame {
 		ftxtVlrTotal.setColumns(10);
 		painel.add(ftxtVlrTotal);
 		
-		btnCancelar = new JButton("Cancelar");
-		btnCancelar.setBounds(689, 625, 117, 29);
-		painel.add(btnCancelar);
+		JCheckBox chkMulta = new JCheckBox("Prorrogar Multa  para o próximo Mês");
+		chkMulta.setBounds(442, 237, 262, 23);
+		painel.add(chkMulta);
 		
 		btnLimpar = new JButton("Limpar");
-		btnLimpar.setBounds(303, 625, 117, 29);
+		btnLimpar.setBounds(474, 625, 117, 29);
 		painel.add(btnLimpar);
 		
-		btnExcluir = new JButton("Excluir");
-		btnExcluir.setBounds(560, 625, 117, 29);
-		painel.add(btnExcluir);
-		
-		btnEditar = new JButton("Editar");
-		btnEditar.setBounds(431, 625, 117, 29);
-		painel.add(btnEditar);
-		
 		btnSalvar = new JButton("Salvar");
-		btnSalvar.setBounds(431, 625, 117, 29);
+		btnSalvar.setBounds(602, 625, 117, 29);
 		painel.add(btnSalvar);
 		
 		btnVoltar = new JButton("Voltar");
@@ -300,40 +329,34 @@ public class TelaCondominioMensal extends JFrame {
 				this, 
 				painel, 
 				tabDespesa, 
-				lblDtVenc, 
-				lblVlr, 
 				lblId, 
 				lblDtReg, 
 				lblDtAlt, 
 				txtId, 
-				txtReferencia,  
+				txtNome,  
 				txtDespesa, 
 				ftxtDtVenc, 
+				ftxtDtPagto, 
 				ftxtDtReg, 
 				ftxtDtAlt, 
 				ftxtValor, 
+				ftxtMulta, 
 				ftxtQtd, 
 				ftxtVlrTotal, 
 				cboReferencia,
 				cboApto, 
-				btnPesquisar, 
 				btnLimpar, 
-				btnEditar, 
-				btnExcluir, 
-				btnSalvar, 
-				btnCancelar );
+				btnSalvar );
 		
 		tabDespesa.addMouseListener(despesasCtrl.clique);
 		tabDespesa.addKeyListener(despesasCtrl.tecla);
 		txtDespesa.addActionListener(despesasCtrl.pesquisar);
 		txtDespesa.addFocusListener(despesasCtrl.foco);
 		ftxtDtVenc.addFocusListener(despesasCtrl.foco);
+		cboApto.addActionListener(despesasCtrl.filtrar);
 		cboReferencia.addActionListener(despesasCtrl.filtrar);
 		btnPesquisar.addActionListener(despesasCtrl.pesquisar);
 		btnLimpar.addActionListener(despesasCtrl.limpar);
-		btnEditar.addActionListener(despesasCtrl.editar);
-		btnExcluir.addActionListener(despesasCtrl.excluir);
-		btnCancelar.addActionListener(despesasCtrl.cancelar);
 		btnSalvar.addActionListener(despesasCtrl.inserir);
 		btnVoltar.addActionListener(despesasCtrl.voltar);
 	}
