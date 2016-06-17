@@ -87,7 +87,6 @@ public class MoradoresDao implements IMoradoresDao {
 		}
 		rs.close();
 		ps.close();
-		System.out.println(m.getNome());
 		return m;
 	}
 
