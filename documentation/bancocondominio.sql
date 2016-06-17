@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:3306
--- Generation Time: 16-Jun-2016 às 16:57
+-- Generation Time: 16-Jun-2016 às 19:27
 -- Versão do servidor: 5.6.30
 -- PHP Version: 5.6.21
 
@@ -19,6 +19,12 @@ SET time_zone = "+00:00";
 --
 -- Database: `bancocondominio`
 --
+
+CREATE TABLE morador(
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  nome CHAR(100) NOT NULL,
+  telefone CHAR(11) UNIQUE
+);
 
 -- --------------------------------------------------------
 
@@ -53,9 +59,6 @@ INSERT INTO `apartamento` (`id`, `numero`, `quartos`, `ocupacao`, `id_morador`) 
 CREATE TABLE `condominio_mensal` (
   `id` int(11) NOT NULL,
   `idApto` int(11) NOT NULL,
-  `idDespesaApto` int(11) DEFAULT NULL,
-  `idDespesaCond` int(11) DEFAULT NULL,
-  `multa` float NOT NULL,
   `valor` float NOT NULL,
   `dtVencimento` date NOT NULL,
   `dtPagamento` date NOT NULL,
@@ -66,8 +69,8 @@ CREATE TABLE `condominio_mensal` (
 -- Extraindo dados da tabela `condominio_mensal`
 --
 
-INSERT INTO `condominio_mensal` (`id`, `idApto`, `idDespesaApto`, `idDespesaCond`, `multa`, `valor`, `dtVencimento`, `dtPagamento`, `dtProrrogado`) VALUES
-(1, 3, 1, NULL, 21.56, 1099.6, '2016-06-10', '2016-06-11', '2016-07-10');
+INSERT INTO `condominio_mensal` (`id`, `idApto`, `valor`, `dtVencimento`, `dtPagamento`, `dtProrrogado`) VALUES
+(8, 3, 1078.04, '2016-07-10', '2016-07-10', '2016-07-10');
 
 -- --------------------------------------------------------
 
@@ -165,9 +168,7 @@ ALTER TABLE `apartamento`
 --
 ALTER TABLE `condominio_mensal`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `idApto` (`idApto`),
-  ADD KEY `idDespesaApto` (`idDespesaApto`),
-  ADD KEY `idDespesaCond` (`idDespesaCond`);
+  ADD KEY `idApto` (`idApto`);
 
 --
 -- Indexes for table `despesa_apartamento`
@@ -202,7 +203,7 @@ ALTER TABLE `apartamento`
 -- AUTO_INCREMENT for table `condominio_mensal`
 --
 ALTER TABLE `condominio_mensal`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `despesa_apartamento`
 --
@@ -232,9 +233,7 @@ ALTER TABLE `apartamento`
 -- Limitadores para a tabela `condominio_mensal`
 --
 ALTER TABLE `condominio_mensal`
-  ADD CONSTRAINT `condominio_mensal_ibfk_1` FOREIGN KEY (`idApto`) REFERENCES `apartamento` (`id`),
-  ADD CONSTRAINT `condominio_mensal_ibfk_2` FOREIGN KEY (`idDespesaApto`) REFERENCES `despesa_apartamento` (`id`),
-  ADD CONSTRAINT `condominio_mensal_ibfk_3` FOREIGN KEY (`idDespesaCond`) REFERENCES `despesa_condominio` (`id`);
+  ADD CONSTRAINT `condominio_mensal_ibfk_1` FOREIGN KEY (`idApto`) REFERENCES `apartamento` (`id`);
 
 --
 -- Limitadores para a tabela `despesa_apartamento`

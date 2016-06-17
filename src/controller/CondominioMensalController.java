@@ -657,37 +657,36 @@ public class CondominioMensalController implements ComponentListener {
 				ftxtDtVenc.getValue() != null 
 				&& ftxtDtPagto.getValue() != null
 				&& !ftxtValor.getText().isEmpty() ){
-			
+
 			msg( "confirmaSalvar", cboApto.getSelectedItem().toString() );
-			
+
 			if ( validar != false ){
-				
-			for( int i = 0; i < despesas.size(); i++ ){
-				
-					if ( obterMesRef( despesas.get(i).getDtVencimento() ).equals( cboReferencia.getSelectedItem() )
-							){
-//						System.out.println(chkMulta);
-						Condominio despesa = new Condominio();
-						
-						if ( despesas.get(i).getIdApto() > 0 ){
-							despesa.setIdDespesaApto( despesas.get(i).getId() );
-						} else {
-							despesa.setIdDespesaCond( despesas.get(i).getId() );
-						}
-						despesa.setMulta( Float.parseFloat( ftxtMulta.getValue().toString() ));
-						despesa.setValor( Float.parseFloat( ftxtValor.getValue().toString() ));
-						despesa.setDtVencimento( ftxtDtVenc.getText() );
-						despesa.setDtPagamento( ftxtDtVenc.getText() );
-						try {
-							dao.insereCondominio( despesa );
-							condominioMensal.add( despesa );
-							msg( "salvar", txtDespesa.getText() );
-						} catch (SQLException e) {
-							msg( "erro", e.getMessage() );
-						}
-					}
+
+				Condominio despesa = new Condominio();
+
+				for( int i = 0; i < apartamentos.size(); i++ ){
+					if( cboApto.getSelectedItem()
+							.equals( Integer.toString( apartamentos.get(i).getNumero() ))){
+						despesa.setIdApto( apartamentos.get(i).getId() );
+					} 
+				}
+				despesa.setValor( Float.parseFloat( ftxtValor.getValue().toString() ));
+				despesa.setDtVencimento( ftxtDtVenc.getText() );
+				despesa.setDtPagamento( ftxtDtVenc.getText() );
+				if( chkMulta.isSelected() ){
+					despesa.setDtProrrogado( ftxtDtVenc.getText() );
+				} else {
+					despesa.setDtProrrogado( ftxtDtVenc.getText() );
+				}
+				try {
+					dao.insereCondominio( despesa );
+					condominioMensal.add( despesa );
+					msg( "salvar", txtDespesa.getText() );
+				} catch (SQLException e) {
+					msg( "erro", e.getMessage() );
 				}
 			}
+
 		} else {
 			msg( "erroVazio", "" );
 		}

@@ -36,16 +36,12 @@ public class CondominioMensalDao implements ICondominioMensalDao {
 	public void insereCondominio(Condominio despesa) throws SQLException {
 		
 		String sql = "INSERT INTO condominio_mensal ("
-				+ "idApto, idDespesaApto, idDespesaCond, multa, "
-				+ "valor, dtVencimento, dtPagamento, dtProrrogado) "
-				+ "VALUES (?,?,?,?,?,?,?,?)";
+				+ "idApto, valor, dtVencimento, dtPagamento, dtProrrogado) "
+				+ "VALUES (?,?,?,?,?)";
 		
 		PreparedStatement ps = c.prepareStatement( sql );
 		ps.setInt( 1, despesa.getIdApto() );
-		ps.setInt(2, despesa.getIdDespesaApto());
-		ps.setInt(3, despesa.getIdDespesaCond());
-		ps.setFloat( 4, despesa.getMulta() );
-		ps.setFloat( 5, despesa.getValor() );
+		ps.setFloat( 2, despesa.getValor() );
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		Date vencimento = null;
@@ -60,9 +56,9 @@ public class CondominioMensalDao implements ICondominioMensalDao {
 			e.printStackTrace();
 		}
 		
-		ps.setDate( 6, new java.sql.Date( vencimento.getTime( ) ));
-		ps.setDate( 7, new java.sql.Date( pagamento.getTime( ) ));
-		ps.setDate( 8, new java.sql.Date( prorrogado.getTime() ));
+		ps.setDate( 3, new java.sql.Date( vencimento.getTime( ) ));
+		ps.setDate( 4, new java.sql.Date( pagamento.getTime( ) ));
+		ps.setDate( 5, new java.sql.Date( prorrogado.getTime() ));
 		ps.execute();
 		ps.close();
 	}
@@ -71,15 +67,11 @@ public class CondominioMensalDao implements ICondominioMensalDao {
 	public void atualizaCondominio(Condominio despesa) throws SQLException {
 		
 		String sql = "UPDATE condominio_mensal SET "
-				+ "idApto = ?, idDespesaApto = ?, idDespesaCond = ?, multa = ?, "
-				+ "valor = ?, dtVencimento = ?, dtPagamento = ? WHERE id = ?";
+				+ "idApto = ?, valor = ?, dtVencimento = ?, dtPagamento = ? WHERE id = ?";
 		
 		PreparedStatement ps = c.prepareStatement(sql);
 		ps.setInt( 1, despesa.getIdApto() );
-		ps.setInt(2, despesa.getIdDespesaApto());
-		ps.setInt(3, despesa.getIdDespesaCond());
-		ps.setFloat( 4, despesa.getMulta() );
-		ps.setFloat( 5, despesa.getValor() );
+		ps.setFloat( 2, despesa.getValor() );
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		Date vencimento = null;
@@ -94,9 +86,9 @@ public class CondominioMensalDao implements ICondominioMensalDao {
 			e.printStackTrace();
 		}
 		
-		ps.setDate( 6, new java.sql.Date( vencimento.getTime( ) ));
-		ps.setDate( 7, new java.sql.Date( pagamento.getTime( ) ));
-		ps.setDate( 8, new java.sql.Date( prorrogado.getTime() ));
+		ps.setDate( 3, new java.sql.Date( vencimento.getTime( ) ));
+		ps.setDate( 4, new java.sql.Date( pagamento.getTime( ) ));
+		ps.setDate( 5, new java.sql.Date( prorrogado.getTime() ));
 		ps.execute();
 		ps.close();
 	}
@@ -122,14 +114,20 @@ public class CondominioMensalDao implements ICondominioMensalDao {
 		while (rs.next()) {
 			Condominio despesas = new Condominio();
 			despesas.setId( rs.getInt("id") );
-//			despesas.setDespesa( rs.getString("despesa") );
+			despesas.setIdApto( rs.getInt("idApto") );
 			despesas.setValor( rs.getFloat("valor") );
 			
 			DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 			java.util.Date venc = rs.getDate("dtVencimento");
+			java.util.Date pag = rs.getDate("dtPagamento");
+			java.util.Date pro = rs.getDate("dtProrrogado");
 			String dtVenc =  sdf.format( venc );
+			String dtPagto =  sdf.format( pag );
+			String dtPro =  sdf.format( pro );
 			
 			despesas.setDtVencimento( dtVenc );
+			despesas.setDtPagamento( dtPagto );
+			despesas.setDtProrrogado( dtPro );
 			listaCondominio.add( despesas );
 		}
 		rs.close();
