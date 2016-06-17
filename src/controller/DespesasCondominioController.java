@@ -419,7 +419,7 @@ public class DespesasCondominioController implements ComponentListener {
 
 		tabela.getColumnModel().getColumn(0).setCellRenderer(esquerda);
 		tabela.getColumnModel().getColumn(1).setCellRenderer(esquerda);
-		tabela.getColumnModel().getColumn(2).setCellRenderer(esquerda);
+		tabela.getColumnModel().getColumn(2).setCellRenderer(direita);
 		tabela.getColumnModel().getColumn(3).setCellRenderer(centralizado);
 		tabela.getColumnModel().getColumn(4).setCellRenderer(direita);
 		tabela.getColumnModel().getColumn(5).setCellRenderer(centralizado);

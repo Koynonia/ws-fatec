@@ -16,6 +16,7 @@ public class Condominio {
 	private float valor;
 	private String dtVencimento;
 	private String dtPagamento;
+	private String dtProrrogado;
 	
 	
 	public int getId() {
@@ -65,5 +66,11 @@ public class Condominio {
 	}
 	public void setDtPagamento(String dtPagamento) {
 		this.dtPagamento = dtPagamento;
+	}
+	public String getDtProrrogado() {
+		return dtProrrogado;
+	}
+	public void setDtProrrogado(String dtProrrogado) {
+		this.dtProrrogado = dtProrrogado;
 	}
 }

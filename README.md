@@ -49,12 +49,13 @@ CREATE TABLE despesa_apartamento(
 CREATE TABLE condominio_mensal(
   id INT PRIMARY KEY AUTO_INCREMENT,
   idApto INT NOT NULL,
-  idDespesaApto INT NOT NULL,
-  idDespesaCond INT NOT NULL,
+  idDespesaApto INT,
+  idDespesaCond INT, 
   multa FLOAT NOT NULL,
   valor FLOAT NOT NULL,
   dtVencimento DATE NOT NULL,
   dtPagamento DATE NOT NULL,
+  dtProrrogado DATE, 
   FOREIGN KEY(idApto) REFERENCES apartamento(id),
   FOREIGN KEY(idDespesaApto) REFERENCES despesa_apartamento(id),
   FOREIGN KEY(idDespesaCond) REFERENCES despesa_condominio(id)

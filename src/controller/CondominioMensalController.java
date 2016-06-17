@@ -31,6 +31,7 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
@@ -76,6 +77,7 @@ public class CondominioMensalController implements ComponentListener {
 	private JFormattedTextField ftxtVlrTotal;
 	private JComboBox<String> cboReferencia; 
 	private JComboBox<String> cboApto; 
+	private JCheckBox chkMulta; 
 	private JButton btnLimpar; 
 	private JButton btnSalvar; 
 	private boolean validar;
@@ -106,6 +108,7 @@ public class CondominioMensalController implements ComponentListener {
 			JFormattedTextField ftxtVlrTotal, 
 			JComboBox<String> cboReferencia, 
 			JComboBox<String> cboApto, 
+			JCheckBox chkMulta, 
 			JButton btnLimpar, 
 			JButton btnSalvar ) {
 			
@@ -128,6 +131,7 @@ public class CondominioMensalController implements ComponentListener {
 		this.ftxtVlrTotal = ftxtVlrTotal;
 		this.cboReferencia = cboReferencia;
 		this.cboApto = cboApto;
+		this.chkMulta = chkMulta;
 		this.btnLimpar = btnLimpar;
 		this.btnSalvar = btnSalvar;
 		this.moradores = new ArrayList<Moradores>();
@@ -465,7 +469,7 @@ public class CondominioMensalController implements ComponentListener {
 		tabela.getColumnModel().getColumn(0).setCellRenderer(esquerda);
 		tabela.getColumnModel().getColumn(1).setCellRenderer(esquerda);
 		tabela.getColumnModel().getColumn(2).setCellRenderer(centralizado);
-		tabela.getColumnModel().getColumn(3).setCellRenderer(esquerda);
+		tabela.getColumnModel().getColumn(3).setCellRenderer(direita);
 		tabela.getColumnModel().getColumn(4).setCellRenderer(centralizado);
 		tabela.getColumnModel().getColumn(5).setCellRenderer(direita);
 		tabela.getColumnModel().getColumn(6).setCellRenderer(centralizado);
@@ -662,7 +666,7 @@ public class CondominioMensalController implements ComponentListener {
 				
 					if ( obterMesRef( despesas.get(i).getDtVencimento() ).equals( cboReferencia.getSelectedItem() )
 							){
-						
+//						System.out.println(chkMulta);
 						Condominio despesa = new Condominio();
 						
 						if ( despesas.get(i).getIdApto() > 0 ){
@@ -811,7 +815,7 @@ public class CondominioMensalController implements ComponentListener {
 			
 		case "erroVazio":
 			JOptionPane.showMessageDialog(null, 
-					"Os campos da Mensalidade do Condomínio têm que estar preenchidos.",
+					"Todos os campos têm que estar preenchidos\npara a mensalidade do Condomínio",
 					"Erro", 
 					JOptionPane.PLAIN_MESSAGE, 
 					new ImageIcon( diretorio + "/src/resources/warning.png" ));

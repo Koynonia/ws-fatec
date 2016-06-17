@@ -71,6 +71,7 @@ public class TelaCondominioMensal extends JFrame {
 	private JFormattedTextField ftxtVlrTotal;
 	private JComboBox<String> cboReferencia;
 	private JComboBox<String> cboApto;
+	private JCheckBox chkMulta; 
 	private JButton btnPesquisar;
 	private JButton btnLimpar;
 	private JButton btnSalvar;
@@ -304,7 +305,7 @@ public class TelaCondominioMensal extends JFrame {
 		ftxtVlrTotal.setColumns(10);
 		painel.add(ftxtVlrTotal);
 		
-		JCheckBox chkMulta = new JCheckBox("Prorrogar Multa  para o próximo Mês");
+		chkMulta = new JCheckBox("Prorrogar Multa  para o próximo Mês");
 		chkMulta.setBounds(442, 237, 262, 23);
 		painel.add(chkMulta);
 		
@@ -345,6 +346,7 @@ public class TelaCondominioMensal extends JFrame {
 				ftxtVlrTotal, 
 				cboReferencia,
 				cboApto, 
+				chkMulta, 
 				btnLimpar, 
 				btnSalvar );
 		

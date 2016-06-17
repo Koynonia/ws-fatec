@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:3306
--- Generation Time: 16-Jun-2016 às 14:33
+-- Generation Time: 16-Jun-2016 às 16:57
 -- Versão do servidor: 5.6.30
 -- PHP Version: 5.6.21
 
@@ -19,10 +19,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `bancocondominio`
 --
-
-CREATE DATABASE bancoCondominio;
-
-USE bancoCondominio;
 
 -- --------------------------------------------------------
 
@@ -57,13 +53,21 @@ INSERT INTO `apartamento` (`id`, `numero`, `quartos`, `ocupacao`, `id_morador`) 
 CREATE TABLE `condominio_mensal` (
   `id` int(11) NOT NULL,
   `idApto` int(11) NOT NULL,
-  `idDespesaApto` int(11) NOT NULL,
-  `idDespesaCond` int(11) NOT NULL,
+  `idDespesaApto` int(11) DEFAULT NULL,
+  `idDespesaCond` int(11) DEFAULT NULL,
   `multa` float NOT NULL,
   `valor` float NOT NULL,
   `dtVencimento` date NOT NULL,
-  `dtPagamento` date NOT NULL
+  `dtPagamento` date NOT NULL,
+  `dtProrrogado` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `condominio_mensal`
+--
+
+INSERT INTO `condominio_mensal` (`id`, `idApto`, `idDespesaApto`, `idDespesaCond`, `multa`, `valor`, `dtVencimento`, `dtPagamento`, `dtProrrogado`) VALUES
+(1, 3, 1, NULL, 21.56, 1099.6, '2016-06-10', '2016-06-11', '2016-07-10');
 
 -- --------------------------------------------------------
 
@@ -198,7 +202,7 @@ ALTER TABLE `apartamento`
 -- AUTO_INCREMENT for table `condominio_mensal`
 --
 ALTER TABLE `condominio_mensal`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `despesa_apartamento`
 --
