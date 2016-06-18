@@ -3,7 +3,8 @@ PROJETO REALIZAO POR
 DENYS WYLLIAM SILVA & FERNANDO MORAES OLVIEIRA
 
 
-Tabelas do Banco
+A documentação deste sistema se encontra na pasta Documentation juntamente com 
+as tabelas do banco de dados (arquivo bancocondominio.sql).
 
 
 ```
@@ -57,3 +58,6 @@ CREATE TABLE condominio_mensal(
 );
 
 ```
+=======
+Obs.: Para a conexão no banco, trocar o usuário e senha do MySQL 
+na Classe GenericDao (package persistence).

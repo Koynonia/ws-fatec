@@ -347,8 +347,7 @@ public class TelaCondominioMensal extends JFrame {
 				cboReferencia,
 				cboApto, 
 				chkMulta, 
-				btnLimpar, 
-				btnSalvar );
+				btnLimpar );
 		
 		tabDespesa.addMouseListener(despesasCtrl.clique);
 		tabDespesa.addKeyListener(despesasCtrl.tecla);

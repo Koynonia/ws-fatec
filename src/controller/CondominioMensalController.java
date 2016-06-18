@@ -26,6 +26,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -79,7 +80,6 @@ public class CondominioMensalController implements ComponentListener {
 	private JComboBox<String> cboApto; 
 	private JCheckBox chkMulta; 
 	private JButton btnLimpar; 
-	private JButton btnSalvar; 
 	private boolean validar;
 	private String diretorio = "../projects/";
 	private List<Moradores> moradores;
@@ -109,8 +109,7 @@ public class CondominioMensalController implements ComponentListener {
 			JComboBox<String> cboReferencia, 
 			JComboBox<String> cboApto, 
 			JCheckBox chkMulta, 
-			JButton btnLimpar, 
-			JButton btnSalvar ) {
+			JButton btnLimpar ) {
 			
 		this.janela = janela;
 		this.painel = painel;
@@ -133,7 +132,6 @@ public class CondominioMensalController implements ComponentListener {
 		this.cboApto = cboApto;
 		this.chkMulta = chkMulta;
 		this.btnLimpar = btnLimpar;
-		this.btnSalvar = btnSalvar;
 		this.moradores = new ArrayList<Moradores>();
 		this.apartamentos = new ArrayList<Apartamentos>();
 		this.despesas = new ArrayList<Despesas>();
@@ -163,58 +161,12 @@ public class CondominioMensalController implements ComponentListener {
 	}
 
 
-	public String obterData(){
-		DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-		Date date = new Date();
-		String data = (sdf.format(date));
-		return data;
-	}
-	
-	
-	public String obterMesRef( String data ){
-
-		DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		Date dt = null;
-		try {
-			dt = sdf.parse( data );
-		} catch (ParseException e) {
-			msg( "erro", e.getMessage() );
-		}
-		DateFormat ref = new SimpleDateFormat("MMMM/yyyy");
-		String mesRef = (ref.format(dt).toUpperCase());
-		return mesRef;
-	}
-	
-	
-	public String gerarId(){
-		
-		String novoId;
-		if ( despesas.size() > 0){
-			novoId = String.format( "%09d", despesas.get( despesas.size() -1 ).getId() +1 );
-		} else {
-			novoId = String.format( "%09d", 1 );
-		}
-		
-		return novoId;
-	}
-	
-
-	public void focarCampo(){
-
-		SwingUtilities.invokeLater(new Runnable() {  
-			public void run() {  
-				ftxtDtVenc.requestFocus();  
-			}  
-		});
-	}
-	
-	
 	public void alterarCampos ( String opt ){
-		
+
 		switch ( opt ){
-			
+
 		case "protegerCampos":
-			
+
 			tabela.setEnabled(true);
 			tabela.setForeground(Color.black);
 			lblId.setVisible(false);
@@ -228,6 +180,16 @@ public class CondominioMensalController implements ComponentListener {
 			ftxtDtAlt.setVisible(false);
 			break;	
 		}
+	}
+	
+	
+	public void focarCampo(){
+
+		SwingUtilities.invokeLater(new Runnable() {  
+			public void run() {  
+				ftxtDtVenc.requestFocus();  
+			}  
+		});
 	}
 	
 	
@@ -249,6 +211,54 @@ public class CondominioMensalController implements ComponentListener {
 				l.setText(null);
 			}
 		}
+	}
+	
+
+	public String obterDataProrrogar(String data){
+		
+		String dtProrrogado = null;
+		DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		Date dt = null;
+		
+		try {
+			dt = sdf.parse( data );
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		if( ftxtDtVenc.getValue() != null && ftxtDtPagto.getValue() != null ){
+			Calendar c = Calendar.getInstance();
+			 c.setTime( dt );
+			 c.set( Calendar.DAY_OF_MONTH, c.get( Calendar.DAY_OF_MONTH ) +30 );
+			 dtProrrogado = ( sdf.format( c.getTime() ) );
+		} else {
+			msg("Erro nas datas", "Existe um erro nas datas!\nVerifique e tente novamente.");
+		}
+
+		return dtProrrogado;
+	}
+	
+	
+	public String obterData(){
+		DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		Date date = new Date();
+		String data = (sdf.format(date));
+		return data;
+	}
+	
+	
+	public String obterMesRef( String data ){
+
+		DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		Date dt = null;
+		try {
+			dt = sdf.parse( data );
+		} catch (ParseException e) {
+			msg( "erro", e.getMessage() );
+		}
+		DateFormat ref = new SimpleDateFormat("MMMM/yyyy");
+		String mesRef = (ref.format(dt).toUpperCase());
+		return mesRef;
 	}
 	
 	
@@ -329,6 +339,8 @@ public class CondominioMensalController implements ComponentListener {
 				ftxtMulta.setValue( multa );
 				ftxtValor.setValue( aptoVlr + multa );
 			}
+		} else {
+//			msg("Erro nas datas", "Existe um erro nas datas!\nVerifique e tente novamente.");
 		}
 	}
 	
@@ -624,6 +636,60 @@ public class CondominioMensalController implements ComponentListener {
 			formatarTabela( despesas );
 		}
 	}
+	
+	
+	public void salvar() {
+
+		if ( cboApto.getSelectedItem() != "Todos" &&
+				ftxtDtVenc.getValue() != null 
+				&& ftxtDtPagto.getValue() != null
+				&& !ftxtValor.getText().isEmpty() ){
+			
+			for( int i = 0; i < condominioMensal.size(); i++ ){
+				for( int j = 0; j < apartamentos.size(); j++ ){
+					if( apartamentos.get(j).getId() == condominioMensal.get(i).getIdApto() 
+							&& ftxtDtVenc.getText().contains( condominioMensal.get(i).getDtVencimento() ) 
+							){
+						msg( "erroSalvar", cboApto.getSelectedItem().toString() );
+						return;
+					}
+				}
+			}
+			
+
+			msg( "confirmaSalvar", cboApto.getSelectedItem().toString() );
+
+			if ( validar != false ){
+
+				Condominio despesa = new Condominio();
+
+				for( int i = 0; i < apartamentos.size(); i++ ){
+					if( cboApto.getSelectedItem()
+							.equals( Integer.toString( apartamentos.get(i).getNumero() ))){
+						despesa.setIdApto( apartamentos.get(i).getId() );
+					} 
+				}
+				despesa.setValor( Float.parseFloat( ftxtValor.getValue().toString() ));
+				despesa.setDtVencimento( ftxtDtVenc.getText() );
+				despesa.setDtPagamento( ftxtDtVenc.getText() );
+				if( chkMulta.isSelected() ){
+					despesa.setDtProrrogado( obterDataProrrogar( ftxtDtVenc.getText() ));
+				} else {
+					despesa.setDtProrrogado( ftxtDtVenc.getText() );
+				}
+				try {
+					dao.insereCondominio( despesa );
+					condominioMensal.add( despesa );
+					msg( "salvar", txtDespesa.getText() );
+				} catch (SQLException e) {
+					msg( "erro", e.getMessage() );
+				}
+			}
+
+		} else {
+			msg( "erroVazio", "" );
+		}
+	}
 
 	
 	public void editar() {
@@ -647,48 +713,6 @@ public class CondominioMensalController implements ComponentListener {
 				}
 				validar = false;
 			}
-		}
-	}
-	
-	
-	public void salvar() {
-
-		if ( cboApto.getSelectedItem() != "Todos" &&
-				ftxtDtVenc.getValue() != null 
-				&& ftxtDtPagto.getValue() != null
-				&& !ftxtValor.getText().isEmpty() ){
-
-			msg( "confirmaSalvar", cboApto.getSelectedItem().toString() );
-
-			if ( validar != false ){
-
-				Condominio despesa = new Condominio();
-
-				for( int i = 0; i < apartamentos.size(); i++ ){
-					if( cboApto.getSelectedItem()
-							.equals( Integer.toString( apartamentos.get(i).getNumero() ))){
-						despesa.setIdApto( apartamentos.get(i).getId() );
-					} 
-				}
-				despesa.setValor( Float.parseFloat( ftxtValor.getValue().toString() ));
-				despesa.setDtVencimento( ftxtDtVenc.getText() );
-				despesa.setDtPagamento( ftxtDtVenc.getText() );
-				if( chkMulta.isSelected() ){
-					despesa.setDtProrrogado( ftxtDtVenc.getText() );
-				} else {
-					despesa.setDtProrrogado( ftxtDtVenc.getText() );
-				}
-				try {
-					dao.insereCondominio( despesa );
-					condominioMensal.add( despesa );
-					msg( "salvar", txtDespesa.getText() );
-				} catch (SQLException e) {
-					msg( "erro", e.getMessage() );
-				}
-			}
-
-		} else {
-			msg( "erroVazio", "" );
 		}
 	}
 	
@@ -798,7 +822,8 @@ public class CondominioMensalController implements ComponentListener {
 		case "erroSalvar":
 			JOptionPane.showMessageDialog(null, 
 					"Condomínio já cadastrado!\n\n"
-							+ "Verifique sua digitação ou escolha um nome de Usuário diferente.",
+							+ "Apatarmento " + mensagem + " já possui o registro.\n"
+							+ "Selecione outro apartamento para registrar a mensalidade.",
 					"Já Cadastrado", 
 					JOptionPane.PLAIN_MESSAGE, 
 					new ImageIcon( diretorio + "/src/resources/warning.png" ));
@@ -887,7 +912,6 @@ public class CondominioMensalController implements ComponentListener {
 		public void actionPerformed(ActionEvent e) {
 			
 			limparCampos();
-			txtId.setText( gerarId() );
 			ftxtDtReg.setText( obterData() );
 			ftxtDtAlt.setText( obterData() );
 			atualizarMensal( despesas );

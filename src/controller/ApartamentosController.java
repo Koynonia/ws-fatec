@@ -79,7 +79,7 @@ public class ApartamentosController {
 			apartamento = aDao.consultaApartamento(a);
 			if (apartamento.getOcupacao() == null) {
 				JOptionPane.showMessageDialog(null, 
-						"Apartamento não encontrado", "ERRO",
+						"Apartamento nï¿½o encontrado", "ERRO",
 						JOptionPane.INFORMATION_MESSAGE);
 				apartamento.setId(-1);
 				return apartamento;
@@ -106,7 +106,7 @@ public class ApartamentosController {
 			morador = mDao.consultaMorador(m);
 
 			return morador;
-			// trocar isso aqui
+			
 		} catch (SQLException e) {
 
 			JOptionPane.showMessageDialog(null, e.getMessage(),
