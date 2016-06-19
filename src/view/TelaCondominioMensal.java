@@ -52,15 +52,15 @@ public class TelaCondominioMensal extends JFrame {
 	private JLabel lblDtReg;
 	private JLabel lblDtAlt;
 	private JLabel lblReferencia;
-	private JLabel lblVlr;
 	private JLabel lblMulta;
+	private JLabel lblVlr;
 	private JLabel lblNome;
 	private JLabel lblDespesa;
 	private JLabel lblQtd;
 	private JLabel lblVlrTotal;
 	private JTextField txtId;
 	private JTextField txtNome;
-	private JTextField txtDespesa;
+	private JTextField txtPesquisa;
 	private JFormattedTextField ftxtDtVenc;
 	private JFormattedTextField ftxtDtPagto;
 	private JFormattedTextField ftxtDtReg;
@@ -223,9 +223,9 @@ public class TelaCondominioMensal extends JFrame {
 		txtNome.setBounds(176, 234, 254, 28);
 		painel.add(txtNome);
 		
-		lblMulta = new JLabel("Valor Total");
-		lblMulta.setBounds(748, 240, 68, 16);
-		painel.add(lblMulta);
+		lblVlr = new JLabel("Valor Total");
+		lblVlr.setBounds(748, 240, 68, 16);
+		painel.add(lblVlr);
 		
 		maskValor = new DecimalFormat("#,###,##0.00");
 		NumberFormatter multa = new NumberFormatter(maskValor);
@@ -239,9 +239,9 @@ public class TelaCondominioMensal extends JFrame {
 		ftxtMulta.setColumns(10);
 		painel.add(ftxtMulta);
 		
-		lblVlr = new JLabel("Multa");
-		lblVlr.setBounds(781, 206, 35, 16);
-		painel.add(lblVlr);
+		lblMulta = new JLabel("Multa");
+		lblMulta.setBounds(748, 206, 68, 16);
+		painel.add(lblMulta);
 		
 		maskValor = new DecimalFormat("#,###,##0.00");
 		NumberFormatter valor = new NumberFormatter(maskValor);
@@ -259,11 +259,11 @@ public class TelaCondominioMensal extends JFrame {
 		lblDespesa.setBounds(107, 139, 53, 16);
 		painel.add(lblDespesa);
 		
-		txtDespesa = new JTextField(20);
-		txtDespesa.setName("despesa");
-		txtDespesa.setToolTipText("Digite aqui o termo que deseja pesquisar…");
-		txtDespesa.setBounds(171, 133, 254, 28);
-		painel.add(txtDespesa);
+		txtPesquisa = new JTextField(20);
+		txtPesquisa.setName("despesa");
+		txtPesquisa.setToolTipText("Digite aqui o termo que deseja pesquisar…");
+		txtPesquisa.setBounds(171, 133, 254, 28);
+		painel.add(txtPesquisa);
 		
 		btnPesquisar = new JButton("Pesquisar");
 		btnPesquisar.setBounds(437, 133, 95, 29);
@@ -305,8 +305,8 @@ public class TelaCondominioMensal extends JFrame {
 		ftxtVlrTotal.setColumns(10);
 		painel.add(ftxtVlrTotal);
 		
-		chkMulta = new JCheckBox("Prorrogar Multa  para o próximo Mês");
-		chkMulta.setBounds(442, 237, 262, 23);
+		chkMulta = new JCheckBox("Prorrogar para o próximo Mês - ");
+		chkMulta.setBounds(514, 203, 235, 23);
 		painel.add(chkMulta);
 		
 		btnLimpar = new JButton("Limpar");
@@ -333,9 +333,10 @@ public class TelaCondominioMensal extends JFrame {
 				lblId, 
 				lblDtReg, 
 				lblDtAlt, 
+				lblMulta, 
 				txtId, 
 				txtNome,  
-				txtDespesa, 
+				txtPesquisa, 
 				ftxtDtVenc, 
 				ftxtDtPagto, 
 				ftxtDtReg, 
@@ -351,12 +352,13 @@ public class TelaCondominioMensal extends JFrame {
 		
 		tabDespesa.addMouseListener(despesasCtrl.clique);
 		tabDespesa.addKeyListener(despesasCtrl.tecla);
-		txtDespesa.addActionListener(despesasCtrl.pesquisar);
-		txtDespesa.addFocusListener(despesasCtrl.foco);
-		ftxtDtVenc.addFocusListener(despesasCtrl.foco);
+		txtPesquisa.addActionListener(despesasCtrl.pesquisar);
+		ftxtDtPagto.addActionListener(despesasCtrl.atualizar);
 		ftxtDtPagto.addFocusListener(despesasCtrl.foco);
+		chkMulta.addActionListener(despesasCtrl.atualizar);
 		cboApto.addActionListener(despesasCtrl.filtrar);
 		cboReferencia.addActionListener(despesasCtrl.filtrar);
+		cboReferencia.addActionListener(despesasCtrl.atualizar);
 		btnPesquisar.addActionListener(despesasCtrl.pesquisar);
 		btnLimpar.addActionListener(despesasCtrl.limpar);
 		btnSalvar.addActionListener(despesasCtrl.inserir);

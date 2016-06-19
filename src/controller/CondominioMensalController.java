@@ -52,6 +52,7 @@ import model.Condominio;
 import model.Despesas;
 import model.Moradores;
 import persistence.CondominioMensalDao;
+import persistence.DespesasApartamentoDao;
 import view.TelaCondominioMensal;
 import view.TelaDespesaApartamento;
 import view.TelaDespesaCondominio;
@@ -65,9 +66,10 @@ public class CondominioMensalController implements ComponentListener {
 	private JLabel lblId; 
 	private JLabel lblDtReg;
 	private JLabel lblDtAlt;
+	private JLabel lblMulta; 
 	private JTextField txtId; 
 	private JTextField txtNome; 
-	private JTextField txtDespesa; 
+	private JTextField txtPesquisa; 
 	private JFormattedTextField ftxtDtVenc; 
 	private JFormattedTextField ftxtDtPagto; 
 	private JFormattedTextField ftxtDtReg;
@@ -87,6 +89,7 @@ public class CondominioMensalController implements ComponentListener {
 	private List<Despesas> despesas;
 	private List<Condominio> condominioMensal;
 	private CondominioMensalDao dao = new CondominioMensalDao();
+	private DespesasApartamentoDao daoApto = new DespesasApartamentoDao();
 
 	public CondominioMensalController( 
 			TelaCondominioMensal janela, 
@@ -95,9 +98,10 @@ public class CondominioMensalController implements ComponentListener {
 			JLabel lblId, 
 			JLabel lblDtReg, 
 			JLabel lblDtAlt, 
+			JLabel lblMulta, 
 			JTextField txtId, 
 			JTextField txtNome, 
-			JTextField txtDespesa, 
+			JTextField txtPesquisa, 
 			JFormattedTextField ftxtDtVenc, 
 			JFormattedTextField ftxtDtPagto, 
 			JFormattedTextField ftxtDtReg, 
@@ -117,9 +121,10 @@ public class CondominioMensalController implements ComponentListener {
 		this.lblId = lblId;
 		this.lblDtReg = lblDtReg;
 		this.lblDtAlt = lblDtAlt;
+		this.lblMulta = lblMulta;
 		this.txtId = txtId;
 		this.txtNome = txtNome;
-		this.txtDespesa = txtDespesa;
+		this.txtPesquisa = txtPesquisa;
 		this.ftxtDtVenc = ftxtDtVenc;
 		this.ftxtDtPagto = ftxtDtPagto;
 		this.ftxtDtReg = ftxtDtReg;
@@ -172,12 +177,15 @@ public class CondominioMensalController implements ComponentListener {
 			lblId.setVisible(false);
 			lblDtReg.setVisible(false);
 			lblDtAlt.setVisible(false);
+			lblMulta.setVisible(false);
 			txtNome.setEnabled(false);
 			txtId.setVisible(false);
 			ftxtMulta.setEditable(false);
+			ftxtMulta.setVisible(false);
 			ftxtValor.setEditable(false);
 			ftxtDtReg.setVisible(false);
 			ftxtDtAlt.setVisible(false);
+			chkMulta.setVisible(false);
 			break;	
 		}
 	}
@@ -213,7 +221,7 @@ public class CondominioMensalController implements ComponentListener {
 		}
 	}
 	
-
+	
 	public String obterDataProrrogar(String data){
 		
 		String dtProrrogado = null;
@@ -259,6 +267,24 @@ public class CondominioMensalController implements ComponentListener {
 		DateFormat ref = new SimpleDateFormat("MMMM/yyyy");
 		String mesRef = (ref.format(dt).toUpperCase());
 		return mesRef;
+	}
+	
+	
+	public String obterDataVencimento(){
+
+		DateFormat df = new SimpleDateFormat("MMMM/yyyy");
+		Date dt = null;
+		
+		try {
+			dt = df.parse( cboReferencia.getSelectedItem().toString() );
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		DateFormat ref = new SimpleDateFormat("MM/yyyy");
+		String venc ="10/" +  ref.format( dt );
+		
+		return venc;
 	}
 	
 	
@@ -322,11 +348,12 @@ public class CondominioMensalController implements ComponentListener {
 		
 		ftxtValor.setValue( aptoVlr );
 		ftxtVlrTotal.setValue( aptoVlr );
-		
+
 		if( ftxtDtVenc.getValue() != null && ftxtDtPagto.getValue() != null ){
 			DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 			Date venc = null;
 			Date pagto = null;
+
 			try {
 				venc = df.parse((String) ftxtDtVenc.getValue());
 				pagto = df.parse((String) ftxtDtPagto.getValue());
@@ -335,12 +362,27 @@ public class CondominioMensalController implements ComponentListener {
 			}
 
 			if(venc.before(pagto)){
+				if ( !chkMulta.isSelected() ){
 				float multa = ( aptoVlr * 2 ) / 100;
 				ftxtMulta.setValue( multa );
 				ftxtValor.setValue( aptoVlr + multa );
+				lblMulta.setText("Multa (2 %)");
+				lblMulta.setVisible(true);
+				ftxtMulta.setVisible(true);
+				chkMulta.setVisible(true);
+				} else {
+					float multa = ( aptoVlr * 5 ) / 100;
+					lblMulta.setText("Multa (5 %)");
+					ftxtMulta.setValue( multa );
+					ftxtValor.setValue( aptoVlr + multa );
+				}
+			} else {
+				ftxtMulta.setValue( null );
+				ftxtValor.setValue( aptoVlr );
+				lblMulta.setVisible(false);
+				ftxtMulta.setVisible(false);
+				chkMulta.setVisible(false);
 			}
-		} else {
-//			msg("Erro nas datas", "Existe um erro nas datas!\nVerifique e tente novamente.");
 		}
 	}
 	
@@ -418,12 +460,24 @@ public class CondominioMensalController implements ComponentListener {
 	public void formatarTabela( List<Despesas> lista ){
 
 		List<String[]> linhas = new ArrayList<>(); 
-
+		int idApto;
+		
 		if(lista != null){
+			
 			DecimalFormat formato = new DecimalFormat("#,##0.00");
+			
+			for ( int i = 0; i < apartamentos.size(); i++ ) {
+				
+				if( cboApto.getSelectedItem().equals(apartamentos.get(i).getNumero() )){
+					
+					idApto = apartamentos.get(i).getId();
+				}
+			}
+			
+			
 			for ( int i = 0; i < lista.size(); i++ ) {
 				if ( cboReferencia.getSelectedItem() == "Todos os Meses" && cboApto.getSelectedItem() == "Todos" 
-						|| obterMesRef( lista.get(i).getDtVencimento()).equals( cboReferencia.getSelectedItem()) 
+						|| cboReferencia.getSelectedItem().equals( obterMesRef( lista.get(i).getDtVencimento()) ) 
 						){
 					
 					String numApto = null;
@@ -511,7 +565,6 @@ public class CondominioMensalController implements ComponentListener {
 		if ( tabela.getSelectedRowCount() == 0 ) {
 			msg( "erroLinha", "" );
 			validar = true;
-			this.cancelar.actionPerformed(null);
 		} else {
 			if( tabela.getRowCount() > 0 ){
 				for( int i = 0; i < despesas.size(); i ++ ){
@@ -608,7 +661,7 @@ public class CondominioMensalController implements ComponentListener {
 		if ( !despesas.isEmpty() ) {
 			for ( int i = 0; i < despesas.size(); i++ ) {
 				boolean filtro = despesas.get(i).getDespesa().toLowerCase()
-						.contains( txtDespesa.getText().toLowerCase() );
+						.contains( txtPesquisa.getText().toLowerCase() );
 
 				if ( filtro == true ) {
 
@@ -622,7 +675,7 @@ public class CondominioMensalController implements ComponentListener {
 				} else {
 					if ( i == despesas.size()-1 ){
 						if ( validar != true ){
-							msg( "vazioPesquisa", txtDespesa.getText() );
+							msg( "vazioPesquisa", txtPesquisa.getText() );
 						}
 					}
 				}
@@ -632,8 +685,57 @@ public class CondominioMensalController implements ComponentListener {
 				validar = false;
 			}
 		} else {
-			msg( "erroPesquisa", txtDespesa.getText() );
+			msg( "erroPesquisa", txtPesquisa.getText() );
 			formatarTabela( despesas );
+		}
+	}
+	
+	
+	public void multa(){
+
+		for( int i = 0; i < condominioMensal.size(); i++ ){
+			
+			if( condominioMensal.get(i).getDtProrrogado() !=  condominioMensal.get(i).getDtVencimento() ){
+				
+				if( !despesas.get(i).equals( "Multa prorrogada (" + condominioMensal.get(i).getDtVencimento() + ")") ){
+					
+				DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+				Date venc = null;
+				Date pro = null;
+
+				try {
+					venc = df.parse((String) condominioMensal.get(i).getDtVencimento() );
+					pro = df.parse((String) condominioMensal.get(i).getDtProrrogado() );
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				
+				DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+				DateFormat inv = new SimpleDateFormat("yyyy.MM.dd");
+				Date dt = null;
+					try {
+						dt = sdf.parse( condominioMensal.get(i).getDtProrrogado() );
+					} catch (ParseException e1) {
+						e1.printStackTrace();
+					}
+				
+				if(venc.before(pro)){
+					Despesas despesa = new Despesas();
+					
+					despesa.setId( condominioMensal.get(i).getIdApto() );
+					despesa.setDespesa( "Multa prorrogada (" + condominioMensal.get(i).getDtVencimento() + ")" );
+					despesa.setValor( ( condominioMensal.get(i).getValor() * 5 ) / 100 );
+					despesa.setDtVencimento( inv.format( dt ) );
+					despesa.setDtReferencia( inv.format( dt ) );
+					despesas.add( despesa );
+					try {
+						daoApto.insereDespesaApartamento( despesa, condominioMensal.get(i).getIdApto() );
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			}
 		}
 	}
 	
@@ -647,17 +749,22 @@ public class CondominioMensalController implements ComponentListener {
 			
 			for( int i = 0; i < condominioMensal.size(); i++ ){
 				for( int j = 0; j < apartamentos.size(); j++ ){
+
 					if( apartamentos.get(j).getId() == condominioMensal.get(i).getIdApto() 
-							&& ftxtDtVenc.getText().contains( condominioMensal.get(i).getDtVencimento() ) 
+							&& obterMesRef( ftxtDtVenc.getText() )
+							.contains( obterMesRef( condominioMensal.get(i).getDtVencimento() )) 
 							){
-						msg( "erroSalvar", cboApto.getSelectedItem().toString() );
-						return;
+						
+						if ( cboApto.getSelectedItem().equals( Integer.toString( apartamentos.get(j).getNumero() )) ){
+							msg( "erroSalvar", cboApto.getSelectedItem().toString() );
+							return;
+									
+						} else {
+							msg( "confirmaSalvar", cboApto.getSelectedItem().toString() );
+						}
 					}
 				}
-			}
-			
-
-			msg( "confirmaSalvar", cboApto.getSelectedItem().toString() );
+			}		
 
 			if ( validar != false ){
 
@@ -680,7 +787,10 @@ public class CondominioMensalController implements ComponentListener {
 				try {
 					dao.insereCondominio( despesa );
 					condominioMensal.add( despesa );
-					msg( "salvar", txtDespesa.getText() );
+					if( chkMulta.isSelected() ){
+						multa();
+					}
+					msg( "salvar", txtPesquisa.getText() );
 				} catch (SQLException e) {
 					msg( "erro", e.getMessage() );
 				}
@@ -697,7 +807,7 @@ public class CondominioMensalController implements ComponentListener {
 		for( int i = 0; i < condominioMensal.size(); i ++ ){
 			if( (tabela.getValueAt(tabela.getSelectedRow(), 0).toString())
 					.equals(Integer.toString(despesas.get(i).getId()))){			
-				msg( "confirmaEditar", txtDespesa.getText() );
+				msg( "confirmaEditar", txtPesquisa.getText() );
 				if (validar != false){
 					Condominio despesa = new Condominio();
 					despesa.setId( Integer.parseInt( txtId.getText() ));
@@ -706,7 +816,7 @@ public class CondominioMensalController implements ComponentListener {
 					try {
 						dao.atualizaCondominio( despesa );
 						condominioMensal.set( i, despesa );
-						msg( "editar", txtDespesa.getText() );
+						msg( "editar", txtPesquisa.getText() );
 					} catch (SQLException e) {
 						msg( "erro", e.getMessage() );
 					}
@@ -722,7 +832,7 @@ public class CondominioMensalController implements ComponentListener {
 		for( int i = 0; i < despesas.size(); i ++ ){
 			if( (tabela.getValueAt(tabela.getSelectedRow(), 0).toString())
 					.equals(Integer.toString(despesas.get(i).getId()))){
-				msg( "confirmaExcluir", txtDespesa.getText() );
+				msg( "confirmaExcluir", txtPesquisa.getText() );
 				if (validar != false){
 					Condominio despesa = new Condominio();
 					despesa.setId( despesas.get(i).getId() );
@@ -732,7 +842,7 @@ public class CondominioMensalController implements ComponentListener {
 						dao.excluiCondominio( despesa );
 						despesas.remove(i);
 						removerTabLinha();
-						msg( "excluir", txtDespesa.getText() );
+						msg( "excluir", txtPesquisa.getText() );
 					} catch (SQLException e) {
 						msg( "erro", e.getMessage() );
 					}
@@ -822,9 +932,9 @@ public class CondominioMensalController implements ComponentListener {
 		case "erroSalvar":
 			JOptionPane.showMessageDialog(null, 
 					"Condomínio já cadastrado!\n\n"
-							+ "Apatarmento " + mensagem + " já possui o registro.\n"
-							+ "Selecione outro apartamento para registrar a mensalidade.",
-					"Já Cadastrado", 
+							+ "O condomnio do apartamento " + mensagem + " já foi registrado.\n"
+							+ "Selecione outro apartamento para novo registro.",
+					"Atenção!", 
 					JOptionPane.PLAIN_MESSAGE, 
 					new ImageIcon( diretorio + "/src/resources/warning.png" ));
 			break;
@@ -930,26 +1040,18 @@ public class CondominioMensalController implements ComponentListener {
 		public void actionPerformed(ActionEvent e) {
 
 			formatarTabela( despesas );
-			preencherMorador();
-			
+			ftxtDtVenc.setText( obterDataVencimento() );
+			atualizarMensal( despesas );
+			preencherMorador();		
 		}
 	};
 	
-
-	public ActionListener cancelar = new ActionListener() {
+	public ActionListener atualizar = new ActionListener() {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
-			txtId.setText( null );
-			ftxtDtReg.setText( null );
-			ftxtDtAlt.setText( null );
-			cboApto.setSelectedIndex(0);
-			txtDespesa.setText(null);
-			alterarCampos ("protegerCampos");
-			btnLimpar.setEnabled(true);
+
 			atualizarMensal( despesas );
-			atualizarTotal( despesas );
 		}
 	};
 
@@ -1013,6 +1115,7 @@ public class CondominioMensalController implements ComponentListener {
 
 		@Override  
 		public void keyTyped(KeyEvent e) {
+			
 		}
 
 		@Override
@@ -1042,16 +1145,16 @@ public class CondominioMensalController implements ComponentListener {
 
 		@Override
 		public void keyReleased(KeyEvent e) {
-
+			
 		}
 	};
 	
-	
+
 	public FocusListener foco = new FocusListener(){
 
 		@Override
 		public void focusGained(FocusEvent e) {
-			
+			atualizarMensal( despesas );
 		}
 
 		@Override

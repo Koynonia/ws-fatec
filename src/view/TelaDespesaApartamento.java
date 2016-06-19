@@ -404,6 +404,7 @@ public class TelaDespesaApartamento extends JFrame implements ActionListener {
 		model.setRowCount(0);
 
 		if (idApto > 0) {
+			
 			Double valorTotal = 0.0;
 			for (Despesas d : listaDespesas) {
 				Object[] linha = new Object[5];
