@@ -149,7 +149,7 @@ public class CondominioMensalController implements ComponentListener {
 	}
 	
 
-	public void iniciar(){
+	private void iniciar(){
 		
 		carregarMoradores();
 		carregarAptos();
@@ -165,7 +165,7 @@ public class CondominioMensalController implements ComponentListener {
 	}
 
 
-	public void alterarCampos ( String opt ){
+	private void alterarCampos ( String opt ){
 
 		switch ( opt ){
 
@@ -190,7 +190,7 @@ public class CondominioMensalController implements ComponentListener {
 	}
 	
 	
-	public void focarCampo(){
+	private void focarCampo(){
 
 		SwingUtilities.invokeLater(new Runnable() {  
 			public void run() {  
@@ -200,7 +200,7 @@ public class CondominioMensalController implements ComponentListener {
 	}
 	
 	
-	public void limparCampos(){
+	private void limparCampos(){
 
 		for (Component p : painel.getComponents()) {
 			if ( p instanceof JTextField ) {
@@ -221,7 +221,7 @@ public class CondominioMensalController implements ComponentListener {
 	}
 	
 	
-	public String obterDataProrrogada(String data){
+	private String obterDataProrrogada(String data){
 		
 		String dtProrrogado = null;
 		DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -246,7 +246,7 @@ public class CondominioMensalController implements ComponentListener {
 	}
 	
 	
-	public String obterDataAtual(){
+	private String obterDataAtual(){
 		DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		Date date = new Date();
 		String data = (sdf.format(date));
@@ -254,7 +254,7 @@ public class CondominioMensalController implements ComponentListener {
 	}
 	
 	
-	public String obterMesRef( String data ){
+	private String obterMesRef( String data ){
 
 		DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		Date dt = null;
@@ -269,7 +269,7 @@ public class CondominioMensalController implements ComponentListener {
 	}
 	
 	
-	public String obterDataVencimento(){
+	private String obterDataVencimento(){
 		
 		String venc = null;
 		
@@ -290,7 +290,7 @@ public class CondominioMensalController implements ComponentListener {
 	}
 	
 	
-	public void atualizarTotal( List<Despesas> lista ){
+	private void atualizarTotal( List<Despesas> lista ){
 
 		float totalVlr = 0;
 		int qtd = 1;
@@ -307,7 +307,7 @@ public class CondominioMensalController implements ComponentListener {
 	}
 	
 	
-	public void atualizarMensal( List<Despesas> despesa ){
+	private void atualizarMensal( List<Despesas> despesa ){
 
 		float condVlr = 0;
 		float aptoVlr = 0;
@@ -388,7 +388,7 @@ public class CondominioMensalController implements ComponentListener {
 	}
 	
 	
-	public void preencherMorador(){
+	private void preencherMorador(){
 
 		if( cboApto.getSelectedItem() == "Todos" ){
 			txtNome.setText( null );
@@ -403,14 +403,14 @@ public class CondominioMensalController implements ComponentListener {
 	}
 	
 	
-	public void preencherFiltro(){
+	private void preencherFiltro(){
 		
 		cboFiltro.addItem( "Despesas" );
 		cboFiltro.addItem( "Mensalidades" );
 	}
 	
 	
-	public void preencherReferencia(){
+	private void preencherReferencia(){
 
 		String [] ordena = new String[despesas.size()];
 		ArrayList<String> referencias = new ArrayList<>();
@@ -438,7 +438,7 @@ public class CondominioMensalController implements ComponentListener {
 	}
 	
 	
-	public void preencherApto(){
+	private void preencherApto(){
 
 		int [] ordena = new int[apartamentos.size()];
 		ArrayList<String> apto = new ArrayList<>();
@@ -465,7 +465,7 @@ public class CondominioMensalController implements ComponentListener {
 	}
 
 
-	public void preencherTabelaDespesas( List<Despesas> lista ){
+	private void preencherTabelaDespesas( List<Despesas> lista ){
 
 		List<String[]> linhas = new ArrayList<>(); 
 		int idApto = 0;
@@ -566,13 +566,14 @@ public class CondominioMensalController implements ComponentListener {
 	}
 	
 	
-	public void preencherTabelaMensalidades( List<Condominio> lista ){
+	private void preencherTabelaMensalidades( List<Condominio> lista ){
 
 		List<String[]> linhas = new ArrayList<>(); 
 		
 		if(lista != null){		
 			String numApto = null;
 			String multa = null;
+			String dtProrroga = null;
 			float calc = 0;
 			
 			DecimalFormat formato = new DecimalFormat("#,##0.00");
@@ -594,14 +595,17 @@ public class CondominioMensalController implements ComponentListener {
 					
 					if ( condominioMensal.get(i).getDtVencimento()
 							.equals( condominioMensal.get(i).getDtPagamento() )){
+						dtProrroga = null;
 						multa = null;
 					} else if ( condominioMensal.get(i).getDtVencimento()
 							.equals( condominioMensal.get(i).getDtProrrogado() )){
 						calc = ( lista.get(i).getValor() * 2 ) / 100;
 						multa = formato.format( calc ) + " (2 %)";
+						dtProrroga = null;
 					} else {
 						calc = ( lista.get(i).getValor() * 5 ) / 100;
 						multa = formato.format( calc ) + " (5 %)";
+						dtProrroga = lista.get(i).getDtProrrogado();
 					}
 					
 				String[] item = { 
@@ -610,7 +614,7 @@ public class CondominioMensalController implements ComponentListener {
 						obterMesRef( lista.get(i).getDtVencimento() ), 
 						lista.get(i).getDtVencimento(), 
 						lista.get(i).getDtPagamento(), 
-						lista.get(i).getDtProrrogado(), 
+						dtProrroga, 
 						formato.format( lista.get(i).getValor() ), 
 						multa, 
 						formato.format( lista.get(i).getValor() + calc ), 
@@ -688,7 +692,7 @@ public class CondominioMensalController implements ComponentListener {
 	}
 	
 	
-	public void selecionarTabLinha() throws ParseException{
+	private void selecionarTabLinha() throws ParseException{
 
 		if ( tabela.getSelectedRowCount() == 0 ) {
 			msg( "erroLinha", "" );
@@ -741,7 +745,7 @@ public class CondominioMensalController implements ComponentListener {
 	}
 	
 	
-	public void editarTabLinha() throws ParseException{
+	private void editarTabLinha() throws ParseException{
 
 		if ( tabela.getSelectedRowCount() == 0 ) {
 			msg( "erroLinha", "" );
@@ -854,7 +858,7 @@ public class CondominioMensalController implements ComponentListener {
 	}
 	
 	
-	public void multa(){
+	private void multa(){
 
 		for( int i = 0; i < condominioMensal.size(); i++ ){
 			
@@ -1015,7 +1019,7 @@ public class CondominioMensalController implements ComponentListener {
 	}
 
 
-	public void msg( String tipo, String mensagem ) {
+	private void msg( String tipo, String mensagem ) {
 		
 		janela.setAlwaysOnTop ( false );
 
@@ -1146,26 +1150,9 @@ public class CondominioMensalController implements ComponentListener {
 	}
 	
 
-	public void fechar(){
+	private void fechar(){
 		if(janela != null)
 			janela.dispose();
-	}
-
-	public void mostrar(){
-		if(janela != null)
-			janela.setVisible(true);
-	}
-
-	public void esconder(){
-		if(janela != null)
-			janela.setVisible(false);
-	}
-
-	public void sair(){
-		msg("sistema","Fechamento");
-		if(validar == true){
-			System.exit(0);
-		}
 	}
 	
 	
