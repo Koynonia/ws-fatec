@@ -8,8 +8,7 @@ as tabelas do banco de dados (arquivo bancocondominio.sql).
 Obs.: Para a conexão no banco, trocar o usuário e senha do MySQL 
 na Classe GenericDao (package persistence).
 
-A documentação deste sistema se encontra na pasta Documentation juntamente com 
-as tabelas do banco de dados (arquivo bancocondominio.sql).
+
 
 
 ```
@@ -63,6 +62,3 @@ CREATE TABLE condominio_mensal(
 );
 
 ```
-=======
-Obs.: Para a conexão no banco, trocar o usuário e senha do MySQL 
-na Classe GenericDao (package persistence).
