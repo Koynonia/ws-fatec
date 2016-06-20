@@ -824,9 +824,10 @@ public class CondominioMensalController implements ComponentListener {
 						for( int c = 0; c < condominioMensal.size(); c++ ){
 
 							if( condominioMensal.get(d).getId() == condominioMensal.get(c).getId()){
+								
 								cboReferencia.setSelectedItem( obterMesRef( condominioMensal.get(c).getDtVencimento() ));
 								ftxtDtVenc.setText( condominioMensal.get(c).getDtVencimento() );
-
+								ftxtValor.setValue( condominioMensal.get(c).getValor() );
 								if ( condominioMensal.get(c).getDtVencimento()
 										.equals( condominioMensal.get(c).getDtProrrogado() )){
 									ftxtDtPagto.setText( condominioMensal.get(c).getDtPagamento() );
@@ -836,7 +837,6 @@ public class CondominioMensalController implements ComponentListener {
 								} 
 							}
 							preencherMorador();
-							totalCondominio( condominioMensal );
 						}
 						return;
 					}
