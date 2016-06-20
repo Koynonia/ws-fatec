@@ -466,31 +466,31 @@ public class CondominioMensalController implements ComponentListener {
 
 
 	private void preencherTabelaDespesas( List<Despesas> lista ){
-
-		List<String[]> linhas = new ArrayList<>(); 
-		int idApto = 0;
 		
-		if(lista != null){
-			
+		List<String[]> linhas = new ArrayList<>();
+		
+		if(lista != null){	
+			String numApto = null;
+
 			DecimalFormat formato = new DecimalFormat("#,##0.00");
-			
-			for ( int i = 0; i < apartamentos.size(); i++ ) {
 				
-				if( cboApto.getSelectedItem().equals(apartamentos.get(i).getNumero() )){				
-					idApto = apartamentos.get(i).getId();
-				}
-			}			
-			
 			for ( int i = 0; i < lista.size(); i++ ) {
-				if ( cboReferencia.getSelectedItem() == "Todos os Meses" && cboApto.getSelectedItem() == "Todos" 
-						|| cboReferencia.getSelectedItem().equals( obterMesRef( lista.get(i).getDtVencimento()) ) 
+				
+				for ( int a = 0; a < apartamentos.size(); a++ ){
+					if ( apartamentos.get(a).getId() == despesas.get(i).getIdApto() ){
+						numApto = Integer.toString( apartamentos.get(a).getNumero() );
+					}
+				}
+				
+				if ( cboReferencia.getSelectedItem() == "Todos os Meses" 
+						&& cboApto.getSelectedItem() == "Todos" 
+						|| cboReferencia.getSelectedItem().
+						equals( obterMesRef( lista.get(i).getDtVencimento()) ) 
+						|| cboApto.getSelectedItem().equals( numApto ) 
 						){
 					
-					String numApto = null;
-					if ( lista.get(i).getIdApto() == 0 ){
-						numApto = "";
-					} else {
-						numApto = Integer.toString( apartamentos.get( idApto ).getNumero() );
+					if ( despesas.get(i).getIdApto() < 1 ){
+						numApto = null;
 					}
 					
 				String[] item = { 
@@ -501,7 +501,7 @@ public class CondominioMensalController implements ComponentListener {
 						lista.get(i).getDtVencimento(), 
 						formato.format( lista.get(i).getValor() ),  
 				};
-				linhas.add(item);
+				linhas.add( item );
 				}
 			}
 		} else {
@@ -567,8 +567,8 @@ public class CondominioMensalController implements ComponentListener {
 	
 	
 	private void preencherTabelaMensalidades( List<Condominio> lista ){
-
-		List<String[]> linhas = new ArrayList<>(); 
+		
+		List<String[]> linhas = new ArrayList<>();
 		
 		if(lista != null){		
 			String numApto = null;
@@ -619,7 +619,7 @@ public class CondominioMensalController implements ComponentListener {
 						multa, 
 						formato.format( lista.get(i).getValor() + calc ), 
 				};
-				linhas.add(item);
+				linhas.add( item );
 				}
 			}
 		} else {
@@ -1189,7 +1189,7 @@ public class CondominioMensalController implements ComponentListener {
 		public void actionPerformed(ActionEvent e) {
 
 			Object source = e.getSource();
-
+			
 			if ( source == cboFiltro  ){
 				if ( cboFiltro.getSelectedItem() == "Mensalidades" ){
 					preencherTabelaMensalidades( condominioMensal );
@@ -1214,7 +1214,10 @@ public class CondominioMensalController implements ComponentListener {
 					ftxtDtVenc.setText( obterDataVencimento() );
 					ftxtDtPagto.setText(null);
 					atualizarMensal( despesas );
-					preencherMorador();	
+					preencherMorador();if( cboApto.getSelectedItem().equals( "Todos" ) 
+							|| !cboReferencia.getSelectedItem().equals( "Todos os Meses") ){
+						cboApto.setSelectedIndex(0);
+					}
 				}
 			}
 			if ( source == cboApto ){
@@ -1223,15 +1226,19 @@ public class CondominioMensalController implements ComponentListener {
 					ftxtDtVenc.setText(null);
 					if( cboReferencia.getSelectedItem().equals( "Todos os Meses" ) 
 							|| !cboApto.getSelectedItem().equals( "Todos" )){
-					cboReferencia.setSelectedIndex(0);
-					preencherMorador();
+						cboReferencia.setSelectedIndex(0);
+						preencherMorador();
 					}
 				} else {
 					preencherTabelaDespesas( despesas );
 					ftxtDtVenc.setText( obterDataVencimento() );
 					ftxtDtPagto.setText(null);
 					atualizarMensal( despesas );
-					preencherMorador();	
+					preencherMorador();
+					if( cboReferencia.getSelectedItem().equals( "Todos os Meses" ) 
+							|| !cboApto.getSelectedItem().equals( "Todos" )){
+						cboReferencia.setSelectedIndex(0);
+					}
 				}
 			}
 		}
