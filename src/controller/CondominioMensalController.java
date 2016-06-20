@@ -766,6 +766,9 @@ public class CondominioMensalController implements ComponentListener {
 			validar = true;
 		} else {
 			if( tabela.getRowCount() > 0 ){
+				ftxtMulta.setValue(0);
+				ftxtValor.setValue(0);
+				chkMulta.setSelected(false);
 				
 				for( int d = 0; d < despesas.size(); d ++ ){
 					
@@ -797,8 +800,6 @@ public class CondominioMensalController implements ComponentListener {
 									} else {
 										ftxtDtPagto.setText( condominioMensal.get(c).getDtProrrogado() );
 									}
-									
-									preencherMorador();
 									totalDespesa( despesas );
 								}
 							}
@@ -813,16 +814,38 @@ public class CondominioMensalController implements ComponentListener {
 								
 								cboReferencia.setSelectedItem( obterMesRef( condominioMensal.get(c).getDtVencimento() ));
 								ftxtDtVenc.setText( condominioMensal.get(c).getDtVencimento() );
-								ftxtValor.setValue( condominioMensal.get(c).getValor() );
+								
 								if ( condominioMensal.get(c).getDtVencimento()
-										.equals( condominioMensal.get(c).getDtProrrogado() )){
+										.equals( condominioMensal.get(c).getDtPagamento() )){
+									lblMulta.setText("Multa");
 									ftxtDtPagto.setText( condominioMensal.get(c).getDtPagamento() );
-								} else if ( !condominioMensal.get(c).getDtPagamento()
+									ftxtValor.setValue( condominioMensal.get(c).getValor() );
+									
+								} else if ( condominioMensal.get(c).getDtVencimento()
 										.equals( condominioMensal.get(c).getDtProrrogado() )){ 
+									lblMulta.setText("Multa (2 %)");
 									ftxtDtPagto.setText( condominioMensal.get(c).getDtPagamento() );
-								} 
+									ftxtMulta.setValue(( condominioMensal.get(c).getValor() ) * 2 / 100 );
+									float calc = condominioMensal.get(c).getValor() + (float) ftxtMulta.getValue();
+									ftxtValor.setValue( calc );
+									
+								} else if ( !condominioMensal.get(c).getDtPagamento()
+										.equals( condominioMensal.get(c).getDtProrrogado() )){
+									lblMulta.setText("Multa (5 %)");
+									ftxtDtPagto.setText( condominioMensal.get(c).getDtPagamento() );
+									ftxtMulta.setValue(( condominioMensal.get(c).getValor() ) * 5 / 100 );
+									float calc = condominioMensal.get(c).getValor() + (float) ftxtMulta.getValue();
+									ftxtValor.setValue( calc );
+									chkMulta.setSelected(true);
+								}
+								
+								for( int i = 0; i < apartamentos.size(); i++ ){
+									if( Integer.toString( condominioMensal.get(c).getIdApto() )
+											.equals( Integer.toString( apartamentos.get(i).getId() ))){
+										txtNome.setText( moradores.get( i ).getNome() );
+									}
+								}
 							}
-							preencherMorador();
 						}
 						return;
 					}

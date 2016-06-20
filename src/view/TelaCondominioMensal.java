@@ -250,7 +250,7 @@ public class TelaCondominioMensal extends JFrame {
 		painel.add(ftxtMulta);
 		
 		lblMulta = new JLabel("Multa");
-		lblMulta.setBounds(781, 206, 35, 16);
+		lblMulta.setBounds(748, 206, 68, 16);
 		painel.add(lblMulta);
 		
 		maskValor = new DecimalFormat("#,###,##0.00");
@@ -316,7 +316,7 @@ public class TelaCondominioMensal extends JFrame {
 		painel.add(ftxtVlrTotal);
 		
 		chkMulta = new JCheckBox("Prorrogar para o próximo Mês - ");
-		chkMulta.setBounds(548, 203, 235, 23);
+		chkMulta.setBounds(514, 203, 235, 23);
 		painel.add(chkMulta);
 		
 		btnLimpar = new JButton("Limpar");
