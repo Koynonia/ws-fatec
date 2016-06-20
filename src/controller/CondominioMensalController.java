@@ -161,7 +161,8 @@ public class CondominioMensalController implements ComponentListener {
 		preencherReferencia();
 		
 		alterarCampos ("protegerCampos");
-		preencherTabelaDespesas( despesas );
+		preencherTabelaMensalidades( condominioMensal );
+		cboFiltro.setSelectedIndex(1);
 	}
 
 
