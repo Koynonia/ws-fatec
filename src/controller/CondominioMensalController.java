@@ -307,7 +307,88 @@ public class CondominioMensalController implements ComponentListener {
 	}
 	
 	
-	private void atualizarMensal( List<Despesas> despesa ){
+	private void totalDespesa( List<Despesas> despesa ){
+
+		float condVlr = 0;
+		float aptoVlr = 0;
+		int apto = apartamentos.size();
+		int quartos = 0;
+		int qtd = 1;
+		
+		for( int i = 0; i < apartamentos.size(); i++ ){
+
+			quartos = quartos + apartamentos.get(i).getQuartos();
+		}
+
+		for( int i = 0; i < despesa.size(); i++ ){
+
+			if ( cboReferencia.getSelectedItem() == "Todos os Meses" 
+					|| obterMesRef(despesa.get(i).getDtVencimento() ).equals( cboReferencia.getSelectedItem()) ){
+
+				if ( despesa.get(i).getIdApto() == 0 ){
+					condVlr = condVlr + ( despesa.get(i).getValor() );
+				} else {
+					aptoVlr = aptoVlr + ( despesa.get(i).getValor() );
+				}
+
+				ftxtQtd.setValue( Integer.toString ( qtd++ ));	
+			}	
+		}
+
+		if( cboApto.getSelectedItem() == "Todos" ){
+			condVlr = condVlr / apto;
+			aptoVlr = aptoVlr + condVlr;
+		} else {
+			for( int i = 0; i < apartamentos.size(); i++ ){
+				if( cboApto.getSelectedItem().equals( Integer.toString( apartamentos.get(i).getNumero() ))){
+					condVlr = condVlr / quartos * apartamentos.get(i).getQuartos();
+					aptoVlr = aptoVlr + condVlr;
+				}
+			}
+		}
+				
+		ftxtValor.setValue( aptoVlr );
+		ftxtVlrTotal.setValue( aptoVlr );
+
+		if( ftxtDtVenc.getValue() != null && ftxtDtPagto.getValue() != null ){
+			DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+			Date venc = null;
+			Date pagto = null;
+
+			try {
+				venc = df.parse((String) ftxtDtVenc.getValue());
+				pagto = df.parse((String) ftxtDtPagto.getValue());
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+
+			if(venc.before(pagto)){
+				if ( !chkMulta.isSelected() ){
+				float multa = ( aptoVlr * 2 ) / 100;
+				ftxtMulta.setValue( multa );
+				ftxtValor.setValue( aptoVlr + multa );
+				lblMulta.setText("Multa (2 %)");
+				lblMulta.setVisible(true);
+				ftxtMulta.setVisible(true);
+				chkMulta.setVisible(true);
+				} else {
+					float multa = ( aptoVlr * 5 ) / 100;
+					lblMulta.setText("Multa (5 %)");
+					ftxtMulta.setValue( multa );
+					ftxtValor.setValue( aptoVlr + multa );
+				}
+			} else {
+				ftxtMulta.setValue( null );
+				ftxtValor.setValue( aptoVlr );
+				lblMulta.setVisible(false);
+				ftxtMulta.setVisible(false);
+				chkMulta.setVisible(false);
+			}
+		}
+	}
+	
+	
+	private void totalCondominio( List<Condominio> despesa ){
 
 		float condVlr = 0;
 		float aptoVlr = 0;
@@ -561,7 +642,7 @@ public class CondominioMensalController implements ComponentListener {
 		if ( cboApto.getSelectedItem() == "Todos" ){
 			atualizarTotal( lista );
 		} else {
-			atualizarMensal( lista );
+			totalDespesa( lista );
 		}
 	}
 	
@@ -685,9 +766,9 @@ public class CondominioMensalController implements ComponentListener {
 		tabela.getColumnModel().getColumn(9).setPreferredWidth(0);
 
 		if ( cboApto.getSelectedItem() == "Todos" ){
-//			atualizarTotal( lista );
+			totalCondominio( lista );
 		} else {
-//			atualizarMensal( lista );
+			totalCondominio( lista );
 		}
 	}
 	
@@ -699,9 +780,9 @@ public class CondominioMensalController implements ComponentListener {
 			validar = true;
 		} else {
 			if( tabela.getRowCount() > 0 ){
-
+				
 				for( int d = 0; d < despesas.size(); d ++ ){
-
+					
 					if( (tabela.getValueAt(tabela.getSelectedRow(), 0).toString() )
 							.equals(Integer.toString( despesas.get(d).getId() ))){
 						
@@ -732,9 +813,30 @@ public class CondominioMensalController implements ComponentListener {
 									}
 									
 									preencherMorador();
-									atualizarMensal( despesas );
+									totalDespesa( despesas );
 								}
 							}
+						}
+						return;
+					} else if( (tabela.getValueAt(tabela.getSelectedRow(), 0).toString() )
+							.equals(Integer.toString( condominioMensal.get(d).getId() ))){
+
+						for( int c = 0; c < condominioMensal.size(); c++ ){
+
+							if( condominioMensal.get(d).getId() == condominioMensal.get(c).getId()){
+								cboReferencia.setSelectedItem( obterMesRef( condominioMensal.get(c).getDtVencimento() ));
+								ftxtDtVenc.setText( condominioMensal.get(c).getDtVencimento() );
+
+								if ( condominioMensal.get(c).getDtVencimento()
+										.equals( condominioMensal.get(c).getDtProrrogado() )){
+									ftxtDtPagto.setText( condominioMensal.get(c).getDtPagamento() );
+								} else if ( !condominioMensal.get(c).getDtPagamento()
+										.equals( condominioMensal.get(c).getDtProrrogado() )){ 
+									ftxtDtPagto.setText( condominioMensal.get(c).getDtPagamento() );
+								} 
+							}
+							preencherMorador();
+							totalCondominio( condominioMensal );
 						}
 						return;
 					}
@@ -1173,7 +1275,7 @@ public class CondominioMensalController implements ComponentListener {
 			limparCampos();
 			ftxtDtReg.setText( obterDataAtual() );
 			ftxtDtAlt.setText( obterDataAtual() );
-			atualizarMensal( despesas );
+			totalDespesa( despesas );
 			atualizarTotal( despesas );
 			
 			if ( btnLimpar.getText() == "Novo" ){
@@ -1187,7 +1289,8 @@ public class CondominioMensalController implements ComponentListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-
+			
+			ftxtDtPagto.setText(null);
 			Object source = e.getSource();
 			
 			if ( source == cboFiltro  ){
@@ -1198,7 +1301,7 @@ public class CondominioMensalController implements ComponentListener {
 					preencherTabelaDespesas( despesas );
 					ftxtDtVenc.setText( obterDataVencimento() );
 					ftxtDtPagto.setText(null);
-					atualizarMensal( despesas );
+					totalDespesa( despesas );
 					preencherMorador();	
 				}
 			}
@@ -1213,7 +1316,7 @@ public class CondominioMensalController implements ComponentListener {
 					preencherTabelaDespesas( despesas );
 					ftxtDtVenc.setText( obterDataVencimento() );
 					ftxtDtPagto.setText(null);
-					atualizarMensal( despesas );
+					totalDespesa( despesas );
 					preencherMorador();if( cboApto.getSelectedItem().equals( "Todos" ) 
 							|| !cboReferencia.getSelectedItem().equals( "Todos os Meses") ){
 						cboApto.setSelectedIndex(0);
@@ -1233,7 +1336,7 @@ public class CondominioMensalController implements ComponentListener {
 					preencherTabelaDespesas( despesas );
 					ftxtDtVenc.setText( obterDataVencimento() );
 					ftxtDtPagto.setText(null);
-					atualizarMensal( despesas );
+					totalDespesa( despesas );
 					preencherMorador();
 					if( cboReferencia.getSelectedItem().equals( "Todos os Meses" ) 
 							|| !cboApto.getSelectedItem().equals( "Todos" )){
@@ -1249,7 +1352,7 @@ public class CondominioMensalController implements ComponentListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
-			atualizarMensal( despesas );
+			totalDespesa( despesas );
 		}
 	};
 
@@ -1352,12 +1455,12 @@ public class CondominioMensalController implements ComponentListener {
 
 		@Override
 		public void focusGained(FocusEvent e) {
-			atualizarMensal( despesas );
+			totalDespesa( despesas );
 		}
 
 		@Override
 		public void focusLost(FocusEvent e) {
-			atualizarMensal( despesas );
+			totalDespesa( despesas );
 		}	
 	};
 	
