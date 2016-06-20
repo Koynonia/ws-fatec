@@ -177,15 +177,12 @@ public class CondominioMensalController implements ComponentListener {
 			lblId.setVisible(false);
 			lblDtReg.setVisible(false);
 			lblDtAlt.setVisible(false);
-			lblMulta.setVisible(false);
 			txtNome.setEnabled(false);
 			txtId.setVisible(false);
 			ftxtMulta.setEditable(false);
-			ftxtMulta.setVisible(false);
 			ftxtValor.setEditable(false);
 			ftxtDtReg.setVisible(false);
 			ftxtDtAlt.setVisible(false);
-			chkMulta.setVisible(false);
 			break;	
 		}
 	}
@@ -369,9 +366,6 @@ public class CondominioMensalController implements ComponentListener {
 				ftxtMulta.setValue( multa );
 				ftxtValor.setValue( aptoVlr + multa );
 				lblMulta.setText("Multa (2 %)");
-				lblMulta.setVisible(true);
-				ftxtMulta.setVisible(true);
-				chkMulta.setVisible(true);
 				} else {
 					float multa = ( aptoVlr * 5 ) / 100;
 					lblMulta.setText("Multa (5 %)");
@@ -381,9 +375,6 @@ public class CondominioMensalController implements ComponentListener {
 			} else {
 				ftxtMulta.setValue( null );
 				ftxtValor.setValue( aptoVlr );
-				lblMulta.setVisible(false);
-				ftxtMulta.setVisible(false);
-				chkMulta.setVisible(false);
 			}
 		}
 	}
@@ -450,9 +441,6 @@ public class CondominioMensalController implements ComponentListener {
 				ftxtMulta.setValue( multa );
 				ftxtValor.setValue( aptoVlr + multa );
 				lblMulta.setText("Multa (2 %)");
-				lblMulta.setVisible(true);
-				ftxtMulta.setVisible(true);
-				chkMulta.setVisible(true);
 				} else {
 					float multa = ( aptoVlr * 5 ) / 100;
 					lblMulta.setText("Multa (5 %)");
@@ -462,9 +450,6 @@ public class CondominioMensalController implements ComponentListener {
 			} else {
 				ftxtMulta.setValue( null );
 				ftxtValor.setValue( aptoVlr );
-				lblMulta.setVisible(false);
-				ftxtMulta.setVisible(false);
-				chkMulta.setVisible(false);
 			}
 		}
 	}
