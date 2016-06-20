@@ -45,6 +45,7 @@ public class TelaCondominioMensal extends JFrame {
 	private JLabel lblLogo;
 	private JLabel lblBackground; 
 	private JLabel lblPagina;
+	private JLabel lblFiltro;
 	private JLabel lblApto;
 	private JLabel lblDtVenc;
 	private JLabel lblDtPagto;
@@ -69,8 +70,9 @@ public class TelaCondominioMensal extends JFrame {
 	private JFormattedTextField ftxtValor;
 	private JFormattedTextField ftxtQtd;
 	private JFormattedTextField ftxtVlrTotal;
-	private JComboBox<String> cboReferencia;
+	private JComboBox<String> cboFiltro;
 	private JComboBox<String> cboApto;
+	private JComboBox<String> cboReferencia;
 	private JCheckBox chkMulta; 
 	private JButton btnPesquisar;
 	private JButton btnLimpar;
@@ -124,6 +126,14 @@ public class TelaCondominioMensal extends JFrame {
 		linha.setBounds(6, 93, 1012, 12);
 		painel.add(linha);
 		
+		lblFiltro = new JLabel("Visão");
+		lblFiltro.setBounds(131, 139, 34, 16);
+		painel.add(lblFiltro);
+		
+		cboFiltro = new JComboBox<String>();
+		cboFiltro.setBounds(176, 133, 160, 28);
+		painel.add(cboFiltro);
+		
 		lblApto = new JLabel("Apartamento");
 		lblApto.setBounds(84, 206, 81, 16);
 		painel.add(lblApto);
@@ -163,18 +173,18 @@ public class TelaCondominioMensal extends JFrame {
 		painel.add(ftxtDtPagto);
 		
 		lblId = new JLabel("Código");
-		lblId.setBounds(107, 565, 45, 16);
+		lblId.setBounds(107, 587, 45, 16);
 		painel.add(lblId);
 		
 		txtId = new JTextField(20);
 		txtId.setEnabled(false);
 		txtId.setEditable(false);
-		txtId.setBounds(163, 559, 142, 28);
+		txtId.setBounds(163, 581, 142, 28);
 		txtId.setHorizontalAlignment(SwingConstants.CENTER);
 		painel.add(txtId);
 		
 		lblDtReg = new JLabel("Data de Registro");
-		lblDtReg.setBounds(48, 600, 104, 16);
+		lblDtReg.setBounds(48, 622, 104, 16);
 		painel.add(lblDtReg);
 		
 		try {
@@ -186,12 +196,12 @@ public class TelaCondominioMensal extends JFrame {
 		ftxtDtReg.setEnabled(false);
 		ftxtDtReg.setEditable(false);
 		ftxtDtReg.setHorizontalAlignment(SwingConstants.CENTER);
-		ftxtDtReg.setBounds(163, 594, 142, 28);
+		ftxtDtReg.setBounds(163, 616, 142, 28);
 		ftxtDtReg.setColumns(10);
 		painel.add(ftxtDtReg);
 		
 		lblDtAlt = new JLabel("Data de Alteração");
-		lblDtAlt.setBounds(48, 632, 117, 16);
+		lblDtAlt.setBounds(48, 654, 117, 16);
 		painel.add(lblDtAlt);
 		
 		try {
@@ -203,7 +213,7 @@ public class TelaCondominioMensal extends JFrame {
 		ftxtDtAlt.setEnabled(false);
 		ftxtDtAlt.setEditable(false);
 		ftxtDtAlt.setHorizontalAlignment(SwingConstants.CENTER);
-		ftxtDtAlt.setBounds(163, 626, 142, 28);
+		ftxtDtAlt.setBounds(163, 648, 142, 28);
 		ftxtDtAlt.setColumns(10);
 		painel.add(ftxtDtAlt);
 		
@@ -255,18 +265,18 @@ public class TelaCondominioMensal extends JFrame {
 		ftxtValor.setColumns(10);
 		painel.add(ftxtValor);
 		
-		lblDespesa = new JLabel("Despesa");
-		lblDespesa.setBounds(107, 139, 53, 16);
+		lblDespesa = new JLabel("Pesquisa");
+		lblDespesa.setBounds(100, 553, 68, 16);
 		painel.add(lblDespesa);
 		
 		txtPesquisa = new JTextField(20);
 		txtPesquisa.setName("despesa");
 		txtPesquisa.setToolTipText("Digite aqui o termo que deseja pesquisar…");
-		txtPesquisa.setBounds(171, 133, 254, 28);
+		txtPesquisa.setBounds(164, 547, 254, 28);
 		painel.add(txtPesquisa);
 		
 		btnPesquisar = new JButton("Pesquisar");
-		btnPesquisar.setBounds(437, 133, 95, 29);
+		btnPesquisar.setBounds(430, 547, 95, 29);
 		painel.add(btnPesquisar);
 		
 		spDespesas = new JScrollPane();
@@ -345,10 +355,19 @@ public class TelaCondominioMensal extends JFrame {
 				ftxtMulta, 
 				ftxtQtd, 
 				ftxtVlrTotal, 
-				cboReferencia,
-				cboApto, 
+				cboFiltro, 
+				cboApto,
+				cboReferencia, 
 				chkMulta, 
 				btnLimpar );
+		
+		JLabel label = new JLabel("Apartamento");
+		label.setBounds(220, 206, 81, 16);
+		painel.add(label);
+		
+		JComboBox<String> comboBox = new JComboBox<String>();
+		comboBox.setBounds(312, 200, 160, 28);
+		painel.add(comboBox);
 		
 		tabDespesa.addMouseListener(despesasCtrl.clique);
 		tabDespesa.addKeyListener(despesasCtrl.tecla);
@@ -356,6 +375,7 @@ public class TelaCondominioMensal extends JFrame {
 		ftxtDtPagto.addActionListener(despesasCtrl.atualizar);
 		ftxtDtPagto.addFocusListener(despesasCtrl.foco);
 		chkMulta.addActionListener(despesasCtrl.atualizar);
+		cboFiltro.addActionListener(despesasCtrl.filtrar);
 		cboApto.addActionListener(despesasCtrl.filtrar);
 		cboReferencia.addActionListener(despesasCtrl.filtrar);
 		cboReferencia.addActionListener(despesasCtrl.atualizar);

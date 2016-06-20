@@ -136,26 +136,21 @@ public class DespesasCondominioController implements ComponentListener {
 		this.btnCancelar = btnCancelar;
 		this.despesas = new ArrayList<Despesas>();
 
-		dados();
-		tela();
+		iniciar();
 	}
 	
 
-	public void dados(){
+	public void iniciar(){
 		carregarDespesas();
 		preencherReferencia();
 		preencherDespesa();
-	}
-
-
-	public void tela(){
 		
 		alterarCampos ("protegerCampos");
 		formatarTabela( despesas );
 	}
 
 
-	public String obterData(){
+	public String obterDataAtual(){
 		DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		Date date = new Date();
 		String data = (sdf.format(date));
@@ -175,19 +170,6 @@ public class DespesasCondominioController implements ComponentListener {
 		DateFormat ref = new SimpleDateFormat("MMMM/yyyy");
 		String mesRef = (ref.format(dt).toUpperCase());
 		return mesRef;
-	}
-	
-	
-	public String gerarId(){
-		
-		String novoId;
-		if ( despesas.size() > 0){
-			novoId = String.format( "%09d", despesas.get( despesas.size() -1 ).getId() +1 );
-		} else {
-			novoId = String.format( "%09d", 1 );
-		}
-		
-		return novoId;
 	}
 	
 
@@ -553,7 +535,7 @@ public class DespesasCondominioController implements ComponentListener {
 	}
 	
 	
-	public void inserir() {
+	public void salvar() {
 		
 		if ( !txtDespesa.getText().isEmpty() &&
 				!ftxtDtVenc.getText().isEmpty() &&
@@ -734,24 +716,6 @@ public class DespesasCondominioController implements ComponentListener {
 		if(janela != null)
 			janela.dispose();
 	}
-
-	public void mostrar(){
-		if(janela != null)
-			janela.setVisible(true);
-	}
-
-	public void esconder(){
-		if(janela != null)
-			janela.setVisible(false);
-	}
-
-	public void sair(){
-		msg("sistema","Fechamento");
-		if(validar == true){
-			System.exit(0);
-		}
-	}
-	
 	
 	public ActionListener pesquisar = new ActionListener() {
 
@@ -768,9 +732,9 @@ public class DespesasCondominioController implements ComponentListener {
 		public void actionPerformed(ActionEvent e) {
 			
 			limparCampos();
-			txtId.setText( gerarId() );
-			ftxtDtReg.setText( obterData() );
-			ftxtDtAlt.setText( obterData() );
+			txtId.setText(null);
+			ftxtDtReg.setText( obterDataAtual() );
+			ftxtDtAlt.setText( obterDataAtual() );
 			atualizarTotal( despesas );
 			
 			if ( btnLimpar.getText() == "Novo" ){
@@ -845,7 +809,7 @@ public class DespesasCondominioController implements ComponentListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
-			inserir();
+			salvar();
 			limparCampos();
 			formatarTabela( despesas );
 			alterarCampos ("protegerCampos"); 
