@@ -66,8 +66,8 @@ public class TelaCondominioMensal extends JFrame {
 	private JFormattedTextField ftxtDtPagto;
 	private JFormattedTextField ftxtDtReg;
 	private JFormattedTextField ftxtDtAlt;
-	private JFormattedTextField ftxtMulta;
 	private JFormattedTextField ftxtValor;
+	private JFormattedTextField ftxtMulta;
 	private JFormattedTextField ftxtQtd;
 	private JFormattedTextField ftxtVlrTotal;
 	private JComboBox<String> cboFiltro;
@@ -233,35 +233,35 @@ public class TelaCondominioMensal extends JFrame {
 		txtNome.setBounds(176, 234, 254, 28);
 		painel.add(txtNome);
 		
-		lblVlr = new JLabel("Valor Total");
-		lblVlr.setBounds(748, 240, 68, 16);
-		painel.add(lblVlr);
-		
-		maskValor = new DecimalFormat("#,###,##0.00");
-		NumberFormatter multa = new NumberFormatter(maskValor);
-		multa.setFormat(maskValor);
-		multa.setAllowsInvalid(false);
-		DefaultFormatterFactory dfFactory = new DefaultFormatterFactory(multa);
-		ftxtMulta = new JFormattedTextField(dfFactory);
-		ftxtMulta.setBackground(Color.WHITE);
-		ftxtMulta.setHorizontalAlignment(SwingConstants.RIGHT);
-		ftxtMulta.setBounds(830, 234, 142, 28);
-		ftxtMulta.setColumns(10);
-		painel.add(ftxtMulta);
-		
 		lblMulta = new JLabel("Multa");
 		lblMulta.setBounds(748, 206, 68, 16);
 		painel.add(lblMulta);
 		
 		maskValor = new DecimalFormat("#,###,##0.00");
+		NumberFormatter multa = new NumberFormatter(maskValor);
+		multa.setFormat(maskValor);
+		multa.setAllowsInvalid(false);
+		DefaultFormatterFactory dff = new DefaultFormatterFactory(multa);
+		ftxtMulta = new JFormattedTextField(dff);
+		ftxtMulta.setBackground(Color.WHITE);
+		ftxtMulta.setHorizontalAlignment(SwingConstants.RIGHT);
+		ftxtMulta.setBounds(827, 200, 142, 28);
+		ftxtMulta.setColumns(10);
+		painel.add(ftxtMulta);
+		
+		lblVlr = new JLabel("Valor Total");
+		lblVlr.setBounds(748, 240, 68, 16);
+		painel.add(lblVlr);
+		
+		maskValor = new DecimalFormat("#,###,##0.00");
 		NumberFormatter valor = new NumberFormatter(maskValor);
 		valor.setFormat(maskValor);
 		valor.setAllowsInvalid(false);
-		DefaultFormatterFactory dff = new DefaultFormatterFactory(valor);
-		ftxtValor = new JFormattedTextField(dff);
+		DefaultFormatterFactory dfFactory = new DefaultFormatterFactory(valor);
+		ftxtValor = new JFormattedTextField(dfFactory);
 		ftxtValor.setBackground(Color.WHITE);
 		ftxtValor.setHorizontalAlignment(SwingConstants.RIGHT);
-		ftxtValor.setBounds(827, 200, 142, 28);
+		ftxtValor.setBounds(830, 234, 142, 28);
 		ftxtValor.setColumns(10);
 		painel.add(ftxtValor);
 		
@@ -350,9 +350,9 @@ public class TelaCondominioMensal extends JFrame {
 				ftxtDtVenc, 
 				ftxtDtPagto, 
 				ftxtDtReg, 
-				ftxtDtAlt, 
-				ftxtValor, 
+				ftxtDtAlt,  
 				ftxtMulta, 
+				ftxtValor, 
 				ftxtQtd, 
 				ftxtVlrTotal, 
 				cboFiltro, 
@@ -370,7 +370,6 @@ public class TelaCondominioMensal extends JFrame {
 		painel.add(comboBox);
 		
 		tabDespesa.addMouseListener(despesasCtrl.clique);
-		tabDespesa.addKeyListener(despesasCtrl.tecla);
 		txtPesquisa.addActionListener(despesasCtrl.pesquisar);
 		ftxtDtPagto.addActionListener(despesasCtrl.atualizar);
 		ftxtDtPagto.addFocusListener(despesasCtrl.foco);

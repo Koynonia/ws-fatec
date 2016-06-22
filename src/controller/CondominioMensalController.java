@@ -1299,17 +1299,20 @@ public class CondominioMensalController implements ComponentListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
+			ftxtDtVenc.setText(null);
 			ftxtDtPagto.setText(null);
+			ftxtMulta.setValue(0);
+			lblMulta.setText("Multa");
+			chkMulta.setSelected(false);
+			
 			Object source = e.getSource();
 			
 			if ( source == cboFiltro  ){
 				if ( cboFiltro.getSelectedItem() == "Mensalidades" ){
-					preencherTabelaMensalidades( condominioMensal );
-					ftxtDtVenc.setText(null);
+					preencherTabelaMensalidades( condominioMensal );				
 				} else {
 					preencherTabelaDespesas( despesas );
 					ftxtDtVenc.setText( obterDataVencimento() );
-					ftxtDtPagto.setText(null);
 					totalDespesa( despesas );
 					preencherMorador();	
 				}
@@ -1324,7 +1327,6 @@ public class CondominioMensalController implements ComponentListener {
 				} else {
 					preencherTabelaDespesas( despesas );
 					ftxtDtVenc.setText( obterDataVencimento() );
-					ftxtDtPagto.setText(null);
 					totalDespesa( despesas );
 					preencherMorador();if( cboApto.getSelectedItem().equals( "Todos" ) 
 							|| !cboReferencia.getSelectedItem().equals( "Todos os Meses") ){
@@ -1335,7 +1337,6 @@ public class CondominioMensalController implements ComponentListener {
 			if ( source == cboApto ){
 				if ( cboFiltro.getSelectedItem() == "Mensalidades" ){
 					preencherTabelaMensalidades( condominioMensal );
-					ftxtDtVenc.setText(null);
 					if( cboReferencia.getSelectedItem().equals( "Todos os Meses" ) 
 							|| !cboApto.getSelectedItem().equals( "Todos" )){
 						cboReferencia.setSelectedIndex(0);
@@ -1344,7 +1345,6 @@ public class CondominioMensalController implements ComponentListener {
 				} else {
 					preencherTabelaDespesas( despesas );
 					ftxtDtVenc.setText( obterDataVencimento() );
-					ftxtDtPagto.setText(null);
 					totalDespesa( despesas );
 					preencherMorador();
 					if( cboReferencia.getSelectedItem().equals( "Todos os Meses" ) 
@@ -1419,46 +1419,6 @@ public class CondominioMensalController implements ComponentListener {
 	@Override
 	public void componentHidden(ComponentEvent e) {
 	}
-	
-	
-	public KeyListener tecla = new KeyListener() {  
-
-		@Override  
-		public void keyTyped(KeyEvent e) {
-			
-		}
-
-		@Override
-		public void keyPressed(KeyEvent e) {
-
-			int keyCode=e.getKeyCode();
-
-			switch (keyCode) {
-
-			case KeyEvent.VK_UP:
-				break;
-			case KeyEvent.VK_DOWN:
-				break;
-			case KeyEvent.VK_LEFT:
-				break;
-			case KeyEvent.VK_RIGHT:
-				break;
-			case KeyEvent.VK_ESCAPE:
-				fechar();
-				break;
-			case KeyEvent.VK_DELETE:
-				break;
-			case 8:
-				break;
-			}
-		}
-
-		@Override
-		public void keyReleased(KeyEvent e) {
-			
-		}
-	};
-	
 
 	public FocusListener foco = new FocusListener(){
 
