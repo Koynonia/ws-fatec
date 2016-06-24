@@ -1,10 +1,3 @@
-/**
- * @author Fernando Moraes Oliveira
- * Matéria 4716 - Engenharia de Software 2
- * 3º ADS - Tarde
- * Iniciado em 12/06/2016
- */
-
 package view;
 
 import java.awt.Color;

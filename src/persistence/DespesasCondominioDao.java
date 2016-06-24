@@ -1,10 +1,3 @@
-/**
- * @author Fernando Moraes Oliveira
- * Matéria 4716 - Engenharia de Software 2
- * 3º ADS - Tarde
- * Iniciado em 04/05/2016
- */
-
 package persistence;
 
 import java.sql.Connection;

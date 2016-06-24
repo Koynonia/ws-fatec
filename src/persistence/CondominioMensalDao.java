@@ -1,10 +1,3 @@
-/**
- * @author Fernando Moraes Oliveira
- * Matéria 4716 - Engenharia de Software 2
- * 3º ADS - Tarde
- * Iniciado em 10/06/2016
- */
-
 package persistence;
 
 import java.sql.Connection;
@@ -157,11 +150,6 @@ public class CondominioMensalDao implements ICondominioMensalDao {
 	@Override
 	public List<Apartamentos> consultaAptos() throws SQLException {
 		
-//		String sql = "SELECT a.`id`, a.`numero`, a.`quartos`, m.`nome` "
-//		+ "FROM `apartamento` AS a "
-//		+ "INNER JOIN `morador` AS m ON a.`id_morador` = m.`id` "
-//		+ "ORDER BY a.`numero`, m.`nome` ASC";
-		
 		String sql = "SELECT * FROM `apartamento` ";
 		
 		PreparedStatement ps = c.prepareStatement(sql);
@@ -184,7 +172,6 @@ public class CondominioMensalDao implements ICondominioMensalDao {
 
 	@Override
 	public List<Despesas> despesasCond() throws SQLException {
-		
 		String sql = "SELECT * FROM despesa_condominio";
 		
 		PreparedStatement ps = c.prepareStatement(sql);
@@ -211,12 +198,6 @@ public class CondominioMensalDao implements ICondominioMensalDao {
 
 	@Override
 	public List<Despesas> despesasApto() throws SQLException {
-		
-//		String sql = "SELECT d.*, a.`numero`, a.`quartos` "
-//				+ "FROM `despesa_apartamento` AS d "
-//				+ "INNER JOIN `apartamento` AS a ON d.`id_apartamento` = a.`id` "
-//				+ "ORDER BY a.`numero` ASC";
-		
 		String sql = "SELECT * FROM `despesa_apartamento`";
 		
 		PreparedStatement ps = c.prepareStatement(sql);

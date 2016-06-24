@@ -20,9 +20,6 @@ import java.text.ParseException;
 
 public class TelaMenu extends JFrame implements ActionListener {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	private JPanel contentPane;
@@ -42,9 +39,6 @@ public class TelaMenu extends JFrame implements ActionListener {
 	private JLabel lblLogo;
 	private JLabel lblBackground;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -58,9 +52,6 @@ public class TelaMenu extends JFrame implements ActionListener {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public TelaMenu() {
 		setTitle("Condom\u00EDnio Digital");
 		setResizable(false);

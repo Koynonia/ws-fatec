@@ -67,17 +67,29 @@ public class MoradoresDao implements IMoradoresDao {
 	}
 
 	@Override
-	public Moradores consultaMorador(Moradores morador) throws SQLException {
+	public Moradores consultaMoradorPorTelefone(Moradores morador) throws SQLException {
 		PreparedStatement ps;
-		if (morador.getId() == 0) {
-			String sql = "SELECT id, nome, telefone FROM morador WHERE telefone = ?";
+			String sql = "SELECT id, nome, telefone FROM morador WHERE telefone like ?";
 			ps = c.prepareStatement(sql);
-			ps.setString(1, morador.getTelefone());
-		} else {
+			ps.setString(1, "%"+morador.getTelefone()+"%");
+		ResultSet rs = ps.executeQuery();
+		Moradores m = new Moradores();
+		if (rs.next()) {
+			m.setId(rs.getInt("id"));
+			m.setNome(rs.getString("nome"));
+			m.setTelefone(rs.getString("telefone"));
+		}
+		rs.close();
+		ps.close();
+		return m;
+	}
+	
+	@Override
+	public Moradores consultaMoradorPorId(Moradores morador) throws SQLException {
+		PreparedStatement ps;
 			String sql = "SELECT id, nome, telefone FROM morador WHERE id = ?";
 			ps = c.prepareStatement(sql);
 			ps.setInt(1, morador.getId());
-		}
 		ResultSet rs = ps.executeQuery();
 		Moradores m = new Moradores();
 		if (rs.next()) {
