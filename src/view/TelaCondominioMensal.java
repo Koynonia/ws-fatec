@@ -51,12 +51,11 @@ public class TelaCondominioMensal extends JFrame {
 	private JLabel lblDtPagto;
 	private JLabel lblId;
 	private JLabel lblDtReg;
-	private JLabel lblDtAlt;
 	private JLabel lblReferencia;
 	private JLabel lblMulta;
 	private JLabel lblVlr;
 	private JLabel lblNome;
-	private JLabel lblDespesa;
+	private JLabel lblPesquisa;
 	private JLabel lblQtd;
 	private JLabel lblVlrTotal;
 	private JTextField txtId;
@@ -76,7 +75,10 @@ public class TelaCondominioMensal extends JFrame {
 	private JCheckBox chkMulta; 
 	private JButton btnPesquisar;
 	private JButton btnLimpar;
+	private JButton btnEditar;
 	private JButton btnSalvar;
+	private JButton btnExcluir;
+	private JButton btnCancelar;
 	private JButton btnVoltar;
 	private JTable tabDespesa;
 	private MaskFormatter maskData;
@@ -173,18 +175,18 @@ public class TelaCondominioMensal extends JFrame {
 		painel.add(ftxtDtPagto);
 		
 		lblId = new JLabel("Código");
-		lblId.setBounds(107, 587, 45, 16);
+		lblId.setBounds(107, 597, 45, 16);
 		painel.add(lblId);
 		
 		txtId = new JTextField(20);
 		txtId.setEnabled(false);
 		txtId.setEditable(false);
-		txtId.setBounds(163, 581, 142, 28);
+		txtId.setBounds(163, 591, 105, 28);
 		txtId.setHorizontalAlignment(SwingConstants.CENTER);
 		painel.add(txtId);
 		
 		lblDtReg = new JLabel("Data de Registro");
-		lblDtReg.setBounds(48, 622, 104, 16);
+		lblDtReg.setBounds(48, 631, 104, 16);
 		painel.add(lblDtReg);
 		
 		try {
@@ -196,26 +198,9 @@ public class TelaCondominioMensal extends JFrame {
 		ftxtDtReg.setEnabled(false);
 		ftxtDtReg.setEditable(false);
 		ftxtDtReg.setHorizontalAlignment(SwingConstants.CENTER);
-		ftxtDtReg.setBounds(163, 616, 142, 28);
+		ftxtDtReg.setBounds(163, 625, 105, 28);
 		ftxtDtReg.setColumns(10);
 		painel.add(ftxtDtReg);
-		
-		lblDtAlt = new JLabel("Data de Alteração");
-		lblDtAlt.setBounds(48, 654, 117, 16);
-		painel.add(lblDtAlt);
-		
-		try {
-			maskData = new MaskFormatter("##/##/####");
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		ftxtDtAlt = new JFormattedTextField(maskData);
-		ftxtDtAlt.setEnabled(false);
-		ftxtDtAlt.setEditable(false);
-		ftxtDtAlt.setHorizontalAlignment(SwingConstants.CENTER);
-		ftxtDtAlt.setBounds(163, 648, 142, 28);
-		ftxtDtAlt.setColumns(10);
-		painel.add(ftxtDtAlt);
 		
 		lblReferencia = new JLabel("Mês de Referência");
 		lblReferencia.setBounds(48, 174, 117, 16);
@@ -265,9 +250,9 @@ public class TelaCondominioMensal extends JFrame {
 		ftxtValor.setColumns(10);
 		painel.add(ftxtValor);
 		
-		lblDespesa = new JLabel("Pesquisa");
-		lblDespesa.setBounds(100, 553, 68, 16);
-		painel.add(lblDespesa);
+		lblPesquisa = new JLabel("Pesquisa");
+		lblPesquisa.setBounds(100, 553, 68, 16);
+		painel.add(lblPesquisa);
 		
 		txtPesquisa = new JTextField(20);
 		txtPesquisa.setName("despesa");
@@ -299,7 +284,7 @@ public class TelaCondominioMensal extends JFrame {
 		ftxtQtd.setBounds(661, 547, 58, 28);
 		painel.add(ftxtQtd);
 		
-		lblVlrTotal = new JLabel("Valor Mensal");
+		lblVlrTotal = new JLabel("Valor Geral");
 		lblVlrTotal.setBounds(742, 553, 81, 16);
 		painel.add(lblVlrTotal);
 		
@@ -319,12 +304,24 @@ public class TelaCondominioMensal extends JFrame {
 		chkMulta.setBounds(514, 203, 235, 23);
 		painel.add(chkMulta);
 		
+		btnCancelar = new JButton("Cancelar");
+		btnCancelar.setBounds(689, 625, 117, 29);
+		painel.add(btnCancelar);
+		
 		btnLimpar = new JButton("Limpar");
-		btnLimpar.setBounds(474, 625, 117, 29);
+		btnLimpar.setBounds(303, 625, 117, 29);
 		painel.add(btnLimpar);
 		
+		btnExcluir = new JButton("Excluir");
+		btnExcluir.setBounds(560, 625, 117, 29);
+		painel.add(btnExcluir);
+		
+		btnEditar = new JButton("Editar");
+		btnEditar.setBounds(431, 625, 117, 29);
+		painel.add(btnEditar);
+		
 		btnSalvar = new JButton("Salvar");
-		btnSalvar.setBounds(602, 625, 117, 29);
+		btnSalvar.setBounds(431, 625, 117, 29);
 		painel.add(btnSalvar);
 		
 		btnVoltar = new JButton("Voltar");
@@ -340,9 +337,9 @@ public class TelaCondominioMensal extends JFrame {
 				this, 
 				painel, 
 				tabDespesa, 
+				lblPesquisa, 
 				lblId, 
 				lblDtReg, 
-				lblDtAlt, 
 				lblMulta, 
 				txtId, 
 				txtNome,  
@@ -359,7 +356,11 @@ public class TelaCondominioMensal extends JFrame {
 				cboApto,
 				cboReferencia, 
 				chkMulta, 
-				btnLimpar );
+				btnLimpar, 
+				btnEditar, 
+				btnExcluir, 
+				btnSalvar, 
+				btnCancelar );
 		
 		JLabel label = new JLabel("Apartamento");
 		label.setBounds(220, 206, 81, 16);
@@ -380,6 +381,9 @@ public class TelaCondominioMensal extends JFrame {
 		cboReferencia.addActionListener(despesasCtrl.atualizar);
 		btnPesquisar.addActionListener(despesasCtrl.pesquisar);
 		btnLimpar.addActionListener(despesasCtrl.limpar);
+		btnEditar.addActionListener(despesasCtrl.editar);
+		btnExcluir.addActionListener(despesasCtrl.excluir);
+		btnCancelar.addActionListener(despesasCtrl.cancelar);
 		btnSalvar.addActionListener(despesasCtrl.inserir);
 		btnVoltar.addActionListener(despesasCtrl.voltar);
 	}
