@@ -288,9 +288,9 @@ public class TelaApartamento extends JFrame implements ActionListener, ItemListe
 			apeController.excluirMorador(m);
 		} else if (e.getSource() == btnGravarMorador) {
 			apeController.gravarMorador(m);
-			apeController.pesquisarMorador(m);
+			apeController.pesquisarMoradorPorTelefone(m);
 		} else if (e.getSource() == btnPesquisarMorador) {
-			m = apeController.pesquisarMorador(m);
+			m = apeController.pesquisarMoradorPorTelefone(m);
 			preencheCamposMorador(m);
 			a.setId_morador(m.getId());
 			System.out.println(idMorador);
@@ -321,7 +321,7 @@ public class TelaApartamento extends JFrame implements ActionListener, ItemListe
 
 		m.setId(a.getId_morador());
 
-		preencheCamposMorador(apeController.pesquisarMorador(m));
+		preencheCamposMorador(apeController.pesquisarMoradorPorId(m));
 
 	}
 

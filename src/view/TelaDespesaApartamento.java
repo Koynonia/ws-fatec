@@ -39,9 +39,6 @@ import javax.swing.ImageIcon;
 
 public class TelaDespesaApartamento extends JFrame implements ActionListener {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
@@ -88,11 +85,6 @@ public class TelaDespesaApartamento extends JFrame implements ActionListener {
 	private static int idApto;
 	
 
-	// private static int idDespesa;
-
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -106,9 +98,6 @@ public class TelaDespesaApartamento extends JFrame implements ActionListener {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public TelaDespesaApartamento() {
 		setTitle("Cadastro de Despesas do Apartamento");
 		setResizable(false);
@@ -270,7 +259,6 @@ public class TelaDespesaApartamento extends JFrame implements ActionListener {
 		lblBack.setIcon(new ImageIcon(TelaDespesaApartamento.class.getResource("/resources/back.jpg")));
 		lblBack.setBounds(1, 0, 706, 721);
 		contentPane.add(lblBack);
-		// btnPesquisar.addActionListener(bDAController);
 
 		btnAtualizarDespesa.addActionListener(this);
 		btnExcluirSeleo.addActionListener(this);
@@ -292,7 +280,6 @@ public class TelaDespesaApartamento extends JFrame implements ActionListener {
 			try {
 				preencheTable();
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 
@@ -333,7 +320,6 @@ public class TelaDespesaApartamento extends JFrame implements ActionListener {
 		try {
 			preencheTable();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -386,7 +372,6 @@ public class TelaDespesaApartamento extends JFrame implements ActionListener {
 		try {
 			preencheTable();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

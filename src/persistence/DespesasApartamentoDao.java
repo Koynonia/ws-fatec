@@ -37,11 +37,7 @@ public class DespesasApartamentoDao implements IDespesasApartamentoDao {
 	public void excluiDespesaApartamento(List<Integer> d) throws SQLException {
 		String sql = "DELETE FROM despesa_apartamento WHERE id = ?";
 		PreparedStatement ps = c.prepareStatement(sql);
-
-		// for (int i = 0; i < despesas.length; i++) {
-		// ps.setInt(1, despesas[i]);
-		// ps.execute();
-		// }
+		
 		for (int i = 0; i < d.size(); i++) {
 			ps.setInt(1, d.get(i));
 			ps.execute();

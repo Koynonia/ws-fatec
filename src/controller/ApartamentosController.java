@@ -1,6 +1,5 @@
 package controller;
 
-
 import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
@@ -51,13 +50,13 @@ public class ApartamentosController {
 
 		try {
 
-			m1 = mDao.consultaMorador(m);
+			m1 = mDao.consultaMoradorPorTelefone(m);
 
 			if (m1.getTelefone() != null) {
 				return m1;
 			} else {
 				mDao.insereMorador(m);
-				return mDao.consultaMorador(m);
+				return mDao.consultaMoradorPorTelefone(m);
 			}
 
 		} catch (SQLException e) {
@@ -97,13 +96,33 @@ public class ApartamentosController {
 
 	}
 
-	public Moradores pesquisarMorador(Moradores m) {
+	public Moradores pesquisarMoradorPorId(Moradores m) {
 		IMoradoresDao mDao = new MoradoresDao();
 		Moradores morador = new Moradores();
 
 		try {
 
-			morador = mDao.consultaMorador(m);
+			morador = mDao.consultaMoradorPorId(m);
+
+			return morador;
+			
+		} catch (SQLException e) {
+
+			JOptionPane.showMessageDialog(null, e.getMessage(),
+					"ERRO", JOptionPane.ERROR_MESSAGE);
+			return null;
+		}
+		
+
+	}
+	
+	public Moradores pesquisarMoradorPorTelefone(Moradores m) {
+		IMoradoresDao mDao = new MoradoresDao();
+		Moradores morador = new Moradores();
+
+		try {
+
+			morador = mDao.consultaMoradorPorTelefone(m);
 
 			return morador;
 			
