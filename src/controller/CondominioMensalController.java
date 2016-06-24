@@ -305,14 +305,6 @@ public class CondominioMensalController implements ComponentListener {
 	}
 	
 	
-	private String obterDataAtual(){
-		DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		Date date = new Date();
-		String data = (sdf.format(date));
-		return data;
-	}
-	
-	
 	private String obterMesRef( String data ){
 
 		DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -1103,7 +1095,8 @@ public class CondominioMensalController implements ComponentListener {
 							&& obterMesRef( ftxtDtVenc.getText() )
 							.contains( obterMesRef( condominioMensal.get(i).getDtVencimento() )) 
 							){
-						if ( cboApto.getSelectedItem().equals( Integer.toString( apartamentos.get(j).getNumero() )) ){
+						if ( cboApto.getSelectedItem()
+								.equals( Integer.toString( apartamentos.get(j).getNumero() )) ){
 							msg( "erroSalvar", cboApto.getSelectedItem().toString() );
 							return;		
 						} else {
@@ -1111,7 +1104,7 @@ public class CondominioMensalController implements ComponentListener {
 						}
 					} else {
 						if ( i == condominioMensal.size() -1 
-								&& j == apartamentos.size()){
+								&& j == apartamentos.size() -1){
 						msg( "confirmaSalvar", cboApto.getSelectedItem().toString() );
 						}
 					}
@@ -1372,7 +1365,6 @@ public class CondominioMensalController implements ComponentListener {
 				alterarCampos ("novo");
 			} else if ( !btnCancelar.isEnabled() ) {
 				
-				totalDespesa( despesas );
 			}
 		}
 	};
@@ -1496,8 +1488,10 @@ public class CondominioMensalController implements ComponentListener {
 		public void actionPerformed(ActionEvent e) {
 
 			salvar();
-			limparCampos();
 			preencherTabelaMensalidades( condominioMensal );
+			limparCampos();
+			alterarCampos ("protegerCampos");
+			btnLimpar.setEnabled(true);
 		}
 	};
 
