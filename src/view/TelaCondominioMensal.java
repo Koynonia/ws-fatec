@@ -349,6 +349,7 @@ public class TelaCondominioMensal extends JFrame {
 				cboApto,
 				cboReferencia, 
 				chkMulta, 
+				btnPesquisar, 
 				btnLimpar, 
 				btnEditar, 
 				btnExcluir, 
