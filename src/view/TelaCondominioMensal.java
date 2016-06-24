@@ -43,7 +43,6 @@ public class TelaCondominioMensal extends JFrame {
 	private JLabel lblDtVenc;
 	private JLabel lblDtPagto;
 	private JLabel lblId;
-	private JLabel lblDtReg;
 	private JLabel lblReferencia;
 	private JLabel lblMulta;
 	private JLabel lblVlr;
@@ -57,7 +56,6 @@ public class TelaCondominioMensal extends JFrame {
 	private JFormattedTextField ftxtDtVenc;
 	private JFormattedTextField ftxtDtPagto;
 	private JFormattedTextField ftxtDtReg;
-	private JFormattedTextField ftxtDtAlt;
 	private JFormattedTextField ftxtValor;
 	private JFormattedTextField ftxtMulta;
 	private JFormattedTextField ftxtQtd;
@@ -177,23 +175,6 @@ public class TelaCondominioMensal extends JFrame {
 		txtId.setBounds(163, 591, 105, 28);
 		txtId.setHorizontalAlignment(SwingConstants.CENTER);
 		painel.add(txtId);
-		
-		lblDtReg = new JLabel("Data de Registro");
-		lblDtReg.setBounds(48, 631, 104, 16);
-		painel.add(lblDtReg);
-		
-		try {
-			maskData = new MaskFormatter("##/##/####");
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		ftxtDtReg = new JFormattedTextField(maskData);
-		ftxtDtReg.setEnabled(false);
-		ftxtDtReg.setEditable(false);
-		ftxtDtReg.setHorizontalAlignment(SwingConstants.CENTER);
-		ftxtDtReg.setBounds(163, 625, 105, 28);
-		ftxtDtReg.setColumns(10);
-		painel.add(ftxtDtReg);
 		
 		lblReferencia = new JLabel("Mês de Referência");
 		lblReferencia.setBounds(48, 174, 117, 16);
@@ -332,7 +313,6 @@ public class TelaCondominioMensal extends JFrame {
 				tabDespesa, 
 				lblPesquisa, 
 				lblId, 
-				lblDtReg, 
 				lblMulta, 
 				txtId, 
 				txtNome,  
@@ -340,7 +320,6 @@ public class TelaCondominioMensal extends JFrame {
 				ftxtDtVenc, 
 				ftxtDtPagto, 
 				ftxtDtReg, 
-				ftxtDtAlt,  
 				ftxtMulta, 
 				ftxtValor, 
 				ftxtQtd, 

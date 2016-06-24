@@ -8,8 +8,6 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.SQLException;
@@ -58,7 +56,6 @@ public class CondominioMensalController implements ComponentListener {
 	private JTable tabela;
 	private JLabel lblPesquisa;
 	private JLabel lblId; 
-	private JLabel lblDtReg;
 	private JLabel lblMulta; 
 	private JTextField txtId; 
 	private JTextField txtNome; 
@@ -66,7 +63,6 @@ public class CondominioMensalController implements ComponentListener {
 	private JFormattedTextField ftxtDtVenc; 
 	private JFormattedTextField ftxtDtPagto; 
 	private JFormattedTextField ftxtDtReg;
-	private JFormattedTextField ftxtDtAlt;
 	private JFormattedTextField ftxtMulta;
 	private JFormattedTextField ftxtValor;
 	private JFormattedTextField ftxtQtd;
@@ -96,7 +92,6 @@ public class CondominioMensalController implements ComponentListener {
 			JTable tabela, 
 			JLabel lblPesquisa, 
 			JLabel lblId, 
-			JLabel lblDtReg, 
 			JLabel lblMulta, 
 			JTextField txtId, 
 			JTextField txtNome, 
@@ -104,7 +99,6 @@ public class CondominioMensalController implements ComponentListener {
 			JFormattedTextField ftxtDtVenc, 
 			JFormattedTextField ftxtDtPagto, 
 			JFormattedTextField ftxtDtReg, 
-			JFormattedTextField ftxtDtAlt,
 			JFormattedTextField ftxtMulta, 
 			JFormattedTextField ftxtValor, 
 			JFormattedTextField ftxtQtd, 
@@ -125,7 +119,6 @@ public class CondominioMensalController implements ComponentListener {
 		this.tabela = tabela;
 		this.lblPesquisa = lblPesquisa;
 		this.lblId = lblId;
-		this.lblDtReg = lblDtReg;
 		this.lblMulta = lblMulta;
 		this.txtId = txtId;
 		this.txtNome = txtNome;
@@ -133,7 +126,6 @@ public class CondominioMensalController implements ComponentListener {
 		this.ftxtDtVenc = ftxtDtVenc;
 		this.ftxtDtPagto = ftxtDtPagto;
 		this.ftxtDtReg = ftxtDtReg;
-		this.ftxtDtAlt = ftxtDtAlt;
 		this.ftxtMulta = ftxtMulta;
 		this.ftxtValor = ftxtValor;
 		this.ftxtQtd = ftxtQtd;
@@ -194,7 +186,6 @@ public class CondominioMensalController implements ComponentListener {
 			chkMulta.setEnabled(false);
 			lblPesquisa.setVisible(false);
 			lblId.setVisible(false);
-			lblDtReg.setVisible(false);
 			txtNome.setEnabled(false);
 			ftxtDtVenc.setEditable(false);
 			ftxtDtPagto.setEditable(false);
@@ -1420,7 +1411,6 @@ public class CondominioMensalController implements ComponentListener {
 					}
 				} else {
 					ftxtDtVenc.setText( obterDataVencimento() );
-//					totalCondominio( condominioMensal );
 					totalDespesa( despesas );
 					preencherMorador();
 				}
