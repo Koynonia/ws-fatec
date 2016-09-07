@@ -11,7 +11,7 @@ PROJETO REALIZAO POR:
 - WELLINGTON BRENO SANTOS CRUZ
 
 A documentação deste sistema se encontra na pasta "Documentos" juntamente 
-com as tabelas do banco de dados (arquivo pousada.sql).
+com as tabelas do banco de dados (pousada.sql).
 
 OBS.: Para a conexão no banco, trocar o usuário e senha do MySQL 
 na Classe GenericDao (package persistence).
