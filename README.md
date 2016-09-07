@@ -2,7 +2,7 @@ Projeto de controle de uma Pousada para a Matéria Engenharia de Software 2
 do curso de Análise e Desenvolvimento de Sistemas da FATEC ZL. 
 Tarde - 2º Semestre 2016
 
-PROJETO REALIZAO POR:
+PROJETO REALIZADO POR:
 
 - EMERSON SANTOS BRITO
 - FERNANDO MORAES OLVIEIRA
@@ -19,7 +19,7 @@ na Classe GenericDao (package persistence).
 
 
 ```
-#!java
+#!sql
 
 CREATE DATABASE pousada;
 
