@@ -17,6 +17,10 @@ OBS.: Para a conexão no banco, trocar o usuário e senha do MySQL
 na Classe GenericDao (package persistence).
 
 
+
+```
+#!java
+
 CREATE DATABASE pousada;
 
 USE pousada;
@@ -31,3 +35,4 @@ CREATE TABLE cliente(
   celular CHAR(12) UNIQUE,
   email CHAR(20) UNIQUE NOT NULL
 );
+```
