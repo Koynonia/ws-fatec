@@ -22,9 +22,8 @@ CREATE DATABASE pousada;
 USE pousada;
 
 CREATE TABLE cliente(
-  id INT PRIMARY KEY AUTO_INCREMENT,
   nome CHAR(30) NOT NULL,
-  cpf CHAR(11) UNIQUE NOT NULL,
+  cpf CHAR(11) PRIMARY KEY,
   endereco CHAR(100) NOT NULL,
   bairro CHAR(100) NOT NULL,
   cidade CHAR(100) NOT NULL,
