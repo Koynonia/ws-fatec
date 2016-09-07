@@ -8,7 +8,7 @@ PROJETO REALIZADO POR:
 - FERNANDO MORAES OLVIEIRA
 - GUILHERME JATOBÁ
 - JESSICA CARNEIRO BATISTA
-- WELLINGTON BRENO SANTOS CRUZ
+- WELLINGTON DOS SANTOS CRUZ
 
 A documentação deste sistema se encontra na pasta "Documentos" juntamente 
 com as tabelas do banco de dados (pousada.sql).
