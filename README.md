@@ -10,7 +10,7 @@ Projeto realizado por:
 - JESSICA CARNEIRO BATISTA
 - WELLINGTON DOS SANTOS CRUZ
 
-O histórico pode ser acompanhado no [wiki do projeto](https://bitbucket.org/jaegers/pousada/wiki/)
+O histórico pode ser acompanhado no [wiki do projeto](https://bitbucket.org/jaegers/pousada/wiki/).
 
 A **documentação** deste sistema se encontra na pasta "[Documentos](https://bitbucket.org/jaegers/pousada/src/769e7c3bf5f054f948bf8bd2feaff911e5dd6aea/Pousada/Documentos/?at=master)" juntamente com as tabelas do banco de dados (pousada.sql).
 
