@@ -2,7 +2,7 @@ Projeto de controle de uma Pousada para a Matéria Engenharia de Software 2
 do curso de Análise e Desenvolvimento de Sistemas da FATEC ZL. 
 Tarde - 2º Semestre 2016
 
-PROJETO REALIZADO POR:
+Projeto realizado por:
 
 - EMERSON SANTOS BRITO
 - FERNANDO MORAES OLVIEIRA
@@ -10,10 +10,12 @@ PROJETO REALIZADO POR:
 - JESSICA CARNEIRO BATISTA
 - WELLINGTON DOS SANTOS CRUZ
 
-A documentação deste sistema se encontra na pasta "Documentos" juntamente 
+O histórico pode ser acompanhado no [wiki do projeto](https://bitbucket.org/jaegers/pousada/wiki/)
+
+A **documentação** deste sistema se encontra na pasta "Documentos" juntamente 
 com as tabelas do banco de dados (pousada.sql).
 
-OBS.: Para a conexão no banco, trocar o usuário e senha do MySQL 
+**OBS.:** Para a conexão no banco, trocar o usuário e senha do MySQL 
 na Classe GenericDao (package persistence).
 
 
