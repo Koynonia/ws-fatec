@@ -10,9 +10,9 @@ Projeto realizado por:
 - JESSICA CARNEIRO BATISTA
 - WELLINGTON DOS SANTOS CRUZ
 
-O histórico pode ser acompanhado no [wiki do projeto](https://bitbucket.org/jaegers/pousada/wiki/).
+O histórico e a documentação podem ser acompanhados no [wiki do projeto](https://bitbucket.org/jaegers/pousada/wiki/).
 
-A **documentação** deste sistema se encontra na pasta "[Documentos](https://bitbucket.org/jaegers/pousada/src/769e7c3bf5f054f948bf8bd2feaff911e5dd6aea/Pousada/Documentos/?at=master)" juntamente com as tabelas do banco de dados (pousada.sql).
+A **documentação** deste sistema também se encontra na pasta "Documentos" juntamente com as tabelas do banco de dados (pousada.sql).
 
 **OBS.:** Para a conexão no banco, trocar o usuário e senha do MySQL 
 na Classe GenericDao (package persistence).
