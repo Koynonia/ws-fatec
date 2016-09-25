@@ -1,15 +1,17 @@
 Projeto de Geração da Tabela do Campeonato Paulista 2016 para a Matéria **Laboratório de Banco de Dados**
 do curso de Análise e Desenvolvimento de Sistemas da FATEC ZL.
-Professor: **Leandro Colevati dos Santos**
-Tarde - 2º Semestre 2016
 
+Professor M.Sc.: **Leandro Colevati dos Santos**
+Tarde - 2º Semestre 2016
+AVALIAÇÃO 1
+"Campeonato Paulista 2016"
 Projeto realizado por:
 
 - **FERNANDO MORAES OLVIEIRA**
 
 O histórico e a documentação podem ser acompanhados no [**wiki** do projeto](https://bitbucket.org/fatec2016/campeonatopaulista/wiki/).
 
-A **documentação** deste sistema também se encontra na pasta "Documentos" juntamente com as tabelas do banco de dados (pousada.sql).
+O **script do banco de dados** deste sistema também se encontra na pasta "sql" (LabBD_Avaliacao_1.sql).
 
 **OBS.:** Para a conexão no banco, trocar o usuário e senha do Microsoft SQL Server
 na Classe GenericDao (package persistence).
@@ -19,15 +21,8 @@ na Classe GenericDao (package persistence).
 #!sql
 
 /*
-Laboratório de Banco de Dados
-Prof. M.Sc. Leandro Colevati dos Santos
-
-AVALIAÇÃO 1
-
-"Campeonato Paulista 2016"
+* Criação da Base de Dados "Times" e preenchimento com o registro de 20 times de futebol 
 */
-
-USE Northwind
 
 IF (OBJECT_ID('Campeonato') IS NOT NULL)
 	DROP DATABASE Campeonato
@@ -101,8 +96,8 @@ REFERENCES Times(CodigoTime))
 #!sql
 
 /*
-1) Procedure que divide os times nos quatro grupos, preenchendo, aleatoriamente 
-(exceção da regra: Coritnthians, Palmeiras, Santos e São Paulo NÃO PODEM estar no mesmo grupo).
+* 1) Procedure que divide os times nos quatro grupos, preenchendo, aleatoriamente 
+* (exceção da regra: Coritnthians, Palmeiras, Santos e São Paulo NÃO PODEM estar no mesmo grupo).
 */
 
 IF (OBJECT_ID('sp_grupos') IS NOT NULL)
@@ -234,7 +229,7 @@ BEGIN
 END
 
 /*
-TESTE
+* TESTE
 */
 
 IF (OBJECT_ID('sp_grupos') IS NOT NULL)
@@ -248,10 +243,10 @@ GO
 #!sql
 
 /*
-2) Procedure que gera as rodadas dos jogos: 
-A primeira fase ocorrerá em 15 datas seguidas, 
-sempre rodada cheia (os 10 jogos com todos os 20 times), 
-aos domingos e quartas
+* 2) Procedure que gera as rodadas dos jogos: 
+* A primeira fase ocorrerá em 15 datas seguidas, 
+* sempre rodada cheia (os 10 jogos com todos os 20 times), 
+* aos domingos e quartas
 */
 
 IF (OBJECT_ID('sp_jogos') IS NOT NULL)
@@ -471,7 +466,7 @@ BEGIN
 END
 
 /*
-TESTE
+* TESTE
 */
 
 IF (OBJECT_ID( 'sp_jogos' ) IS NOT NULL)
