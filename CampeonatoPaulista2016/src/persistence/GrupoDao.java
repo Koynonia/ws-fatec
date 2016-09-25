@@ -3,6 +3,6 @@ package persistence;
 
 public interface GrupoDao {
 
-	public String informaConsumo();
+	public String geraGrupo();
 	
 }

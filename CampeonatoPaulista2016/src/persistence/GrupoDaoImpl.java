@@ -11,7 +11,7 @@ public class GrupoDaoImpl implements GrupoDao {
 	}
 	
 	@Override
-	public String informaConsumo() {
+	public String geraGrupo() {
 		// TODO Auto-generated method stub
 		String sql = "{CALL sp_grupos(?)}";
 		String saida = "";
