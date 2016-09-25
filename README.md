@@ -2,12 +2,13 @@ Projeto de Geração da Tabela do Campeonato Paulista 2016 para a Matéria **Lab
 do curso de Análise e Desenvolvimento de Sistemas da FATEC ZL.
 
 Professor M.Sc.: **Leandro Colevati dos Santos**
-Tarde - 2º Semestre 2016
-AVALIAÇÃO 1
-"Campeonato Paulista 2016"
-Projeto realizado por:
 
-- **FERNANDO MORAES OLVIEIRA**
+Tarde - 2º Semestre 2016
+
+AVALIAÇÃO 1: "Campeonato Paulista 2016"
+
+Projeto realizado por: **FERNANDO MORAES OLVIEIRA**
+
 
 O histórico e a documentação podem ser acompanhados no [**wiki** do projeto](https://bitbucket.org/fatec2016/campeonatopaulista/wiki/).
 
@@ -21,7 +22,7 @@ na Classe GenericDao (package persistence).
 #!sql
 
 /*
-* Criação da Base de Dados "Times" e preenchimento com o registro de 20 times de futebol 
+* Criação da Base de Dados "Campeonato"
 */
 
 IF (OBJECT_ID('Campeonato') IS NOT NULL)
@@ -31,6 +32,10 @@ GO
 CREATE DATABASE Campeonato
 GO
 USE Campeonato
+
+/*
+* Criação da Tabela "Times" e preenchimento com os registros de 20 times 
+*/
 
 IF (OBJECT_ID('Times') IS NOT NULL)
   DROP TABLE Times
@@ -65,6 +70,9 @@ INSERT INTO Times VALUES
 ('São Paulo Futebol Clube', 'São Paulo', 'Morumbi'), 
 ('Esporte Clube XV de Novembro', 'Piracicaba', 'Barão de Serra Negra')
 
+/*
+* Criação da Tabela "Grupos" 
+*/
 
 IF (OBJECT_ID('Grupos') IS NOT NULL)
   DROP TABLE Grupos
@@ -75,6 +83,10 @@ Grupo CHAR(1),
 CodigoTime INT NOT NULL 
 FOREIGN KEY (CodigoTime) 
 REFERENCES Times(CodigoTime))
+
+/*
+* Criação da Tabela "Jogos" 
+*/
 
 IF (OBJECT_ID('Jogos') IS NOT NULL)
   DROP TABLE Jogos
