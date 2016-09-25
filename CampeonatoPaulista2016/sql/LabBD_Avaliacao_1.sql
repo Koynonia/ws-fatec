@@ -5,9 +5,16 @@ Prof. M.Sc. Leandro Colevati dos Santos
 AVALIAÇÃO 1
 
 "Campeonato Paulista 2016"
+*
+* Criação da Base de Dados "Campeonato"
 */
 
-USE Northwind
+/*
+*TABELAS:
+*"Times" e preenchimento com o registro de 20 times de futebol
+*"Grupos"
+*"Jogos"
+*/
 
 IF (OBJECT_ID('Campeonato') IS NOT NULL)
 	DROP DATABASE Campeonato
