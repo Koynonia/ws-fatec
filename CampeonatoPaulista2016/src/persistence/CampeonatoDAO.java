@@ -19,6 +19,7 @@ public interface CampeonatoDAO {
 	public String geraGrupos();
 	public String geraJogos(Date dtInicio);
 	public List<Grupo> consultaGrupos(String grupo) throws CampeonatoDAOException;
+	public List<Jogo> consultaDataJogos(Date data) throws CampeonatoDAOException;
 	public List<Jogo> consultaJogos() throws CampeonatoDAOException;
 	
 }

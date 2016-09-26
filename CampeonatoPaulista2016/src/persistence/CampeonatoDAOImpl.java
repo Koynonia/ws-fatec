@@ -107,7 +107,7 @@ public class CampeonatoDAOImpl implements CampeonatoDAO {
 				+ "FROM Jogos AS j "
 				+ "INNER JOIN Times AS t "
 				+ "ON j.CodigoTimeB = t.CodigoTime) b "
-				+ "ON a.Data = b.Data";
+				+ "ON a.Data = b.Data ";
 		try {
 				PreparedStatement pst = con.prepareStatement( sql );
 				//pst.setString(1, "%" + data + "%");
@@ -126,4 +126,40 @@ public class CampeonatoDAOImpl implements CampeonatoDAO {
 		return lista;
 	}
 	
+
+	public List<Jogo> consultaDataJogos(Date dtPesq) throws CampeonatoDAOException{
+		
+		List<Jogo> lista = new ArrayList<Jogo>();
+		String sql = "SELECT a.Data, a.NomeTime AS 'Time A', b.NomeTime AS 'Time B' "
+				+ "FROM("
+				+ "SELECT j.Data, t.NomeTime "
+				+ "FROM Jogos AS j "
+				+ "INNER JOIN Times AS t "
+				+ "ON j.CodigoTimeA = t.CodigoTime) a "
+				+ "INNER JOIN("
+				+ "SELECT j.Data, t.NomeTime "
+				+ "FROM Jogos AS j "
+				+ "INNER JOIN Times AS t "
+				+ "ON j.CodigoTimeB = t.CodigoTime) b "
+				+ "ON a.Data = b.Data "
+				+ "WHERE a.Data = ?";
+		try {
+				PreparedStatement pst = con.prepareStatement( sql );
+				long num = dtPesq.getTime();
+				java.sql.Date data = new java.sql.Date(num);
+				pst.setDate(1, data);
+				ResultSet rs = pst.executeQuery();
+				while( rs.next() ) { 
+					Jogo j = new Jogo();
+					j.setData( rs.getDate( "Data" ) );
+					j.setTimeA( rs.getString( "Time A" ) );
+					j.setTimeB( rs.getString( "Time B" ) );
+					lista.add( j );
+				}
+		} catch( SQLException e ) { 
+			e.printStackTrace();
+			throw new CampeonatoDAOException( e );
+		}
+		return lista;
+	}
 }

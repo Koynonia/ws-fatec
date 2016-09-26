@@ -86,13 +86,13 @@ public class JogoView extends JFrame {
 		lblJogos.setBounds(53, 95, 147, 16);
 		contentPane.add(lblJogos);
 		
+		tabJogos = new JTable();
+		tabJogos.setBorder(null);
+		
 		JScrollPane spJogos = new JScrollPane();
 		spJogos.setBounds(53, 119, 722, 194);
 		spJogos.setViewportView(tabJogos);
 		contentPane.add(spJogos);
-		
-		tabJogos = new JTable();
-		tabJogos.setBorder(null);
 		
 		JButton btnVerificar = new JButton("Verificar");
 		btnVerificar.setBounds(369, 32, 117, 29);
@@ -108,7 +108,7 @@ public class JogoView extends JFrame {
 		
 		JogoCtrl j = new JogoCtrl( this, ftxtData, tabJogos );
 		
-		btnVerificar.addActionListener(j.preencherTabela);
+		btnVerificar.addActionListener(j.verificaData);
 		btnGerarJogos.addActionListener(j.preencherTabela);
 		btnFechar.addActionListener(j.fechar);
 	}
