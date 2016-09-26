@@ -65,18 +65,24 @@ public class CampeonatoDAOImpl implements CampeonatoDAO {
 	public List<Grupo> consultaGrupos(String grupo) throws CampeonatoDAOException{
 		
 		List<Grupo> lista = new ArrayList<Grupo>();
-		String sql = "SELECT * FROM Grupos WHERE nome like ?";
+		String sql = "SELECT  g.Grupo, t.NomeTime "
+					+ "FROM Times AS t "
+					+ "INNER JOIN Grupos AS g "
+					+ "ON g.CodigoTime = t.CodigoTime "
+					+ "WHERE g.Grupo LIKE ?"
+					+ "GROUP BY g.Grupo, t.NomeTime"
+					+ "ORDER BY g.Grupo ASC, t.NomeTime DESC";
 		try {
 				PreparedStatement pst = con.prepareStatement( sql );
-				pst.setString(1, "%" + grupo + "%");
+				pst.setString( 1, grupo );
 				ResultSet rs = pst.executeQuery();
 				while( rs.next() ) { 
 					Grupo g = new Grupo();
-					g.setGrupo( rs.getString(" Grupo ") );
-					g.setTime( rs.getString(" NomeTime ") );
+					g.setGrupo( rs.getString( "Grupo" ));
+					g.setTime( rs.getString( "NomeTime" ));
 					lista.add( g );
 				}
-		} catch( SQLException e ) { 
+		} catch( SQLException e ) {
 			e.printStackTrace();
 			throw new CampeonatoDAOException( e );
 		}

@@ -19,6 +19,9 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import persistence.CampeonatoDAO;
+import persistence.CampeonatoDAOException;
+import persistence.CampeonatoDAOImpl;
 import model.Grupo;
 
 public class GrupoCtrl {
@@ -41,6 +44,14 @@ public class GrupoCtrl {
 		this.tbGrupoC = tbGrupoC;
 		this.tbGrupoD = tbGrupoD;
 		this.grupos = new ArrayList<Grupo>();
+	}
+	
+	public void carregaGrupo() throws CampeonatoDAOException {
+		
+		CampeonatoDAO dao = new CampeonatoDAOImpl();
+		grupos = dao.consultaGrupos("A");
+		List<Grupo> dados = new ArrayList<Grupo>();
+		grupos = dados;
 	}
 
 	public void formataTabGrupoA(){
@@ -112,6 +123,12 @@ public class GrupoCtrl {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			try {
+				carregaGrupo();
+			} catch (CampeonatoDAOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			formataTabGrupoA();
 		}
 	};

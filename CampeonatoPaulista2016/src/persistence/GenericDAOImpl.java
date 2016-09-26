@@ -11,11 +11,11 @@ public class GenericDAOImpl implements GenericDAO{
 	public Connection getConnection() {
 
 		try {
-			Class.forName("net.sourceforge.jtds.jdbc.Driver");
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver").newInstance();
 			con = DriverManager
 					.getConnection(
-							"jdbc:jtds:sqlserver://127.0.0.1:1433;DatabaseName=consumo;namedPipe=true",
-							"fernando", "12345");
+							"jdbc:sqlserver://192.168.150.128:1433;DatabaseName=Campeonato;namedPipe=true",
+							"Fernando", "12345");
 //			System.out.println("Conexao ok");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
