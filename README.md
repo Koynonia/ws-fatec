@@ -125,6 +125,7 @@ AS DECLARE 	@numTimes INT,
 			@sqlTimes VARCHAR(MAX),
 			@sqlGrupo VARCHAR(MAX)
 
+DELETE FROM Grupos
 SELECT @numTimes = COUNT(CodigoTime) FROM Times
 SET @numGrupos = 4
 SET @numTimesPorGrupo = @numTimes / @numGrupos
@@ -245,7 +246,6 @@ END
 */
 
 IF (OBJECT_ID('sp_grupos') IS NOT NULL)
-	DELETE FROM Grupos
 	EXEC sp_grupos
 	SELECT * FROM Grupos
 GO
@@ -277,7 +277,8 @@ AS DECLARE 	@numTimes INT,
 			@sqlDomFaseC VARCHAR(MAX),
 			@sqlQuaFaseC VARCHAR(MAX),
 			@sqlData SMALLDATETIME
-			
+
+DELETE FROM Jogos			
 SET @rodadas = 15
 SELECT @numTimes = COUNT(CodigoTime) FROM Times
 
@@ -482,7 +483,6 @@ END
 */
 
 IF (OBJECT_ID( 'sp_jogos' ) IS NOT NULL)
-	DELETE FROM Jogos
 	DECLARE @dtInicio SMALLDATETIME
 	SET @dtInicio = CONVERT( SMALLDATETIME,'01/09/2016',103 )
 	EXEC sp_jogos @dtInicio
