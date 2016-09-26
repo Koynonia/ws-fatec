@@ -1,28 +1,25 @@
 /*
-Laboratório de Banco de Dados
-Prof. M.Sc. Leandro Colevati dos Santos
-
-AVALIAÇÃO 1
-
-"Campeonato Paulista 2016"
-*
-* Criação da Base de Dados "Campeonato"
+* Laboratório de Banco de Dados
+* Prof. M.Sc. Leandro Colevati dos Santos
+* 
+* AVALIAÇÃO 1: "Campeonato Paulista 2016"
 */
 
 /*
-*TABELAS:
-*"Times" e preenchimento com o registro de 20 times de futebol
-*"Grupos"
-*"Jogos"
+* Criação da Base de Dados "Campeonato"
 */
 
 IF (OBJECT_ID('Campeonato') IS NOT NULL)
-	DROP DATABASE Campeonato
+    DROP DATABASE Campeonato
 GO
 
 CREATE DATABASE Campeonato
 GO
 USE Campeonato
+
+/*
+* Criação da Tabela "Times" e preenchimento com os registros de 20 times 
+*/
 
 IF (OBJECT_ID('Times') IS NOT NULL)
   DROP TABLE Times
@@ -57,6 +54,9 @@ INSERT INTO Times VALUES
 ('São Paulo Futebol Clube', 'São Paulo', 'Morumbi'), 
 ('Esporte Clube XV de Novembro', 'Piracicaba', 'Barão de Serra Negra')
 
+/*
+* Criação da Tabela "Grupos" 
+*/
 
 IF (OBJECT_ID('Grupos') IS NOT NULL)
   DROP TABLE Grupos
@@ -67,6 +67,10 @@ Grupo CHAR(1),
 CodigoTime INT NOT NULL 
 FOREIGN KEY (CodigoTime) 
 REFERENCES Times(CodigoTime))
+
+/*
+* Criação da Tabela "Jogos" 
+*/
 
 IF (OBJECT_ID('Jogos') IS NOT NULL)
   DROP TABLE Jogos
@@ -82,7 +86,6 @@ FOREIGN KEY (CodigoTimeA)
 REFERENCES Times(CodigoTime), 
 FOREIGN KEY (CodigoTimeB) 
 REFERENCES Times(CodigoTime))
-
 
 
 /*
@@ -103,11 +106,12 @@ AS DECLARE 	@numTimes INT,
 			@sqlTimes VARCHAR(MAX),
 			@sqlGrupo VARCHAR(MAX)
 
+DELETE FROM Grupos
 SELECT @numTimes = COUNT(CodigoTime) FROM Times
 SET @numGrupos = 4
 SET @numTimesPorGrupo = @numTimes / @numGrupos
-SET @contador = 1;
 
+SET @contador = 1;
 SET @sqlTimes = 'INSERT INTO Grupos(CodigoTime)
 							SELECT TOP 1 t.CodigoTime 
 							FROM Times AS t 
@@ -219,11 +223,10 @@ BEGIN
 END
 
 /*
- * TESTE
- */
+* TESTE
+*/
 
 IF (OBJECT_ID('sp_grupos') IS NOT NULL)
-	DELETE FROM Grupos
 	EXEC sp_grupos
 	SELECT * FROM Grupos
 GO
@@ -251,7 +254,8 @@ AS DECLARE 	@numTimes INT,
 			@sqlDomFaseC VARCHAR(MAX),
 			@sqlQuaFaseC VARCHAR(MAX),
 			@sqlData SMALLDATETIME
-			
+
+DELETE FROM Jogos			
 SET @rodadas = 15
 SELECT @numTimes = COUNT(CodigoTime) FROM Times
 
@@ -452,13 +456,51 @@ BEGIN
 END
 
 /*
- * TESTE
- */
+* TESTE
+*/
 
 IF (OBJECT_ID( 'sp_jogos' ) IS NOT NULL)
-	DELETE FROM Jogos
 	DECLARE @dtInicio SMALLDATETIME
-	SET @dtInicio = CONVERT( SMALLDATETIME,'01/09/2016',103 )
+	SET @dtInicio = '2016-01-30'--CONVERT( SMALLDATETIME,'01/09/2016',103 )
 	EXEC sp_jogos @dtInicio
 	SELECT * FROM Jogos
 GO
+
+/*
+* TESTES
+*/
+
+SELECT * FROM Grupos
+ 
+SELECT j.CodigoTimeA,j.CodigoTimeB, j.Data 
+FROM Jogos AS j 
+WHERE j.CodigoTimeA = 9
+
+SELECT  g.Grupo, t.NomeTime 
+FROM Times AS t
+INNER JOIN Grupos AS g
+ON g.CodigoTime = t.CodigoTime 
+--WHERE g.Grupo LIKE 'A'
+GROUP BY g.Grupo, t.NomeTime
+ORDER BY g.Grupo ASC, t.NomeTime DESC
+
+SELECT a.Data, a.NomeTime AS 'Time A', b.NomeTime AS 'Time B' 
+FROM(
+SELECT j.Data, t.NomeTime
+FROM Jogos AS j
+INNER JOIN Times AS t 
+ON j.CodigoTimeA = t.CodigoTime) a 
+INNER JOIN(
+SELECT j.Data, t.NomeTime
+FROM Jogos AS j
+INNER JOIN Times AS t 
+ON j.CodigoTimeB = t.CodigoTime) b
+ON a.Data = b.Data
+
+SELECT CodigoTimeB, Count(*)AS 'Total' FROM Jogos AS j
+WHERE j.CodigoTimeA = 5
+GROUP BY CodigoTimeB
+HAVING Count(*) > 1
+
+SELECT Data, Count(*) AS 'Total' FROM Jogos AS j
+GROUP BY Data
