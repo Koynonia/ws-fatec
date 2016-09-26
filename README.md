@@ -1,4 +1,4 @@
-Projeto de Geração da Tabela do Campeonato Paulista 2016 para a Matéria **Laboratório de Banco de Dados**
+Projeto do Campeonato Paulista 2016 para a Matéria **Laboratório de Banco de Dados**
 do curso de Análise e Desenvolvimento de Sistemas da FATEC ZL.
 
 Professor M.Sc.: **Leandro Colevati dos Santos**
