@@ -1,23 +1,18 @@
 package model;
 
+import java.util.Date;
+
 public class Jogo {
 	
-	private Integer codTimeA;
-	private Integer codTimeB;
+	private Date data;
 	private String timeA;
 	private String timeB;
 	
-	public Integer getCodTimeA() {
-		return codTimeA;
+	public Date getData() {
+		return data;
 	}
-	public void setCodTimeA(Integer codTimeA) {
-		this.codTimeA = codTimeA;
-	}
-	public Integer getCodTimeB() {
-		return codTimeB;
-	}
-	public void setCodTimeB(Integer codTimeB) {
-		this.codTimeB = codTimeB;
+	public void setData(Date data) {
+		this.data = data;
 	}
 	public String getTimeA() {
 		return timeA;

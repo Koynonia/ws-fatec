@@ -2,7 +2,7 @@ package persistence;
 
 import java.sql.Connection;
 
-public interface GenericDao {
+public interface GenericDAO {
 
 	public Connection getConnection();
 	public void fechaConexao();

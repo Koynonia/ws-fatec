@@ -2,16 +2,9 @@ package model;
 
 public class Grupo {
 	
-	private Integer codTime;
 	private String grupo;
 	private String time;
 	
-	public Integer getCodTime() {
-		return codTime;
-	}
-	public void setCodTime(Integer codTime) {
-		this.codTime = codTime;
-	}
 	public String getGrupo() {
 		return grupo;
 	}

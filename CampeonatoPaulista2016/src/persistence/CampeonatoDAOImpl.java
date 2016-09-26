@@ -1,3 +1,10 @@
+/**
+ * @author Fernando Moraes Oliveira
+ * Matéria Laboratório de Banco de Dados
+ * 5º ADS - Tarde
+ * Iniciado em 25/09/2016
+ */
+
 package persistence;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -11,12 +18,12 @@ import java.util.List;
 import model.Grupo;
 import model.Jogo;
 
-public class CampeonatoDaoImpl implements CampeonatoDao {
+public class CampeonatoDAOImpl implements CampeonatoDAO {
 
 	Connection con;
 	
-	public CampeonatoDaoImpl(){
-		GenericDao gDao = new GenericDaoImpl();
+	public CampeonatoDAOImpl(){
+		GenericDAO gDao = new GenericDAOImpl();
 		con = gDao.getConnection();
 	}
 	
@@ -65,9 +72,8 @@ public class CampeonatoDaoImpl implements CampeonatoDao {
 				ResultSet rs = pst.executeQuery();
 				while( rs.next() ) { 
 					Grupo g = new Grupo();
-					g.setCodTime( rs.getInt("CodigoTime") );
-					g.setTime( rs.getString("NomeTime") );
-					g.setGrupo( rs.getString("Grupo") );
+					g.setGrupo( rs.getString(" Grupo ") );
+					g.setTime( rs.getString(" NomeTime ") );
 					lista.add( g );
 				}
 		} catch( SQLException e ) { 
@@ -88,10 +94,9 @@ public class CampeonatoDaoImpl implements CampeonatoDao {
 				ResultSet rs = pst.executeQuery();
 				while( rs.next() ) { 
 					Jogo j = new Jogo();
-					j.setCodTimeA( rs.getInt("CodigoTimeA") );
-					j.setTimeA( rs.getString("NomeTime") );
-					j.setCodTimeB( rs.getInt("CodigoTimeB") );
-					j.setTimeB( rs.getString("NomeTime") );
+					j.setData( rs.getDate( "Data" ) );
+					j.setTimeA( rs.getString( "NomeTime" ) );
+					j.setTimeB( rs.getString( "NomeTime" ) );
 					lista.add( j );
 				}
 		} catch( SQLException e ) { 

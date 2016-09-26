@@ -1,19 +1,25 @@
+/**
+ * @author Fernando Moraes Oliveira
+ * Matéria Laboratório de Banco de Dados
+ * 5º ADS - Tarde
+ * Iniciado em 25/09/2016
+ */
+
 package view;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import javax.swing.JTable;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 
-public class Campeonato extends JFrame {
+import controller.GrupoCtrl;
+
+public class GrupoView extends JFrame {
 
 	/**
 	 * 
@@ -32,7 +38,7 @@ public class Campeonato extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Campeonato frame = new Campeonato();
+					GrupoView frame = new GrupoView();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -44,10 +50,10 @@ public class Campeonato extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Campeonato() {
+	public GrupoView() {
 		
 		setBounds(100, 100, 560, 400);
-		setTitle("Geração de Grupos");
+		setTitle("Grupos do Campeonato");
 		setName("Grupos");
 		setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
 		setLocationRelativeTo(null);
@@ -60,22 +66,6 @@ public class Campeonato extends JFrame {
 		btnGerarGrupos.setVisible(true);
 		contentPane.setLayout(null);
 		contentPane.add(btnGerarGrupos);
-		
-		tbGrupoA = new JTable();
-		tbGrupoA.setBounds(22, 48, 206, 105);
-		contentPane.add(tbGrupoA);
-		
-		tbGrupoB = new JTable();
-		tbGrupoB.setBounds(330, 48, 206, 105);
-		contentPane.add(tbGrupoB);
-		
-		tbGrupoC = new JTable();
-		tbGrupoC.setBounds(22, 201, 206, 105);
-		contentPane.add(tbGrupoC);
-		
-		tbGrupoD = new JTable();
-		tbGrupoD.setBounds(330, 201, 206, 105);
-		contentPane.add(tbGrupoD);
 		
 		JLabel lblGrupoA = new JLabel("Grupo A");
 		lblGrupoA.setBounds(92, 23, 61, 16);
@@ -92,5 +82,40 @@ public class Campeonato extends JFrame {
 		JLabel lblGrupoD = new JLabel("Grupo D");
 		lblGrupoD.setBounds(407, 173, 61, 16);
 		contentPane.add(lblGrupoD);
+		
+		JScrollPane spGrupoA = new JScrollPane();
+		spGrupoA.setBounds(22, 48, 206, 105);
+		spGrupoA.setViewportView(tbGrupoA);
+		contentPane.add(spGrupoA);
+		
+		JScrollPane spGrupoB = new JScrollPane();
+		spGrupoB.setBounds(330, 48, 206, 105);
+		spGrupoB.setViewportView(tbGrupoB);
+		contentPane.add(spGrupoB);
+		
+		JScrollPane spGrupoC = new JScrollPane();
+		spGrupoC.setBounds(22, 201, 206, 105);
+		spGrupoC.setViewportView(tbGrupoC);
+		contentPane.add(spGrupoC);
+		
+		JScrollPane spGrupoD = new JScrollPane();
+		spGrupoD.setBounds(330, 201, 206, 105);
+		spGrupoD.setViewportView(tbGrupoD);
+		contentPane.add(spGrupoD);
+		
+		tbGrupoA = new JTable();
+		tbGrupoA.setBorder(null);
+		
+		tbGrupoB = new JTable();
+		tbGrupoB.setBorder(null);
+		
+		tbGrupoC = new JTable();
+		tbGrupoC.setBorder(null);
+		
+		tbGrupoD = new JTable();
+		tbGrupoD.setBorder(null);
+		
+		GrupoCtrl g = new GrupoCtrl(tbGrupoA, tbGrupoB, tbGrupoC, tbGrupoD);
+		btnGerarGrupos.addActionListener(g.preencherTabela);
 	}
 }

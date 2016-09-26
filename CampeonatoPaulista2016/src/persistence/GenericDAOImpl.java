@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class GenericDaoImpl implements GenericDao{
+public class GenericDAOImpl implements GenericDAO{
 
 	private static Connection con;
 
