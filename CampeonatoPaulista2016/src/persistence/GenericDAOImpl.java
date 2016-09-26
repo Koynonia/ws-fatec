@@ -14,7 +14,7 @@ public class GenericDAOImpl implements GenericDAO{
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver").newInstance();
 			con = DriverManager
 					.getConnection(
-							"jdbc:sqlserver://192.168.150.128:1433;DatabaseName=Campeonato;namedPipe=true",
+							"jdbc:sqlserver://localhost:1433;DatabaseName=Campeonato;namedPipe=true",
 							"Fernando", "12345");
 //			System.out.println("Conexao ok");
 		} catch (ClassNotFoundException e) {

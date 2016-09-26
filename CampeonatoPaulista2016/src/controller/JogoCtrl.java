@@ -9,8 +9,10 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JFormattedTextField;
@@ -22,6 +24,9 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import persistence.CampeonatoDAO;
+import persistence.CampeonatoDAOException;
+import persistence.CampeonatoDAOImpl;
 import view.JogoView;
 import view.MenuView;
 import model.Jogo;
@@ -41,11 +46,19 @@ public class JogoCtrl {
 		this.tabela = tabela;
 		this.jogos = new ArrayList<Jogo>();
 	}
-	
+
+	public void carregaJogo(Date dtInicio) throws CampeonatoDAOException {
+
+		CampeonatoDAO dao = new CampeonatoDAOImpl();
+		dao.geraJogos(dtInicio);
+		jogos = dao.consultaJogos();
+	}
+
 	public void formataTabela(){
 		
 		List<String[]> linhas = new ArrayList<>();
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		
 		if( !jogos.isEmpty() ){
 			for (int i = 0; i < jogos.size(); i++) {
 				String[] j = {
@@ -76,7 +89,7 @@ public class JogoCtrl {
 				direita.setHorizontalAlignment(SwingConstants.RIGHT);
 
 				//NOMES DAS COLUNAS DA TABELA
-				String[] nomesColunas = { "Data","Time A", "Time B"};
+				String[] nomesColunas = {"Data","Time A", "Time B"};
 
 				//CRIA UM DefaulTableModel COM OS DADOS (LINHAS E COLUNAS)
 				@SuppressWarnings("serial")
@@ -93,7 +106,7 @@ public class JogoCtrl {
 					}  
 				};
 
-				//DEFINE COMO SELEÇÃO TODA A LINHA
+				//DEFINE COMO SELECAO TODA A LINHA
 				tabela.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 				//DEFINE O MODEL DA TABELA
@@ -120,7 +133,21 @@ public class JogoCtrl {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			formataTabela();
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+			try {
+				java.util.Date dtInicio = new java.util.Date(sdf.parse((String) ftxtData.getValue()).getTime());
+				carregaJogo( dtInicio );
+				formataTabela();
+			} catch (ParseException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			} catch (CampeonatoDAOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
 		}
 	};
 	

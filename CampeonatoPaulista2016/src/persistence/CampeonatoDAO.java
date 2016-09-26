@@ -7,6 +7,7 @@
 
 package persistence;
 
+import java.util.Date;
 import java.util.List;
 
 import model.Grupo;
@@ -16,8 +17,8 @@ import model.Jogo;
 public interface CampeonatoDAO {
 
 	public String geraGrupos();
-	public String geraJogos();
+	public String geraJogos(Date dtInicio);
 	public List<Grupo> consultaGrupos(String grupo) throws CampeonatoDAOException;
-	public List<Jogo> consultaJogos(String data) throws CampeonatoDAOException;
+	public List<Jogo> consultaJogos() throws CampeonatoDAOException;
 	
 }

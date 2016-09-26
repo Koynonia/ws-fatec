@@ -38,7 +38,8 @@ public class GrupoCtrl {
 	private List<Grupo> grupos;
 
 	public GrupoCtrl(
-			GrupoView janela, JTable tbGrupoA, 
+			GrupoView janela, 
+			JTable tbGrupoA, 
 			JTable tbGrupoB, 
 			JTable tbGrupoC,
 			JTable tbGrupoD) {
@@ -54,17 +55,18 @@ public class GrupoCtrl {
 	public void carregaGrupo() throws CampeonatoDAOException {
 		
 		CampeonatoDAO dao = new CampeonatoDAOImpl();
+		dao.geraGrupos();
 		grupos = dao.consultaGrupos("A");
-		List<Grupo> dados = new ArrayList<Grupo>();
-		grupos = dados;
 	}
 
 	public void formataTabGrupoA(){
 
 		List<String[]> linhas = new ArrayList<>();
+		
 		if( !grupos.isEmpty() ){
 
 			for (int i = 0; i < grupos.size(); i++) {
+				
 				String[] g = {
 						grupos.get(i).getGrupo(),
 						grupos.get(i).getTime(),
@@ -92,13 +94,13 @@ public class GrupoCtrl {
 		direita.setHorizontalAlignment(SwingConstants.RIGHT);
 
 		//NOMES DAS COLUNAS DA TABELA
-		String[] nomesColunas = { "Grupo","Time"};
+		String[] nomesColunas = {"Grupo","Time"};
 
 		//CRIA UM DefaulTableModel COM OS DADOS (LINHAS E COLUNAS)
 		@SuppressWarnings("serial")
 		DefaultTableModel model = new DefaultTableModel(
 				linhas.toArray(new String[linhas.size()][]), nomesColunas)
-		//TRAVA A EDIÇÃO DAS CELULAS
+		//TRAVA A EDICAO DAS CELULAS
 		{  		  
 			boolean[] canEdit = new boolean []{    
 					false, false
@@ -109,7 +111,7 @@ public class GrupoCtrl {
 			}  
 		};
 
-		//DEFINE COMO SELEÇÃO TODA A LINHA
+		//DEFINE COMO SELECAO TODA A LINHA
 		tbGrupoA.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 		//DEFINE O MODEL DA TABELA
@@ -131,15 +133,14 @@ public class GrupoCtrl {
 
 	public ActionListener preencherTabela = new ActionListener() {
 
-		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
 				carregaGrupo();
+				formataTabGrupoA();
 			} catch (CampeonatoDAOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			formataTabGrupoA();
 		}
 	};
 	

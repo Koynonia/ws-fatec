@@ -107,6 +107,7 @@ public class JogoView extends JFrame {
 		contentPane.add(btnFechar);
 		
 		JogoCtrl j = new JogoCtrl( this, ftxtData, tabJogos );
+		
 		btnVerificar.addActionListener(j.preencherTabela);
 		btnGerarJogos.addActionListener(j.preencherTabela);
 		btnFechar.addActionListener(j.fechar);
