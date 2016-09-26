@@ -52,7 +52,7 @@ public class GrupoView extends JFrame {
 	 */
 	public GrupoView() {
 		
-		setBounds(100, 100, 560, 400);
+		setBounds(100, 100, 826, 432);
 		setTitle("Grupos do Campeonato");
 		setName("Grupos");
 		setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
@@ -60,46 +60,41 @@ public class GrupoView extends JFrame {
 		
 		contentPane = new JPanel();
 		setContentPane(contentPane);
-		
-		JButton btnGerarGrupos = new JButton("Gerar Grupos");
-		btnGerarGrupos.setBounds(218, 332, 126, 29);
-		btnGerarGrupos.setVisible(true);
 		contentPane.setLayout(null);
-		contentPane.add(btnGerarGrupos);
 		
 		JLabel lblGrupoA = new JLabel("Grupo A");
-		lblGrupoA.setBounds(92, 23, 61, 16);
+		lblGrupoA.setBounds(55, 36, 51, 16);
 		contentPane.add(lblGrupoA);
 		
 		JLabel lblGrupoB = new JLabel("Grupo B");
-		lblGrupoB.setBounds(407, 23, 61, 16);
+		lblGrupoB.setBounds(444, 36, 49, 16);
 		contentPane.add(lblGrupoB);
 		
 		JLabel lblGrupoC = new JLabel("Grupo C");
-		lblGrupoC.setBounds(92, 173, 61, 16);
+		lblGrupoC.setBounds(55, 190, 51, 16);
 		contentPane.add(lblGrupoC);
 		
 		JLabel lblGrupoD = new JLabel("Grupo D");
-		lblGrupoD.setBounds(407, 173, 61, 16);
+		lblGrupoD.setBounds(444, 190, 52, 16);
 		contentPane.add(lblGrupoD);
 		
 		JScrollPane spGrupoA = new JScrollPane();
-		spGrupoA.setBounds(22, 48, 206, 105);
+		spGrupoA.setBounds(55, 64, 331, 116);
 		spGrupoA.setViewportView(tbGrupoA);
 		contentPane.add(spGrupoA);
 		
 		JScrollPane spGrupoB = new JScrollPane();
-		spGrupoB.setBounds(330, 48, 206, 105);
+		spGrupoB.setBounds(444, 64, 331, 116);
 		spGrupoB.setViewportView(tbGrupoB);
 		contentPane.add(spGrupoB);
 		
 		JScrollPane spGrupoC = new JScrollPane();
-		spGrupoC.setBounds(22, 201, 206, 105);
+		spGrupoC.setBounds(55, 218, 331, 116);
 		spGrupoC.setViewportView(tbGrupoC);
 		contentPane.add(spGrupoC);
 		
 		JScrollPane spGrupoD = new JScrollPane();
-		spGrupoD.setBounds(330, 201, 206, 105);
+		spGrupoD.setBounds(444, 218, 331, 116);
 		spGrupoD.setViewportView(tbGrupoD);
 		contentPane.add(spGrupoD);
 		
@@ -115,7 +110,16 @@ public class GrupoView extends JFrame {
 		tbGrupoD = new JTable();
 		tbGrupoD.setBorder(null);
 		
-		GrupoCtrl g = new GrupoCtrl(tbGrupoA, tbGrupoB, tbGrupoC, tbGrupoD);
+		JButton btnGerarGrupos = new JButton("Gerar Grupos");
+		btnGerarGrupos.setBounds(498, 361, 126, 29);
+		contentPane.add(btnGerarGrupos);
+		
+		JButton btnFechar = new JButton("Voltar");
+		btnFechar.setBounds(649, 361, 126, 29);
+		contentPane.add(btnFechar);
+		
+		GrupoCtrl g = new GrupoCtrl(this, tbGrupoA, tbGrupoB, tbGrupoC, tbGrupoD);
 		btnGerarGrupos.addActionListener(g.preencherTabela);
+		btnFechar.addActionListener(g.fechar);
 	}
 }

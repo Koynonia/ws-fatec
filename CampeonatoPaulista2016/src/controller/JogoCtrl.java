@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFormattedTextField;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -21,16 +22,21 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import view.JogoView;
+import view.MenuView;
 import model.Jogo;
 
 public class JogoCtrl {
 
+	private JogoView janela;
+	private MenuView janelaMenu;
 	private JFormattedTextField ftxtData;
 	private JTable tabela;
 	private List<Jogo>jogos;
 	
-	public JogoCtrl(JFormattedTextField ftxtData, JTable tabela) {
+	public JogoCtrl(JogoView janela, JFormattedTextField ftxtData, JTable tabela) {
 		
+		this.janela = janela;
 		this.ftxtData = ftxtData;
 		this.tabela = tabela;
 		this.jogos = new ArrayList<Jogo>();
@@ -103,6 +109,11 @@ public class JogoCtrl {
 				tabela.getColumnModel().getColumn(1).setPreferredWidth(100);
 				tabela.getColumnModel().getColumn(2).setPreferredWidth(100);
 	}
+	
+	public void fechar(){
+		if(janela != null)
+			janela.dispose();
+	}
 
 
 	public ActionListener preencherTabela = new ActionListener() {
@@ -110,6 +121,20 @@ public class JogoCtrl {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			formataTabela();
+		}
+	};
+	
+	public ActionListener fechar = new ActionListener() {
+
+		public void actionPerformed(ActionEvent e) {
+			if (janelaMenu == null){
+				janelaMenu = new MenuView();
+				janelaMenu.setVisible(true);
+			} else {
+				janelaMenu.setVisible(true);
+				janelaMenu.setState(JFrame.NORMAL);
+			}
+			fechar();
 		}
 	};
 }

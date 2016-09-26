@@ -25,7 +25,7 @@ import controller.JogoCtrl;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 
-public class JogosView extends JFrame {
+public class JogoView extends JFrame {
 
 	/**
 	 * 
@@ -41,7 +41,7 @@ public class JogosView extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					JogosView frame = new JogosView();
+					JogoView frame = new JogoView();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -53,9 +53,9 @@ public class JogosView extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public JogosView() {
+	public JogoView() {
 		
-		setBounds(100, 100, 560, 400);
+		setBounds(100, 100, 826, 432);
 		setTitle("Jogos do Campeonato");
 		setName("Jogos");
 		setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
@@ -63,9 +63,10 @@ public class JogosView extends JFrame {
 		
 		contentPane = new JPanel();
 		setContentPane(contentPane);
+		contentPane.setLayout(null);
 		
 		JLabel lblData = new JLabel("Digite uma data de Jogo:");
-		lblData.setBounds(22, 31, 164, 16);
+		lblData.setBounds(53, 37, 164, 16);
 		contentPane.add(lblData);
 		
 		MaskFormatter maskData;
@@ -73,7 +74,7 @@ public class JogosView extends JFrame {
 			maskData = new MaskFormatter("##/##/####");
 			ftxtData = new JFormattedTextField(maskData);
 			ftxtData.setHorizontalAlignment(SwingConstants.CENTER);
-			ftxtData.setBounds(192, 25, 134, 29);
+			ftxtData.setBounds(223, 31, 134, 29);
 			contentPane.add(ftxtData);
 			ftxtData.setColumns(10);
 		} catch (ParseException e) {
@@ -82,29 +83,32 @@ public class JogosView extends JFrame {
 		}
 
 		JLabel lblJogos = new JLabel("Jogos do Campeonato:");
-		lblJogos.setBounds(22, 70, 147, 16);
+		lblJogos.setBounds(53, 95, 147, 16);
 		contentPane.add(lblJogos);
 		
 		JScrollPane spJogos = new JScrollPane();
-		spJogos.setBounds(22, 90, 515, 194);
+		spJogos.setBounds(53, 119, 722, 194);
 		spJogos.setViewportView(tabJogos);
 		contentPane.add(spJogos);
 		
 		tabJogos = new JTable();
 		tabJogos.setBorder(null);
 		
-		JButton btnGerarJogos = new JButton("Gerar Jogos");
-		btnGerarJogos.setBounds(218, 332, 126, 29);
-		btnGerarJogos.setVisible(true);
-		contentPane.setLayout(null);
-		contentPane.add(btnGerarJogos);
-		
 		JButton btnVerificar = new JButton("Verificar");
-		btnVerificar.setBounds(338, 26, 117, 29);
+		btnVerificar.setBounds(369, 32, 117, 29);
 		contentPane.add(btnVerificar);
 		
-		JogoCtrl j = new JogoCtrl(ftxtData, tabJogos);
+		JButton btnGerarJogos = new JButton("Gerar Jogos");
+		btnGerarJogos.setBounds(512, 352, 126, 29);
+		contentPane.add(btnGerarJogos);
+		
+		JButton btnFechar = new JButton("Voltar");
+		btnFechar.setBounds(658, 352, 117, 29);
+		contentPane.add(btnFechar);
+		
+		JogoCtrl j = new JogoCtrl( this, ftxtData, tabJogos );
 		btnVerificar.addActionListener(j.preencherTabela);
 		btnGerarJogos.addActionListener(j.preencherTabela);
+		btnFechar.addActionListener(j.fechar);
 	}
 }

@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -22,10 +23,14 @@ import javax.swing.table.DefaultTableModel;
 import persistence.CampeonatoDAO;
 import persistence.CampeonatoDAOException;
 import persistence.CampeonatoDAOImpl;
+import view.GrupoView;
+import view.MenuView;
 import model.Grupo;
 
 public class GrupoCtrl {
 
+	private GrupoView janela;
+	private MenuView janelaMenu;
 	private JTable tbGrupoA;
 	private JTable tbGrupoB;
 	private JTable tbGrupoC;
@@ -33,12 +38,12 @@ public class GrupoCtrl {
 	private List<Grupo> grupos;
 
 	public GrupoCtrl(
-			JTable tbGrupoA, 
+			GrupoView janela, JTable tbGrupoA, 
 			JTable tbGrupoB, 
 			JTable tbGrupoC,
 			JTable tbGrupoD) {
-		// TODO Auto-generated constructor stub
 
+		this.janela = janela;
 		this.tbGrupoA = tbGrupoA;
 		this.tbGrupoB = tbGrupoB;
 		this.tbGrupoC = tbGrupoC;
@@ -118,6 +123,11 @@ public class GrupoCtrl {
 		tbGrupoA.getColumnModel().getColumn(0).setPreferredWidth(20);
 		tbGrupoA.getColumnModel().getColumn(1).setPreferredWidth(100);
 	}
+	
+	public void fechar(){
+		if(janela != null)
+			janela.dispose();
+	}
 
 	public ActionListener preencherTabela = new ActionListener() {
 
@@ -130,6 +140,20 @@ public class GrupoCtrl {
 				e1.printStackTrace();
 			}
 			formataTabGrupoA();
+		}
+	};
+	
+	public ActionListener fechar = new ActionListener() {
+
+		public void actionPerformed(ActionEvent e) {
+			if (janelaMenu == null){
+				janelaMenu = new MenuView();
+				janelaMenu.setVisible(true);
+			} else {
+				janelaMenu.setVisible(true);
+				janelaMenu.setState(JFrame.NORMAL);
+			}
+			fechar();
 		}
 	};
 }
