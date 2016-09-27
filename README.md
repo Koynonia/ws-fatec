@@ -12,7 +12,7 @@ Projeto realizado por: **FERNANDO MORAES OLVIEIRA**
 
 O histórico e a documentação podem ser acompanhados no [**wiki** do projeto](https://bitbucket.org/fatec2016/campeonatopaulista/wiki/).
 
-O **script do banco de dados** deste sistema também se encontra na pasta "sql" (LabBD_Avaliacao_1.sql).
+O **script do banco de dados** deste sistema também se encontra na pasta "sql" (LabBD_Avaliacao_1.sql) do projeto.
 
 **OBS.:** Para a conexão no banco, trocar o usuário e senha do Microsoft SQL Server
 na Classe GenericDao (package persistence).
