@@ -59,6 +59,7 @@ public class GrupoCtrl {
 		grupos = dao.consultaGrupos("A");
 	}
 
+	//FORMATA GRUPO A
 	public void formataTabGrupoA(){
 
 		List<String[]> linhas = new ArrayList<>();
@@ -76,9 +77,10 @@ public class GrupoCtrl {
 			}
 		} else {
 			JOptionPane.showMessageDialog(null, 
-					"Problema ao carregar a Base de Dados!", 
-					"Erro no Sistema", 
-					JOptionPane.PLAIN_MESSAGE);
+					"Erro na consuta dos registros da Tabela GRUPO!"
+							+ "\n[ " + grupos.size() + " ] registros foram encontrados.", 
+							"Erro de sistema", 
+							JOptionPane.PLAIN_MESSAGE);
 		}
 
 		//CONFIGURA O ALINHAMENTO DOS TITULOS DAS COLUNAS DA TABELA
@@ -112,29 +114,20 @@ public class GrupoCtrl {
 			}  
 		};
 
-		//DEFINE COMO SELECAO TODA A LINHA
+		//DEFINE COMO SELECAO A LINHA INTEIRA
 		tbGrupoA.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 		//DEFINE O MODEL DA TABELA
 		tbGrupoA.setModel(model);
 
 		//DEFINE O ALINHAMENTO DAS COLUNAS
-		//tbGrupoA.getColumnModel().getColumn(0).setCellRenderer(centralizado);
 		tbGrupoA.getColumnModel().getColumn(0).setCellRenderer(esquerda);
 
 		//CONFIGURA O TAMANHO DAS COLUNAS
-		//tbGrupoA.getColumnModel().getColumn(0).setPreferredWidth(0);
 		tbGrupoA.getColumnModel().getColumn(0).setPreferredWidth(100);
-
-		if( linhas.isEmpty()){
-			JOptionPane.showMessageDialog(null, 
-					"Problema ao carregar a Tabela!"
-							+ "\n" + grupos.size() + " registros foram carregados com sucesso.", 
-							"Erro no Sistema", 
-							JOptionPane.PLAIN_MESSAGE);
-		}
 	}
 
+	//FORMATA GRUPO B
 	public void formataTabGrupoB(){
 
 		List<String[]> linhas = new ArrayList<>();
@@ -152,13 +145,14 @@ public class GrupoCtrl {
 			}
 		} else {
 			JOptionPane.showMessageDialog(null, 
-					"Problema ao carregar a Base de Dados!", 
-					"Erro no Sistema", 
-					JOptionPane.PLAIN_MESSAGE);
+					"Erro na consuta dos registros da Tabela GRUPO!"
+							+ "\n[ " + grupos.size() + " ] registros foram encontrados.", 
+							"Erro de sistema", 
+							JOptionPane.PLAIN_MESSAGE);
 		}
 
 		//CONFIGURA O ALINHAMENTO DOS TITULOS DAS COLUNAS DA TABELA
-		((DefaultTableCellRenderer) tbGrupoA.getTableHeader().getDefaultRenderer())
+		((DefaultTableCellRenderer) tbGrupoB.getTableHeader().getDefaultRenderer())
 		.setHorizontalAlignment(SwingConstants.CENTER);
 
 		//CONFIGURA O ALINHAMENTO DAS COLUNAS DA TABELA
@@ -188,29 +182,20 @@ public class GrupoCtrl {
 			}  
 		};
 
-		//DEFINE COMO SELECAO TODA A LINHA
+		//DEFINE COMO SELECAO A LINHA INTEIRA
 		tbGrupoB.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 		//DEFINE O MODEL DA TABELA
 		tbGrupoB.setModel(model);
 
 		//DEFINE O ALINHAMENTO DAS COLUNAS
-		//tbGrupoA.getColumnModel().getColumn(0).setCellRenderer(centralizado);
 		tbGrupoB.getColumnModel().getColumn(0).setCellRenderer(esquerda);
 
 		//CONFIGURA O TAMANHO DAS COLUNAS
-		//tbGrupoA.getColumnModel().getColumn(0).setPreferredWidth(0);
 		tbGrupoB.getColumnModel().getColumn(0).setPreferredWidth(100);
-
-		if( linhas.isEmpty()){
-			JOptionPane.showMessageDialog(null, 
-					"Problema ao carregar a Tabela!"
-							+ "\n" + grupos.size() + " registros foram carregados com sucesso.", 
-							"Erro no Sistema", 
-							JOptionPane.PLAIN_MESSAGE);
-		}
 	}
 
+	//FORMATA GRUPO C
 	public void formataTabGrupoC(){
 
 		List<String[]> linhas = new ArrayList<>();
@@ -228,13 +213,14 @@ public class GrupoCtrl {
 			}
 		} else {
 			JOptionPane.showMessageDialog(null, 
-					"Problema ao carregar a Base de Dados!", 
-					"Erro no Sistema", 
-					JOptionPane.PLAIN_MESSAGE);
+					"Erro na consuta dos registros da Tabela GRUPO!"
+							+ "\n[ " + grupos.size() + " ] registros foram encontrados.", 
+							"Erro de sistema", 
+							JOptionPane.PLAIN_MESSAGE);
 		}
 
 		//CONFIGURA O ALINHAMENTO DOS TITULOS DAS COLUNAS DA TABELA
-		((DefaultTableCellRenderer) tbGrupoA.getTableHeader().getDefaultRenderer())
+		((DefaultTableCellRenderer) tbGrupoC.getTableHeader().getDefaultRenderer())
 		.setHorizontalAlignment(SwingConstants.CENTER);
 
 		//CONFIGURA O ALINHAMENTO DAS COLUNAS DA TABELA
@@ -264,29 +250,20 @@ public class GrupoCtrl {
 			}  
 		};
 
-		//DEFINE COMO SELECAO TODA A LINHA
+		//DEFINE COMO SELECAO A LINHA INTEIRA
 		tbGrupoC.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 		//DEFINE O MODEL DA TABELA
 		tbGrupoC.setModel(model);
 
 		//DEFINE O ALINHAMENTO DAS COLUNAS
-		//tbGrupoA.getColumnModel().getColumn(0).setCellRenderer(centralizado);
 		tbGrupoC.getColumnModel().getColumn(0).setCellRenderer(esquerda);
 
 		//CONFIGURA O TAMANHO DAS COLUNAS
-		//tbGrupoA.getColumnModel().getColumn(0).setPreferredWidth(0);
 		tbGrupoC.getColumnModel().getColumn(0).setPreferredWidth(100);
-
-		if( linhas.isEmpty()){
-			JOptionPane.showMessageDialog(null, 
-					"Problema ao carregar a Tabela!"
-							+ "\n" + grupos.size() + " registros foram carregados com sucesso.", 
-							"Erro no Sistema", 
-							JOptionPane.PLAIN_MESSAGE);
-		}
 	}
 
+	//FORMATA GRUPO D
 	public void formataTabGrupoD(){
 
 		List<String[]> linhas = new ArrayList<>();
@@ -304,13 +281,14 @@ public class GrupoCtrl {
 			}
 		} else {
 			JOptionPane.showMessageDialog(null, 
-					"Problema ao carregar a Base de Dados!", 
-					"Erro no Sistema", 
-					JOptionPane.PLAIN_MESSAGE);
+					"Erro na consuta dos registros da Tabela GRUPO!"
+							+ "\n[ " + grupos.size() + " ] registros foram encontrados.", 
+							"Erro de sistema", 
+							JOptionPane.PLAIN_MESSAGE);
 		}
 
 		//CONFIGURA O ALINHAMENTO DOS TITULOS DAS COLUNAS DA TABELA
-		((DefaultTableCellRenderer) tbGrupoA.getTableHeader().getDefaultRenderer())
+		((DefaultTableCellRenderer) tbGrupoD.getTableHeader().getDefaultRenderer())
 		.setHorizontalAlignment(SwingConstants.CENTER);
 
 		//CONFIGURA O ALINHAMENTO DAS COLUNAS DA TABELA
@@ -340,28 +318,17 @@ public class GrupoCtrl {
 			}  
 		};
 
-		//DEFINE COMO SELECAO TODA A LINHA
+		//DEFINE COMO SELECAO A LINHA INTEIRA
 		tbGrupoD.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 		//DEFINE O MODEL DA TABELA
 		tbGrupoD.setModel(model);
 
 		//DEFINE O ALINHAMENTO DAS COLUNAS
-		//tbGrupoA.getColumnModel().getColumn(0).setCellRenderer(centralizado);
 		tbGrupoD.getColumnModel().getColumn(0).setCellRenderer(esquerda);
 
 		//CONFIGURA O TAMANHO DAS COLUNAS
-		//tbGrupoA.getColumnModel().getColumn(0).setPreferredWidth(0);
 		tbGrupoD.getColumnModel().getColumn(0).setPreferredWidth(100);
-
-
-		if( linhas.isEmpty()){
-			JOptionPane.showMessageDialog(null, 
-					"Problema ao carregar a Tabela!"
-							+ "\n" + grupos.size() + " registros foram carregados com sucesso.", 
-							"Erro no Sistema", 
-							JOptionPane.PLAIN_MESSAGE);
-		}
 	}
 
 	public void fechar(){
