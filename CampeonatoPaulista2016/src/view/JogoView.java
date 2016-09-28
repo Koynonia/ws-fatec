@@ -10,6 +10,7 @@ package view;
 import java.awt.EventQueue;
 import java.text.ParseException;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -65,7 +66,7 @@ public class JogoView extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblData = new JLabel("Digite uma data de Jogo:");
+		JLabel lblData = new JLabel("Início do Campeonato:");
 		lblData.setBounds(53, 37, 164, 16);
 		contentPane.add(lblData);
 		
@@ -83,7 +84,7 @@ public class JogoView extends JFrame {
 		}
 
 		JLabel lblJogos = new JLabel("Jogos do Campeonato:");
-		lblJogos.setBounds(53, 95, 147, 16);
+		lblJogos.setBounds(53, 95, 722, 16);
 		contentPane.add(lblJogos);
 		
 		tabJogos = new JTable();
@@ -96,17 +97,24 @@ public class JogoView extends JFrame {
 		
 		JButton btnVerificar = new JButton("Verificar");
 		btnVerificar.setBounds(369, 32, 117, 29);
+		btnVerificar.setVisible(false);
 		contentPane.add(btnVerificar);
 		
 		JButton btnGerarJogos = new JButton("Gerar Jogos");
-		btnGerarJogos.setBounds(512, 352, 126, 29);
+		btnGerarJogos.setBounds(369, 32, 117, 29);
+		btnGerarJogos.setVisible(true);
 		contentPane.add(btnGerarJogos);
 		
 		JButton btnFechar = new JButton("Voltar");
-		btnFechar.setBounds(658, 352, 117, 29);
+		btnFechar.setBounds(658, 347, 117, 29);
 		contentPane.add(btnFechar);
 		
-		JogoCtrl j = new JogoCtrl( this, ftxtData, tabJogos );
+		JLabel lblBackground = new JLabel("");
+		lblBackground.setIcon(new ImageIcon(JogoView.class.getResource("/resources/back.jpg")));
+		lblBackground.setBounds(0, 0, 826, 432);
+		contentPane.add(lblBackground);
+		
+		JogoCtrl j = new JogoCtrl( this, lblData, lblJogos, btnVerificar, btnGerarJogos, ftxtData, tabJogos );
 		
 		btnVerificar.addActionListener(j.verificaData);
 		btnGerarJogos.addActionListener(j.preencherTabela);

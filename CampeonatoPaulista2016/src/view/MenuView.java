@@ -8,22 +8,16 @@
 package view;
 
 import java.awt.EventQueue;
-import java.text.ParseException;
+import java.awt.SystemColor;
 
-import javax.swing.JFormattedTextField;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.SwingConstants;
-import javax.swing.WindowConstants;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JTable;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 
 import controller.MenuCtrl;
-
-import javax.swing.JTextField;
-import javax.swing.text.MaskFormatter;
 
 public class MenuView extends JFrame {
 
@@ -32,8 +26,6 @@ public class MenuView extends JFrame {
 	 */
 	private static final long serialVersionUID = -8734424305792034378L;
 	private JPanel contentPane;
-	private JTable tabJogos;
-	private JFormattedTextField ftxtData;
 	/**
 	 * Launch the application.
 	 */
@@ -55,7 +47,7 @@ public class MenuView extends JFrame {
 	 */
 	public MenuView() {
 		
-		setBounds(100, 100, 516, 293);
+		setBounds(100, 100, 580, 360);
 		setTitle("Campeonato Paulista 2016");
 		setName("Menu");
 		setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
@@ -65,17 +57,33 @@ public class MenuView extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JButton btnGrupo = new JButton("Grupos");
-		btnGrupo.setBounds(51, 29, 126, 62);
+		JLabel lblGrupo = new JLabel("Grupos");
+		lblGrupo.setBounds(112, 59, 45, 16);
+		contentPane.add(lblGrupo);
+		
+		JLabel lblJogo = new JLabel("Jogos");
+		lblJogo.setBounds(428, 59, 35, 16);
+		contentPane.add(lblJogo);
+		
+		JButton btnGrupo = new JButton("");
+		btnGrupo.setBackground(SystemColor.window);
+		btnGrupo.setIcon(new ImageIcon(MenuView.class.getResource("/resources/btnGrupo.png")));
+		btnGrupo.setBounds(19, 43, 230, 205);
 		contentPane.add(btnGrupo);
 		
-		JButton btnJogo = new JButton("Jogos");
-		btnJogo.setBounds(51, 112, 126, 62);
+		JButton btnJogo = new JButton("");
+		btnJogo.setIcon(new ImageIcon(MenuView.class.getResource("/resources/btnJogo.png")));
+		btnJogo.setBounds(330, 43, 230, 205);
 		contentPane.add(btnJogo);
 		
 		JButton btnFechar = new JButton("Fechar");
-		btnFechar.setBounds(347, 200, 117, 29);
+		btnFechar.setBounds(231, 279, 117, 29);
 		contentPane.add(btnFechar);
+		
+		JLabel lblBackground = new JLabel("");
+		lblBackground.setIcon(new ImageIcon(JogoView.class.getResource("/resources/back.jpg")));
+		lblBackground.setBounds(0, 0, 580, 360);
+		contentPane.add(lblBackground);
 		
 		MenuCtrl m = new MenuCtrl( this, btnGrupo, btnJogo, btnFechar );
 		btnGrupo.addActionListener(m.janelas);

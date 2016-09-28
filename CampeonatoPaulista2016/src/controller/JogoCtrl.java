@@ -15,12 +15,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -35,16 +39,40 @@ public class JogoCtrl {
 
 	private JogoView janela;
 	private MenuView janelaMenu;
+	private JLabel lblData;
+	private JLabel lblJogos;
+	private JButton btnVerificar;
+	private JButton btnGerarJogos;
 	private JFormattedTextField ftxtData;
 	private JTable tabela;
 	private List<Jogo>jogos;
 
-	public JogoCtrl(JogoView janela, JFormattedTextField ftxtData, JTable tabela) {
+	public JogoCtrl(
+			JogoView janela, 
+			JLabel lblData, 
+			JLabel lblJogos, 
+			JButton btnVerificar, 
+			JButton btnGerarJogos, 
+			JFormattedTextField ftxtData, 
+			JTable tabela) {
 
 		this.janela = janela;
+		this.lblData = lblData;
+		this.lblJogos = lblJogos;
+		this.btnVerificar = btnVerificar;
+		this.btnGerarJogos = btnGerarJogos;
 		this.ftxtData = ftxtData;
 		this.tabela = tabela;
 		this.jogos = new ArrayList<Jogo>();
+	}
+
+	public void focarCampo(){
+
+		SwingUtilities.invokeLater(new Runnable() {  
+			public void run() {  
+				ftxtData.requestFocus();  
+			}  
+		});
 	}
 
 	public void carregaJogo(Date dtInicio) throws CampeonatoDAOException {
@@ -53,7 +81,7 @@ public class JogoCtrl {
 		dao.geraJogos(dtInicio);
 		jogos = dao.consultaJogos();
 	}
-	
+
 	public void pesquisaJogo(Date data) throws CampeonatoDAOException {
 
 		CampeonatoDAO dao = new CampeonatoDAOImpl();
@@ -70,15 +98,23 @@ public class JogoCtrl {
 				String[] j = {
 						sdf.format( jogos.get(i).getData() ),
 						jogos.get(i).getTimeA(),
+						" X ",
 						jogos.get(i).getTimeB(),
 				};
 				linhas.add(j);
+				lblData.setText("Digite a data da Rodada:");
+				btnVerificar.setVisible(true);
 			}
 		} else {
 			JOptionPane.showMessageDialog(null, 
-					"Problema ao carregar a Base de Dados!", 
-					"Erro no Sistema", 
-					JOptionPane.PLAIN_MESSAGE);
+					"Não foram encontradas partidas!"
+							+ "\n\nNesta data não existem jogos "
+							+ "\ndo Campeonato.", 
+							"Não encontrado", 
+							JOptionPane.PLAIN_MESSAGE,
+							new ImageIcon( "../CampeonatoPaulista2016/src/resources/warning.png" ));
+			ftxtData.setValue("");
+			focarCampo();
 		}
 
 		//CONFIGURA O ALINHAMENTO DOS TITULOS DAS COLUNAS DA TABELA
@@ -95,7 +131,7 @@ public class JogoCtrl {
 		direita.setHorizontalAlignment(SwingConstants.RIGHT);
 
 		//NOMES DAS COLUNAS DA TABELA
-		String[] nomesColunas = {"Data","Time A", "Time B"};
+		String[] nomesColunas = {"Data","Time A", "Contra", "Time B"};
 
 		//CRIA UM DefaulTableModel COM OS DADOS (LINHAS E COLUNAS)
 		@SuppressWarnings("serial")
@@ -104,7 +140,7 @@ public class JogoCtrl {
 		//TRAVA A EDIÇÃO DAS CELULAS
 		{  		  
 			boolean[] canEdit = new boolean []{    
-					false, false, false  
+					false, false, false, false  
 			};
 			@Override    
 			public boolean isCellEditable(int rowIndex, int columnIndex) {    
@@ -112,7 +148,7 @@ public class JogoCtrl {
 			}  
 		};
 
-		//DEFINE COMO SELECAO TODA A LINHA
+		//DEFINE COMO SELECAO A LINHA INTEIRA
 		tabela.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 		//DEFINE O MODEL DA TABELA
@@ -120,21 +156,15 @@ public class JogoCtrl {
 
 		//DEFINE O ALINHAMENTO DAS COLUNAS
 		tabela.getColumnModel().getColumn(0).setCellRenderer(centralizado);
-		tabela.getColumnModel().getColumn(1).setCellRenderer(esquerda);
-		tabela.getColumnModel().getColumn(2).setCellRenderer(esquerda);
+		tabela.getColumnModel().getColumn(1).setCellRenderer(direita);
+		tabela.getColumnModel().getColumn(2).setCellRenderer(centralizado);
+		tabela.getColumnModel().getColumn(3).setCellRenderer(esquerda);
 
 		//CONFIGURA O TAMANHO DAS COLUNAS
-		tabela.getColumnModel().getColumn(0).setPreferredWidth(30);
-		tabela.getColumnModel().getColumn(1).setPreferredWidth(100);
-		tabela.getColumnModel().getColumn(2).setPreferredWidth(100);
-
-		if( linhas.isEmpty()){
-			JOptionPane.showMessageDialog(null, 
-					"Problema ao carregar a Tabela!"
-							+ "\n" + jogos.size() + " registros foram carregados com sucesso.", 
-							"Erro no Sistema", 
-							JOptionPane.PLAIN_MESSAGE);
-		}
+		tabela.getColumnModel().getColumn(0).setPreferredWidth(10);
+		tabela.getColumnModel().getColumn(1).setPreferredWidth(170);
+		tabela.getColumnModel().getColumn(2).setPreferredWidth(5);
+		tabela.getColumnModel().getColumn(3).setPreferredWidth(170);
 	}
 
 	public void fechar(){
@@ -148,42 +178,67 @@ public class JogoCtrl {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
-			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			if( ftxtData.getValue() != null ){
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
-			try {
-				java.util.Date dtInicio = new java.util.Date(sdf.parse((String) ftxtData.getValue()).getTime());
-				carregaJogo( dtInicio );
-				formataTabela();
-			} catch (ParseException e2) {
-				// TODO Auto-generated catch block
-				e2.printStackTrace();
-			} catch (CampeonatoDAOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				try {
+					java.util.Date dtInicio = new java.util.Date(sdf.parse( (String) ftxtData.getValue()).getTime() );
+					carregaJogo( dtInicio );
+					formataTabela();
+					ftxtData.setValue("");
+					btnGerarJogos.setVisible(false);
+					lblJogos.setText( jogos.size() + " Jogos do Campeonato:" );
+				} catch (ParseException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				} catch (CampeonatoDAOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
+			} else {
+				JOptionPane.showMessageDialog(null, 
+						"Por favor, digite uma data válida!"
+								+ "\n\nÉ necessário informar o início "
+								+ "\ndo Campeonato no campo 'Data'.", 
+								"Atenção", 
+								JOptionPane.PLAIN_MESSAGE,
+								new ImageIcon( "../CampeonatoPaulista2016/src/resources/error.png" ));
+				focarCampo();
 			}
-
 		}
 	};
-	
+
 	public ActionListener verificaData = new ActionListener() {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
-			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			if( ftxtData.getValue() != null && ftxtData.getValue() != "" ){
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
-			try {
-				java.util.Date data = new java.util.Date(sdf.parse((String) ftxtData.getValue()).getTime());
-				pesquisaJogo( data );
-				formataTabela();
-			} catch (ParseException e2) {
-				// TODO Auto-generated catch block
-				e2.printStackTrace();
-			} catch (CampeonatoDAOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				try {
+					java.util.Date data = new java.util.Date(sdf.parse((String) ftxtData.getValue()).getTime());
+					pesquisaJogo( data );
+					formataTabela();
+					lblJogos.setText( jogos.size() + " Jogos do Campeonato nesta rodada:" );
+				} catch (ParseException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				} catch (CampeonatoDAOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			} else {
+				JOptionPane.showMessageDialog(null, 
+						"Por favor, digite uma data válida!"
+								+ "\n\nÉ necessário informar uma data "
+								+ "\npara verificar as partidas da rodada disponíveis.", 
+								"Atenção", 
+								JOptionPane.PLAIN_MESSAGE,
+								new ImageIcon( "../CampeonatoPaulista2016/src/resources/error.png" ));
+				focarCampo();
 			}
-
 		}
 	};
 

@@ -9,6 +9,7 @@ package view;
 
 import java.awt.EventQueue;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
@@ -117,6 +118,11 @@ public class GrupoView extends JFrame {
 		JButton btnFechar = new JButton("Voltar");
 		btnFechar.setBounds(649, 361, 126, 29);
 		contentPane.add(btnFechar);
+		
+		JLabel lblBackground = new JLabel("");
+		lblBackground.setIcon(new ImageIcon(JogoView.class.getResource("/resources/back.jpg")));
+		lblBackground.setBounds(0, 0, 826, 432);
+		contentPane.add(lblBackground);
 		
 		GrupoCtrl g = new GrupoCtrl(this, tbGrupoA, tbGrupoB, tbGrupoC, tbGrupoD);
 		btnGerarGrupos.addActionListener(g.preencherTabela);

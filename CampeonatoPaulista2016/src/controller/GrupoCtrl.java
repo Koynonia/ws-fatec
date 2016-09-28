@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -78,9 +79,10 @@ public class GrupoCtrl {
 		} else {
 			JOptionPane.showMessageDialog(null, 
 					"Erro na consuta dos registros da Tabela GRUPO!"
-							+ "\n[ " + grupos.size() + " ] registros foram encontrados.", 
+							+ "\n '" + grupos.size() + " ' registros foram encontrados.", 
 							"Erro de sistema", 
-							JOptionPane.PLAIN_MESSAGE);
+							JOptionPane.PLAIN_MESSAGE,
+							new ImageIcon( "../CampeonatoPaulista2016/src/resources/error.png" ));
 		}
 
 		//CONFIGURA O ALINHAMENTO DOS TITULOS DAS COLUNAS DA TABELA
@@ -146,9 +148,10 @@ public class GrupoCtrl {
 		} else {
 			JOptionPane.showMessageDialog(null, 
 					"Erro na consuta dos registros da Tabela GRUPO!"
-							+ "\n[ " + grupos.size() + " ] registros foram encontrados.", 
+							+ "\n' " + grupos.size() + " ' registros foram encontrados.", 
 							"Erro de sistema", 
-							JOptionPane.PLAIN_MESSAGE);
+							JOptionPane.PLAIN_MESSAGE,
+							new ImageIcon( "../CampeonatoPaulista2016/src/resources/error.png" ));
 		}
 
 		//CONFIGURA O ALINHAMENTO DOS TITULOS DAS COLUNAS DA TABELA
@@ -214,9 +217,10 @@ public class GrupoCtrl {
 		} else {
 			JOptionPane.showMessageDialog(null, 
 					"Erro na consuta dos registros da Tabela GRUPO!"
-							+ "\n[ " + grupos.size() + " ] registros foram encontrados.", 
+							+ "\n' " + grupos.size() + " ' registros foram encontrados.", 
 							"Erro de sistema", 
-							JOptionPane.PLAIN_MESSAGE);
+							JOptionPane.PLAIN_MESSAGE,
+							new ImageIcon( "../CampeonatoPaulista2016/src/resources/error.png" ));
 		}
 
 		//CONFIGURA O ALINHAMENTO DOS TITULOS DAS COLUNAS DA TABELA
@@ -282,9 +286,10 @@ public class GrupoCtrl {
 		} else {
 			JOptionPane.showMessageDialog(null, 
 					"Erro na consuta dos registros da Tabela GRUPO!"
-							+ "\n[ " + grupos.size() + " ] registros foram encontrados.", 
+							+ "\n' " + grupos.size() + " ' registros foram encontrados.", 
 							"Erro de sistema", 
-							JOptionPane.PLAIN_MESSAGE);
+							JOptionPane.PLAIN_MESSAGE,
+							new ImageIcon( "../CampeonatoPaulista2016/src/resources/error.png" ));
 		}
 
 		//CONFIGURA O ALINHAMENTO DOS TITULOS DAS COLUNAS DA TABELA
