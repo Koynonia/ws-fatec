@@ -200,7 +200,7 @@ public class JogoCtrl {
 				JOptionPane.showMessageDialog(null, 
 						"Por favor, digite uma data válida!"
 								+ "\n\nÉ necessário informar o início "
-								+ "\ndo Campeonato no campo 'Data'.", 
+								+ "\ndo Campeonato.", 
 								"Atenção", 
 								JOptionPane.PLAIN_MESSAGE,
 								new ImageIcon( "../CampeonatoPaulista2016/src/resources/error.png" ));
