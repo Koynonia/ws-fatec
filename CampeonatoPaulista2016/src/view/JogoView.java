@@ -11,20 +11,18 @@ import java.awt.EventQueue;
 import java.text.ParseException;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
-import javax.swing.JButton;
-import javax.swing.JTable;
-import javax.swing.JLabel;
+import javax.swing.text.MaskFormatter;
 
 import controller.JogoCtrl;
-
-import javax.swing.JTextField;
-import javax.swing.text.MaskFormatter;
 
 public class JogoView extends JFrame {
 
@@ -95,15 +93,19 @@ public class JogoView extends JFrame {
 		spJogos.setViewportView(tabJogos);
 		contentPane.add(spJogos);
 		
+		JButton btnGerarJogos = new JButton("Gerar Jogos");
+		btnGerarJogos.setBounds(369, 32, 117, 29);
+		btnGerarJogos.setVisible(true);
+		contentPane.add(btnGerarJogos);
+		
 		JButton btnVerificar = new JButton("Verificar");
 		btnVerificar.setBounds(369, 32, 117, 29);
 		btnVerificar.setVisible(false);
 		contentPane.add(btnVerificar);
 		
-		JButton btnGerarJogos = new JButton("Gerar Jogos");
-		btnGerarJogos.setBounds(369, 32, 117, 29);
-		btnGerarJogos.setVisible(true);
-		contentPane.add(btnGerarJogos);
+		JButton btnApagarJogos = new JButton("Apagar Jogos");
+		btnApagarJogos.setBounds(520, 347, 126, 29);
+		contentPane.add(btnApagarJogos);
 		
 		JButton btnFechar = new JButton("Voltar");
 		btnFechar.setBounds(658, 347, 117, 29);
@@ -118,6 +120,7 @@ public class JogoView extends JFrame {
 		
 		btnVerificar.addActionListener(j.verificaData);
 		btnGerarJogos.addActionListener(j.preencherTabela);
+		btnApagarJogos.addActionListener(j.apagar);
 		btnFechar.addActionListener(j.fechar);
 	}
 }

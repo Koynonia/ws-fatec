@@ -17,9 +17,10 @@ import model.Jogo;
 public interface CampeonatoDAO {
 
 	public String geraGrupos();
-	public String geraJogos(Date dtInicio);
-	public List<Grupo> consultaGrupos(String grupo) throws CampeonatoDAOException;
-	public List<Jogo> consultaDataJogos(Date data) throws CampeonatoDAOException;
+	public void apagaGrupos() throws CampeonatoDAOException;
+	public List<Grupo> consultaGrupos() throws CampeonatoDAOException;
+	public String geraJogos(Date dtInicio);	
 	public List<Jogo> consultaJogos() throws CampeonatoDAOException;
-	
+	public void apagaJogos() throws CampeonatoDAOException;
+	public List<Jogo> consultaDataJogos(Date data) throws CampeonatoDAOException;
 }

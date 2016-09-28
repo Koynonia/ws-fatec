@@ -64,6 +64,23 @@ public class JogoCtrl {
 		this.ftxtData = ftxtData;
 		this.tabela = tabela;
 		this.jogos = new ArrayList<Jogo>();
+
+		inicia();
+	}
+
+	public void inicia(){
+
+		try {
+			pesquisaJogo(null);
+
+		} catch (CampeonatoDAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		if( !jogos.isEmpty() ){
+			formataTabela();
+		}
 	}
 
 	public void focarCampo(){
@@ -238,6 +255,36 @@ public class JogoCtrl {
 								JOptionPane.PLAIN_MESSAGE,
 								new ImageIcon( "../CampeonatoPaulista2016/src/resources/error.png" ));
 				focarCampo();
+			}
+		}
+	};
+
+	public ActionListener apagar = new ActionListener() {
+
+		public void actionPerformed(ActionEvent e) {
+
+			Object[] excluir = { "Confirmar", "Cancelar" };  
+			int ex = JOptionPane.showOptionDialog(null, 
+					"Você confirma a exclusão dos Jogos do Campeonato?",
+					"Exclusão dos Jogos", 
+					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
+					new ImageIcon( "../CampeonatoPaulista2016/src/resources/warning.png" ), excluir, excluir[1]);
+			if (ex == 0) { 
+				try {
+					CampeonatoDAO dao = new CampeonatoDAOImpl();
+					dao.apagaJogos();
+					lblData.setText("Início do Campeonato:");
+					lblJogos.setText("Jogos do Campeonato:");
+					btnVerificar.setVisible(false);
+					btnGerarJogos.setVisible(true);
+					while (tabela.getModel().getRowCount() > 0) {  
+						((DefaultTableModel) tabela.getModel()).removeRow(0);  
+					}
+					tabela.updateUI();
+				} catch (CampeonatoDAOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} 			
 			}
 		}
 	};

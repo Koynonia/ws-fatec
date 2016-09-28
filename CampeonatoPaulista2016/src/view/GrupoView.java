@@ -111,6 +111,10 @@ public class GrupoView extends JFrame {
 		spGrupoD.setViewportView(tbGrupoD);
 		contentPane.add(spGrupoD);
 		
+		JButton btnApagarGrupos = new JButton("Apagar Grupos");
+		btnApagarGrupos.setBounds(346, 361, 126, 29);
+		contentPane.add(btnApagarGrupos);
+		
 		JButton btnGerarGrupos = new JButton("Gerar Grupos");
 		btnGerarGrupos.setBounds(498, 361, 126, 29);
 		contentPane.add(btnGerarGrupos);
@@ -125,6 +129,7 @@ public class GrupoView extends JFrame {
 		contentPane.add(lblBackground);
 		
 		GrupoCtrl g = new GrupoCtrl(this, tbGrupoA, tbGrupoB, tbGrupoC, tbGrupoD);
+		btnApagarGrupos.addActionListener(g.apagar);
 		btnGerarGrupos.addActionListener(g.preencherTabela);
 		btnFechar.addActionListener(g.fechar);
 	}

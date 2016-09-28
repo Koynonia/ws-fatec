@@ -51,13 +51,36 @@ public class GrupoCtrl {
 		this.tbGrupoC = tbGrupoC;
 		this.tbGrupoD = tbGrupoD;
 		this.grupos = new ArrayList<Grupo>();
+
+		inicia();
+	}
+
+	public void inicia(){
+		try {
+			consultaGrupos();
+		} catch (CampeonatoDAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if( !grupos.isEmpty() ){
+			formataTabGrupoA();
+			formataTabGrupoB();
+			formataTabGrupoC();
+			formataTabGrupoD();
+		}
 	}
 
 	public void carregaGrupo() throws CampeonatoDAOException {
 
 		CampeonatoDAO dao = new CampeonatoDAOImpl();
 		dao.geraGrupos();
-		grupos = dao.consultaGrupos("A");
+		consultaGrupos();
+	}
+
+	public void consultaGrupos() throws CampeonatoDAOException {
+
+		CampeonatoDAO dao = new CampeonatoDAOImpl();
+		grupos = dao.consultaGrupos();
 	}
 
 	//FORMATA GRUPO A
@@ -353,6 +376,45 @@ public class GrupoCtrl {
 			} catch (CampeonatoDAOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
+			}
+		}
+	};
+
+	public ActionListener apagar = new ActionListener() {
+
+		public void actionPerformed(ActionEvent e) {
+
+			Object[] excluir = { "Confirmar", "Cancelar" };  
+			int ex = JOptionPane.showOptionDialog(null, 
+					"Você confirma a exclusão dos Grupos?",
+					"Exclusão dos Grupos", 
+					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
+					new ImageIcon( "../CampeonatoPaulista2016/src/resources/warning.png" ), excluir, excluir[1]);
+			if (ex == 0) { 
+				try {
+					CampeonatoDAO dao = new CampeonatoDAOImpl();
+					dao.apagaGrupos();
+					
+					while (tbGrupoA.getModel().getRowCount() > 0) {  
+				           ((DefaultTableModel) tbGrupoA.getModel()).removeRow(0);  
+				       }
+					while (tbGrupoB.getModel().getRowCount() > 0) {  
+				           ((DefaultTableModel) tbGrupoB.getModel()).removeRow(0);  
+				       }
+					while (tbGrupoC.getModel().getRowCount() > 0) {  
+				           ((DefaultTableModel) tbGrupoC.getModel()).removeRow(0);  
+				       }
+					while (tbGrupoD.getModel().getRowCount() > 0) {  
+				           ((DefaultTableModel) tbGrupoD.getModel()).removeRow(0);  
+				       }
+					tbGrupoA.updateUI();
+					tbGrupoB.updateUI();
+					tbGrupoC.updateUI();
+					tbGrupoD.updateUI();
+				} catch (CampeonatoDAOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} 			
 			}
 		}
 	};

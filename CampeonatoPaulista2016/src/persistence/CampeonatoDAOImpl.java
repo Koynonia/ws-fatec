@@ -22,12 +22,12 @@ import model.Jogo;
 public class CampeonatoDAOImpl implements CampeonatoDAO {
 
 	Connection con;
-	
+
 	public CampeonatoDAOImpl(){
 		GenericDAO gDao = new GenericDAOImpl();
 		con = gDao.getConnection();
 	}
-	
+
 	@Override
 	public String geraGrupos() {
 
@@ -46,32 +46,46 @@ public class CampeonatoDAOImpl implements CampeonatoDAO {
 	}
 
 	@Override
-	public List<Grupo> consultaGrupos(String grupo) throws CampeonatoDAOException{
-		
+	public void apagaGrupos() throws CampeonatoDAOException{
+		String sql = "DELETE FROM Grupos";
+
+		try {
+			PreparedStatement pst = con.prepareStatement( sql );
+			pst.execute();
+			pst.close();
+		} catch( SQLException e ) {
+			e.printStackTrace();
+			throw new CampeonatoDAOException( e );
+		}
+	}
+
+	@Override
+	public List<Grupo> consultaGrupos() throws CampeonatoDAOException{
+
 		List<Grupo> lista = new ArrayList<Grupo>();
 		String sql = "SELECT  g.Grupo, t.NomeTime "
-					+ "FROM Times AS t "
-					+ "INNER JOIN Grupos AS g "
-					+ "ON g.CodigoTime = t.CodigoTime "
-					+ "GROUP BY g.Grupo, t.NomeTime "
-					+ "ORDER BY g.Grupo ASC, t.NomeTime DESC";
+				+ "FROM Times AS t "
+				+ "INNER JOIN Grupos AS g "
+				+ "ON g.CodigoTime = t.CodigoTime "
+				+ "GROUP BY g.Grupo, t.NomeTime "
+				+ "ORDER BY g.Grupo ASC, t.NomeTime DESC";
 		try {
-				PreparedStatement pst = con.prepareStatement( sql );
-				//pst.setString( 1, grupo );
-				ResultSet rs = pst.executeQuery();
-				while( rs.next() ) { 
-					Grupo g = new Grupo();
-					g.setGrupo( rs.getString( "Grupo" ));
-					g.setTime( rs.getString( "NomeTime" ));
-					lista.add( g );
-				}
+			PreparedStatement pst = con.prepareStatement( sql );
+			ResultSet rs = pst.executeQuery();
+			while( rs.next() ) { 
+				Grupo g = new Grupo();
+				g.setGrupo( rs.getString( "Grupo" ));
+				g.setTime( rs.getString( "NomeTime" ));
+				lista.add( g );
+			}
+			rs.close();
 		} catch( SQLException e ) {
 			e.printStackTrace();
 			throw new CampeonatoDAOException( e );
 		}
 		return lista;
 	}
-	
+
 	@Override
 	public String geraJogos(Date dtInicio) {
 
@@ -93,8 +107,24 @@ public class CampeonatoDAOImpl implements CampeonatoDAO {
 	}
 
 	@Override
-	public List<Jogo> consultaJogos() throws CampeonatoDAOException{
+	public void apagaJogos() throws CampeonatoDAOException{
 		
+		String sql = "DELETE FROM Jogos";
+
+		try {
+			PreparedStatement pst = con.prepareStatement( sql );
+			pst.execute();
+			pst.close();
+		} catch( SQLException e ) {
+			e.printStackTrace();
+			throw new CampeonatoDAOException( e );
+		}
+
+	}
+
+	@Override
+	public List<Jogo> consultaJogos() throws CampeonatoDAOException{
+
 		List<Jogo> lista = new ArrayList<Jogo>();
 		String sql = "SELECT a.Data, a.NomeTime AS 'Time A', b.NomeTime AS 'Time B' "
 				+ "FROM("
@@ -109,16 +139,16 @@ public class CampeonatoDAOImpl implements CampeonatoDAO {
 				+ "ON j.CodigoTimeB = t.CodigoTime) b "
 				+ "ON a.Data = b.Data ";
 		try {
-				PreparedStatement pst = con.prepareStatement( sql );
-				//pst.setString(1, "%" + data + "%");
-				ResultSet rs = pst.executeQuery();
-				while( rs.next() ) { 
-					Jogo j = new Jogo();
-					j.setData( rs.getDate( "Data" ) );
-					j.setTimeA( rs.getString( "Time A" ) );
-					j.setTimeB( rs.getString( "Time B" ) );
-					lista.add( j );
-				}
+			PreparedStatement pst = con.prepareStatement( sql );
+			//pst.setString(1, "%" + data + "%");
+			ResultSet rs = pst.executeQuery();
+			while( rs.next() ) { 
+				Jogo j = new Jogo();
+				j.setData( rs.getDate( "Data" ) );
+				j.setTimeA( rs.getString( "Time A" ) );
+				j.setTimeB( rs.getString( "Time B" ) );
+				lista.add( j );
+			}
 		} catch( SQLException e ) { 
 			e.printStackTrace();
 			throw new CampeonatoDAOException( e );
@@ -127,35 +157,52 @@ public class CampeonatoDAOImpl implements CampeonatoDAO {
 	}
 
 	public List<Jogo> consultaDataJogos(Date dtPesq) throws CampeonatoDAOException{
-		
+
 		List<Jogo> lista = new ArrayList<Jogo>();
-		
-		String sql = "SELECT a.Data, a.NomeTime AS 'Time A', b.NomeTime AS 'Time B' "
-				+ "FROM("
-				+ "SELECT j.Data, t.NomeTime "
-				+ "FROM Jogos AS j "
-				+ "INNER JOIN Times AS t "
-				+ "ON j.CodigoTimeA = t.CodigoTime) a "
-				+ "INNER JOIN("
-				+ "SELECT j.Data, t.NomeTime "
-				+ "FROM Jogos AS j "
-				+ "INNER JOIN Times AS t "
-				+ "ON j.CodigoTimeB = t.CodigoTime) b "
-				+ "ON a.Data = b.Data "
-				+ "WHERE a.Data = ?";
+		String  sql = "";
+		if( dtPesq != null ){
+			sql = "SELECT a.Data, a.NomeTime AS 'Time A', b.NomeTime AS 'Time B' "
+					+ "FROM("
+					+ "SELECT j.Data, t.NomeTime "
+					+ "FROM Jogos AS j "
+					+ "INNER JOIN Times AS t "
+					+ "ON j.CodigoTimeA = t.CodigoTime) a "
+					+ "INNER JOIN("
+					+ "SELECT j.Data, t.NomeTime "
+					+ "FROM Jogos AS j "
+					+ "INNER JOIN Times AS t "
+					+ "ON j.CodigoTimeB = t.CodigoTime) b "
+					+ "ON a.Data = b.Data "
+					+ "WHERE a.Data = ?";
+		} else {
+			sql = "SELECT a.Data, a.NomeTime AS 'Time A', b.NomeTime AS 'Time B' "
+					+ "FROM("
+					+ "SELECT j.Data, t.NomeTime "
+					+ "FROM Jogos AS j "
+					+ "INNER JOIN Times AS t "
+					+ "ON j.CodigoTimeA = t.CodigoTime) a "
+					+ "INNER JOIN("
+					+ "SELECT j.Data, t.NomeTime "
+					+ "FROM Jogos AS j "
+					+ "INNER JOIN Times AS t "
+					+ "ON j.CodigoTimeB = t.CodigoTime) b "
+					+ "ON a.Data = b.Data ";
+		}
 		try {
-				PreparedStatement pst = con.prepareStatement( sql );
+			PreparedStatement pst = con.prepareStatement( sql );
+			if( dtPesq != null ){
 				long num = dtPesq.getTime();
 				java.sql.Date data = new java.sql.Date(num);
 				pst.setDate(1, data);
-				ResultSet rs = pst.executeQuery();
-				while( rs.next() ) { 
-					Jogo j = new Jogo();
-					j.setData( rs.getDate( "Data" ) );
-					j.setTimeA( rs.getString( "Time A" ) );
-					j.setTimeB( rs.getString( "Time B" ) );
-					lista.add( j );
-				}
+			}
+			ResultSet rs = pst.executeQuery();
+			while( rs.next() ) { 
+				Jogo j = new Jogo();
+				j.setData( rs.getDate( "Data" ) );
+				j.setTimeA( rs.getString( "Time A" ) );
+				j.setTimeB( rs.getString( "Time B" ) );
+				lista.add( j );
+			}
 		} catch( SQLException e ) { 
 			e.printStackTrace();
 			throw new CampeonatoDAOException( e );
