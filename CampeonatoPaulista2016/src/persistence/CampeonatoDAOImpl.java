@@ -46,26 +46,6 @@ public class CampeonatoDAOImpl implements CampeonatoDAO {
 	}
 
 	@Override
-	public String geraJogos(Date dtInicio) {
-
-		String sql = "{CALL sp_jogos(?)}";
-		String saida = "";
-		try {
-			CallableStatement cs = con.prepareCall(sql);
-			long num = dtInicio.getTime();
-			java.sql.Date data = new java.sql.Date(num);
-			cs.setDate(1, data);
-			//cs.registerOutParameter(1, Types.VARCHAR);
-			cs.execute();
-			//saida = cs.getString(1);
-			cs.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return saida;
-	}
-
-	@Override
 	public List<Grupo> consultaGrupos(String grupo) throws CampeonatoDAOException{
 		
 		List<Grupo> lista = new ArrayList<Grupo>();
@@ -90,6 +70,26 @@ public class CampeonatoDAOImpl implements CampeonatoDAO {
 			throw new CampeonatoDAOException( e );
 		}
 		return lista;
+	}
+	
+	@Override
+	public String geraJogos(Date dtInicio) {
+
+		String sql = "{CALL sp_jogos(?)}";
+		String saida = "";
+		try {
+			CallableStatement cs = con.prepareCall(sql);
+			long num = dtInicio.getTime();
+			java.sql.Date data = new java.sql.Date(num);
+			cs.setDate(1, data);
+			//cs.registerOutParameter(1, Types.VARCHAR);
+			cs.execute();
+			//saida = cs.getString(1);
+			cs.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return saida;
 	}
 
 	@Override
@@ -125,11 +125,11 @@ public class CampeonatoDAOImpl implements CampeonatoDAO {
 		}
 		return lista;
 	}
-	
 
 	public List<Jogo> consultaDataJogos(Date dtPesq) throws CampeonatoDAOException{
 		
 		List<Jogo> lista = new ArrayList<Jogo>();
+		
 		String sql = "SELECT a.Data, a.NomeTime AS 'Time A', b.NomeTime AS 'Time B' "
 				+ "FROM("
 				+ "SELECT j.Data, t.NomeTime "
