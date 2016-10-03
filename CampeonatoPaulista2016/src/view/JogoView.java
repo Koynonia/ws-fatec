@@ -93,19 +93,19 @@ public class JogoView extends JFrame {
 		spJogos.setViewportView(tabJogos);
 		contentPane.add(spJogos);
 		
-		JButton btnGerarJogos = new JButton("Gerar Jogos");
-		btnGerarJogos.setBounds(369, 32, 117, 29);
-		btnGerarJogos.setVisible(true);
-		contentPane.add(btnGerarJogos);
+		JButton btnGerar = new JButton("Gerar Jogos");
+		btnGerar.setBounds(369, 32, 117, 29);
+		btnGerar.setVisible(true);
+		contentPane.add(btnGerar);
 		
 		JButton btnVerificar = new JButton("Verificar");
 		btnVerificar.setBounds(369, 32, 117, 29);
 		btnVerificar.setVisible(false);
 		contentPane.add(btnVerificar);
 		
-		JButton btnApagarJogos = new JButton("Apagar Jogos");
-		btnApagarJogos.setBounds(520, 347, 126, 29);
-		contentPane.add(btnApagarJogos);
+		JButton btnApagar = new JButton("Apagar Jogos");
+		btnApagar.setBounds(520, 347, 126, 29);
+		contentPane.add(btnApagar);
 		
 		JButton btnFechar = new JButton("Voltar");
 		btnFechar.setBounds(658, 347, 117, 29);
@@ -116,11 +116,11 @@ public class JogoView extends JFrame {
 		lblBackground.setBounds(0, 0, 826, 432);
 		contentPane.add(lblBackground);
 		
-		JogoCtrl j = new JogoCtrl( this, lblData, lblJogos, btnVerificar, btnGerarJogos, ftxtData, tabJogos );
+		JogoCtrl j = new JogoCtrl( this, lblData, lblJogos, btnVerificar, btnGerar, btnApagar, ftxtData, tabJogos );
 		
 		btnVerificar.addActionListener(j.verificaData);
-		btnGerarJogos.addActionListener(j.preencherTabela);
-		btnApagarJogos.addActionListener(j.apagar);
+		btnGerar.addActionListener(j.preencherTabela);
+		btnApagar.addActionListener(j.apagar);
 		btnFechar.addActionListener(j.fechar);
 	}
 }

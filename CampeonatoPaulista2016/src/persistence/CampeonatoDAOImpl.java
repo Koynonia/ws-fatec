@@ -11,7 +11,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -35,9 +34,7 @@ public class CampeonatoDAOImpl implements CampeonatoDAO {
 		String saida = "";
 		try {
 			CallableStatement cs = con.prepareCall(sql);
-			//cs.registerOutParameter(1, Types.VARCHAR);
 			cs.execute();
-			//saida = cs.getString(1);
 			cs.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -149,6 +146,7 @@ public class CampeonatoDAOImpl implements CampeonatoDAO {
 				j.setTimeB( rs.getString( "Time B" ) );
 				lista.add( j );
 			}
+			rs.close();
 		} catch( SQLException e ) { 
 			e.printStackTrace();
 			throw new CampeonatoDAOException( e );
@@ -203,6 +201,7 @@ public class CampeonatoDAOImpl implements CampeonatoDAO {
 				j.setTimeB( rs.getString( "Time B" ) );
 				lista.add( j );
 			}
+			rs.close();
 		} catch( SQLException e ) { 
 			e.printStackTrace();
 			throw new CampeonatoDAOException( e );

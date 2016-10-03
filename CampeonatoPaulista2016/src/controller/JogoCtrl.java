@@ -28,12 +28,12 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import model.Jogo;
 import persistence.CampeonatoDAO;
 import persistence.CampeonatoDAOException;
 import persistence.CampeonatoDAOImpl;
 import view.JogoView;
 import view.MenuView;
-import model.Jogo;
 
 public class JogoCtrl {
 
@@ -42,7 +42,8 @@ public class JogoCtrl {
 	private JLabel lblData;
 	private JLabel lblJogos;
 	private JButton btnVerificar;
-	private JButton btnGerarJogos;
+	private JButton btnGerar;
+	private JButton btnApagar;
 	private JFormattedTextField ftxtData;
 	private JTable tabela;
 	private List<Jogo>jogos;
@@ -52,7 +53,8 @@ public class JogoCtrl {
 			JLabel lblData, 
 			JLabel lblJogos, 
 			JButton btnVerificar, 
-			JButton btnGerarJogos, 
+			JButton btnGerar, 
+			JButton btnApagar, 
 			JFormattedTextField ftxtData, 
 			JTable tabela) {
 
@@ -60,7 +62,8 @@ public class JogoCtrl {
 		this.lblData = lblData;
 		this.lblJogos = lblJogos;
 		this.btnVerificar = btnVerificar;
-		this.btnGerarJogos = btnGerarJogos;
+		this.btnGerar = btnGerar;
+		this.btnApagar = btnApagar;
 		this.ftxtData = ftxtData;
 		this.tabela = tabela;
 		this.jogos = new ArrayList<Jogo>();
@@ -74,12 +77,14 @@ public class JogoCtrl {
 			pesquisaJogo(null);
 
 		} catch (CampeonatoDAOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		if( !jogos.isEmpty() ){
 			formataTabela();
+		} else {
+			formataTabela();
+			btnApagar.setEnabled(false);
 		}
 	}
 
@@ -121,18 +126,10 @@ public class JogoCtrl {
 				linhas.add(j);
 				lblData.setText("Digite a data da Rodada:");
 				btnVerificar.setVisible(true);
+				btnGerar.setVisible(false);
+				btnApagar.setEnabled(true);
 			}
-		} else {
-			JOptionPane.showMessageDialog(null, 
-					"Não foram encontradas partidas!"
-							+ "\n\nNesta data não existem jogos "
-							+ "\ndo Campeonato.", 
-							"Não encontrado", 
-							JOptionPane.PLAIN_MESSAGE,
-							new ImageIcon( "../CampeonatoPaulista2016/src/resources/warning.png" ));
-			ftxtData.setValue("");
-			focarCampo();
-		}
+		} 
 
 		//CONFIGURA O ALINHAMENTO DOS TITULOS DAS COLUNAS DA TABELA
 		((DefaultTableCellRenderer) tabela.getTableHeader().getDefaultRenderer())
@@ -203,13 +200,11 @@ public class JogoCtrl {
 					carregaJogo( dtInicio );
 					formataTabela();
 					ftxtData.setValue("");
-					btnGerarJogos.setVisible(false);
+					btnGerar.setVisible(false);
 					lblJogos.setText( jogos.size() + " Jogos do Campeonato:" );
 				} catch (ParseException e2) {
-					// TODO Auto-generated catch block
 					e2.printStackTrace();
 				} catch (CampeonatoDAOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 
@@ -237,13 +232,23 @@ public class JogoCtrl {
 				try {
 					java.util.Date data = new java.util.Date(sdf.parse((String) ftxtData.getValue()).getTime());
 					pesquisaJogo( data );
-					formataTabela();
-					lblJogos.setText( jogos.size() + " Jogos do Campeonato nesta rodada:" );
+					if ( !jogos.isEmpty() ){
+						formataTabela();
+						lblJogos.setText( jogos.size() + " Jogos do Campeonato nesta rodada:" );
+					} else {
+						JOptionPane.showMessageDialog(null, 
+								"Não foram encontradas partidas!"
+										+ "\n\nNesta data não existem jogos "
+										+ "\ndo Campeonato.", 
+										"Não encontrado", 
+										JOptionPane.PLAIN_MESSAGE,
+										new ImageIcon( "../CampeonatoPaulista2016/src/resources/warning.png" ));
+						ftxtData.setValue("");
+						focarCampo();
+					}
 				} catch (ParseException e2) {
-					// TODO Auto-generated catch block
 					e2.printStackTrace();
 				} catch (CampeonatoDAOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			} else {
@@ -273,16 +278,18 @@ public class JogoCtrl {
 				try {
 					CampeonatoDAO dao = new CampeonatoDAOImpl();
 					dao.apagaJogos();
-					lblData.setText("Início do Campeonato:");
-					lblJogos.setText("Jogos do Campeonato:");
-					btnVerificar.setVisible(false);
-					btnGerarJogos.setVisible(true);
 					while (tabela.getModel().getRowCount() > 0) {  
 						((DefaultTableModel) tabela.getModel()).removeRow(0);  
 					}
 					tabela.updateUI();
+					lblData.setText("Início do Campeonato:");
+					lblJogos.setText("Jogos do Campeonato:");
+					btnVerificar.setVisible(false);
+					btnGerar.setVisible(true);
+					btnApagar.setEnabled(false);
+					ftxtData.setValue("");
+					focarCampo();
 				} catch (CampeonatoDAOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} 			
 			}

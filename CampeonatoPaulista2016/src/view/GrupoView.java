@@ -111,13 +111,13 @@ public class GrupoView extends JFrame {
 		spGrupoD.setViewportView(tbGrupoD);
 		contentPane.add(spGrupoD);
 		
-		JButton btnApagarGrupos = new JButton("Apagar Grupos");
-		btnApagarGrupos.setBounds(346, 361, 126, 29);
-		contentPane.add(btnApagarGrupos);
+		JButton btnApagar = new JButton("Apagar Grupos");
+		btnApagar.setBounds(346, 361, 126, 29);
+		contentPane.add(btnApagar);
 		
-		JButton btnGerarGrupos = new JButton("Gerar Grupos");
-		btnGerarGrupos.setBounds(498, 361, 126, 29);
-		contentPane.add(btnGerarGrupos);
+		JButton btnGerar = new JButton("Gerar Grupos");
+		btnGerar.setBounds(498, 361, 126, 29);
+		contentPane.add(btnGerar);
 		
 		JButton btnFechar = new JButton("Voltar");
 		btnFechar.setBounds(649, 361, 126, 29);
@@ -128,9 +128,9 @@ public class GrupoView extends JFrame {
 		lblBackground.setBounds(0, 0, 826, 432);
 		contentPane.add(lblBackground);
 		
-		GrupoCtrl g = new GrupoCtrl(this, tbGrupoA, tbGrupoB, tbGrupoC, tbGrupoD);
-		btnApagarGrupos.addActionListener(g.apagar);
-		btnGerarGrupos.addActionListener(g.preencherTabela);
+		GrupoCtrl g = new GrupoCtrl(this, tbGrupoA, tbGrupoB, tbGrupoC, tbGrupoD, btnApagar);
+		btnApagar.addActionListener(g.apagar);
+		btnGerar.addActionListener(g.preencherTabela);
 		btnFechar.addActionListener(g.fechar);
 	}
 }

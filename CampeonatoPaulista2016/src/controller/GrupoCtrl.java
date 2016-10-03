@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -36,6 +37,7 @@ public class GrupoCtrl {
 	private JTable tbGrupoB;
 	private JTable tbGrupoC;
 	private JTable tbGrupoD;
+	private JButton btnApagar;
 	private List<Grupo> grupos;
 
 	public GrupoCtrl(
@@ -43,13 +45,15 @@ public class GrupoCtrl {
 			JTable tbGrupoA, 
 			JTable tbGrupoB, 
 			JTable tbGrupoC,
-			JTable tbGrupoD) {
+			JTable tbGrupoD, 
+			JButton btnApagar) {
 
 		this.janela = janela;
 		this.tbGrupoA = tbGrupoA;
 		this.tbGrupoB = tbGrupoB;
 		this.tbGrupoC = tbGrupoC;
 		this.tbGrupoD = tbGrupoD;
+		this.btnApagar = btnApagar;
 		this.grupos = new ArrayList<Grupo>();
 
 		inicia();
@@ -59,7 +63,6 @@ public class GrupoCtrl {
 		try {
 			consultaGrupos();
 		} catch (CampeonatoDAOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		if( !grupos.isEmpty() ){
@@ -67,6 +70,13 @@ public class GrupoCtrl {
 			formataTabGrupoB();
 			formataTabGrupoC();
 			formataTabGrupoD();
+			btnApagar.setEnabled(true);
+		} else {
+			formataTabGrupoA();
+			formataTabGrupoB();
+			formataTabGrupoC();
+			formataTabGrupoD();
+			btnApagar.setEnabled(false);
 		}
 	}
 
@@ -99,14 +109,7 @@ public class GrupoCtrl {
 					linhas.add(g);
 				}
 			}
-		} else {
-			JOptionPane.showMessageDialog(null, 
-					"Erro na consuta dos registros da Tabela GRUPO!"
-							+ "\n '" + grupos.size() + " ' registros foram encontrados.", 
-							"Erro de sistema", 
-							JOptionPane.PLAIN_MESSAGE,
-							new ImageIcon( "../CampeonatoPaulista2016/src/resources/error.png" ));
-		}
+		} 
 
 		//CONFIGURA O ALINHAMENTO DOS TITULOS DAS COLUNAS DA TABELA
 		((DefaultTableCellRenderer) tbGrupoA.getTableHeader().getDefaultRenderer())
@@ -168,14 +171,7 @@ public class GrupoCtrl {
 					linhas.add(g);
 				}
 			}
-		} else {
-			JOptionPane.showMessageDialog(null, 
-					"Erro na consuta dos registros da Tabela GRUPO!"
-							+ "\n' " + grupos.size() + " ' registros foram encontrados.", 
-							"Erro de sistema", 
-							JOptionPane.PLAIN_MESSAGE,
-							new ImageIcon( "../CampeonatoPaulista2016/src/resources/error.png" ));
-		}
+		} 
 
 		//CONFIGURA O ALINHAMENTO DOS TITULOS DAS COLUNAS DA TABELA
 		((DefaultTableCellRenderer) tbGrupoB.getTableHeader().getDefaultRenderer())
@@ -237,14 +233,7 @@ public class GrupoCtrl {
 					linhas.add(g);
 				}
 			}
-		} else {
-			JOptionPane.showMessageDialog(null, 
-					"Erro na consuta dos registros da Tabela GRUPO!"
-							+ "\n' " + grupos.size() + " ' registros foram encontrados.", 
-							"Erro de sistema", 
-							JOptionPane.PLAIN_MESSAGE,
-							new ImageIcon( "../CampeonatoPaulista2016/src/resources/error.png" ));
-		}
+		} 
 
 		//CONFIGURA O ALINHAMENTO DOS TITULOS DAS COLUNAS DA TABELA
 		((DefaultTableCellRenderer) tbGrupoC.getTableHeader().getDefaultRenderer())
@@ -306,14 +295,7 @@ public class GrupoCtrl {
 					linhas.add(g);
 				}
 			}
-		} else {
-			JOptionPane.showMessageDialog(null, 
-					"Erro na consuta dos registros da Tabela GRUPO!"
-							+ "\n' " + grupos.size() + " ' registros foram encontrados.", 
-							"Erro de sistema", 
-							JOptionPane.PLAIN_MESSAGE,
-							new ImageIcon( "../CampeonatoPaulista2016/src/resources/error.png" ));
-		}
+		} 
 
 		//CONFIGURA O ALINHAMENTO DOS TITULOS DAS COLUNAS DA TABELA
 		((DefaultTableCellRenderer) tbGrupoD.getTableHeader().getDefaultRenderer())
@@ -373,8 +355,8 @@ public class GrupoCtrl {
 				formataTabGrupoB();
 				formataTabGrupoC();
 				formataTabGrupoD();
+				btnApagar.setEnabled(true);
 			} catch (CampeonatoDAOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		}
@@ -393,6 +375,7 @@ public class GrupoCtrl {
 			if (ex == 0) { 
 				try {
 					CampeonatoDAO dao = new CampeonatoDAOImpl();
+					dao.apagaJogos();
 					dao.apagaGrupos();
 					
 					while (tbGrupoA.getModel().getRowCount() > 0) {  
@@ -411,8 +394,8 @@ public class GrupoCtrl {
 					tbGrupoB.updateUI();
 					tbGrupoC.updateUI();
 					tbGrupoD.updateUI();
+					btnApagar.setEnabled(false);
 				} catch (CampeonatoDAOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} 			
 			}

@@ -9,14 +9,22 @@ public class GenericDAOImpl implements GenericDAO{
 	private static Connection con;
 
 	public Connection getConnection() {
+		fechaConexao() ;
+		sqlServer();
+		//mySql();
+		
+		//System.out.println("Conexao ok");
+		return con;
+	}
 
+	public void sqlServer(){
 		try {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver").newInstance();
-			con = DriverManager
-					.getConnection(
-							"jdbc:sqlserver://192.168.150.128:1433;DatabaseName=Campeonato;namedPipe=true",
-							"Fernando", "12345");
-//			System.out.println("Conexao ok");
+			String url = "jdbc:sqlserver://192.168.150.128:1433;DatabaseName=campeonato;namedPipe=true";
+			String usr = "Fernando";
+			String pwd = "12345";
+			con = DriverManager.getConnection( url, usr, pwd );
+			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
@@ -24,8 +32,22 @@ public class GenericDAOImpl implements GenericDAO{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return con;
 	}
+
+/*	public void mySql(){
+		try { 
+			Class.forName("com.mysql.jdbc.Driver");
+			String url = "jdbc:mysql://localhost:3306/campeonato";
+			String usr = "root";
+			String pwd = "root";
+			con = DriverManager.getConnection( url, usr, pwd );
+			
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}*/
 
 	public void fechaConexao() {
 		try {
