@@ -5,7 +5,7 @@ Professor M.Sc.: **Leandro Colevati dos Santos**
 
 Tarde - 2º Semestre 2016
 
-- 26/09/2016 [AVALIAÇÃO 1](https://bitbucket.org/fatec2016/campeonatopaulista/wiki/Fase%2001): Grupos e Jogos do 
+- 26/09/2016 [AVALIAÇÃO 1](https://bitbucket.org/fatec2016/campeonatopaulista/wiki/Fase%2001): Grupos e Jogos 
 - 31/10/2016 [AVALIAÇÃO 2](https://bitbucket.org/fatec2016/campeonatopaulista/wiki/Fase%2002): Pontuação, Rebaixamento e 4ª de Final
 
 Projeto realizado por: **FERNANDO MORAES OLVIEIRA**
