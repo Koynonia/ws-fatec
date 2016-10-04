@@ -5,7 +5,8 @@ Professor M.Sc.: **Leandro Colevati dos Santos**
 
 Tarde - 2º Semestre 2016
 
-AVALIAÇÃO 1: "Campeonato Paulista 2016"
+26/09/2016 AVALIAÇÃO 1: Grupos e Jogos do Campeonato Paulista 2016
+31/10/2016 AVALIAÇÃO 2: 4ª de Final do Campeonato Paulista 2016
 
 Projeto realizado por: **FERNANDO MORAES OLVIEIRA**
 
