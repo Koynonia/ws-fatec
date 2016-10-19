@@ -81,7 +81,7 @@ public class MenuView extends JFrame {
 		contentPane.add(btnFechar);
 		
 		JLabel lblBackground = new JLabel("");
-		lblBackground.setIcon(new ImageIcon(JogoView.class.getResource("/resources/back.jpg")));
+		lblBackground.setIcon(new ImageIcon(MenuView.class.getResource("/resources/back.jpg")));
 		lblBackground.setBounds(0, 0, 580, 360);
 		contentPane.add(lblBackground);
 		

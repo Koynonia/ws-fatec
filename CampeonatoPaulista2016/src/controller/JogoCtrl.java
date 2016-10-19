@@ -97,10 +97,10 @@ public class JogoCtrl {
 		});
 	}
 
-	public void carregaJogo(Date dtInicio) throws CampeonatoDAOException {
+	public void carregaJogo( Date dtInicio ) throws CampeonatoDAOException {
 
 		CampeonatoDAO dao = new CampeonatoDAOImpl();
-		dao.geraJogos(dtInicio);
+		dao.geraJogos( dtInicio );
 		jogos = dao.consultaJogos();
 	}
 
