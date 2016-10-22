@@ -164,6 +164,7 @@ public class FrmPrincipal extends JFrame {
 
 	public FrmPrincipal() throws ParseException {
 		
+		// Altera aparência das janelas
 		System.setProperty("apple.laf.useScreenMenuBar", "true");
 		System.setProperty("com.apple.mrj.application.apple.menu.about.name", "WikiTeX");
 		try {
@@ -238,7 +239,7 @@ public class FrmPrincipal extends JFrame {
 		painelReserva.setLayout(null);
 		painelContato.setLayout(null);
 
-		perfil = "ad"; //Subistituir por função
+		perfil = "adm"; //Subistituir por função
 
 		switch ( perfil ){
 
