@@ -74,6 +74,7 @@ public class FrmPrincipal extends JFrame {
 	private JLabel lblReservaPais;
 	private JLabel lblReservaObs;
 	private JLabel lblContatoInfo;
+	private JLabel lblContatoImg;
 	private JLabel lblContatoNome;
 	private JLabel lblContatoEmail;
 	private JLabel lblContatoTelefone;
@@ -232,6 +233,8 @@ public class FrmPrincipal extends JFrame {
 		switch ( perfil ){
 
 		case "ad":
+			
+			// PRINCIPAL //////////////////////////
 			lblPrincipalInfo = new JLabel("SEJA BEM VINDO, visitante!");
 			lblPrincipalInfo.setBounds(20, 22, 500, 16);		
 			painelPrincipal.add(lblPrincipalInfo);
@@ -268,7 +271,9 @@ public class FrmPrincipal extends JFrame {
 			lblPrincipalImg.setIcon(new ImageIcon(principal.getImage().getScaledInstance(lblPrincipalImg.getWidth(), 
 					lblPrincipalImg.getHeight(), Image.SCALE_DEFAULT)));
 			painelPrincipal.add(lblPrincipalImg);
-
+			
+			// CHALE //////////////////////////
+			
 			lblChaleInfo = new JLabel("Conheça nossas acomodações!");
 			lblChaleInfo.setBounds(20, 22, 500, 16);		
 			painelChale.add(lblChaleInfo);
@@ -309,7 +314,9 @@ public class FrmPrincipal extends JFrame {
 			lblChaleImg.setIcon(new ImageIcon(chale.getImage().getScaledInstance(lblChaleImg.getWidth(), 
 					lblChaleImg.getHeight(), Image.SCALE_DEFAULT)));
 			painelChale.add(lblChaleImg);
-
+			
+			// LAZER //////////////////////////
+			
 			lblLazerInfo = new JLabel("Nossa programação de lazer!");
 			lblLazerInfo.setBounds(20, 22, 500, 16);		
 			painelLazer.add(lblLazerInfo);
@@ -346,7 +353,9 @@ public class FrmPrincipal extends JFrame {
 			lblLazerImg.setIcon(new ImageIcon(lazer.getImage().getScaledInstance(lblLazerImg.getWidth(), 
 					lblLazerImg.getHeight(), Image.SCALE_DEFAULT)));
 			painelLazer.add(lblLazerImg);
-
+			
+			// SERVICO //////////////////////////
+			
 			lblServicoInfo = new JLabel("Serviços que oferecemos.");
 			lblServicoInfo.setBounds(20, 22, 500, 16);		
 			painelServico.add(lblServicoInfo);
@@ -383,7 +392,9 @@ public class FrmPrincipal extends JFrame {
 			lblServicoImg.setIcon(new ImageIcon(servico.getImage().getScaledInstance(lblServicoImg.getWidth(), 
 					lblServicoImg.getHeight(), Image.SCALE_DEFAULT)));
 			painelServico.add(lblServicoImg);
-
+			
+			// RESERVA //////////////////////////
+			
 			lblReservaInfo = new JLabel("Como realizar a sua reserva?");
 			lblReservaInfo.setBounds(20, 22, 500, 16);		
 			painelReserva.add(lblReservaInfo);
@@ -535,7 +546,7 @@ public class FrmPrincipal extends JFrame {
 
 			txtReservaPais = new JTextField(20);
 			txtReservaPais.setBounds(785, 351, 150, 28);
-			txtReservaPais.setToolTipText("Digite sua Pais");
+			txtReservaPais.setToolTipText("Digite seu Pais");
 			painelReserva.add(txtReservaPais);
 
 			lblReservaObs = new JLabel("Observações:");
@@ -553,7 +564,9 @@ public class FrmPrincipal extends JFrame {
 			btnReservaEnviar = new JButton("Fazer Reserva");
 			btnReservaEnviar.setBounds(246, 485, 110, 29);
 			painelReserva.add(btnReservaEnviar);
-
+			
+			// CONTATO //////////////////////////
+			
 			lblContatoInfo = new JLabel("Fale conosco");
 			lblContatoInfo.setBounds(20, 22, 500, 16);		
 			painelContato.add(lblContatoInfo);
@@ -566,7 +579,18 @@ public class FrmPrincipal extends JFrame {
 			txtaContatoInfo .setWrapStyleWord(true);
 			txtaContatoInfo.setBounds(20, 46, 914, 90);
 			painelContato.add(txtaContatoInfo);
-
+			
+			lblContatoImg = new JLabel();
+			lblContatoImg.setName( "lblContatoImg" );
+			lblContatoImg.setToolTipText("Nossa pousada");
+			lblContatoImg.setHorizontalAlignment(SwingConstants.CENTER);
+			lblContatoImg.setBorder(new LineBorder(Color.GRAY));
+			lblContatoImg.setBounds(560, 165, 324, 197);
+			lblContatoImg.setVisible(true);
+			lblContatoImg.setIcon(new ImageIcon(principal.getImage().getScaledInstance(lblContatoImg.getWidth(), 
+					lblContatoImg.getHeight(), Image.SCALE_DEFAULT)));
+			painelContato.add(lblContatoImg);
+			
 			lblContatoNome = new JLabel("Nome:");
 			lblContatoNome.setBounds(20, 157, 150, 16);
 			painelContato.add(lblContatoNome);
@@ -618,7 +642,7 @@ public class FrmPrincipal extends JFrame {
 
 			txtContatoPais = new JTextField(20);
 			txtContatoPais.setBounds(335, 271, 150, 28);
-			txtContatoPais.setToolTipText("Digite sua Pais");
+			txtContatoPais.setToolTipText("Digite seu Pais");
 			painelContato.add(txtContatoPais);
 
 			lblContatoAssunto = new JLabel("Assunto:");
