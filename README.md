@@ -18,23 +18,4 @@ A **documentação** deste sistema também se encontra na pasta "Documentos" jun
 **OBS.:** Para a conexão no banco, trocar o usuário e senha do MySQL 
 na Classe GenericDao (package persistence).
 
-
-
-```
-#!sql
-
-CREATE DATABASE pousada;
-
-USE pousada;
-
-CREATE TABLE cliente(
-  nome CHAR(30) NOT NULL,
-  cpf CHAR(11) PRIMARY KEY,
-  endereco CHAR(100) NOT NULL,
-  bairro CHAR(100) NOT NULL,
-  cidade CHAR(100) NOT NULL,
-  telefone CHAR(11) UNIQUE NOT NULL,
-  celular CHAR(12) UNIQUE,
-  email CHAR(20) UNIQUE NOT NULL
-);
-```
+![Captura de tela 2016-10-22 10.49.40.png](https://bitbucket.org/repo/RGaybG/images/3853340033-Captura%20de%20tela%202016-10-22%2010.49.40.png)
