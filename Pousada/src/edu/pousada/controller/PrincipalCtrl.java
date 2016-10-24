@@ -1,7 +1,7 @@
 /**
  * @author Fernando Moraes Oliveira
- * Matéria Engenharia de Software 2
- * FATEC ZL 5º ADS - Tarde
+ * MatÃ©ria Engenharia de Software 2
+ * FATEC ZL 5Âº ADS - Tarde
  * 23/10/2016
  */
 
@@ -231,8 +231,8 @@ public class PrincipalCtrl {
 		Arrays.sort(listaCategoria);
 
 		//Adicionar na combobox
-		cboChaleCategoria.addItem( "Categorias…" );
-		cboReservaCategoria.addItem( "Categorias…" );
+		cboChaleCategoria.addItem( "Categoriasâ€¦" );
+		cboReservaCategoria.addItem( "Categoriasâ€¦" );
 		for ( int i = 0; i < categorias.size(); i++ ){
 			cboChaleCategoria.addItem( listaCategoria[i] );
 			cboReservaCategoria.addItem( listaCategoria[i] );
@@ -247,7 +247,7 @@ public class PrincipalCtrl {
 		};
 
 		//Adicionar na combobox
-		cboReservaDocTipo.addItem( "Selecione…" );
+		cboReservaDocTipo.addItem( "Selecioneâ€¦" );
 		for ( int i = 0; i < tipos.length; i++ ){
 			cboReservaDocTipo.addItem( tipos[i] );
 		}
@@ -259,12 +259,12 @@ public class PrincipalCtrl {
 				"Central de Reservas",
 				"Reservas para Grupos",
 				"Reservas para Eventos Corporativos",
-				"Sugestões, Elogios ou Reclamações",
+				"SugestÃµes, Elogios ou ReclamaÃ§Ãµes",
 				"Outros"
 		};
 
 		//Adicionar na combobox
-		cboContatoAssunto.addItem( "Selecione…" );
+		cboContatoAssunto.addItem( "Selecioneâ€¦" );
 		for ( int i = 0; i < assuntos.length; i++ ){
 			cboContatoAssunto.addItem( assuntos[i] );
 		}
@@ -293,16 +293,16 @@ public class PrincipalCtrl {
 			
 		case "construir":
 			JOptionPane.showMessageDialog(null, 
-					"Em construção!\nEsta função ainda não foi implementada.", 
-					"Sem implementação", 
+					"Em construÃ§Ã£o!\nEsta funÃ§Ã£o ainda nÃ£o foi implementada.", 
+					"Sem implementaÃ§Ã£o", 
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon( diretorio + "/icons/builder.png" ));
 			break;
 			
 		case "sair":
 			Object[] exit = { "Confirmar", "Cancelar" };  
-			int fechar = JOptionPane.showOptionDialog( null, "ATENÇÃO!\n\nChamada para o fechamento" 
-					+ " do sistema!\n\nDeseja encerrar a aplicação?",
+			int fechar = JOptionPane.showOptionDialog( null, "ATENÃ‡ÃƒO!\n\nChamada para o fechamento" 
+					+ " do sistema!\n\nDeseja encerrar a aplicaÃ§Ã£o?",
 					"Fechamento do Programa", 
 					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
 					new ImageIcon( diretorio + "/icons/warning.png" ), exit, exit[1] );

@@ -92,7 +92,7 @@ public class ReservaFrm extends JFrame {
 		setName("Reservas");
 		setResizable(false);
 		setAlwaysOnTop (true);
-		setUndecorated(true);
+		setUndecorated(false);
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 768, 480);
 		setLocationRelativeTo(null);
