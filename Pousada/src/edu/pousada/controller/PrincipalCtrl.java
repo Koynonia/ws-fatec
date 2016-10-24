@@ -234,8 +234,8 @@ public class PrincipalCtrl {
 		Arrays.sort(listaCategoria);
 
 		//Adicionar na combobox
-		cboChaleCategoria.addItem( "Categorias…" );
-		cboReservaCategoria.addItem( "Categorias…" );
+		cboChaleCategoria.addItem( "Selecione…" );
+		cboReservaCategoria.addItem( "Selecione…" );
 		for ( int i = 0; i < categorias.size(); i++ ){
 			cboChaleCategoria.addItem( listaCategoria[i] );
 			cboReservaCategoria.addItem( listaCategoria[i] );
@@ -296,7 +296,7 @@ public class PrincipalCtrl {
 			
 		case "construir":
 			JOptionPane.showMessageDialog(null, 
-					"Em construção!\nEsta função ainda nÃ£o foi implementada.", 
+					"Em construção!\nEsta função ainda não foi implementada.", 
 					"Sem implementação", 
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon( diretorio + "/icons/builder.png" ));

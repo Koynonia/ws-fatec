@@ -301,8 +301,8 @@ public class PrincipalFrm extends JFrame {
 			txtaChaleInfo.setBounds(20, 46, 914, 90);
 			painelChale.add(txtaChaleInfo);
 
-			lblChaleCategoria = new JLabel("Selecione uma categoria:");
-			lblChaleCategoria.setBounds(600, 175, 170, 16);
+			lblChaleCategoria = new JLabel("Categorias:");
+			lblChaleCategoria.setBounds(685, 175, 80, 16);
 			painelChale.add(lblChaleCategoria);
 
 			cboChaleCategoria = new JComboBox<String>();
