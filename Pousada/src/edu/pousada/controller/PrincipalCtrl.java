@@ -345,6 +345,9 @@ public class PrincipalCtrl {
 			if(source == btnReservaLimpar){
 				limpaCampos();
 			}
+			if(source == btnContatoLimpar){
+				limpaCampos();
+			}
 		}
 	};
 
