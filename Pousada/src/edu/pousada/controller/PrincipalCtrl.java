@@ -26,6 +26,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -40,6 +41,7 @@ import edu.pousada.entity.Principal;
 public class PrincipalCtrl {
 
 	private PrincipalFrm form; 
+	private JTabbedPane tabContainer;
 	private JPanel painelReserva;
 	private JPanel painelContato;
 	private JTextField txtPesquisa; 
@@ -76,6 +78,7 @@ public class PrincipalCtrl {
 
 	public PrincipalCtrl(
 			PrincipalFrm form, 
+			JTabbedPane tabContainer, 
 			JPanel painelReserva, 
 			JPanel painelContato, 
 			JTextField txtPesquisa, 
@@ -106,6 +109,7 @@ public class PrincipalCtrl {
 			){
 
 		this.form = form; 
+		this.tabContainer = tabContainer;
 		this.painelReserva = painelReserva;
 		this.painelContato = painelContato;
 		this.txtPesquisa = txtPesquisa;
@@ -144,11 +148,12 @@ public class PrincipalCtrl {
 	
 	
 	public void limpaCampos(){
-
-		Integer count = 0;
+		
+		Integer guiaAtiva = tabContainer.getSelectedIndex();
+		
 		Component[] painelAtivo = null;
-
-		switch ( count ){
+		
+		switch ( guiaAtiva){
 		case 0:
 			painelAtivo = painelReserva.getComponents();
 			break;
@@ -179,7 +184,6 @@ public class PrincipalCtrl {
 				}
 			}
 		}
-		count = count + 1;
 	}
 
 

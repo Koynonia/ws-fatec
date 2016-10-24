@@ -133,6 +133,7 @@ public class PrincipalFrm extends JFrame {
 	private JButton btnContatoLimpar;
 	private JTable tabChale;
 	private JTable tabReserva;
+	private JTabbedPane tabContainer;
 	private JScrollPane spChale;
 	private JScrollPane spReserva;
 	private MaskFormatter mskData;
@@ -223,7 +224,7 @@ public class PrincipalFrm extends JFrame {
 		btnLogin.setVisible(true);
 		painel.add(btnLogin);
 
-		JTabbedPane tabContainer = new JTabbedPane(JTabbedPane.TOP);
+		tabContainer = new JTabbedPane(JTabbedPane.TOP);
 		tabContainer.setBounds(23, 92, 976, 580);
 		painel.add(tabContainer);
 
@@ -766,6 +767,7 @@ public class PrincipalFrm extends JFrame {
 
 		PrincipalCtrl ctrl = new PrincipalCtrl(
 				this,
+				tabContainer,
 				painelReserva,
 				painelContato,
 				txtPesquisa,
