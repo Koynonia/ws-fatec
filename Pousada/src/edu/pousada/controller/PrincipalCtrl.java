@@ -231,8 +231,8 @@ public class PrincipalCtrl {
 		Arrays.sort(listaCategoria);
 
 		//Adicionar na combobox
-		cboChaleCategoria.addItem( "Categoriasâ€¦" );
-		cboReservaCategoria.addItem( "Categoriasâ€¦" );
+		cboChaleCategoria.addItem( "Categorias…" );
+		cboReservaCategoria.addItem( "Categorias…" );
 		for ( int i = 0; i < categorias.size(); i++ ){
 			cboChaleCategoria.addItem( listaCategoria[i] );
 			cboReservaCategoria.addItem( listaCategoria[i] );
@@ -259,12 +259,12 @@ public class PrincipalCtrl {
 				"Central de Reservas",
 				"Reservas para Grupos",
 				"Reservas para Eventos Corporativos",
-				"SugestÃµes, Elogios ou ReclamaÃ§Ãµes",
+				"Sugestões, Elogios ou Reclamações",
 				"Outros"
 		};
 
 		//Adicionar na combobox
-		cboContatoAssunto.addItem( "Selecioneâ€¦" );
+		cboContatoAssunto.addItem( "Selecione…" );
 		for ( int i = 0; i < assuntos.length; i++ ){
 			cboContatoAssunto.addItem( assuntos[i] );
 		}
@@ -293,16 +293,16 @@ public class PrincipalCtrl {
 			
 		case "construir":
 			JOptionPane.showMessageDialog(null, 
-					"Em construÃ§Ã£o!\nEsta funÃ§Ã£o ainda nÃ£o foi implementada.", 
-					"Sem implementaÃ§Ã£o", 
+					"Em construção!\nEsta função ainda nÃ£o foi implementada.", 
+					"Sem implementação", 
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon( diretorio + "/icons/builder.png" ));
 			break;
 			
 		case "sair":
 			Object[] exit = { "Confirmar", "Cancelar" };  
-			int fechar = JOptionPane.showOptionDialog( null, "ATENÃ‡ÃƒO!\n\nChamada para o fechamento" 
-					+ " do sistema!\n\nDeseja encerrar a aplicaÃ§Ã£o?",
+			int fechar = JOptionPane.showOptionDialog( null, "ATENÇÃO!\n\nChamada para o fechamento" 
+					+ " do sistema!\n\nDeseja encerrar a aplicação?",
 					"Fechamento do Programa", 
 					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
 					new ImageIcon( diretorio + "/icons/warning.png" ), exit, exit[1] );
