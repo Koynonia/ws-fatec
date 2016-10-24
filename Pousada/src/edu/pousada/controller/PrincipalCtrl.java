@@ -150,15 +150,14 @@ public class PrincipalCtrl {
 	public void limpaCampos(){
 		
 		Integer guiaAtiva = tabContainer.getSelectedIndex();
-		
 		Component[] painelAtivo = null;
 		
 		switch ( guiaAtiva){
-		case 0:
+		case 4:
 			painelAtivo = painelReserva.getComponents();
 			break;
 
-		case 1:
+		case 5:
 			painelAtivo = painelContato.getComponents();
 			break;
 		}

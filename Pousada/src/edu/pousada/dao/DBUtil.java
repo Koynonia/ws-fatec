@@ -19,7 +19,7 @@ public class DBUtil {
 	
 	private static final String DB_URL = "jdbc:mysql://localhost:3306/pousada";
 	private static final String DB_USER = "root";
-	private static final String DB_PASS = "alunofatec";
+	private static final String DB_PASS = "root";
 	private static DBUtil instancia;
 	
 	private Connection con;
