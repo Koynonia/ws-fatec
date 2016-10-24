@@ -15,7 +15,10 @@ O histórico e a documentação podem ser acompanhados no [wiki do projeto](http
 
 A **documentação** deste sistema também se encontra na pasta "Documentos" juntamente com as tabelas do banco de dados (pousada.sql).
 
-**OBS.:** Para a conexão no banco, trocar o usuário e senha do MySQL 
-na Classe GenericDao (package persistence).
+**OBS.:** 
+
+- Para a conexão no banco, trocar o usuário e senha do MySQL 
+na Classe DBUtil (package edu.pousada.dao).
+- Os arquivos estão codificados em UTF-8. É necessário configurar o Eclipse.
 
 ![Captura de tela 2016-10-22 10.49.40.png](https://bitbucket.org/repo/RGaybG/images/3853340033-Captura%20de%20tela%202016-10-22%2010.49.40.png)
