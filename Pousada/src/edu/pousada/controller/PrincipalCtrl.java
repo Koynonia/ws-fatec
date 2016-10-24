@@ -247,7 +247,7 @@ public class PrincipalCtrl {
 		};
 
 		//Adicionar na combobox
-		cboReservaDocTipo.addItem( "Selecioneâ€¦" );
+		cboReservaDocTipo.addItem( "Selecione…" );
 		for ( int i = 0; i < tipos.length; i++ ){
 			cboReservaDocTipo.addItem( tipos[i] );
 		}
