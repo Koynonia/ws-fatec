@@ -13,7 +13,7 @@ Projeto realizado por:
 
 O histórico e a documentação podem ser acompanhados no [wiki do projeto](https://bitbucket.org/jaegers/pousada/wiki/).
 
-A **documentação** deste sistema também se encontra na pasta "Documentos" juntamente com as tabelas do banco de dados (pousada.sql).
+A **documentação** deste sistema também se encontra na pasta "Documentos" juntamente com as tabelas do banco de dados (pousadaDB.sql).
 
 **OBS.:** 
 
