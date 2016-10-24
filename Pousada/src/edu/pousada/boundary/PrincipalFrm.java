@@ -22,6 +22,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -29,12 +30,9 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
-import javax.swing.JTabbedPane;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.text.MaskFormatter;
-
-import com.birosoft.liquid.LiquidLookAndFeel;
 
 import edu.pousada.controller.PrincipalCtrl;
 
@@ -131,6 +129,8 @@ public class PrincipalFrm extends JFrame {
 	private JButton btnPesquisar;
 	private JButton btnReservaEnviar;
 	private JButton btnContatoEnviar;
+	private JButton btnReservaLimpar;
+	private JButton btnContatoLimpar;
 	private JTable tabChale;
 	private JTable tabReserva;
 	private JScrollPane spChale;
@@ -413,6 +413,7 @@ public class PrincipalFrm extends JFrame {
 			painelReserva.add(lblReservaInfo);
 
 			txtaReservaInfo = new JTextArea();
+			txtaReservaInfo.setName("reservaInfo");
 			txtaReservaInfo.setBorder(BorderFactory.createCompoundBorder(borderClean, 
 					BorderFactory.createEmptyBorder(10, 10, 10, 10)));
 			txtaReservaInfo.setEditable(false);
@@ -480,6 +481,16 @@ public class PrincipalFrm extends JFrame {
 			txtReservaQtdCrianca.setBounds(250, 447, 100, 28);
 			txtReservaQtdCrianca.setToolTipText("Digite a quantidade de Crianças");
 			painelReserva.add(txtReservaQtdCrianca);
+			
+			btnReservaEnviar = new JButton("Fazer Reserva");
+			btnReservaEnviar.setBounds(246, 485, 110, 29);
+			painelReserva.add(btnReservaEnviar);
+			
+			btnReservaLimpar = new JButton("Limpar");
+			btnReservaLimpar.setBounds(130, 485, 110, 29);
+			btnReservaLimpar.setToolTipText("Clique aqui para limpar os campos preenchidos");
+			btnReservaLimpar.setVisible(true);
+			painelReserva.add(btnReservaLimpar);
 
 			lblReservaNome = new JLabel("Nome:");
 			lblReservaNome.setBounds(450, 157, 150, 16);
@@ -575,10 +586,6 @@ public class PrincipalFrm extends JFrame {
 			txtaReservaObs.setBounds(450, 401, 484, 114);
 			painelReserva.add(txtaReservaObs);
 
-			btnReservaEnviar = new JButton("Fazer Reserva");
-			btnReservaEnviar.setBounds(246, 485, 110, 29);
-			painelReserva.add(btnReservaEnviar);
-
 			// CONTATO //////////////////////////
 
 			lblContatoInfo = new JLabel("Fale conosco");
@@ -586,6 +593,7 @@ public class PrincipalFrm extends JFrame {
 			painelContato.add(lblContatoInfo);
 
 			txtaContatoInfo = new JTextArea();
+			txtaContatoInfo.setName("contatoInfo");
 			txtaContatoInfo.setBorder(BorderFactory.createCompoundBorder(borderClean, 
 					BorderFactory.createEmptyBorder(10, 10, 10, 10)));
 			txtaContatoInfo.setEditable(false);
@@ -684,6 +692,12 @@ public class PrincipalFrm extends JFrame {
 			btnContatoEnviar = new JButton("Enviar");
 			btnContatoEnviar.setBounds(390, 331, 100, 29);
 			painelContato.add(btnContatoEnviar);
+			
+			btnContatoLimpar = new JButton("Limpar");
+			btnContatoLimpar.setBounds(390, 365, 100, 29);
+			btnContatoLimpar.setToolTipText("Clique aqui para limpar os campos preenchidos");
+			btnContatoLimpar.setVisible(true);
+			painelContato.add(btnContatoLimpar);
 			break;
 
 		case "administrador":
@@ -738,7 +752,7 @@ public class PrincipalFrm extends JFrame {
 		tabContainer.add( "Reservas", painelReserva );
 		tabContainer.add( "Contato", painelContato );
 
-		versao = "Versão: 0.1.0";//Substituir por função
+		versao = "Versão: 0.1.5";//Substituir por função
 		lblVersao = new JLabel( versao );
 		lblVersao.setEnabled(false);
 		lblVersao.setBounds(33, 666, 97, 16);
@@ -752,6 +766,8 @@ public class PrincipalFrm extends JFrame {
 
 		PrincipalCtrl ctrl = new PrincipalCtrl(
 				this,
+				painelReserva,
+				painelContato,
 				txtPesquisa,
 				txtaPrincipalInfo,
 				txtaPrincipalDetalhe,
@@ -774,7 +790,9 @@ public class PrincipalFrm extends JFrame {
 				btnLogin,
 				btnReservaEnviar,
 				btnContatoEnviar,
-				btnPesquisar
+				btnPesquisar,
+				btnReservaLimpar,
+				btnContatoLimpar
 				);
 		
 		txtLogin.addKeyListener( ctrl.teclar );
@@ -785,6 +803,8 @@ public class PrincipalFrm extends JFrame {
 			btnLogin.addActionListener( ctrl.acionar );
 			btnReservaEnviar.addActionListener( ctrl.acionar );
 			btnContatoEnviar.addActionListener( ctrl.acionar );
+			btnReservaLimpar.addActionListener( ctrl.acionar );
+			btnContatoLimpar.addActionListener( ctrl.acionar );
 			break;
 
 		case "administrador":

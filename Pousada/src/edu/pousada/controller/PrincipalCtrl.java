@@ -7,6 +7,7 @@
 
 package edu.pousada.controller;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -22,7 +23,9 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -37,6 +40,8 @@ import edu.pousada.entity.Principal;
 public class PrincipalCtrl {
 
 	private PrincipalFrm form; 
+	private JPanel painelReserva;
+	private JPanel painelContato;
 	private JTextField txtPesquisa; 
 	private JTextArea txtaPrincipalInfo; 
 	private JTextArea txtaPrincipalDetalhe; 
@@ -60,6 +65,8 @@ public class PrincipalCtrl {
 	private JButton btnReservaEnviar; 
 	private JButton btnContatoEnviar;
 	private JButton btnPesquisar;
+	private JButton btnReservaLimpar;
+	private JButton btnContatoLimpar;
 	private String diretorio = "../Pousada/resources/";
 	private LogonCtrl logon = LogonCtrl.getInstance();
 	private String imagem;
@@ -69,6 +76,8 @@ public class PrincipalCtrl {
 
 	public PrincipalCtrl(
 			PrincipalFrm form, 
+			JPanel painelReserva, 
+			JPanel painelContato, 
 			JTextField txtPesquisa, 
 			JTextArea txtaPrincipalInfo, 
 			JTextArea txtaPrincipal, 
@@ -91,10 +100,14 @@ public class PrincipalCtrl {
 			JButton btnLogin,  
 			JButton btnReservaEnviar, 
 			JButton btnContatoEnviar,
-			JButton btnPesquisar
+			JButton btnPesquisar, 
+			JButton btnReservaLimpar, 
+			JButton btnContatoLimpar
 			){
 
 		this.form = form; 
+		this.painelReserva = painelReserva;
+		this.painelContato = painelContato;
 		this.txtPesquisa = txtPesquisa;
 		this.txtaPrincipalInfo = txtaPrincipalInfo; 
 		this.txtaPrincipalDetalhe = txtaPrincipal; 
@@ -118,6 +131,8 @@ public class PrincipalCtrl {
 		this.btnReservaEnviar = btnReservaEnviar; 
 		this.btnContatoEnviar = btnContatoEnviar;
 		this.btnPesquisar = btnPesquisar;
+		this.btnReservaLimpar = btnReservaLimpar;
+		this.btnContatoLimpar = btnContatoLimpar;
 		this.infos = new ArrayList<Principal>();
 
 		carregaDAO();
@@ -127,6 +142,46 @@ public class PrincipalCtrl {
 		preencheAssunto();
 	}
 	
+	
+	public void limpaCampos(){
+
+		Integer count = 0;
+		Component[] painelAtivo = null;
+
+		switch ( count ){
+		case 0:
+			painelAtivo = painelReserva.getComponents();
+			break;
+
+		case 1:
+			painelAtivo = painelContato.getComponents();
+			break;
+		}
+
+		for ( Component c : painelAtivo ) {
+			if ( c instanceof JTextField ) {
+				JTextField l = ( JTextField )c;
+				l.setText(null);
+			}
+			if ( c instanceof JFormattedTextField ) {
+				JFormattedTextField  l = ( JFormattedTextField )c;
+				l.setValue(null);
+			}
+			if (c instanceof JComboBox ) {
+				@SuppressWarnings("unchecked")
+				JComboBox<String> l = ( JComboBox<String> )c;
+				l.setSelectedIndex(0);
+			}
+			if ( c instanceof JTextArea ) {
+				JTextArea  l = ( JTextArea )c;
+				if( l.getName() == null ){
+					l.setText(null);
+				}
+			}
+		}
+		count = count + 1;
+	}
+
 
 	// DAO //////////////////////////////////////
 
@@ -283,6 +338,9 @@ public class PrincipalCtrl {
 			}
 			if(source == btnPesquisar){
 				abrir( "construir" );
+			}
+			if(source == btnReservaLimpar){
+				limpaCampos();
 			}
 		}
 	};
