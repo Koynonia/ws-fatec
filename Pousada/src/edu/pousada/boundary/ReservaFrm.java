@@ -43,7 +43,7 @@ import javax.swing.text.NumberFormatter;
 import edu.pousada.controller.PrincipalCtrl;
 import edu.pousada.controller.ReservaCtrl;
 
-public class ReservasFrm extends JFrame {
+public class ReservaFrm extends JFrame {
 
 	private static final long serialVersionUID = -1419041163683085620L;
 	private JPanel painel;
@@ -67,7 +67,7 @@ public class ReservasFrm extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ReservasFrm frame = new ReservasFrm();
+					ReservaFrm frame = new ReservaFrm();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -76,7 +76,7 @@ public class ReservasFrm extends JFrame {
 		});
 	}
 
-	public ReservasFrm() throws ParseException {
+	public ReservaFrm() throws ParseException {
 
 		// Altera aparência das janelas
 		System.setProperty("apple.laf.useScreenMenuBar", "true");

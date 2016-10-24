@@ -27,25 +27,25 @@ public class PrincipalDAOImpl implements PrincipalDAO {
 		String sql = "SELECT * FROM principal";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
-		List<Principal>listaInfo = new ArrayList<>();
+		List<Principal>lista = new ArrayList<>();
 
 		while (rs.next()) {
-			Principal info = new Principal();
-			info.setPrincipalInfo(rs.getString( "principalInfo" ));
-			info.setPrincipalDetalhe(rs.getString( "principalDetalhe" ));
-			info.setChaleInfo(rs.getString( "chaleInfo" ));
-			info.setChaleDetalhe(rs.getString( "chaleDetalhe" ));
-			info.setLazerInfo(rs.getString( "LazerInfo" ));
-			info.setLazerDetalhe(rs.getString( "lazerDetalhe" ));
-			info.setServicoInfo(rs.getString( "servicoInfo" ));
-			info.setServicoDetalhe(rs.getString( "servicoDetalhe" ));
-			info.setReservaInfo(rs.getString( "reservaInfo" ));
-			info.setContatoInfo(rs.getString( "contatoInfo" ));
-			listaInfo.add( info );
+			Principal itens = new Principal();
+			itens.setPrincipalInfo(rs.getString( "principalInfo" ));
+			itens.setPrincipalDetalhe(rs.getString( "principalDetalhe" ));
+			itens.setChaleInfo(rs.getString( "chaleInfo" ));
+			itens.setChaleDetalhe(rs.getString( "chaleDetalhe" ));
+			itens.setLazerInfo(rs.getString( "LazerInfo" ));
+			itens.setLazerDetalhe(rs.getString( "lazerDetalhe" ));
+			itens.setServicoInfo(rs.getString( "servicoInfo" ));
+			itens.setServicoDetalhe(rs.getString( "servicoDetalhe" ));
+			itens.setReservaInfo(rs.getString( "reservaInfo" ));
+			itens.setContatoInfo(rs.getString( "contatoInfo" ));
+			lista.add( itens );
 		}
 		rs.close();
 		ps.close();
-		return listaInfo;
+		return lista;
 	}
 
 	@Override
@@ -54,15 +54,15 @@ public class PrincipalDAOImpl implements PrincipalDAO {
 		String sql = "SELECT categoria FROM chale";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
-		List<Chale>listaCategoria = new ArrayList<>();
+		List<Chale>lista = new ArrayList<>();
 
 		while (rs.next()) {
-			Chale categoria = new Chale();
-			categoria.setCategoria(rs.getString( "categoria" ));
-			listaCategoria.add( categoria );
+			Chale itens = new Chale();
+			itens.setCategoria(rs.getString( "categoria" ));
+			lista.add( itens );
 		}
 		rs.close();
 		ps.close();
-		return listaCategoria;
+		return lista;
 	}
 }

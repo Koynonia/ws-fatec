@@ -776,18 +776,20 @@ public class PrincipalFrm extends JFrame {
 				btnContatoEnviar,
 				btnPesquisar
 				);
-
+		
+		txtLogin.addKeyListener( ctrl.teclar );
+		
 		switch ( perfil ){
-
+		
 		case "visitante":
-			btnLogin.addActionListener(ctrl.acionar);
-			btnReservaEnviar.addActionListener(ctrl.acionar);
-			btnContatoEnviar.addActionListener(ctrl.acionar);
+			btnLogin.addActionListener( ctrl.acionar );
+			btnReservaEnviar.addActionListener( ctrl.acionar );
+			btnContatoEnviar.addActionListener( ctrl.acionar );
 			break;
 
 		case "administrador":
-			btnPesquisar.addActionListener(ctrl.acionar);
-			tabReserva.addMouseListener(ctrl.clicar);
+			btnPesquisar.addActionListener( ctrl.acionar );
+			tabReserva.addMouseListener( ctrl.clicar );
 			break;
 		}
 	}

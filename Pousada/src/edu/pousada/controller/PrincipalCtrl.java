@@ -28,7 +28,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import edu.pousada.boundary.PrincipalFrm;
-import edu.pousada.boundary.ReservasFrm;
+import edu.pousada.boundary.ReservaFrm;
 import edu.pousada.dao.PrincipalDAO;
 import edu.pousada.dao.PrincipalDAOImpl;
 import edu.pousada.entity.Chale;
@@ -61,6 +61,7 @@ public class PrincipalCtrl {
 	private JButton btnContatoEnviar;
 	private JButton btnPesquisar;
 	private String diretorio = "../Pousada/resources/";
+	private LogonCtrl logon = LogonCtrl.getInstance();
 	private String imagem;
 	private boolean validar;
 	private List<Principal> infos;
@@ -125,6 +126,7 @@ public class PrincipalCtrl {
 		preencheTipoDoc();
 		preencheAssunto();
 	}
+	
 
 	// DAO //////////////////////////////////////
 
@@ -138,6 +140,7 @@ public class PrincipalCtrl {
 			e.printStackTrace();
 		}
 	}
+	
 
 	// AREA DE TEXTO /////////////////////////////
 
@@ -211,50 +214,55 @@ public class PrincipalCtrl {
 			cboContatoAssunto.addItem( assuntos[i] );
 		}
 	}
-
+	
+	
 	// TABELA //////////////////////////////////
 
 
 
 	// JANELA //////////////////////////////////
 
-	public void abrirJanela ( String nome ){
+	public void abrir ( String nome ){
 
 		switch ( nome ){
 
-		case "login":
-			sair();
-			break;
-
 		case "reservas":
-			ReservasFrm reserva;
+			ReservaFrm reserva;
 			try {
-				reserva = new ReservasFrm();
+				reserva = new ReservaFrm();
 				reserva.setVisible(true);
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}		
 			break;
+			
+		case "construir":
+			JOptionPane.showMessageDialog(null, 
+					"Em construção!\nEsta função ainda não foi implementada.", 
+					"Sem implementação", 
+					JOptionPane.PLAIN_MESSAGE,
+					new ImageIcon( diretorio + "/icons/builder.png" ));
+			break;
+			
+		case "sair":
+			Object[] exit = { "Confirmar", "Cancelar" };  
+			int fechar = JOptionPane.showOptionDialog( null, "ATENÇÃO!\n\nChamada para o fechamento" 
+					+ " do sistema!\n\nDeseja encerrar a aplicação?",
+					"Fechamento do Programa", 
+					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
+					new ImageIcon( diretorio + "/icons/warning.png" ), exit, exit[1] );
+			if ( fechar == 0 ) {
+				validar = true;
+			} else {
+				validar = false;
+			}
+			if(validar == true){
+				System.exit(0);
+			}
+			break;
 		}
 	}
 
-
-	public void sair(){
-		Object[] exit = { "Confirmar", "Cancelar" };  
-		int fechar = JOptionPane.showOptionDialog( null, "ATENÇÃO!\n\nChamada para o fechamento" 
-				+ " do sistema!\n\nDeseja encerrar a aplicação?",
-				"Fechamento do Programa", 
-				JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
-				new ImageIcon( diretorio + "/icons/warning.png" ), exit, exit[1] );
-		if ( fechar == 0 ) {
-			validar = true;
-		} else {
-			validar = false;
-		}
-		if(validar == true){
-			System.exit(0);
-		}
-	}
 
 	// BOTAO //////////////////////////////////
 
@@ -265,16 +273,16 @@ public class PrincipalCtrl {
 			Object source = e.getSource();
 
 			if(source == btnLogin){
-				abrirJanela( "login" );
+				abrir( "construir" );
 			}
 			if(source == btnReservaEnviar){
-				abrirJanela( "reservas" );
+				abrir( "reservas" );
 			}
 			if(source == btnContatoEnviar){
-				abrirJanela( "contato" );
+				abrir( "construir" );
 			}
 			if(source == btnPesquisar){
-				abrirJanela( "pesquisa" );
+				abrir( "construir" );
 			}
 		}
 	};
@@ -308,7 +316,7 @@ public class PrincipalCtrl {
 							if(validar == false){
 							System.exit(0);
 							}*/
-				form.dispose();
+				abrir( "sair" );
 				break;
 			case KeyEvent.VK_DELETE:
 				//removeLinha();
