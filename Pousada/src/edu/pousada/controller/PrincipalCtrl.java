@@ -1,7 +1,7 @@
 /**
  * @author Fernando Moraes Oliveira
- * MatÃ©ria Engenharia de Software 2
- * FATEC ZL 5Âº ADS - Tarde
+ * Materia Engenharia de Software 2
+ * FATEC ZL 5º ADS - Tarde
  * 23/10/2016
  */
 
