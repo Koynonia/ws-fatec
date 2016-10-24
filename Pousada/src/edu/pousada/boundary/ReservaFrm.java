@@ -7,19 +7,14 @@
 
 package edu.pousada.boundary;
 
-import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.Image;
 import java.awt.SystemColor;
 import java.text.DecimalFormat;
 import java.text.Format;
 import java.text.ParseException;
 
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -27,20 +22,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
-import javax.swing.JTabbedPane;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-import javax.swing.text.MaskFormatter;
 import javax.swing.text.NumberFormatter;
 
-import edu.pousada.controller.PrincipalCtrl;
 import edu.pousada.controller.ReservaCtrl;
 
 public class ReservaFrm extends JFrame {
@@ -48,7 +36,6 @@ public class ReservaFrm extends JFrame {
 	private static final long serialVersionUID = -1419041163683085620L;
 	private JPanel painel;
 	private JScrollPane spCompras;
-	private JLabel lblLogo;
 	private JLabel lblPagina;
 	private JSeparator linha;
 	private JLabel lblQtd;
