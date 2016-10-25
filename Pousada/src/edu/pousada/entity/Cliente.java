@@ -1,3 +1,10 @@
+/**
+ * @author Fernando Moraes Oliveira
+ * Materia Engenharia de Software 2
+ * FATEC ZL 5º ADS - Tarde
+ * 24/10/2016
+ */
+
 package edu.pousada.entity;
 
 import java.util.Date;
@@ -16,7 +23,7 @@ public class Cliente {
 	private String cidade;
 	private String estado;
 	private String pais;
-	private Integer cep;
+	private String cep;
 	private Date dtCadastro;
 	private Boolean ativo;
 	
@@ -93,10 +100,10 @@ public class Cliente {
 	public void setPais(String pais) {
 		this.pais = pais;
 	}
-	public Integer getCep() {
+	public String getCep() {
 		return cep;
 	}
-	public void setCep(Integer cep) {
+	public void setCep(String cep) {
 		this.cep = cep;
 	}
 	public Date getDtCadastro() {

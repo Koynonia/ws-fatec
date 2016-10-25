@@ -46,7 +46,7 @@ public class ClienteDAOImpl implements ClienteDAO {
 		ps.setString(10, cliente.getCidade());
 		ps.setString(11, cliente.getEstado());
 		ps.setString(12, cliente.getPais());
-		ps.setLong(13, cliente.getCep());
+		ps.setString(13, cliente.getCep());
 		ps.setDate(14, (Date) cliente.getDtCadastro());
 		ps.setBoolean(15, cliente.getAtivo());
 
