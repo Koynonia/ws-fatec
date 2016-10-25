@@ -139,7 +139,7 @@ public class PrincipalFrm extends JFrame {
 	private MaskFormatter mskData;
 	private ImageIcon fundo = new ImageIcon( "../Pousada/resources/backstage/img4.jpg" );
 	private ImageIcon principal = new ImageIcon( "../Pousada/resources/pousada/img1.jpg" );
-	private ImageIcon chale = new ImageIcon( "../Pousada/resources/chale/img1.jpg" );
+	private ImageIcon chale = new ImageIcon( "../Pousada/resources/chale/img0.jpg" );
 	private ImageIcon lazer = new ImageIcon( "../Pousada/resources/lazer/img1.jpg" );
 	private ImageIcon servico = new ImageIcon( "../Pousada/resources/servico/img1.jpg" );
 	private Border borderClean = BorderFactory.createLineBorder(Color.LIGHT_GRAY);
@@ -180,7 +180,7 @@ public class PrincipalFrm extends JFrame {
 		setTitle("Pousada Inn Von Dix");
 		setName("Principal");
 		setBounds(100, 100, 1024, 710);
-		setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
+		setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
 		setLocationRelativeTo(null);
 		setResizable(false);
 
@@ -282,8 +282,11 @@ public class PrincipalFrm extends JFrame {
 			lblPrincipalImg.setBorder(new LineBorder(Color.LIGHT_GRAY));
 			lblPrincipalImg.setBounds(20, 178, 555, 337);
 			lblPrincipalImg.setVisible(true);
-			lblPrincipalImg.setIcon(new ImageIcon(principal.getImage().getScaledInstance(lblPrincipalImg.getWidth(), 
-					lblPrincipalImg.getHeight(), Image.SCALE_DEFAULT)));
+			lblPrincipalImg.setIcon(new ImageIcon(
+					principal.getImage().getScaledInstance(
+							lblPrincipalImg.getWidth(), 
+							lblPrincipalImg.getHeight(), 
+							Image.SCALE_DEFAULT)));
 			painelPrincipal.add(lblPrincipalImg);
 
 			// CHALE //////////////////////////
@@ -325,8 +328,10 @@ public class PrincipalFrm extends JFrame {
 			lblChaleImg.setBorder(new LineBorder(Color.LIGHT_GRAY));
 			lblChaleImg.setBounds(20, 178, 555, 337);
 			lblChaleImg.setVisible(true);
-			lblChaleImg.setIcon(new ImageIcon(chale.getImage().getScaledInstance(lblChaleImg.getWidth(), 
-					lblChaleImg.getHeight(), Image.SCALE_DEFAULT)));
+			lblChaleImg.setIcon(new ImageIcon(chale.getImage().getScaledInstance(
+					lblChaleImg.getWidth(), 
+					lblChaleImg.getHeight(), 
+					Image.SCALE_DEFAULT)));
 			painelChale.add(lblChaleImg);
 
 			// LAZER //////////////////////////
@@ -364,8 +369,10 @@ public class PrincipalFrm extends JFrame {
 			lblLazerImg.setBorder(new LineBorder(Color.LIGHT_GRAY));
 			lblLazerImg.setBounds(20, 178, 555, 337);
 			lblLazerImg.setVisible(true);
-			lblLazerImg.setIcon(new ImageIcon(lazer.getImage().getScaledInstance(lblLazerImg.getWidth(), 
-					lblLazerImg.getHeight(), Image.SCALE_DEFAULT)));
+			lblLazerImg.setIcon(new ImageIcon(lazer.getImage().getScaledInstance(
+					lblLazerImg.getWidth(), 
+					lblLazerImg.getHeight(), 
+					Image.SCALE_DEFAULT)));
 			painelLazer.add(lblLazerImg);
 
 			// SERVICO //////////////////////////
@@ -403,8 +410,10 @@ public class PrincipalFrm extends JFrame {
 			lblServicoImg.setBorder(new LineBorder(Color.LIGHT_GRAY));
 			lblServicoImg.setBounds(20, 178, 555, 337);
 			lblServicoImg.setVisible(true);
-			lblServicoImg.setIcon(new ImageIcon(servico.getImage().getScaledInstance(lblServicoImg.getWidth(), 
-					lblServicoImg.getHeight(), Image.SCALE_DEFAULT)));
+			lblServicoImg.setIcon(new ImageIcon(servico.getImage().getScaledInstance(
+					lblServicoImg.getWidth(), 
+					lblServicoImg.getHeight(), 
+					Image.SCALE_DEFAULT)));
 			painelServico.add(lblServicoImg);
 
 			// RESERVA //////////////////////////
@@ -439,8 +448,10 @@ public class PrincipalFrm extends JFrame {
 			lblReservaImg.setBorder(new LineBorder(Color.LIGHT_GRAY));
 			lblReservaImg.setBounds(20, 193, 324, 197);
 			lblReservaImg.setVisible(true);
-			lblReservaImg.setIcon(new ImageIcon(chale.getImage().getScaledInstance(lblReservaImg.getWidth(), 
-					lblReservaImg.getHeight(), Image.SCALE_DEFAULT)));
+			lblReservaImg.setIcon(new ImageIcon(chale.getImage().getScaledInstance(
+					lblReservaImg.getWidth(), 
+					lblReservaImg.getHeight(), 
+					Image.SCALE_DEFAULT)));
 			painelReserva.add(lblReservaImg);
 
 			lblReservaDtInicio = new JLabel("Chegada:");
@@ -610,8 +621,10 @@ public class PrincipalFrm extends JFrame {
 			lblContatoImg.setBorder(new LineBorder(Color.GRAY));
 			lblContatoImg.setBounds(560, 165, 324, 197);
 			lblContatoImg.setVisible(true);
-			lblContatoImg.setIcon(new ImageIcon(principal.getImage().getScaledInstance(lblContatoImg.getWidth(), 
-					lblContatoImg.getHeight(), Image.SCALE_DEFAULT)));
+			lblContatoImg.setIcon(new ImageIcon(principal.getImage().getScaledInstance(
+					lblContatoImg.getWidth(), 
+					lblContatoImg.getHeight(), 
+					Image.SCALE_DEFAULT)));
 			painelContato.add(lblContatoImg);
 
 			lblContatoNome = new JLabel("Nome:");
@@ -770,6 +783,12 @@ public class PrincipalFrm extends JFrame {
 				tabContainer,
 				painelReserva,
 				painelContato,
+				lblPrincipalImg,
+				lblChaleImg,
+				lblLazerImg,
+				lblServicoImg,
+				lblReservaImg,
+				lblContatoImg,
 				txtPesquisa,
 				txtaPrincipalInfo,
 				txtaPrincipalDetalhe,
@@ -807,6 +826,8 @@ public class PrincipalFrm extends JFrame {
 			btnContatoEnviar.addActionListener( ctrl.acionar );
 			btnReservaLimpar.addActionListener( ctrl.acionar );
 			btnContatoLimpar.addActionListener( ctrl.acionar );
+			cboChaleCategoria.addActionListener( ctrl.acionar );
+			cboReservaCategoria.addActionListener( ctrl.acionar );
 			break;
 
 		case "administrador":

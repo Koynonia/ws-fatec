@@ -8,22 +8,27 @@
 package edu.pousada.controller;
 
 import java.awt.Component;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -44,6 +49,12 @@ public class PrincipalCtrl {
 	private JTabbedPane tabContainer;
 	private JPanel painelReserva;
 	private JPanel painelContato;
+	private JLabel lblPrincipalImg;
+	private JLabel lblChaleImg; 
+	private JLabel lblLazerImg;
+	private JLabel lblServicoImg;
+	private JLabel lblReservaImg;
+	private JLabel lblContatoImg;
 	private JTextField txtPesquisa; 
 	private JTextArea txtaPrincipalInfo; 
 	private JTextArea txtaPrincipalDetalhe; 
@@ -71,7 +82,7 @@ public class PrincipalCtrl {
 	private JButton btnContatoLimpar;
 	private String diretorio = "../Pousada/resources/";
 	private LogonCtrl logon = LogonCtrl.getInstance();
-	private String imagem;
+	private ImageIcon imagem;
 	private boolean validar;
 	private List<Principal> infos;
 	private List<Chale> categorias;
@@ -81,6 +92,12 @@ public class PrincipalCtrl {
 			JTabbedPane tabContainer, 
 			JPanel painelReserva, 
 			JPanel painelContato, 
+			JLabel lblPrincipalImg, 
+			JLabel lblChaleImg, 
+			JLabel lblLazerImg, 
+			JLabel lblServicoImg, 
+			JLabel lblReservaImg,
+			JLabel lblContatoImg,  
 			JTextField txtPesquisa, 
 			JTextArea txtaPrincipalInfo, 
 			JTextArea txtaPrincipal, 
@@ -112,6 +129,12 @@ public class PrincipalCtrl {
 		this.tabContainer = tabContainer;
 		this.painelReserva = painelReserva;
 		this.painelContato = painelContato;
+		this.lblPrincipalImg = lblPrincipalImg;
+		this.lblChaleImg = lblChaleImg;
+		this.lblLazerImg = lblLazerImg;
+		this.lblServicoImg = lblServicoImg;
+		this.lblReservaImg = lblReservaImg;
+		this.lblContatoImg = lblContatoImg;
 		this.txtPesquisa = txtPesquisa;
 		this.txtaPrincipalInfo = txtaPrincipalInfo; 
 		this.txtaPrincipalDetalhe = txtaPrincipal; 
@@ -144,14 +167,16 @@ public class PrincipalCtrl {
 		preencheCategoria();
 		preencheTipoDoc();
 		preencheAssunto();
+		trocaImagens();
+		temporizador();
 	}
-	
-	
+
+
 	public void limpaCampos(){
-		
+
 		Integer guiaAtiva = tabContainer.getSelectedIndex();
 		Component[] painelAtivo = null;
-		
+
 		switch ( guiaAtiva){
 		case 4:
 			painelAtivo = painelReserva.getComponents();
@@ -186,6 +211,102 @@ public class PrincipalCtrl {
 	}
 
 
+	public void temporizador(){
+
+		Timer timer = new Timer();
+
+		timer.schedule(new TimerTask() {
+			public void run() {
+				trocaImagens();
+			}
+		}, 1000, 1000);
+	}
+
+
+	public void trocaImagens(){
+
+		Integer guiaAtiva = tabContainer.getSelectedIndex();
+
+		switch ( guiaAtiva){
+		case 0:
+			imagem = new ImageIcon( diretorio + "/pousada/img2.jpg" );
+			lblPrincipalImg.setIcon( new ImageIcon( 
+					imagem.getImage().getScaledInstance( 
+							lblPrincipalImg.getWidth(), 
+							lblPrincipalImg.getHeight(), 
+							Image.SCALE_DEFAULT )));
+			break;
+		case 2:
+			imagem = new ImageIcon( diretorio + "/lazer/img1.jpg" );
+			lblLazerImg.setIcon( new ImageIcon( 
+					imagem.getImage().getScaledInstance( 
+							lblLazerImg.getWidth(), 
+							lblLazerImg.getHeight(), 
+							Image.SCALE_DEFAULT )));
+			break;
+		case 3:
+			imagem = new ImageIcon( diretorio + "/servico/img1.jpg" );
+			lblServicoImg.setIcon( new ImageIcon( 
+					imagem.getImage().getScaledInstance( 
+							lblServicoImg.getWidth(), 
+							lblServicoImg.getHeight(), 
+							Image.SCALE_DEFAULT )));
+			break;
+		case 5:
+			imagem = new ImageIcon( diretorio + "/pousada/img1.jpg" );
+			lblContatoImg.setIcon( new ImageIcon( 
+					imagem.getImage().getScaledInstance( 
+							lblContatoImg.getWidth(), 
+							lblContatoImg.getHeight(), 
+							Image.SCALE_DEFAULT )));
+			break;
+		}
+	}
+
+
+	public void carregaImagens(){
+
+
+		String[] imagens = new String[10];
+		File file = new File( diretorio + "/pousada" );
+		int i = 0;
+		for( File arq : file.listFiles() ){
+
+			if(arq.isFile()){
+				String a = arq.getName();
+				imagens[i] = a;
+				++i;
+			}
+		}
+		System.out.println("\n número total de arquivos: " + i);
+	}
+
+
+	public void trocaImagem(){
+
+		Integer guiaAtiva = tabContainer.getSelectedIndex();
+
+		switch ( guiaAtiva){
+		case 1:
+			imagem = new ImageIcon( diretorio + "/chale/img" + cboChaleCategoria.getSelectedIndex() + ".jpg" );
+			lblChaleImg.setIcon( new ImageIcon( 
+					imagem.getImage().getScaledInstance( 
+							lblChaleImg.getWidth(), 
+							lblChaleImg.getHeight(), 
+							Image.SCALE_DEFAULT )));
+			break;
+		case 4:
+			imagem = new ImageIcon( diretorio + "/chale/img" + cboReservaCategoria.getSelectedIndex() + ".jpg" );
+			lblReservaImg.setIcon( new ImageIcon( 
+					imagem.getImage().getScaledInstance( 
+							lblReservaImg.getWidth(), 
+							lblReservaImg.getHeight(), 
+							Image.SCALE_DEFAULT )));
+			break;
+		}
+	}
+
+
 	// DAO //////////////////////////////////////
 
 	public void carregaDAO(){
@@ -198,7 +319,7 @@ public class PrincipalCtrl {
 			e.printStackTrace();
 		}
 	}
-	
+
 
 	// AREA DE TEXTO /////////////////////////////
 
@@ -272,8 +393,8 @@ public class PrincipalCtrl {
 			cboContatoAssunto.addItem( assuntos[i] );
 		}
 	}
-	
-	
+
+
 	// TABELA //////////////////////////////////
 
 
@@ -293,7 +414,7 @@ public class PrincipalCtrl {
 				e.printStackTrace();
 			}		
 			break;
-			
+
 		case "construir":
 			JOptionPane.showMessageDialog(null, 
 					"Em construção!\nEsta função ainda não foi implementada.", 
@@ -301,7 +422,7 @@ public class PrincipalCtrl {
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon( diretorio + "/icons/builder.png" ));
 			break;
-			
+
 		case "sair":
 			Object[] exit = { "Confirmar", "Cancelar" };  
 			int fechar = JOptionPane.showOptionDialog( null, "ATENÇÃO!\n\nChamada para o fechamento" 
@@ -347,6 +468,12 @@ public class PrincipalCtrl {
 			}
 			if(source == btnContatoLimpar){
 				limpaCampos();
+			}
+			if(source == cboChaleCategoria){
+				trocaImagem();
+			}
+			if(source == cboReservaCategoria){
+				trocaImagem();
 			}
 		}
 	};
