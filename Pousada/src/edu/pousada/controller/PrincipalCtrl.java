@@ -21,6 +21,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -68,7 +69,6 @@ public class PrincipalCtrl {
 	private JTextArea txtaReservaObs; 
 	private JTextArea txtaContatoInfo; 
 	private JTextArea txtaContatoMsg; 
-	private JComboBox<String> cboChaleCategoria; 
 	private JComboBox<String> cboReservaCategoria; 
 	private JComboBox<String> cboReservaDocTipo; 
 	private JComboBox<String> cboContatoAssunto; 
@@ -110,8 +110,7 @@ public class PrincipalCtrl {
 			JTextArea txtaReservaInfo, 
 			JTextArea txtaReservaObs, 
 			JTextArea txtaContatoInfo, 
-			JTextArea txtaContatoMsg, 
-			JComboBox<String> cboChaleCategoria, 
+			JTextArea txtaContatoMsg,  
 			JComboBox<String> cboReservaChale, 
 			JComboBox<String> cboReservaDocTipo, 
 			JComboBox<String> cboContatoAssunto, 
@@ -147,8 +146,7 @@ public class PrincipalCtrl {
 		this.txtaReservaInfo = txtaReservaInfo; 
 		this.txtaReservaObs = txtaReservaObs; 
 		this.txtaContatoInfo = txtaContatoInfo; 
-		this.txtaContatoMsg = txtaContatoMsg; 
-		this.cboChaleCategoria = cboChaleCategoria; 
+		this.txtaContatoMsg = txtaContatoMsg;  
 		this.cboReservaCategoria = cboReservaChale; 
 		this.cboReservaDocTipo = cboReservaDocTipo; 
 		this.cboContatoAssunto = cboContatoAssunto; 
@@ -167,7 +165,7 @@ public class PrincipalCtrl {
 		preencheCategoria();
 		preencheTipoDoc();
 		preencheAssunto();
-		trocaImagens();
+		imagensRandom();
 		temporizador();
 	}
 
@@ -217,27 +215,38 @@ public class PrincipalCtrl {
 
 		timer.schedule(new TimerTask() {
 			public void run() {
-				trocaImagens();
+				imagensRandom();
 			}
-		}, 1000, 1000);
+		}, 2000, 3000);
 	}
 
 
-	public void trocaImagens(){
+	public void imagensRandom(){
 
 		Integer guiaAtiva = tabContainer.getSelectedIndex();
-
+		
+		Random gerador = new Random(); 
+        int numero = gerador.nextInt(4);
+        
 		switch ( guiaAtiva){
 		case 0:
-			imagem = new ImageIcon( diretorio + "/pousada/img2.jpg" );
+			imagem = new ImageIcon( diretorio + "/imagens/externa" + numero + ".jpg" );
 			lblPrincipalImg.setIcon( new ImageIcon( 
 					imagem.getImage().getScaledInstance( 
 							lblPrincipalImg.getWidth(), 
 							lblPrincipalImg.getHeight(), 
 							Image.SCALE_DEFAULT )));
 			break;
+		case 1:
+			imagem = new ImageIcon( diretorio + "/imagens/chale" + numero + ".jpg" );
+			lblChaleImg.setIcon( new ImageIcon( 
+					imagem.getImage().getScaledInstance( 
+							lblChaleImg.getWidth(), 
+							lblChaleImg.getHeight(), 
+							Image.SCALE_DEFAULT )));
+			break;
 		case 2:
-			imagem = new ImageIcon( diretorio + "/lazer/img1.jpg" );
+			imagem = new ImageIcon( diretorio + "/imagens/lazer" + numero + ".jpg" );
 			lblLazerImg.setIcon( new ImageIcon( 
 					imagem.getImage().getScaledInstance( 
 							lblLazerImg.getWidth(), 
@@ -245,58 +254,24 @@ public class PrincipalCtrl {
 							Image.SCALE_DEFAULT )));
 			break;
 		case 3:
-			imagem = new ImageIcon( diretorio + "/servico/img1.jpg" );
+			imagem = new ImageIcon( diretorio + "/imagens/servico" + numero + ".jpg" );
 			lblServicoImg.setIcon( new ImageIcon( 
 					imagem.getImage().getScaledInstance( 
 							lblServicoImg.getWidth(), 
 							lblServicoImg.getHeight(), 
 							Image.SCALE_DEFAULT )));
 			break;
-		case 5:
-			imagem = new ImageIcon( diretorio + "/pousada/img1.jpg" );
-			lblContatoImg.setIcon( new ImageIcon( 
-					imagem.getImage().getScaledInstance( 
-							lblContatoImg.getWidth(), 
-							lblContatoImg.getHeight(), 
-							Image.SCALE_DEFAULT )));
-			break;
 		}
 	}
 
 
-	public void carregaImagens(){
-
-
-		String[] imagens = new String[10];
-		File file = new File( diretorio + "/pousada" );
-		int i = 0;
-		for( File arq : file.listFiles() ){
-
-			if(arq.isFile()){
-				String a = arq.getName();
-				imagens[i] = a;
-				++i;
-			}
-		}
-		System.out.println("\n número total de arquivos: " + i);
-	}
-
-
-	public void trocaImagem(){
+	public void imagensCombo(){
 
 		Integer guiaAtiva = tabContainer.getSelectedIndex();
 
 		switch ( guiaAtiva){
-		case 1:
-			imagem = new ImageIcon( diretorio + "/chale/img" + cboChaleCategoria.getSelectedIndex() + ".jpg" );
-			lblChaleImg.setIcon( new ImageIcon( 
-					imagem.getImage().getScaledInstance( 
-							lblChaleImg.getWidth(), 
-							lblChaleImg.getHeight(), 
-							Image.SCALE_DEFAULT )));
-			break;
 		case 4:
-			imagem = new ImageIcon( diretorio + "/chale/img" + cboReservaCategoria.getSelectedIndex() + ".jpg" );
+			imagem = new ImageIcon( diretorio + "/imagens/chale" + cboReservaCategoria.getSelectedIndex() + ".jpg" );
 			lblReservaImg.setIcon( new ImageIcon( 
 					imagem.getImage().getScaledInstance( 
 							lblReservaImg.getWidth(), 
@@ -355,10 +330,8 @@ public class PrincipalCtrl {
 		Arrays.sort(listaCategoria);
 
 		//Adicionar na combobox
-		cboChaleCategoria.addItem( "Selecione…" );
 		cboReservaCategoria.addItem( "Selecione…" );
 		for ( int i = 0; i < categorias.size(); i++ ){
-			cboChaleCategoria.addItem( listaCategoria[i] );
 			cboReservaCategoria.addItem( listaCategoria[i] );
 		}
 	}
@@ -469,11 +442,8 @@ public class PrincipalCtrl {
 			if(source == btnContatoLimpar){
 				limpaCampos();
 			}
-			if(source == cboChaleCategoria){
-				trocaImagem();
-			}
 			if(source == cboReservaCategoria){
-				trocaImagem();
+				imagensCombo();
 			}
 		}
 	};

@@ -145,7 +145,7 @@ public class ReservaFrm extends JFrame {
 
 		btnRetirar = new JButton("Retirar");
 		btnRetirar.setToolTipText("Selecione a reserva que deseja retirar…");
-		btnRetirar.setBounds(157, 329, 117, 29);
+		btnRetirar.setBounds(160, 329, 117, 29);
 		painel.add(btnRetirar);
 
 		btnLimpar = new JButton("Limpar");
