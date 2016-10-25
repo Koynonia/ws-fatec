@@ -27,8 +27,6 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
@@ -117,27 +115,9 @@ public class PrincipalFrm extends JFrame {
 				}
 			}
 		});
-		// Altera aparência das janelas
-		/*
-		try{
-			UIManager.setLookAndFeel("com.birosoft.liquid.LiquidLookAndFeel");
-			LiquidLookAndFeel.setLiquidDecorations(true, "windows");
-		}catch(Exception e){
-		}
-		 */
 	}
 
 	public PrincipalFrm() throws ParseException {
-
-		// Altera aparência das janelas
-		System.setProperty("apple.laf.useScreenMenuBar", "true");
-		System.setProperty("com.apple.mrj.application.apple.menu.about.name", "WikiTeX");
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (ClassNotFoundException | InstantiationException
-				| IllegalAccessException | UnsupportedLookAndFeelException e) {
-			e.printStackTrace();
-		}
 
 		setTitle("Pousada Inn Von Dix");
 		setName("Principal");
