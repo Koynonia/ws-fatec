@@ -19,14 +19,23 @@ import edu.pousada.entity.Cliente;
 
 public class ClienteDAOImpl implements ClienteDAO {
 
-	/*
-	 * nome VARCHAR(100) NOT NULL, email VARCHAR(30) UNIQUE NOT NULL, documento
-	 * VARCHAR(15) PRIMARY KEY, docTipo VARCHAR(15), dtNasc DATE NOT NULL,
-	 * telefone VARCHAR(11) UNIQUE, celular VARCHAR(12) UNIQUE NOT NULL,
-	 * endereco VARCHAR(200) NOT NULL, bairro VARCHAR(30) NOT NULL, cidade
-	 * VARCHAR(30) NOT NULL, estado VARCHAR(15) NOT NULL, pais VARCHAR(10) NOT
-	 * NULL, cep VARCHAR(8) NOT NULL, dtCadastro DATE NOT NULL, ativo BOOLEAN
-	 * NOT NULL );
+	/**
+	 * nome VARCHAR(100) NOT NULL, 
+	 * email VARCHAR(30) UNIQUE NOT NULL, 
+	 * documento VARCHAR(15) PRIMARY KEY, 
+	 * docTipo VARCHAR(15), 
+	 * dtNasc DATE NOT NULL,
+	 * telefone VARCHAR(11) UNIQUE, 
+	 * celular VARCHAR(12) UNIQUE NOT NULL,
+	 * endereco VARCHAR(200) NOT NULL, 
+	 * bairro VARCHAR(30) NOT NULL, 
+	 * cidade VARCHAR(30) NOT NULL, 
+	 * estado VARCHAR(15) NOT NULL, 
+	 * pais VARCHAR(10) NOT NULL, 
+	 * cep VARCHAR(8) NOT NULL, 
+	 * dtCadastro DATE NOT NULL, 
+	 * ativo BOOLEAN NOT NULL 
+	 * );
 	 */
 	
 	private Connection con = DBUtil.getInstance().getConnection();
@@ -49,14 +58,27 @@ public class ClienteDAOImpl implements ClienteDAO {
 		ps.setString(13, cliente.getCep());
 		ps.setDate(14, (Date) cliente.getDtCadastro());
 		ps.setBoolean(15, cliente.getAtivo());
-
 		ps.execute();
 		ps.close();
 	}
 
 	public void alterarCliente(Cliente cliente) throws SQLException {
-		String sql = "UPDATE cliente SET nome = ?, email = ?, docTipo = ?, dtNasc = ?, telefone = ?, celular = ?, endereco = ?, "
-				+ "bairro = ?, cidade = ?, estado = ?, pais = ?, cep = ?, dtCadastro = ?, ativo = ? WHERE documento = ?";
+		String sql = "UPDATE cliente SET "
+				+ "nome = ?, "
+				+ "email = ?, "
+				+ "docTipo = ?, "
+				+ "dtNasc = ?, "
+				+ "telefone = ?, "
+				+ "celular = ?, "
+				+ "endereco = ?, "
+				+ "bairro = ?, "
+				+ "cidade = ?, "
+				+ "estado = ?, "
+				+ "pais = ?, "
+				+ "cep = ?, "
+				+ "dtCadastro = ?, "
+				+ "ativo = ? "
+				+ "WHERE documento = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1, cliente.getNome());
 		ps.setString(2, cliente.getEmail());
@@ -72,9 +94,7 @@ public class ClienteDAOImpl implements ClienteDAO {
 		ps.setString(12, cliente.getCep());
 		ps.setDate(13, (Date) cliente.getDtCadastro());
 		ps.setBoolean(14, cliente.getAtivo());
-
 		ps.setString(15, cliente.getDocumento());
-
 		ps.execute();
 		ps.close();
 	}
@@ -142,8 +162,9 @@ public class ClienteDAOImpl implements ClienteDAO {
 			cliente.setAtivo(rs.getBoolean("ativo"));
 			listaCliente.add(cliente);
 		}
-
+		rs.close();
+		ps.close();
+		
 		return listaCliente;
 	}
-
 }

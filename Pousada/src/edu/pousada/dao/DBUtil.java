@@ -10,10 +10,8 @@ package edu.pousada.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 public class DBUtil {
 	
@@ -32,7 +30,16 @@ public class DBUtil {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, 
+					"ERRO: " + e.getSQLState() 
+					+ "\n\nO servidor de banco de dados pode estar inacessível "
+					+ "\nou os parâmetros de conexão estão incorretos."
+					+ "\n\nPor favor verifique as configurações na classe DBUtil "
+					+ "\nou se o SGDB MySQL está funcional.", 
+					"Falha de conexão", 
+					JOptionPane.PLAIN_MESSAGE,
+					new ImageIcon( "../Pousada/resources/icons/errordb.png" ));
+			;
 		}
 	}
 	

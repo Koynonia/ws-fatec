@@ -299,8 +299,6 @@ public class PrincipalCtrl {
 
 			try {
 				reserva = new ReservaFrm();
-				reserva.setVisible(false);
-
 				ReservaCtrl ctrl = new ReservaCtrl(
 						reserva, 
 						reserva.tabCompra, 
@@ -312,9 +310,7 @@ public class PrincipalCtrl {
 						btnContatoEnviar, 
 						btnContatoEnviar);
 				ctrl.adicionaChale ( chale );
-
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

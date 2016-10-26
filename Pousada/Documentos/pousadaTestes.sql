@@ -182,14 +182,20 @@ INSERT INTO `principal` (`principalInfo`, `principalDetalhe`, `chaleInfo`, `chal
 -- Estrutura da tabela `reserva`
 --
 
-CREATE TABLE `reserva` (
-  `numero` int(11) NOT NULL,
-  `qtdpessoas` int(11) NOT NULL,
-  `datainicio` date NOT NULL,
-  `datafim` date NOT NULL,
-  `estado` varchar(30) NOT NULL,
-  `statuspagamento` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE reserva (
+ numero INT PRIMARY KEY,
+ cliente VARCHAR(50) NOT NULL,
+ chale INT NULL,
+ qtdAdulto INT NOT NULL,
+ qtdCrianca INT NOT NULL,
+ quantidade INT NOT NULL,
+ dtIncio DATE NOT NULL,
+ dtFim DATE NOT NULL, 
+ vlrDiaria DOUBLE NOT NULL,
+ desconto INT NOT NULL,
+ estado VARCHAR(20) NOT NULL,
+ dtCadastro DATE NOT NULL
+ );
 
 -- --------------------------------------------------------
 

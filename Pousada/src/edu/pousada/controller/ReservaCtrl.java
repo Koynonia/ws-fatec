@@ -31,6 +31,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import edu.pousada.boundary.ReservaFrm;
+import edu.pousada.dao.ClienteDAO;
+import edu.pousada.dao.ClienteDAOImpl;
 import edu.pousada.dao.ReservaDAO;
 import edu.pousada.dao.ReservaDAOImpl;
 import edu.pousada.entity.Chale;
@@ -87,7 +89,7 @@ public class ReservaCtrl {
 	public void limpaCampo(){
 
 		reservas.removeAll(reservas);
-		atualizaDAO(reservas);
+		atualizaReservaDAO(reservas);
 		formataTabela();
 		ftxtValor.setValue(null);
 	}
@@ -108,11 +110,10 @@ public class ReservaCtrl {
 	}
 
 
-	public void atualizaQtd(){
+	public void alteraQtd(){
 
 		reservas.clear();
-		carregaDAO();
-		form.setAlwaysOnTop ( false );
+		carregaReservaDAO();
 		
 		if(tabela.getRowCount() > 0){
 			if ( tabela.getSelectedRowCount() != 0){
@@ -120,69 +121,32 @@ public class ReservaCtrl {
 					if ( tabela.isRowSelected(i)){
 						if((tabela.getValueAt(tabela.getSelectedRow(), 0).toString())
 								.equals( reservas.get(i).getNumero() )){
-							String resp = JOptionPane.showInputDialog( null,
-									"Digite a quantidade desejada da reserva do chalé " 
-											+ reservas.get(i).getChale()+ ":",
-											"Alterar Quantidade…", JOptionPane.QUESTION_MESSAGE );
-							if ( resp == null){
-								return;
-							} else {
-								if ( ! logon.testarNumero( resp ) ){
-									JOptionPane.showMessageDialog(null, 
-											"Entrada inválida:\n\n" +
-													resp +
-													"\n\nPor favor, entre somente com números para a quantidade.", 
-													"Entrada Inválida…", 
-													JOptionPane.PLAIN_MESSAGE,
-													new ImageIcon( diretorio + "/icons/error.png" ));
-								} else {
-									if ( resp.contains( "0" ) ) {
-										removeLinha();
-									} else {
-										quantidade = Integer.parseInt( resp );
-										validar = true;			
-									}
-								}
-							}
+							msg( "alterar", reservas.get(i).getChale().getCategoria() );
 							if ( validar != false){
 								Reserva item = new Reserva();
 								item.setQuantidade( quantidade );
 								item.setDtCadastro( new Date() );
 								reservas.set(i,item);
-								//atualizarDAO(reservas);
+								atualizaReservaDAO( reservas );
 								formataTabela();
 								validar = false;
-								JOptionPane.showMessageDialog( null, 
-										"A reserva do chalé " + reservas.get(i).getChale() 
-										+ " foi alterada com sucesso.", 
-										"Confirmação", 
-										JOptionPane.PLAIN_MESSAGE, 
-										new ImageIcon( diretorio + "/icons/confirm.png" ));
+								msg( "realizado", reservas.get(i).getChale().getCategoria() );
 							}
 						}
 					}
 				}
 			} else {
-				JOptionPane.showMessageDialog(null, 
-						"Por Favor, selecione uma reserva para alterar a quantidade!", 
-						"Erro", 
-						JOptionPane.PLAIN_MESSAGE,
-						new ImageIcon( diretorio + "/icons/error.png" ));
+				msg( "", "Por Favor, selecione um Livro para alterar a quantidade!");
 			} 
 		} else {
-			JOptionPane.showMessageDialog(null, 
-					"Por favor, adicione primeiro uma reserva.", 
-					"Reserva não encontrada", 
-					JOptionPane.PLAIN_MESSAGE,
-					new ImageIcon( diretorio + "/icons/error.png" ));
+			msg( "", "Por favor, adicione primeiro uma reserva." );
 		}
-		form.setAlwaysOnTop ( true );
 	}
 
 
 	// DAO //////////////////////////////////////
-
-	public void carregaDAO(){
+	
+	public void carregaReservaDAO(){
 
 		ReservaDAO dao = new ReservaDAOImpl();
 		try {
@@ -192,7 +156,7 @@ public class ReservaCtrl {
 		}
 	}
 	
-	public void atualizaDAO( List<Reserva> lista ){
+	public void atualizaReservaDAO( List<Reserva> lista ){
 		
 		ReservaDAO dao = new ReservaDAOImpl();
 		for( Reserva reservas : lista ){
@@ -209,12 +173,82 @@ public class ReservaCtrl {
 			reservas.setDesconto( lista.get(9).getDesconto() );
 			reservas.setEstado( lista.get(10).getEstado() );
 			reservas.setDtCadastro( lista.get(11).getDtCadastro() );
-			
+			try {
+				dao.adicionaReserva(reservas);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
+	public void carregaClienteDAO(){
+
+		ClienteDAO dao = new ClienteDAOImpl();
+		try {
+			clientes = dao.listaCliente();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void atualizaClienteDAO( List<Cliente> lista ){
+
+		ClienteDAO dao = new ClienteDAOImpl();
+		for( Cliente clientes : lista ){
+			clientes.setNome( lista.get(0).getNome() );
+			clientes.setEmail( lista.get(1).getEmail() );
+			clientes.setDocumento( lista.get(2).getDocumento() );
+			clientes.setDocTipo( lista.get(3).getDocTipo() );
+			clientes.setDtNasc( lista.get(4).getDtNasc() );
+			clientes.setTelefone( lista.get(5).getTelefone() );
+			clientes.setCelular( lista.get(6).getCelular() );
+			clientes.setEndereco( lista.get(7).getEndereco() );
+			clientes.setBairro( lista.get(8).getBairro() );
+			clientes.setCidade( lista.get(9).getCidade() );
+			clientes.setEstado( lista.get(10).getEstado() );
+			clientes.setPais( lista.get(11).getPais() );
+			clientes.setCep( lista.get(12).getCep() );
+			clientes.setDtCadastro( lista.get(13).getDtCadastro() );
+			try {
+				dao.adicionarCliente( clientes );
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	
 	// CRUD ///////////////////////////////////
+	
+	public void adicionaCliente( Cliente cliente ) {
+		
+		Cliente item = new Cliente();
+		
+		if ( !clientes.isEmpty() ){
+			for ( int i = 0; i < clientes.size(); i++ ){
+				//Verifica se o Cliente não está cadastrado
+				if ( !clientes.get(i).getDocumento().equals( cliente.getDocumento() )){
+					for ( int c = 0; c < reservas.size(); c++ ){
+						item.setNome( cliente.getNome() );
+						item.setEmail( cliente.getEmail() );
+						item.setDocumento( cliente.getDocumento() );
+						item.setDocTipo( cliente.getDocTipo() );
+						item.setDtNasc( cliente.getDtNasc() );
+						item.setTelefone( cliente.getTelefone() );
+						item.setCelular( cliente.getCelular() );
+						item.setEndereco( cliente.getEndereco() );
+						item.setBairro( cliente.getBairro() );
+						item.setCidade( cliente.getCidade() );
+						item.setEstado( cliente.getEstado() );
+						item.setPais( cliente.getPais() );
+						item.setCep( cliente.getCep() );
+						item.setDtCadastro( cliente.getDtCadastro() );
+						clientes.set( c, item );
+					}
+				}
+			}
+		}
+		atualizaClienteDAO( clientes );
+	}
 
 	public void adicionaChale( Chale chale ) {
 		
@@ -224,19 +258,9 @@ public class ReservaCtrl {
 		if ( !reservas.isEmpty() ){
 			for ( int i = 0; i < reservas.size(); i++ ){
 				imagem = reservas.get(i).getChale().getCategoria();
-				//Verifica se o chalé já está adicionada à Reserva
-				if ( reservas.get(i).getChale().getCategoria().equals(chale.getCategoria() )){
-					Object[] save = { "Confirmar", "Cancelar" };  
-					int confirmar = JOptionPane.showOptionDialog(null, "Um chalé de categoria" + chale.getCategoria()
-							+ "\n\nJá adicionado à Reserva.\nGostaria de adicionar mais uma reserva?",
-							"Adicionar Reserva", 
-							JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
-							new ImageIcon( diretorio + "/icons/warning.png" ), save, save[1]);
-					if (confirmar == 0) {
-						validar = true;
-					} else {
-						validar = false;
-					}
+				//Verifica se o Chalé já foi adicionada à Reserva
+				if ( reservas.get(i).getChale().getCategoria().equals( chale.getCategoria() )){
+					msg( "adicionar", reservas.get(i).getChale().getCategoria() );
 					//Se o chalé já estiver na Reserva, soma + 1 à quantidade
 					if ( validar != false){
 						for ( int q = 0; q < reservas.size(); q++ ){
@@ -249,41 +273,16 @@ public class ReservaCtrl {
 							}
 						}
 					} else {
-						form.dispose();
+						fechar();
 					}
 				} 
 			}
 			if ( validar == false) {
 				//Adiciona o chalé se não estiver na Reserva
 				imagem = chale.getCategoria();
-				Object aQtd = JOptionPane.showInputDialog( null,
-						"Reserva do chalé: " 
-				+ chale.getCategoria() 
-				+ "\n\nValor da Diária: R$ " + formato.format( chale.getDiaria() )
-				+ "\n\nDigite a quantidade desejada da reserva desta categoria:",
-						"Informar a Quantidade", JOptionPane.QUESTION_MESSAGE, 
-						new ImageIcon( diretorio + "/miniaturas/" + imagem + "-thumb.jpg"  ), null, 1 );
-				if ( aQtd == null){
-					validar = false;
-					form.dispose();
-				} else {
-					if ( ! logon.testarNumero( aQtd.toString() ) ){
-						JOptionPane.showMessageDialog(null, 
-								"Entrada inválida:\n\n" +
-										aQtd.toString() +
-										"\n\nPor favor, entre somente com números para a quantidade.", 
-										"Entrada Inválida…", JOptionPane.PLAIN_MESSAGE,
-										new ImageIcon( diretorio + "/icons/error.png" ));
-					} else {
-						if ( aQtd.toString().contains( "0" ) ) {
-							removeLinha();
-						} else {
-							quantidade = Integer.parseInt( aQtd.toString() );
-							form.setVisible(true);
-							validar = true;	
-						}
-					}
-				}		
+				msg( "adicionarQtd", "Reserva do chalé: " 
+						+ chale.getCategoria() 
+						+ "\n\nValor da Diária: R$ " + formato.format( chale.getDiaria() ));
 				if ( validar != false ){
 					item.setChale( chale );
 					item.setQuantidade( quantidade );
@@ -295,13 +294,9 @@ public class ReservaCtrl {
 		} else {
 			//Adiciona à Reserva se já houver chalés adicionados na Reserva
 			imagem = chale.getCategoria();
-			JOptionPane.showInputDialog( null,
-					"Reserva do chalé: " 
-			+ chale.getCategoria() 
-			+ "\n\nValor da Diária: R$ " + formato.format( chale.getDiaria() )
-			+ "\n\nDigite a quantidade desejada da reserva desta categoria:",
-					"Informar a Quantidade", JOptionPane.QUESTION_MESSAGE, 
-					new ImageIcon( diretorio + "/miniaturas/" + imagem + "-thumb.jpg"  ), null, 1 );
+			msg( "adicionarQtd", "Reserva do chalé: " 
+					+ chale.getCategoria() 
+					+ "\n\nValor da Diária: R$ " + formato.format( chale.getDiaria() ));
 			if ( validar != false ){
 				item.setChale( chale );
 				item.setQuantidade( quantidade );
@@ -310,7 +305,7 @@ public class ReservaCtrl {
 				reservas.add( item );
 			}
 		}
-		atualizaDAO(reservas);
+		atualizaReservaDAO( reservas );
 		formataTabela();
 	}
 
@@ -395,27 +390,11 @@ public class ReservaCtrl {
 
 	public void removeLinha(){
 		
-		form.setAlwaysOnTop ( false );
-		
 		if ( tabela.getSelectedRowCount() == 0 ) {
-			JOptionPane.showMessageDialog(null, 
-					"Por favor, selecione uma reserva para retirar.", 
-					"Reserva não selecionada…", 
-					JOptionPane.PLAIN_MESSAGE,
-					new ImageIcon( diretorio + "/icons/error.png" ));
+			msg( "erroLinha", "" );
 		} else {
 			if(tabela.getRowCount() > 0){
-				Object[] opt = { "Confirmar", "Cancelar" };
-				int retirar = JOptionPane.showOptionDialog(null, 
-						"\n\nDeseja cancelar esta reserva?\nVocê poderá adicioná-la novamente.",
-						"Cancelar Reserva…", 
-						JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
-						new ImageIcon( diretorio + "/icons/error.png" ), opt, opt[1]);
-				if (retirar == 0) {
-					validar = true;
-				} else {
-					validar = false;
-				}
+				msg( "retirar", "" );
 				if (validar != false){
 
 					//Atualiza a base de dados excluindo o registro selecionado
@@ -427,7 +406,7 @@ public class ReservaCtrl {
 					}
 					validar = false;
 					//Atualiza base de dados
-					atualizaDAO( reservas );
+					atualizaReservaDAO( reservas );
 
 					//Atualiza a tabela, removendo o dado
 					((DefaultTableModel) tabela.getModel()).removeRow(tabela.getSelectedRow());
@@ -438,7 +417,6 @@ public class ReservaCtrl {
 				} 
 			}
 		}
-		form.setAlwaysOnTop ( true );
 	}
 
 
@@ -446,42 +424,34 @@ public class ReservaCtrl {
 
 	public void abrir ( String nome ){
 
-		form.setAlwaysOnTop ( false );
-
 		switch ( nome ){
 
 		case "principal":	
 			form.dispose();
 			break;
-
-		case "construir":
-			JOptionPane.showMessageDialog(null, 
-					"Em construção!\nEsta função ainda não foi implementada.", 
-					"Sem implementação", 
-					JOptionPane.PLAIN_MESSAGE,
-					new ImageIcon( diretorio + "/icons/builder.png" ));
-			break;
-
-		case "sair":
-			form.setAlwaysOnTop ( false );
-			Object[] exit = { "Confirmar", "Cancelar" };  
-			int fechar = JOptionPane.showOptionDialog( null, "ATENÇÃO!\n\nChamada para o fechamento" 
-					+ " do sistema!\n\nDeseja encerrar a aplicação?",
-					"Fechamento do Programa", 
-					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
-					new ImageIcon( diretorio + "/icons/warning.png" ), exit, exit[1] );
-			if ( fechar == 0 ) {
-				validar = true;
-			} else {
-				validar = false;
-			}
-			if(validar == true){
-				System.exit(0);
-			}
-			break;
 		}
+	}
+	
+	public void fechar(){
+		if(form != null)
+			form.dispose();
+	}
 
-		form.setAlwaysOnTop ( true );
+	public void mostrar(){
+		if(form != null)
+			form.setVisible(true);
+	}
+
+	public void esconder(){
+		if(form != null)
+			form.setVisible(false);
+	}
+
+	public void sair(){
+		msg("sistema","Fechamento");
+		if(validar == true){
+			System.exit(0);
+		}
 	}
 
 
@@ -494,7 +464,7 @@ public class ReservaCtrl {
 			Object source = e.getSource();
 
 			if(source == btnAlterar){
-				atualizaQtd();
+				alteraQtd();
 			}
 			if(source == btnRetirar){
 				removeLinha();
@@ -503,7 +473,7 @@ public class ReservaCtrl {
 				limpaCampo();
 			}
 			if(source == btnConcluir){
-				abrir( "construir" );
+				msg( "construir", "" );
 			}
 			if(source == btnVoltar){
 				abrir( "principal" );
@@ -585,4 +555,143 @@ public class ReservaCtrl {
 			}
 		}
 	};
+	
+	
+	// MENSAGENS //////////////////////////////
+
+	public void msg( String tipo, String mensagem ) {
+		form.setAlwaysOnTop ( false );
+
+		switch ( tipo ) {
+
+		case "realizado":
+			JOptionPane.showMessageDialog( null, 
+					"A reserva do Chalé " + mensagem 
+					+ " foi alterada com sucesso.", 
+					"Confirmação", 
+					JOptionPane.PLAIN_MESSAGE, 
+					new ImageIcon( diretorio + "/icons/confirm.png" ));
+			break;
+			
+		case "adicionar":
+			Object[] save = { "Confirmar", "Cancelar" };  
+			int confirmar = JOptionPane.showOptionDialog(null, "Um chalé de categoria" + mensagem
+					+ "\n\nJá adicionado à Reserva.\nGostaria de adicionar mais uma reserva?",
+					"Adicionar Reserva", 
+					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
+					new ImageIcon( diretorio + "/icons/warning.png" ), save, save[1]);
+			if (confirmar == 0) {
+				validar = true;
+			} else {
+				validar = false;
+			}
+			break;
+			
+		case "adicionarQtd":
+			Object aQtd = JOptionPane.showInputDialog( null,
+					mensagem + "\n\nDigite a quantidade do Chalé desta categoria:",
+					"Informar a Quantidade", JOptionPane.QUESTION_MESSAGE, 
+					new ImageIcon( diretorio + "/miniaturas/" + imagem + "-thumb.jpg"  ), null, 1 );
+			if ( aQtd == null){
+				validar = false;
+				fechar();
+				return;
+			} else {
+				if ( ! logon.testarNumero( aQtd.toString() ) ){
+					msg( "erroDigit", aQtd.toString() );
+				} else {
+					if ( aQtd.toString().contains( "0" ) ) {
+						removeLinha();
+					} else {
+						quantidade = Integer.parseInt( aQtd.toString() );
+						mostrar();
+						validar = true;			
+					}
+				}
+			}
+			break;
+			
+		case "alterar":
+			String resp = JOptionPane.showInputDialog( null,
+					"Digite a quantidade desejada da reserva do chalé " + mensagem + ":",
+					"Alterar Quantidade", JOptionPane.QUESTION_MESSAGE );
+			if ( resp == null){
+				return;
+			} else {
+				if ( ! logon.testarNumero( resp ) ){
+					msg( "erroDigit", resp );
+				} else {
+					if ( resp.contains( "0" ) ) {
+						removeLinha();
+					} else {
+						quantidade = Integer.parseInt( resp );
+						validar = true;			
+					}
+				}
+			}
+			break;
+
+		case "retirar":
+			Object[] opt = { "Confirmar", "Cancelar" };
+			int retirar = JOptionPane.showOptionDialog(null, mensagem +
+					"\n\nDeseja retirar o Chalé da Reserva?\nVocê poderá adicioná-lo novamente mais tarde.",
+					"Retirar Chalé", 
+					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
+					new ImageIcon( diretorio + "/icons/error.png" ), opt, opt[1]);
+			if (retirar == 0) {
+				validar = true;
+			} else {
+				validar = false;
+			}
+			break;
+
+		case "erroLinha":
+			JOptionPane.showMessageDialog(null, 
+					"Por favor, selecione um Chalé para retirar.", 
+					"Chalé não selecionado", 
+					JOptionPane.PLAIN_MESSAGE,
+					new ImageIcon( diretorio + "/icons/error.png" ));
+			break;
+
+		case "erroDigit":
+			JOptionPane.showMessageDialog(null, 
+					"Entrada inválida:\n\n" +
+							mensagem +
+							"\n\nPor favor, entre somente com números para a quantidade.", 
+							"Entrada Inválida…", 
+							JOptionPane.PLAIN_MESSAGE,
+							new ImageIcon( diretorio + "/icons/error.png" ));
+			break;
+			
+		case "construir":
+			JOptionPane.showMessageDialog(null, 
+					"Em construção!\nEsta função ainda não foi implementada.", 
+					"Sem implementação", 
+					JOptionPane.PLAIN_MESSAGE,
+					new ImageIcon( diretorio + "/icons/builder.png" ));
+			break;
+
+		case "sistema":
+			Object[] exit = { "Confirmar", "Cancelar" };  
+			int fechar = JOptionPane.showOptionDialog( null, "ATENÇÃO!\n\nChamada para o " + mensagem 
+					+ " do sistema!\n\nDeseja encerrar a aplicação?",
+					"Fechamento do Programa!", 
+					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
+					new ImageIcon( diretorio + "/icons/warning.png" ), exit, exit[1] );
+			if ( fechar == 0 ) {
+				validar = true;
+			} else {
+				validar = false;
+			}
+			break;
+
+		default:
+			JOptionPane.showMessageDialog(null, 
+					mensagem, 
+					"Erro no Sistema", 
+					JOptionPane.PLAIN_MESSAGE,
+					new ImageIcon( diretorio + "/icons/error.png" ));
+		}
+		form.setAlwaysOnTop ( true );
+	}
 }

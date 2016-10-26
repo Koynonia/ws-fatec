@@ -25,7 +25,7 @@ public class ReservaDAOImpl implements ReservaDAO{
 	 * CREATE TABLE reserva (
 	 * numero INT PRIMARY KEY,
 	 * cliente VARCHAR(50) NOT NULL,
-	 * chale VARCHAR(50) NOT NULL,
+	 * chale INT NOT NULL,
 	 * qtdAdulto INT NOT NULL,
 	 * qtdCrianca INT NOT NULL,
 	 * quantidade INT NOT NULL,
@@ -35,6 +35,7 @@ public class ReservaDAOImpl implements ReservaDAO{
 	 * desconto INT NOT NULL,
 	 * estado VARCHAR(20) NOT NULL,
 	 * dtCadastro DATE NOT NULL
+	 * );
 	 */
 	
 	@Override
@@ -42,8 +43,8 @@ public class ReservaDAOImpl implements ReservaDAO{
 		String sql = "INSERT INTO reserva VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt(1, reserva.getNumero());
-		//ps.setString(2, reserva.getCliente());
-		//ps.setString(3, reserva.getChale());
+		ps.setString(2, reserva.getCliente().getDocumento());
+		ps.setInt(3, reserva.getChale().getNumero());
 		ps.setInt(4, reserva.getQtdAdulto());
 		ps.setInt(5, reserva.getQtdCrianca());
 		ps.setInt(6, reserva.getQuantidade());
@@ -65,8 +66,8 @@ public class ReservaDAOImpl implements ReservaDAO{
 				+ "dtInicio = ?, dtFim = ?, vlrReserva = ?, desconto = ? "
 				+ "estado = ?, dtCadastro = ? WHERE numero = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
-		//ps.setString(2, reserva.getCliente());
-		//ps.setString(3, reserva.getChale());
+		ps.setInt(1, reserva.getNumero());
+		ps.setString(2, reserva.getCliente().getDocumento());
 		ps.setInt(4, reserva.getQtdAdulto());
 		ps.setInt(5, reserva.getQtdCrianca());
 		ps.setInt(6, reserva.getQuantidade());

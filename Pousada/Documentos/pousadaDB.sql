@@ -65,12 +65,18 @@ CREATE TABLE chale (
 
 CREATE TABLE reserva (
  numero INT PRIMARY KEY,
- qtdpessoas INT NOT NULL,
- datainicio DATE NOT NULL,
- datafim DATE NOT NULL,
- estado VARCHAR(30) NOT NULL,
- statuspagamento VARCHAR(30) NOT NULL
-);
+ cliente VARCHAR(50) NOT NULL,
+ chale INT NULL,
+ qtdAdulto INT NOT NULL,
+ qtdCrianca INT NOT NULL,
+ quantidade INT NOT NULL,
+ dtIncio DATE NOT NULL,
+ dtFim DATE NOT NULL, 
+ vlrDiaria DOUBLE NOT NULL,
+ desconto INT NOT NULL,
+ estado VARCHAR(20) NOT NULL,
+ dtCadastro DATE NOT NULL
+ );
 
 CREATE TABLE spa (
  -- cartao VARCHAR(100) NOT NULL,
