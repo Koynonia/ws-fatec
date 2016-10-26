@@ -41,24 +41,7 @@ public class PrincipalDAOImpl implements PrincipalDAO {
 			itens.setServicoDetalhe(rs.getString( "servicoDetalhe" ));
 			itens.setReservaInfo(rs.getString( "reservaInfo" ));
 			itens.setContatoInfo(rs.getString( "contatoInfo" ));
-			lista.add( itens );
-		}
-		rs.close();
-		ps.close();
-		return lista;
-	}
-
-	@Override
-	public List<Chale> categoria() throws SQLException {
-
-		String sql = "SELECT categoria FROM chale";
-		PreparedStatement ps = con.prepareStatement(sql);
-		ResultSet rs = ps.executeQuery();
-		List<Chale>lista = new ArrayList<>();
-
-		while (rs.next()) {
-			Chale itens = new Chale();
-			itens.setCategoria(rs.getString( "categoria" ));
+			itens.setVersao(rs.getString( "versao" ));
 			lista.add( itens );
 		}
 		rs.close();

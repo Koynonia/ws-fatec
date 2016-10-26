@@ -14,7 +14,6 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.SQLException;
-import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -31,16 +30,15 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import edu.pousada.boundary.PrincipalFrm;
 import edu.pousada.boundary.ReservaFrm;
 import edu.pousada.dao.ReservaDAO;
 import edu.pousada.dao.ReservaDAOImpl;
+import edu.pousada.entity.Chale;
 import edu.pousada.entity.Reserva;
 
 public class ReservaCtrl {
 
 	private ReservaFrm form;
-	private PrincipalFrm principal;
 	private JTable tabela;
 	private JFormattedTextField ftxtQtd;
 	private JFormattedTextField ftxtValor;
@@ -50,6 +48,7 @@ public class ReservaCtrl {
 	private JButton btnConcluir; 
 	private JButton btnVoltar;
 	private String diretorio = "../Pousada/resources/";
+	private String imagem;
 	private LogonCtrl logon = LogonCtrl.getInstance();
 	private boolean validar;
 	private int quantidade = 1;
@@ -78,7 +77,7 @@ public class ReservaCtrl {
 		this.btnVoltar = btnVoltar;
 		this.reservas = new ArrayList<Reserva>();
 
-		formatarTabela();
+		formataTabela();
 	}
 	
 	
@@ -86,7 +85,7 @@ public class ReservaCtrl {
 
 		reservas.removeAll(reservas);
 		atualizaDAO(reservas);
-		formatarTabela();
+		formataTabela();
 		ftxtValor.setValue(null);
 	}
 	
@@ -94,7 +93,7 @@ public class ReservaCtrl {
 	public void atualizaValor(){
 
 		//Atualiza total da reserva
-		float total = 0;
+		double total = 0;
 		int qtd = 0;
 		for( int i = 0; i < reservas.size(); i++ ){
 			total = total + ( reservas.get(i).getQuantidade() 
@@ -148,7 +147,7 @@ public class ReservaCtrl {
 								item.setDtCadastro( new Date() );
 								reservas.set(i,item);
 								//atualizarDAO(reservas);
-								formatarTabela();
+								formataTabela();
 								validar = false;
 								JOptionPane.showMessageDialog( null, 
 										"A reserva do chalé " + reservas.get(i).getChale() 
@@ -193,11 +192,112 @@ public class ReservaCtrl {
 	public void atualizaDAO( List<Reserva> lista ){
 		
 	}
+	
+	
+	// CRUD ///////////////////////////////////
+
+	public void adicionaChale( Chale chale ) {
+		
+		Reserva item = new Reserva();
+
+		if ( !reservas.isEmpty() ){
+			for ( int i = 0; i < reservas.size(); i++ ){
+				imagem = reservas.get(i).getChale().getCategoria();
+				//Verifica se o chalé já está adicionada à Reserva
+				if ( reservas.get(i).getChale().getCategoria().equals(chale.getCategoria() )){
+					Object[] save = { "Confirmar", "Cancelar" };  
+					int confirmar = JOptionPane.showOptionDialog(null, "Um chalé de categoria" + chale.getCategoria()
+							+ "\n\nJá adicionado à Reserva.\nGostaria de adicionar mais uma reserva?",
+							"Adicionar Reserva", 
+							JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
+							new ImageIcon( diretorio + "/icons/warning.png" ), save, save[1]);
+					if (confirmar == 0) {
+						validar = true;
+					} else {
+						validar = false;
+					}
+					//Se o chalé já estiver na Reserva, soma + 1 à quantidade
+					if ( validar != false){
+						for ( int q = 0; q < reservas.size(); q++ ){
+							if ( reservas.get(i).getChale().getCategoria().equals( chale.getCategoria() )){
+								item.setQuantidade( reservas.get(q).getQuantidade() + 1 );
+								item.setDesconto( 0.00 );
+								item.setChale( chale );
+								item.setDtCadastro( new Date() );
+								reservas.set( q, item );
+							}
+						}
+					} else {
+						form.dispose();
+					}
+				} 
+			}
+			if ( validar == false) {
+				//Adiciona o chalé se não estiver na Reserva
+				imagem = chale.getCategoria();
+				Object aQtd = JOptionPane.showInputDialog( null,
+						"Reserva do chalé: " 
+				+ chale.getCategoria() 
+				+ "\n\nValor da Diária: R$ " + chale.getDiaria()
+				+ "\n\nDigite a quantidade desejada da reserva desta categoria:",
+						"Informar a Quantidade", JOptionPane.QUESTION_MESSAGE, 
+						new ImageIcon( diretorio + "/miniaturas/" + imagem + "-thumb.jpg"  ), null, 1 );
+				if ( aQtd == null){
+					validar = false;
+					form.dispose();
+				} else {
+					if ( ! logon.testarNumero( aQtd.toString() ) ){
+						JOptionPane.showMessageDialog(null, 
+								"Entrada inválida:\n\n" +
+										aQtd.toString() +
+										"\n\nPor favor, entre somente com números para a quantidade.", 
+										"Entrada Inválida…", JOptionPane.PLAIN_MESSAGE,
+										new ImageIcon( diretorio + "/icons/error.png" ));
+					} else {
+						if ( aQtd.toString().contains( "0" ) ) {
+							removeLinha();
+						} else {
+							quantidade = Integer.parseInt( aQtd.toString() );
+							form.setVisible(true);
+							validar = true;			
+						}
+					}
+				}		
+				if ( validar != false ){
+					item.setQuantidade( quantidade );
+					item.setDesconto( 0.00 );
+					item.setChale( chale );
+					item.setDtCadastro( new Date() );
+					reservas.add( item );
+				}
+			}
+		} else {
+			//Adiciona à Reserva se já houver chalés adicionados na Reserva
+			imagem = chale.getCategoria();
+			JOptionPane.showInputDialog( null,
+					"Reserva do chalé: " 
+			+ chale.getCategoria() 
+			+ "\n\nValor da Diária: R$ " + chale.getDiaria()
+			+ "\n\nDigite a quantidade desejada da reserva desta categoria:",
+					"Informar a Quantidade", JOptionPane.QUESTION_MESSAGE, 
+					new ImageIcon( diretorio + "/miniaturas/" + imagem + "-thumb.jpg"  ), null, 1 );
+			if ( validar != false ){
+				item.setQuantidade( quantidade );
+				item.setDesconto( 0.00 );
+				item.setChale( chale );
+				item.setDtCadastro( new Date() );
+				reservas.add( item );
+			}
+		}
+		atualizaDAO(reservas);
+		formataTabela();
+		form.setAlwaysOnTop ( true );
+	}
 
 
 	// TABELA //////////////////////////////////
 
-	public void formatarTabela(){
+	public void formataTabela(){
 
 		//Vetor das linhas da tabela
 		List<String[]> linhas = new ArrayList<>(); 
@@ -210,7 +310,7 @@ public class ReservaCtrl {
 				String[] item = { 
 						sdf.format( reservas.get(i).getDtInicio() ),
 						sdf.format( reservas.get(i).getDtFim() ),
-						reservas.get(i).getChale(),
+						reservas.get(i).getChale().getCategoria(), 
 						Integer.toString( reservas.get(i).getQuantidade() ),  
 						formato.format( reservas.get(i).getVlrUnitario() ),
 						formato.format( reservas.get(i).getQuantidade() 

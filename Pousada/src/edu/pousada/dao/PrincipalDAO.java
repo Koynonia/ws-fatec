@@ -9,5 +9,4 @@ import edu.pousada.entity.Principal;
 public interface PrincipalDAO {
 
 	public List<Principal> info() throws SQLException;
-	public List<Chale> categoria() throws SQLException;
 }

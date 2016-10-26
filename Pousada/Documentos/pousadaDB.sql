@@ -12,7 +12,8 @@ lazerDetalhe VARCHAR(850) NOT NULL,
 servicoInfo VARCHAR(550) NOT NULL,
 servicoDetalhe VARCHAR(850) NOT NULL,
 reservaInfo VARCHAR(550) NOT NULL,
-contatoInfo VARCHAR(550) NOT NULL
+contatoInfo VARCHAR(550) NOT NULL,
+versao VARCHAR(10) NOT NULL
  )
 
 CREATE TABLE cliente(

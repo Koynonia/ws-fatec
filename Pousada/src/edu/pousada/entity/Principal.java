@@ -19,6 +19,7 @@ public class Principal {
 	private String servicoDetalhe;
 	private String reservaInfo;
 	private String contatoInfo;
+	private String versao;
 	
 	
 	public String getPrincipalInfo() {
@@ -80,5 +81,11 @@ public class Principal {
 	}
 	public void setContatoInfo(String contatoInfo) {
 		this.contatoInfo = contatoInfo;
+	}
+	public String getVersao() {
+		return versao;
+	}
+	public void setVersao(String versao) {
+		this.versao = versao;
 	}
 }

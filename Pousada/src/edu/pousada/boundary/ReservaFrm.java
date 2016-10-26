@@ -23,8 +23,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.NumberFormatter;
@@ -36,10 +34,7 @@ public class ReservaFrm extends JFrame {
 	private static final long serialVersionUID = -1419041163683085620L;
 	private JPanel painel;
 	private JScrollPane spCompras;
-	private JLabel lblPagina;
 	private JSeparator linha;
-	private JLabel lblQtd;
-	private JLabel lblVlrTotal;
 	private JButton btnAlterar;
 	private JButton btnConcluir;
 	private JButton btnVoltar;
@@ -65,16 +60,6 @@ public class ReservaFrm extends JFrame {
 
 	public ReservaFrm() throws ParseException {
 
-		// Altera aparência das janelas
-		System.setProperty("apple.laf.useScreenMenuBar", "true");
-		System.setProperty("com.apple.mrj.application.apple.menu.about.name", "WikiTeX");
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (ClassNotFoundException | InstantiationException
-				| IllegalAccessException | UnsupportedLookAndFeelException e) {
-			e.printStackTrace();
-		}
-
 		setTitle("Reservas");
 		setName("Reservas");
 		setResizable(false);
@@ -89,7 +74,7 @@ public class ReservaFrm extends JFrame {
 		setContentPane(painel);
 		painel.setLayout(null);
 
-		lblPagina = new JLabel("Reservas");
+		JLabel lblPagina = new JLabel("Reservas");
 		lblPagina.setEnabled(false);
 		lblPagina.setFont(new Font("Century Gothic", Font.BOLD, 25));
 		lblPagina.setBounds(38, 47, 117, 23);
@@ -110,7 +95,7 @@ public class ReservaFrm extends JFrame {
 		spCompras.setViewportView(tabCompra);
 		tabCompra.setBorder(null);
 
-		lblQtd = new JLabel("Quantidade");
+		JLabel lblQtd = new JLabel("Quantidade");
 		lblQtd.setBounds(397, 334, 73, 16);
 		painel.add(lblQtd);
 
@@ -122,7 +107,7 @@ public class ReservaFrm extends JFrame {
 		ftxtQtd.setBounds(478, 329, 58, 28);
 		painel.add(ftxtQtd);
 
-		lblVlrTotal = new JLabel("Total Geral");
+		JLabel lblVlrTotal = new JLabel("Total Geral");
 		lblVlrTotal.setBounds(559, 335, 73, 16);
 		painel.add(lblVlrTotal);
 

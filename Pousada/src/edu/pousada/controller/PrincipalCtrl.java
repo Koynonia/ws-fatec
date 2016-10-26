@@ -39,10 +39,13 @@ import javax.swing.JTextField;
 
 import edu.pousada.boundary.PrincipalFrm;
 import edu.pousada.boundary.ReservaFrm;
+import edu.pousada.dao.ChaleDAO;
+import edu.pousada.dao.ChaleDAOImpl;
 import edu.pousada.dao.PrincipalDAO;
 import edu.pousada.dao.PrincipalDAOImpl;
 import edu.pousada.entity.Chale;
 import edu.pousada.entity.Principal;
+import edu.pousada.entity.Reserva;
 
 public class PrincipalCtrl {
 
@@ -56,6 +59,7 @@ public class PrincipalCtrl {
 	private JLabel lblServicoImg;
 	private JLabel lblReservaImg;
 	private JLabel lblContatoImg;
+	private JLabel lblVersao;
 	private JTextField txtPesquisa; 
 	private JTextArea txtaPrincipalInfo; 
 	private JTextArea txtaPrincipalDetalhe; 
@@ -85,7 +89,7 @@ public class PrincipalCtrl {
 	private ImageIcon imagem;
 	private boolean validar;
 	private List<Principal> infos;
-	private List<Chale> categorias;
+	private List<Chale> chales;
 
 	public PrincipalCtrl(
 			PrincipalFrm form, 
@@ -98,6 +102,7 @@ public class PrincipalCtrl {
 			JLabel lblServicoImg, 
 			JLabel lblReservaImg,
 			JLabel lblContatoImg,  
+			JLabel lblVersao, 
 			JTextField txtPesquisa, 
 			JTextArea txtaPrincipalInfo, 
 			JTextArea txtaPrincipal, 
@@ -134,6 +139,7 @@ public class PrincipalCtrl {
 		this.lblServicoImg = lblServicoImg;
 		this.lblReservaImg = lblReservaImg;
 		this.lblContatoImg = lblContatoImg;
+		this.lblVersao = lblVersao;
 		this.txtPesquisa = txtPesquisa;
 		this.txtaPrincipalInfo = txtaPrincipalInfo; 
 		this.txtaPrincipalDetalhe = txtaPrincipal; 
@@ -159,17 +165,25 @@ public class PrincipalCtrl {
 		this.btnReservaLimpar = btnReservaLimpar;
 		this.btnContatoLimpar = btnContatoLimpar;
 		this.infos = new ArrayList<Principal>();
+		this.chales = new ArrayList<Chale>();
 
-		carregaDAO();
+		carregaPrincipalDAO();
+		carregaChaleDAO();
 		preecheInfo();
 		preencheCategoria();
 		preencheTipoDoc();
 		preencheAssunto();
 		imagensRandom();
 		temporizador();
+		versao();
 	}
-
-
+	
+	public void versao(){
+		
+	lblVersao.setText( "versão: " + infos.get(0).getVersao() );	
+	}
+	
+	
 	public void limpaCampos(){
 
 		Integer guiaAtiva = tabContainer.getSelectedIndex();
@@ -267,29 +281,63 @@ public class PrincipalCtrl {
 
 	public void imagensCombo(){
 
-		Integer guiaAtiva = tabContainer.getSelectedIndex();
 
-		switch ( guiaAtiva){
-		case 4:
-			imagem = new ImageIcon( diretorio + "/imagens/chale" + cboReservaCategoria.getSelectedIndex() + ".jpg" );
-			lblReservaImg.setIcon( new ImageIcon( 
-					imagem.getImage().getScaledInstance( 
-							lblReservaImg.getWidth(), 
-							lblReservaImg.getHeight(), 
-							Image.SCALE_DEFAULT )));
-			break;
+		imagem = new ImageIcon( diretorio + "/imagens/chale" 
+		+ cboReservaCategoria.getSelectedIndex() + ".jpg" );
+		lblReservaImg.setIcon( new ImageIcon( 
+				imagem.getImage().getScaledInstance( 
+						lblReservaImg.getWidth(), 
+						lblReservaImg.getHeight(), 
+						Image.SCALE_DEFAULT )));
+	}
+
+	public void adicionaReserva ( Chale chale ){
+
+		if( chales.size() > 0 ){
+
+			ReservaFrm reserva;
+
+			try {
+				reserva = new ReservaFrm();
+				reserva.setVisible(false);
+
+				ReservaCtrl ctrl = new ReservaCtrl(
+						reserva, 
+						reserva.tabCompra, 
+						reserva.ftxtQtd, 
+						reserva.ftxtVlrTotal, 
+						btnContatoEnviar, 
+						btnContatoEnviar, 
+						btnContatoEnviar, 
+						btnContatoEnviar, 
+						btnContatoEnviar);
+				ctrl.adicionaChale ( chale );
+
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
 
 	// DAO //////////////////////////////////////
 
-	public void carregaDAO(){
+	public void carregaPrincipalDAO(){
 
 		PrincipalDAO dao = new PrincipalDAOImpl();
 		try {
 			infos = dao.info();
-			categorias = dao.categoria();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void carregaChaleDAO(){
+
+		ChaleDAO dao = new ChaleDAOImpl();
+		try {
+			chales = dao.todosChales();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -322,16 +370,16 @@ public class PrincipalCtrl {
 	public void preencheCategoria(){
 
 		//Ordenar alfabeticamente
-		String[] listaCategoria = new String[categorias.size()];
-		for ( int i = 0; i < categorias.size(); i++ ){		
-			String item = categorias.get(i).getCategoria();		
+		String[] listaCategoria = new String[chales.size()];
+		for ( int i = 0; i < chales.size(); i++ ){		
+			String item = chales.get(i).getCategoria();		
 			listaCategoria[i] = item;	
 		}
 		Arrays.sort(listaCategoria);
 
 		//Adicionar na combobox
 		cboReservaCategoria.addItem( "Selecione…" );
-		for ( int i = 0; i < categorias.size(); i++ ){
+		for ( int i = 0; i < chales.size(); i++ ){
 			cboReservaCategoria.addItem( listaCategoria[i] );
 		}
 	}
@@ -383,6 +431,7 @@ public class PrincipalCtrl {
 			try {
 				reserva = new ReservaFrm();
 				reserva.setVisible(true);
+				reserva.setAlwaysOnTop ( false );
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}		
@@ -424,25 +473,34 @@ public class PrincipalCtrl {
 			//verifica qual botao esta solicitando a acao
 			Object source = e.getSource();
 
-			if(source == btnLogin){
+			if( source == btnLogin ){
 				abrir( "construir" );
 			}
-			if(source == btnReservaEnviar){
-				abrir( "reservas" );
+			if( source == btnReservaEnviar ){
+				if ( cboReservaCategoria.getSelectedIndex() != 0 ){
+					abrir( "reservas" );
+					adicionaReserva ( chales.get( cboReservaCategoria.getSelectedIndex() ));
+				}else {
+					JOptionPane.showMessageDialog(null, 
+							"Seleção inválida:\n" 
+									+ "\n\nPor favor, selecione uma categoria.", 
+									"Seleção Inválida", JOptionPane.PLAIN_MESSAGE,
+									new ImageIcon( diretorio + "/icons/error.png" ));
+				}
 			}
-			if(source == btnContatoEnviar){
+			if( source == btnContatoEnviar ){
 				abrir( "construir" );
 			}
-			if(source == btnPesquisar){
+			if( source == btnPesquisar ){
 				abrir( "construir" );
 			}
-			if(source == btnReservaLimpar){
+			if( source == btnReservaLimpar ){
 				limpaCampos();
 			}
-			if(source == btnContatoLimpar){
+			if( source == btnContatoLimpar ){
 				limpaCampos();
 			}
-			if(source == cboReservaCategoria){
+			if( source == cboReservaCategoria ){
 				imagensCombo();
 			}
 		}

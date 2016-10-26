@@ -12,15 +12,15 @@ import java.util.Date;
 public class Reserva {
 	
 	private Integer numero;
-	private String cliente;
+	private Cliente cliente;
+	private Chale chale;
 	private Integer qtdAdulto;
 	private Integer qtdCrianca;
-	private String chale;
 	private Integer quantidade;
 	private Date dtInicio;
 	private Date dtFim;
-	private Float vlrUnitario;
-	private String pagamento;
+	private Double vlrUnitario;
+	private Double desconto;
 	private String estado;
 	private Date dtCadastro;
 	
@@ -31,11 +31,17 @@ public class Reserva {
 	public void setNumero(Integer numero) {
 		this.numero = numero;
 	}
-	public String getCliente() {
+	public Cliente getCliente() {
 		return cliente;
 	}
-	public void setCliente(String cliente) {
+	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
+	}
+	public Chale getChale() {
+		return chale;
+	}
+	public void setChale(Chale chale) {
+		this.chale = chale;
 	}
 	public Integer getQtdAdulto() {
 		return qtdAdulto;
@@ -48,12 +54,6 @@ public class Reserva {
 	}
 	public void setQtdCrianca(Integer qtdCrianca) {
 		this.qtdCrianca = qtdCrianca;
-	}
-	public String getChale() {
-		return chale;
-	}
-	public void setChale(String chale) {
-		this.chale = chale;
 	}
 	public Integer getQuantidade() {
 		return quantidade;
@@ -73,17 +73,17 @@ public class Reserva {
 	public void setDtFim(Date dtFim) {
 		this.dtFim = dtFim;
 	}
-	public Float getVlrUnitario() {
+	public Double getVlrUnitario() {
 		return vlrUnitario;
 	}
-	public void setVlrUnitario(Float vlrUnitario) {
+	public void setVlrUnitario(Double vlrUnitario) {
 		this.vlrUnitario = vlrUnitario;
 	}
-	public String getPagamento() {
-		return pagamento;
+	public Double getDesconto() {
+		return desconto;
 	}
-	public void setPagamento(String pagamento) {
-		this.pagamento = pagamento;
+	public void setDesconto(Double desconto) {
+		this.desconto = desconto;
 	}
 	public String getEstado() {
 		return estado;

@@ -709,7 +709,6 @@ public class PrincipalFrm extends JFrame {
 		tabContainer.add( "Reservas", painelReserva );
 		tabContainer.add( "Contato", painelContato );
 
-		versao = "Versão: 0.1.5";//Substituir por função
 		lblVersao = new JLabel( versao );
 		lblVersao.setEnabled(false);
 		lblVersao.setBounds(33, 666, 97, 16);
@@ -732,6 +731,7 @@ public class PrincipalFrm extends JFrame {
 				lblServicoImg,
 				lblReservaImg,
 				lblContatoImg,
+				lblVersao,
 				txtPesquisa,
 				txtaPrincipalInfo,
 				txtaPrincipalDetalhe,

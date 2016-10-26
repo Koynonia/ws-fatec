@@ -20,8 +20,7 @@ public class ChaleDAOImpl implements ChaleDAO {
 
 	private Connection con = DBUtil.getInstance().getConnection();
 	/*
-	 * numero INT PRIMARY KEY, categoria VARCHAR(30) NOT NULL, diaria DOUBLE NOT
-	 * NULL
+	 * numero INT PRIMARY KEY, categoria VARCHAR(30) NOT NULL, diaria DOUBLE NOT NULL
 	 * 
 	 */
 
@@ -70,7 +69,7 @@ public class ChaleDAOImpl implements ChaleDAO {
 		}
 		rs.close();
 		ps.close();
-
+		
 		return chale;
 	}
 
@@ -87,6 +86,8 @@ public class ChaleDAOImpl implements ChaleDAO {
 			chale.setDiaria(rs.getDouble("diaria"));
 			listaChale.add(chale);
 		}
+		rs.close();
+		ps.close();
 		
 		return listaChale;
 	}
