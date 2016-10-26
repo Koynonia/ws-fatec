@@ -20,16 +20,17 @@ import edu.pousada.entity.Spa;
 public class SpaDAOImpl implements SpaDAO{
 
 	private Connection con = DBUtil.getInstance().getConnection();
-	
-	/*
+
+	/**
 	 * CREATE TABLE spa (
-idSpa INT PRIMARY KEY,
- -- cartao VARCHAR(100) NOT NULL,
- dt DATE NOT NULL,
- hora DATE NOT NULL,
- valor FLOAT NOT NULL,
- servico VARCHAR(100) NOT NULL
+	 * idSpa INT PRIMARY KEY,
+	 * cartao VARCHAR(100) NOT NULL,
+	 * dt DATE NOT NULL,
+	 * hora DATE NOT NULL, 
+	 * valor FLOAT NOT NULL,
+	 * servico VARCHAR(100) NOT NULL
 	 */
+
 	public void adicionaSpa(Spa spa) throws SQLException {
 		String sql = "INSERT INTO spa VALUES (?,?,?,?,?)";
 		PreparedStatement ps = con.prepareStatement(sql);
@@ -38,7 +39,6 @@ idSpa INT PRIMARY KEY,
 		ps.setDate(3, (Date) spa.getHora());
 		ps.setFloat(4, spa.getValor());
 		ps.setString(5, spa.getServico());
-		
 		ps.execute();
 		ps.close();
 	}
@@ -49,21 +49,19 @@ idSpa INT PRIMARY KEY,
 		ps.setDate(1, (Date) spa.getData());
 		ps.setDate(2, (Date) spa.getHora());
 		ps.setFloat(3, spa.getValor());
-		ps.setString(4, spa.getServico());
-		
-		ps.setInt(5, spa.getIdSpa());
-			
+		ps.setString(4, spa.getServico());		
+		ps.setInt(5, spa.getIdSpa());	
 		ps.execute();
 		ps.close();		
 	}
 
-	public void excluirSpa(Spa spa) throws SQLException {
+	public void excluiSpa(Spa spa) throws SQLException {
 		String sql = "DELETE spa WHERE idSpa = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt(1, spa.getIdSpa());
 		ps.execute();
 		ps.close();
-		
+
 	}
 
 	public Spa consultaSpa(Spa spa) throws SQLException {
@@ -78,9 +76,9 @@ idSpa INT PRIMARY KEY,
 			spa.setValor(rs.getFloat("valor"));
 			spa.setServico(rs.getString("servico"));
 		}
-		
+		ps.close();
 		return spa;
-	
+
 	}
 
 	public List<Spa> listaSpa() throws SQLException {
@@ -97,7 +95,7 @@ idSpa INT PRIMARY KEY,
 			spa.setServico(rs.getString("servico"));
 			listaSpa.add(spa);
 		}
-		
+		ps.close();
 		return listaSpa;
 	}
 

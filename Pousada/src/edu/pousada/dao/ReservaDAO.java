@@ -7,5 +7,9 @@ import edu.pousada.entity.Reserva;
 
 public interface ReservaDAO {
 	
-	public List<Reserva> reservas() throws SQLException;
+	public void adicionaReserva(Reserva Reserva) throws SQLException;
+	public void alteraReserva(Reserva Reserva) throws SQLException;
+	public void excluiReserva(Reserva Reserva) throws SQLException;
+	public Reserva consultaReserva(Reserva Reserva) throws SQLException;
+	public List<Reserva> listaReserva() throws SQLException;
 }

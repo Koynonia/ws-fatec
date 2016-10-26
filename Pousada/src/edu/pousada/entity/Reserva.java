@@ -19,8 +19,8 @@ public class Reserva {
 	private Integer quantidade;
 	private Date dtInicio;
 	private Date dtFim;
-	private Double vlrUnitario;
-	private Double desconto;
+	private Double vlrDiaria;
+	private Integer desconto;
 	private String estado;
 	private Date dtCadastro;
 	
@@ -73,16 +73,16 @@ public class Reserva {
 	public void setDtFim(Date dtFim) {
 		this.dtFim = dtFim;
 	}
-	public Double getVlrUnitario() {
-		return vlrUnitario;
+	public Double getVlrDiaria() {
+		return vlrDiaria;
 	}
-	public void setVlrUnitario(Double vlrUnitario) {
-		this.vlrUnitario = vlrUnitario;
+	public void setVlrDiaria(Double vlrDiaria) {
+		this.vlrDiaria = vlrDiaria;
 	}
-	public Double getDesconto() {
+	public Integer getDesconto() {
 		return desconto;
 	}
-	public void setDesconto(Double desconto) {
+	public void setDesconto(Integer desconto) {
 		this.desconto = desconto;
 	}
 	public String getEstado() {

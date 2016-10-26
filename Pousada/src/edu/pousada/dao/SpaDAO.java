@@ -16,7 +16,7 @@ public interface SpaDAO {
 	
 	public void adicionaSpa(Spa spa) throws SQLException;
 	public void alteraSpa(Spa spa) throws SQLException;
-	public void excluirSpa(Spa spa) throws SQLException;
+	public void excluiSpa(Spa spa) throws SQLException;
 	public Spa consultaSpa(Spa spa) throws SQLException;
 	public List<Spa> listaSpa() throws SQLException;
 	

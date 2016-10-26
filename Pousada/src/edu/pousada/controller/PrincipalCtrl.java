@@ -434,7 +434,7 @@ public class PrincipalCtrl {
 				reserva.setAlwaysOnTop ( false );
 			} catch (ParseException e) {
 				e.printStackTrace();
-			}		
+			}
 			break;
 
 		case "construir":
@@ -483,7 +483,7 @@ public class PrincipalCtrl {
 				}else {
 					JOptionPane.showMessageDialog(null, 
 							"Seleção inválida:\n" 
-									+ "\n\nPor favor, selecione uma categoria.", 
+									+ "\nPor favor, selecione uma categoria.", 
 									"Seleção Inválida", JOptionPane.PLAIN_MESSAGE,
 									new ImageIcon( diretorio + "/icons/error.png" ));
 				}
