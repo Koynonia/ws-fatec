@@ -133,8 +133,8 @@ versao VARCHAR(10) NOT NULL
 
 INSERT INTO `chale` (`numero`, `categoria`, `diaria`) VALUES
 (1, 'Luxo', '299.90'),
-(2, 'Classic', '199.90'),
-(3, 'Standard', '99.90');
+(2, 'Clássico', '199.90'),
+(3, 'Padrão', '99.90');
 
 INSERT INTO `cliente` (`nome`, `email`, `documento`, `docTipo`, 
 `dtNasc`, `telefone`, `celular`, `endereco`, `bairro`, `cidade`, 
