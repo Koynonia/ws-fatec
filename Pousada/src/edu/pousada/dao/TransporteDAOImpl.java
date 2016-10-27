@@ -1,5 +1,5 @@
 /**
- * @author Guilherme Jatobá
+ * @author GUILHERME JATOBÁ
  * Matéria Engenharia de Software 2
  * FATEC ZL 5º ADS - Tarde
  * 24/10/2016
@@ -21,12 +21,19 @@ public class TransporteDAOImpl implements TransporteDAO {
 
 	private Connection con = DBUtil.getInstance().getConnection();
 
-	/*
-	 * CREATE TABLE transporte( id VARCHAR(100) PRIMARY KEY, estado VARCHAR(30)
-	 * NOT NULL, destino VARCHAR(200) NOT NULL, qtd INT NOT NULL, -- cartao
-	 * VARCHAR(100) NOT NULL, dt DATE NOT NULL, hora DATE NOT NULL, valor FLOAT
-	 * NOT NULL
+	/**
+	 * CREATE TABLE transporte(
+	 * id VARCHAR(100) PRIMARY KEY,
+	 * estado VARCHAR(30) NOT NULL,
+	 * destino VARCHAR(200) NOT NULL,
+	 * qtd INT NOT NULL,
+	 * -- cartao VARCHAR(100) NOT NULL,
+	 * dt DATE NOT NULL,
+	 * hora DATE NOT NULL,
+	 * valor DECIMAL(7,2) NOT NULL
+	 * );
 	 */
+	
 	public void adicionaTransporte(Transporte transporte) throws SQLException {
 		String sql = "INSERT INTO transporte VALUES () ";
 		PreparedStatement ps = con.prepareStatement(sql);

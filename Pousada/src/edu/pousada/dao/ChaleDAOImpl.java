@@ -1,5 +1,5 @@
 /**
- * @author Guilherme Jatobá
+ * @author GUILHERME JATOBÁ
  * Matéria Engenharia de Software 2
  * FATEC ZL 5º ADS - Tarde
  * 24/10/2016
@@ -19,9 +19,13 @@ import edu.pousada.entity.Chale;
 public class ChaleDAOImpl implements ChaleDAO {
 
 	private Connection con = DBUtil.getInstance().getConnection();
-	/*
-	 * numero INT PRIMARY KEY, categoria VARCHAR(30) NOT NULL, diaria DOUBLE NOT NULL
-	 * 
+	
+	/**
+	 * CREATE TABLE chale (
+	 * numero INT PRIMARY KEY, 
+	 * categoria VARCHAR(30) NOT NULL, 
+	 * diaria DOUBLE NOT NULL
+	 * );
 	 */
 
 	@Override
@@ -65,7 +69,7 @@ public class ChaleDAOImpl implements ChaleDAO {
 		if (rs.next()) {
 			chale.setNumero(rs.getInt("numero"));
 			chale.setCategoria(rs.getString("categoria"));
-			chale.setDiaria(rs.getDouble("diaria"));
+			chale.setDiaria(rs.getFloat("diaria"));
 		}
 		rs.close();
 		ps.close();
@@ -83,7 +87,7 @@ public class ChaleDAOImpl implements ChaleDAO {
 			Chale chale = new Chale();
 			chale.setNumero(rs.getInt("numero"));
 			chale.setCategoria(rs.getString("categoria"));
-			chale.setDiaria(rs.getDouble("diaria"));
+			chale.setDiaria(rs.getFloat("diaria"));
 			listaChale.add(chale);
 		}
 		rs.close();
@@ -91,5 +95,4 @@ public class ChaleDAOImpl implements ChaleDAO {
 		
 		return listaChale;
 	}
-
 }

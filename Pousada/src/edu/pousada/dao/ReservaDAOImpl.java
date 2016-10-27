@@ -1,8 +1,8 @@
 /**
- * @author Fernando Moraes Oliveira
- * Matéria Engenharia de Software 2
+ * @author FERNANDO MORAES OLIVEIRA
+ * Materia Engenharia de Software 2
  * FATEC ZL 5º ADS - Tarde
- * 24/10/2016
+ * 23/10/2016
  */
 
 package edu.pousada.dao;
@@ -37,7 +37,7 @@ public class ReservaDAOImpl implements ReservaDAO{
 	
 	@Override
 	public void adicionaReserva(Reserva reserva) throws SQLException {
-		String sql = "INSERT INTO reserva VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+		String sql = "INSERT INTO reserva VALUES (?,?,?,?,?,?,?,?,?,?)";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt(1, reserva.getNumero());
 		ps.setString(2, reserva.getCliente().getDocumento());
@@ -59,7 +59,7 @@ public class ReservaDAOImpl implements ReservaDAO{
 				+ "chale = ?, qtdAdulto = ?, qtdCrianca = ?, "
 				+ "qtdAdulto = ?, qtdCrianca = ?, quantidade = ?, "
 				+ "dtInicio = ?, dtFim = ?, desconto = ? "
-				+ "estado = ?, dtCadastro = ? WHERE numero = ?";
+				+ "dtCadastro = ? WHERE numero = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt(1, reserva.getNumero());
 		ps.setString(2, reserva.getCliente().getDocumento());

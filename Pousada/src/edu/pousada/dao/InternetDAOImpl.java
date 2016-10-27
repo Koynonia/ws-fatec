@@ -1,5 +1,5 @@
 /**
- * @author Guilherme Jatobá
+ * @author GUILHERME JATOBÁ
  * Matéria Engenharia de Software 2
  * FATEC ZL 5º ADS - Tarde
  * 24/10/2016
@@ -20,14 +20,17 @@ import edu.pousada.entity.Internet;
 public class InternetDAOImpl implements InternetDAO{
 
 	private Connection con = DBUtil.getInstance().getConnection();
-	/*
- CREATE TABLE internet(
- qtd INT NOT NULL,
- -- cartao VARCHAR(100) NOT NULL,
- dt DATE NOT NULL,
- hora DATE NOT NULL,
- valor FLOAT NOT NULL
+	
+	/**
+	 * CREATE TABLE internet(
+	 * qtd INT NOT NULL,
+	 * -- cartao VARCHAR(100) NOT NULL,
+	 * dt DATE NOT NULL,
+	 * hora DATE NOT NULL,
+	 * valor DECIMAL(7,2) NOT NULL
+	 * );
 	 */
+
 	public void adicionaInternet(Internet internet) throws SQLException {
 		String sql = "INSERT INTO internet VALUES (?,?,?,?,?)";
 		PreparedStatement ps = con.prepareStatement(sql);

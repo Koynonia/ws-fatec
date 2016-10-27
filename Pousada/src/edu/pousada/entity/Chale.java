@@ -1,10 +1,17 @@
+/**
+ * @author FERNANDO MORAES OLIVEIRA
+ * Materia Engenharia de Software 2
+ * FATEC ZL 5º ADS - Tarde
+ * 23/10/2016
+ */
+
 package edu.pousada.entity;
 
 public class Chale {
 
 	private Integer numero;
 	private String categoria;
-	private Double diaria;
+	private Float diaria;
 	private Frigobar frigobar;
 	
 	
@@ -20,10 +27,10 @@ public class Chale {
 	public void setCategoria(String categoria) {
 		this.categoria = categoria;
 	}
-	public Double getDiaria() {
+	public Float getDiaria() {
 		return diaria;
 	}
-	public void setDiaria(Double diaria) {
+	public void setDiaria(Float diaria) {
 		this.diaria = diaria;
 	}
 	public Frigobar getFrigobar() {

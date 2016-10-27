@@ -1,5 +1,5 @@
 /**
- * @author Fernando Moraes Oliveira
+ * @author FERNANDO MORAES OLIVEIRA
  * Materia Engenharia de Software 2
  * FATEC ZL 5º ADS - Tarde
  * 23/10/2016
@@ -430,7 +430,7 @@ public class PrincipalCtrl {
 
 			for( int i = 0; i < chales.size(); i++ ){
 				if( chales.get(i).getCategoria().equals( (String) cboReservaCategoria.getSelectedItem() )){
-					if( chales.get(i).getNumero().equals( cboReservaCategoria.getSelectedItem() )){
+					if( chales.get(i).getNumero() != null ){
 					ch.setNumero( chales.get(i).getNumero() );
 					ch.setCategoria( chales.get(i).getCategoria() );
 					ch.setDiaria( chales.get(i).getDiaria() );

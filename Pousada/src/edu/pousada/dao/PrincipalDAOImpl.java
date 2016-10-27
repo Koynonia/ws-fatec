@@ -1,6 +1,6 @@
 /**
- * @author Fernando Moraes Oliveira
- * Matéria Engenharia de Software 2
+ * @author FERNANDO MORAES OLIVEIRA
+ * Materia Engenharia de Software 2
  * FATEC ZL 5º ADS - Tarde
  * 23/10/2016
  */
@@ -14,13 +14,28 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.pousada.entity.Chale;
 import edu.pousada.entity.Principal;
 
 public class PrincipalDAOImpl implements PrincipalDAO {
 
 	private Connection con = DBUtil.getInstance().getConnection();
-
+	
+	/**	
+	 * CREATE TABLE principal(
+	 * principalInfo VARCHAR(550) NOT NULL,
+	 * principalDetalhe VARCHAR(850) NOT NULL,
+	 * chaleInfo VARCHAR(550) NOT NULL,
+	 * chaleDetalhe VARCHAR(850) NOT NULL,
+	 * lazerInfo VARCHAR(550) NOT NULL,
+	 * lazerDetalhe VARCHAR(850) NOT NULL,
+	 * servicoInfo VARCHAR(550) NOT NULL,
+	 * servicoDetalhe VARCHAR(850) NOT NULL,
+	 * reservaInfo VARCHAR(550) NOT NULL,
+	 * contatoInfo VARCHAR(550) NOT NULL,
+	 * versao VARCHAR(10) NOT NULL 
+	 * );
+	 */
+	
 	@Override
 	public List<Principal> info() throws SQLException {
 

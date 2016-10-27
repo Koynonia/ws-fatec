@@ -1,5 +1,5 @@
 /**
- * @author Guilherme Jatobá
+ * @author GUILHERME JATOBÁ
  * Matéria Engenharia de Software 2
  * FATEC ZL 5º ADS - Tarde
  * 24/10/2016
@@ -21,14 +21,18 @@ import edu.pousada.entity.Lanchonete;
 public class LanchoneteDAOImpl implements LanchoneteDAO{
 
 	private Connection con = DBUtil.getInstance().getConnection();
-	/*
- nome VARCHAR(100) NOT NULL,
- tipo VARCHAR(100) NOT NULL,  
--- cartao VARCHAR(100) NOT NULL,
- data DATE NOT NULL,
- hora DATE NOT NULL,
- valor FLOAT NOT NULL
+	
+	/**
+	 * CREATE TABLE lanchonete(
+	 *  nome VARCHAR(100) NOT NULL,
+	 * tipo VARCHAR(100) NOT NULL,  
+	 * -- cartao VARCHAR(100) NOT NULL,
+	 * dt DATE NOT NULL,
+	 * hora DATE NOT NULL,
+	 * valor DECIMAL(7,2) NOT NULL
+	 * );
 	 */
+	
 	public void adicionarLanchonete(Lanchonete lanchonete) throws SQLException {
 		String sql = "INSERT INTO lanchonete VALUES (?,?,?,?,?)";
 		PreparedStatement ps = con.prepareStatement(sql);

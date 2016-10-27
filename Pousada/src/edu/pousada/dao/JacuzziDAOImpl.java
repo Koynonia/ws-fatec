@@ -1,5 +1,5 @@
 /**
- * @author Guilherme Jatobá
+ * @author GUILHERME JATOBÁ
  * Matéria Engenharia de Software 2
  * FATEC ZL 5º ADS - Tarde
  * 24/10/2016
@@ -15,17 +15,22 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.pousada.entity.Internet;
 import edu.pousada.entity.Jacuzzi;
 
 public class JacuzziDAOImpl implements JacuzziDAO {
 
 	private Connection con = DBUtil.getInstance().getConnection();
 
-	/*
-	 * qtd INT NOT NULL, -- cartao VARCHAR(100) NOT NULL, dt DATE NOT NULL, hora
-	 * DATE NOT NULL, valor FLOAT NOT NULL );
+	/**
+	 * 	CREATE TABLE jacuzzi(
+	 * qtd INT NOT NULL,
+	 * -- cartao VARCHAR(100) NOT NULL,
+	 * dt DATE NOT NULL,
+	 * hora DATE NOT NULL,
+	 * valor DECIMAL(7,2) NOT NULL
+	 * );
 	 */
+	
 	public void adicionaJacuzzi(Jacuzzi jacuzzi) throws SQLException {
 		String sql = "INSERT INTO jacuzzi VALUES (?,?,?,?)";
 		PreparedStatement ps = con.prepareStatement(sql);

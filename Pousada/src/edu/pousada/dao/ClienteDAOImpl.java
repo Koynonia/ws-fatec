@@ -1,10 +1,9 @@
 /**
- * @author Guilherme Jatobá
+ * @author GUILHERME JATOBÁ
  * Matéria Engenharia de Software 2
  * FATEC ZL 5º ADS - Tarde
  * 24/10/2016
  */
-
 package edu.pousada.dao;
 
 import java.sql.Connection;
@@ -20,21 +19,22 @@ import edu.pousada.entity.Cliente;
 public class ClienteDAOImpl implements ClienteDAO {
 
 	/**
-	 * nome VARCHAR(100) NOT NULL, 
-	 * email VARCHAR(30) UNIQUE NOT NULL, 
-	 * documento VARCHAR(15) PRIMARY KEY, 
-	 * docTipo VARCHAR(15), 
-	 * dtNasc DATE NOT NULL,
-	 * telefone VARCHAR(11) UNIQUE, 
+	 * CREATE TABLE cliente(
+	 * nome VARCHAR(100) NOT NULL,
+	 * email VARCHAR(30) UNIQUE NOT NULL,
+	 * documento VARCHAR(15) PRIMARY KEY,
+	 * docTipo VARCHAR(15),
+	 * dtNasc DATE,
+	 * telefone VARCHAR(11) UNIQUE,
 	 * celular VARCHAR(12) UNIQUE NOT NULL,
-	 * endereco VARCHAR(200) NOT NULL, 
-	 * bairro VARCHAR(30) NOT NULL, 
-	 * cidade VARCHAR(30) NOT NULL, 
-	 * estado VARCHAR(15) NOT NULL, 
-	 * pais VARCHAR(10) NOT NULL, 
-	 * cep VARCHAR(8) NOT NULL, 
-	 * dtCadastro DATE NOT NULL, 
-	 * ativo BOOLEAN NOT NULL 
+	 * endereco VARCHAR(200),
+	 * bairro VARCHAR(30),
+	 * cidade VARCHAR(30) NOT NULL,
+	 * estado VARCHAR(15) NOT NULL,
+	 * pais VARCHAR(10) NOT NULL,
+	 * cep VARCHAR(8),
+	 * dtCadastro DATE NOT NULL,
+	 * ativo BOOLEAN NOT NULL
 	 * );
 	 */
 	
