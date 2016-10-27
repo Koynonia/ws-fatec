@@ -48,7 +48,6 @@ public class PrincipalFrm extends JFrame {
 	private JLabel lblLazerImg;
 	private JLabel lblServicoImg;
 	private JLabel lblReservaImg;
-	private JLabel lblContatoImg;
 	private JTextField txtLogin;
 	private JTextField txtPwd;
 	private JTextField txtPesquisa;
@@ -433,7 +432,7 @@ public class PrincipalFrm extends JFrame {
 			txtReservaQtdCrianca.setToolTipText("Digite a quantidade de Crianças");
 			painelReserva.add(txtReservaQtdCrianca);
 			
-			btnReservaEnviar = new JButton("Fazer Reserva");
+			btnReservaEnviar = new JButton("Reservar");
 			btnReservaEnviar.setBounds(246, 485, 110, 29);
 			painelReserva.add(btnReservaEnviar);
 			
@@ -557,7 +556,7 @@ public class PrincipalFrm extends JFrame {
 			lblContatoLocal.setBounds(505, 217, 150, 16);
 			painelContato.add(lblContatoLocal);
 			
-			lblContatoImg = new JLabel();
+			JLabel lblContatoImg = new JLabel();
 			lblContatoImg.setName( "lblContatoImg" );
 			lblContatoImg.setToolTipText("Localização da pousada");
 			lblContatoImg.setHorizontalAlignment(SwingConstants.CENTER);
@@ -730,9 +729,26 @@ public class PrincipalFrm extends JFrame {
 				lblLazerImg,
 				lblServicoImg,
 				lblReservaImg,
-				lblContatoImg,
 				lblVersao,
 				txtPesquisa,
+				txtReservaQtdAdulto, 
+				txtReservaQtdCrianca, 
+				txtReservaNome, 
+				txtReservaDocNum, 
+				txtReservaEmail, 
+				txtReservaTelefone, 
+				txtReservaCelular, 
+				txtReservaCidade, 
+				txtReservaEstado, 
+				txtReservaPais, 
+				txtContatoNome, 
+				txtContatoEmail, 
+				txtContatoTelefone, 
+				txtContatoCidade, 
+				txtContatoEstado, 
+				txtContatoPais, 
+				ftxtReservaDtInicio, 
+				ftxtReservaDtFim, 
 				txtaPrincipalInfo,
 				txtaPrincipalDetalhe,
 				txtaChaleInfo,

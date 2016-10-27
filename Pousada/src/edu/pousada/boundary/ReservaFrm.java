@@ -35,12 +35,12 @@ public class ReservaFrm extends JFrame {
 	private JPanel painel;
 	private JScrollPane spCompras;
 	private JSeparator linha;
-	private JButton btnAlterar;
-	private JButton btnConcluir;
-	private JButton btnVoltar;
-	private JButton btnLimpar;
+	public JButton btnAlterar;
+	public JButton btnRetirar;
+	public JButton btnLimpar;
+	public JButton btnConcluir;
+	public JButton btnVoltar;
 	private DecimalFormat maskValor;
-	private JButton btnRetirar;
 	public JTable tabCompra; //Campos compartilhados com o FrmLista
 	public JFormattedTextField ftxtQtd;
 	public JFormattedTextField ftxtVlrTotal;

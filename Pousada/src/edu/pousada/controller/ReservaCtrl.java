@@ -35,7 +35,6 @@ import edu.pousada.dao.ClienteDAO;
 import edu.pousada.dao.ClienteDAOImpl;
 import edu.pousada.dao.ReservaDAO;
 import edu.pousada.dao.ReservaDAOImpl;
-import edu.pousada.entity.Chale;
 import edu.pousada.entity.Cliente;
 import edu.pousada.entity.Reserva;
 
@@ -56,7 +55,6 @@ public class ReservaCtrl {
 	private boolean validar;
 	private int quantidade = 1;
 	private List<Reserva>reservas;
-	private List<Cliente>clientes;
 
 	public ReservaCtrl(
 			ReservaFrm form, 
@@ -80,7 +78,6 @@ public class ReservaCtrl {
 		this.btnConcluir = btnConcluir;
 		this.btnVoltar = btnVoltar;
 		this.reservas = new ArrayList<Reserva>();
-		this.clientes = new ArrayList<Cliente>();
 
 		formataTabela();
 	}
@@ -102,7 +99,7 @@ public class ReservaCtrl {
 		int qtd = 0;
 		for( int i = 0; i < reservas.size(); i++ ){
 			total = total + ( reservas.get(i).getQuantidade() 
-					* reservas.get(i).getVlrDiaria() );	
+					* reservas.get(i).getChale().getDiaria() );	
 			qtd = qtd + ( reservas.get(i).getQuantidade() );
 		}
 		ftxtQtd.setValue( Integer.toString ( qtd ) );
@@ -156,101 +153,34 @@ public class ReservaCtrl {
 		}
 	}
 	
-	public void atualizaReservaDAO( List<Reserva> lista ){
+	public void atualizaReservaDAO( List<Reserva> item ){
 		
 		ReservaDAO dao = new ReservaDAOImpl();
-		for( Reserva reservas : lista ){
+		for( Reserva rs : item ){
 			
-			reservas.setNumero( lista.get(0).getNumero() );
-			reservas.setCliente( lista.get(1).getCliente() );
-			reservas.setChale( lista.get(2).getChale() );
-			reservas.setQtdAdulto( lista.get(3).getQtdAdulto() );
-			reservas.setQtdCrianca( lista.get(4).getQtdCrianca() );
-			reservas.setQuantidade( lista.get(5).getQuantidade() );
-			reservas.setDtInicio( lista.get(6).getDtInicio() );
-			reservas.setDtFim( lista.get(7).getDtFim() );
-			reservas.setVlrDiaria( lista.get(8).getVlrDiaria() );
-			reservas.setDesconto( lista.get(9).getDesconto() );
-			reservas.setEstado( lista.get(10).getEstado() );
-			reservas.setDtCadastro( lista.get(11).getDtCadastro() );
+			rs.setNumero( item.get(0).getNumero() );
+			rs.setCliente( item.get(0).getCliente() );
+			rs.setChale( item.get(0).getChale() );
+			rs.setQtdAdulto( item.get(0).getQtdAdulto() );
+			rs.setQtdCrianca( item.get(0).getQtdCrianca() );
+			rs.setQuantidade( item.get(0).getQuantidade() );
+			rs.setDtInicio( item.get(0).getDtInicio() );
+			rs.setDtFim( item.get(0).getDtFim() );
+			rs.setDesconto( item.get(0).getDesconto() );
+			rs.setEstado( item.get(0).getEstado() );
+			rs.setDtCadastro( item.get(0).getDtCadastro() );
 			try {
-				dao.adicionaReserva(reservas);
+				dao.adicionaReserva( rs );
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
 	}
 	
-	public void carregaClienteDAO(){
-
-		ClienteDAO dao = new ClienteDAOImpl();
-		try {
-			clientes = dao.listaCliente();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void atualizaClienteDAO( List<Cliente> lista ){
-
-		ClienteDAO dao = new ClienteDAOImpl();
-		for( Cliente clientes : lista ){
-			clientes.setNome( lista.get(0).getNome() );
-			clientes.setEmail( lista.get(1).getEmail() );
-			clientes.setDocumento( lista.get(2).getDocumento() );
-			clientes.setDocTipo( lista.get(3).getDocTipo() );
-			clientes.setDtNasc( lista.get(4).getDtNasc() );
-			clientes.setTelefone( lista.get(5).getTelefone() );
-			clientes.setCelular( lista.get(6).getCelular() );
-			clientes.setEndereco( lista.get(7).getEndereco() );
-			clientes.setBairro( lista.get(8).getBairro() );
-			clientes.setCidade( lista.get(9).getCidade() );
-			clientes.setEstado( lista.get(10).getEstado() );
-			clientes.setPais( lista.get(11).getPais() );
-			clientes.setCep( lista.get(12).getCep() );
-			clientes.setDtCadastro( lista.get(13).getDtCadastro() );
-			try {
-				dao.adicionarCliente( clientes );
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-	}
 	
 	// CRUD ///////////////////////////////////
-	
-	public void adicionaCliente( Cliente cliente ) {
-		
-		Cliente item = new Cliente();
-		
-		if ( !clientes.isEmpty() ){
-			for ( int i = 0; i < clientes.size(); i++ ){
-				//Verifica se o Cliente não está cadastrado
-				if ( !clientes.get(i).getDocumento().equals( cliente.getDocumento() )){
-					for ( int c = 0; c < reservas.size(); c++ ){
-						item.setNome( cliente.getNome() );
-						item.setEmail( cliente.getEmail() );
-						item.setDocumento( cliente.getDocumento() );
-						item.setDocTipo( cliente.getDocTipo() );
-						item.setDtNasc( cliente.getDtNasc() );
-						item.setTelefone( cliente.getTelefone() );
-						item.setCelular( cliente.getCelular() );
-						item.setEndereco( cliente.getEndereco() );
-						item.setBairro( cliente.getBairro() );
-						item.setCidade( cliente.getCidade() );
-						item.setEstado( cliente.getEstado() );
-						item.setPais( cliente.getPais() );
-						item.setCep( cliente.getCep() );
-						item.setDtCadastro( cliente.getDtCadastro() );
-						clientes.set( c, item );
-					}
-				}
-			}
-		}
-		atualizaClienteDAO( clientes );
-	}
 
-	public void adicionaChale( Chale chale ) {
+	public void adicionaChale( Reserva r ) {
 		
 		Reserva item = new Reserva();
 		DecimalFormat formato = new DecimalFormat("#,##0.00");
@@ -259,15 +189,22 @@ public class ReservaCtrl {
 			for ( int i = 0; i < reservas.size(); i++ ){
 				imagem = reservas.get(i).getChale().getCategoria();
 				//Verifica se o Chalé já foi adicionada à Reserva
-				if ( reservas.get(i).getChale().getCategoria().equals( chale.getCategoria() )){
+				if ( reservas.get(i).getChale().getNumero().equals( r.getChale().getNumero() )){
 					msg( "adicionar", reservas.get(i).getChale().getCategoria() );
 					//Se o chalé já estiver na Reserva, soma + 1 à quantidade
 					if ( validar != false){
 						for ( int q = 0; q < reservas.size(); q++ ){
-							if ( reservas.get(i).getChale().getCategoria().equals( chale.getCategoria() )){
-								item.setChale( chale );
+							if ( reservas.get(i).getChale().getNumero().equals( r.getChale().getNumero() )){
+								item.setNumero( r.getNumero() );
+								item.setCliente( r.getCliente() );
+								item.setChale( r.getChale() );
+								item.setQtdAdulto( r.getQtdAdulto() );
+								item.setQtdCrianca( r.getQtdCrianca() );
 								item.setQuantidade( reservas.get(q).getQuantidade() + 1 );
+								item.setDtInicio( r.getDtInicio() );
+								item.setDtFim( r.getDtFim() );
 								item.setDesconto( 0 );
+								item.setEstado( r.getEstado() );
 								item.setDtCadastro( new Date() );
 								reservas.set( q, item );
 							}
@@ -279,28 +216,42 @@ public class ReservaCtrl {
 			}
 			if ( validar == false) {
 				//Adiciona o chalé se não estiver na Reserva
-				imagem = chale.getCategoria();
+				imagem = r.getChale().getCategoria();
 				msg( "adicionarQtd", "Reserva do chalé: " 
-						+ chale.getCategoria() 
-						+ "\n\nValor da Diária: R$ " + formato.format( chale.getDiaria() ));
+						+ r.getChale().getCategoria() 
+						+ "\n\nValor da Diária: R$ " + formato.format( r.getChale().getDiaria() ));
 				if ( validar != false ){
-					item.setChale( chale );
-					item.setQuantidade( quantidade );
+					item.setNumero( r.getNumero() );
+					item.setCliente( r.getCliente() );
+					item.setChale( r.getChale() );
+					item.setQtdAdulto( r.getQtdAdulto() );
+					item.setQtdCrianca( r.getQtdCrianca() );
+					item.setQuantidade( 1 );
+					item.setDtInicio( r.getDtInicio() );
+					item.setDtFim( r.getDtFim() );
 					item.setDesconto( 0 );
+					item.setEstado( r.getEstado() );
 					item.setDtCadastro( new Date() );
 					reservas.add( item );
 				}
 			}
 		} else {
 			//Adiciona à Reserva se já houver chalés adicionados na Reserva
-			imagem = chale.getCategoria();
+			imagem = r.getChale().getCategoria();
 			msg( "adicionarQtd", "Reserva do chalé: " 
-					+ chale.getCategoria() 
-					+ "\n\nValor da Diária: R$ " + formato.format( chale.getDiaria() ));
+					+ r.getChale().getCategoria() 
+					+ "\n\nValor da Diária: R$ " + formato.format( r.getChale().getDiaria() ));
 			if ( validar != false ){
-				item.setChale( chale );
-				item.setQuantidade( quantidade );
+				item.setNumero( r.getNumero() );
+				item.setCliente( r.getCliente() );
+				item.setChale( r.getChale() );
+				item.setQtdAdulto( r.getQtdAdulto() );
+				item.setQtdCrianca( r.getQtdCrianca() );
+				item.setQuantidade( 1 );
+				item.setDtInicio( r.getDtInicio() );
+				item.setDtFim( r.getDtFim() );
 				item.setDesconto( 0 );
+				item.setEstado( r.getEstado() );
 				item.setDtCadastro( new Date() );
 				reservas.add( item );
 			}
@@ -327,9 +278,9 @@ public class ReservaCtrl {
 						sdf.format( reservas.get(i).getDtFim() ),
 						reservas.get(i).getChale().getCategoria(), 
 						Integer.toString( reservas.get(i).getQuantidade() ),  
-						formato.format( reservas.get(i).getVlrDiaria() ),
+						formato.format( reservas.get(i).getChale().getDiaria() ),
 						formato.format( reservas.get(i).getQuantidade() 
-								* reservas.get(i).getVlrDiaria() ),
+								* reservas.get(i).getChale().getDiaria() ),
 				};
 				linhas.add(item);
 			}

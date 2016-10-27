@@ -47,22 +47,24 @@ INSERT INTO `chale` (`numero`, `categoria`, `diaria`) VALUES
 -- Estrutura da tabela `cliente`
 --
 
-CREATE TABLE `cliente` (
-  `nome` varchar(100) NOT NULL,
-  `email` varchar(30) NOT NULL,
-  `documento` varchar(15) NOT NULL,
-  `docTipo` varchar(15) DEFAULT NULL,
-  `dtNasc` date NOT NULL,
-  `telefone` varchar(11) DEFAULT NULL,
-  `celular` varchar(12) NOT NULL,
-  `endereco` varchar(200) NOT NULL,
-  `bairro` varchar(30) NOT NULL,
-  `cidade` varchar(30) NOT NULL,
-  `estado` varchar(15) NOT NULL,
-  `pais` varchar(10) NOT NULL,
-  `cep` varchar(8) NOT NULL,
-  `dtCadastro` date NOT NULL,
-  `ativo` tinyint(1) NOT NULL
+CREATE TABLE cliente(
+ nome VARCHAR(100) NOT NULL,
+ email VARCHAR(30) UNIQUE NOT NULL,
+ documento VARCHAR(15) PRIMARY KEY,
+ docTipo VARCHAR(15),
+ dtNasc DATE,
+ telefone VARCHAR(11) UNIQUE,
+ celular VARCHAR(12) UNIQUE NOT NULL,
+ endereco VARCHAR(200),
+ bairro VARCHAR(30),
+ cidade VARCHAR(30) NOT NULL,
+ estado VARCHAR(15) NOT NULL,
+ pais VARCHAR(10) NOT NULL,
+ cep VARCHAR(8),
+ dtCadastro DATE NOT NULL,
+ ativo BOOLEAN NOT NULL
+);
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -191,7 +193,6 @@ CREATE TABLE reserva (
  quantidade INT NOT NULL,
  dtIncio DATE NOT NULL,
  dtFim DATE NOT NULL, 
- vlrDiaria DOUBLE NOT NULL,
  desconto INT NOT NULL,
  estado VARCHAR(20) NOT NULL,
  dtCadastro DATE NOT NULL

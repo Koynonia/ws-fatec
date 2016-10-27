@@ -21,15 +21,15 @@ CREATE TABLE cliente(
  email VARCHAR(30) UNIQUE NOT NULL,
  documento VARCHAR(15) PRIMARY KEY,
  docTipo VARCHAR(15),
- dtNasc DATE NOT NULL,
+ dtNasc DATE,
  telefone VARCHAR(11) UNIQUE,
  celular VARCHAR(12) UNIQUE NOT NULL,
- endereco VARCHAR(200) NOT NULL,
- bairro VARCHAR(30) NOT NULL,
+ endereco VARCHAR(200),
+ bairro VARCHAR(30),
  cidade VARCHAR(30) NOT NULL,
  estado VARCHAR(15) NOT NULL,
  pais VARCHAR(10) NOT NULL,
- cep VARCHAR(8) NOT NULL,
+ cep VARCHAR(8),
  dtCadastro DATE NOT NULL,
  ativo BOOLEAN NOT NULL
 );
@@ -72,7 +72,6 @@ CREATE TABLE reserva (
  quantidade INT NOT NULL,
  dtIncio DATE NOT NULL,
  dtFim DATE NOT NULL, 
- vlrDiaria DOUBLE NOT NULL,
  desconto INT NOT NULL,
  estado VARCHAR(20) NOT NULL,
  dtCadastro DATE NOT NULL

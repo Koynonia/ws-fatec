@@ -18,6 +18,6 @@ public interface ClienteDAO {
 	public void alterarCliente(Cliente cliente) throws SQLException;
 	public void excluiCliente(Cliente cliente) throws SQLException;
 	public Cliente consultaCliente(Cliente cliente) throws SQLException;
-	public List<Cliente> listaCliente() throws SQLException;
+	public List<Cliente> todosClientes() throws SQLException;
 	
 }

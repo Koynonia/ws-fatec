@@ -7,6 +7,7 @@
 
 package edu.pousada.controller;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -17,9 +18,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.Timer;
@@ -41,9 +45,12 @@ import edu.pousada.boundary.PrincipalFrm;
 import edu.pousada.boundary.ReservaFrm;
 import edu.pousada.dao.ChaleDAO;
 import edu.pousada.dao.ChaleDAOImpl;
+import edu.pousada.dao.ClienteDAO;
+import edu.pousada.dao.ClienteDAOImpl;
 import edu.pousada.dao.PrincipalDAO;
 import edu.pousada.dao.PrincipalDAOImpl;
 import edu.pousada.entity.Chale;
+import edu.pousada.entity.Cliente;
 import edu.pousada.entity.Principal;
 import edu.pousada.entity.Reserva;
 
@@ -58,9 +65,26 @@ public class PrincipalCtrl {
 	private JLabel lblLazerImg;
 	private JLabel lblServicoImg;
 	private JLabel lblReservaImg;
-	private JLabel lblContatoImg;
 	private JLabel lblVersao;
-	private JTextField txtPesquisa; 
+	private JTextField txtPesquisa;
+	private JTextField txtReservaQtdAdulto; 
+	private JTextField txtReservaQtdCrianca; 
+	private JTextField txtReservaNome; 
+	private JTextField txtReservaDocNum; 
+	private JTextField txtReservaEmail; 
+	private JTextField txtReservaTelefone; 
+	private JTextField txtReservaCelular; 
+	private JTextField txtReservaCidade; 
+	private JTextField txtReservaEstado; 
+	private JTextField txtReservaPais; 
+	private JTextField txtContatoNome; 
+	private JTextField txtContatoEmail; 
+	private JTextField txtContatoTelefone; 
+	private JTextField txtContatoCidade; 
+	private JTextField txtContatoEstado; 
+	private JTextField txtContatoPais; 
+	private JFormattedTextField ftxtReservaDtInicio; 
+	private JFormattedTextField ftxtReservaDtFim;
 	private JTextArea txtaPrincipalInfo; 
 	private JTextArea txtaPrincipalDetalhe; 
 	private JTextArea txtaChaleInfo; 
@@ -90,6 +114,7 @@ public class PrincipalCtrl {
 	private boolean validar;
 	private List<Principal> infos;
 	private List<Chale> chales;
+	private List<Cliente> clientes;
 
 	public PrincipalCtrl(
 			PrincipalFrm form, 
@@ -100,10 +125,27 @@ public class PrincipalCtrl {
 			JLabel lblChaleImg, 
 			JLabel lblLazerImg, 
 			JLabel lblServicoImg, 
-			JLabel lblReservaImg,
-			JLabel lblContatoImg,  
+			JLabel lblReservaImg, 
 			JLabel lblVersao, 
 			JTextField txtPesquisa, 
+			JTextField txtReservaQtdAdulto, 
+			JTextField txtReservaQtdCrianca, 
+			JTextField txtReservaNome, 
+			JTextField txtReservaDocNum, 
+			JTextField txtReservaEmail, 
+			JTextField txtReservaTelefone, 
+			JTextField txtReservaCelular, 
+			JTextField txtReservaCidade, 
+			JTextField txtReservaEstado, 
+			JTextField txtReservaPais, 
+			JTextField txtContatoNome, 
+			JTextField txtContatoEmail, 
+			JTextField txtContatoTelefone, 
+			JTextField txtContatoCidade, 
+			JTextField txtContatoEstado, 
+			JTextField txtContatoPais, 
+			JFormattedTextField ftxtReservaDtInicio, 
+			JFormattedTextField ftxtReservaDtFim, 
 			JTextArea txtaPrincipalInfo, 
 			JTextArea txtaPrincipal, 
 			JTextArea txtaChaleInfo, 
@@ -138,9 +180,26 @@ public class PrincipalCtrl {
 		this.lblLazerImg = lblLazerImg;
 		this.lblServicoImg = lblServicoImg;
 		this.lblReservaImg = lblReservaImg;
-		this.lblContatoImg = lblContatoImg;
 		this.lblVersao = lblVersao;
 		this.txtPesquisa = txtPesquisa;
+		this.txtReservaQtdAdulto = txtReservaQtdAdulto; 
+		this.txtReservaQtdCrianca = txtReservaQtdCrianca; 
+		this.txtReservaNome = txtReservaNome; 
+		this.txtReservaDocNum = txtReservaDocNum; 
+		this.txtReservaEmail = txtReservaEmail; 
+		this.txtReservaTelefone = txtReservaTelefone; 
+		this.txtReservaCelular = txtReservaCelular; 
+		this.txtReservaCidade = txtReservaCidade; 
+		this.txtReservaEstado = txtReservaEstado; 
+		this.txtReservaPais = txtReservaPais; 
+		this.txtContatoNome = txtContatoNome; 
+		this.txtContatoEmail = txtContatoEmail; 
+		this.txtContatoTelefone = txtContatoTelefone; 
+		this.txtContatoCidade = txtContatoCidade; 
+		this.txtContatoEstado = txtContatoEstado; 
+		this.txtContatoPais = txtContatoPais; 
+		this.ftxtReservaDtInicio = ftxtReservaDtInicio; 
+		this.ftxtReservaDtFim = ftxtReservaDtFim;
 		this.txtaPrincipalInfo = txtaPrincipalInfo; 
 		this.txtaPrincipalDetalhe = txtaPrincipal; 
 		this.txtaChaleInfo = txtaChaleInfo; 
@@ -166,9 +225,11 @@ public class PrincipalCtrl {
 		this.btnContatoLimpar = btnContatoLimpar;
 		this.infos = new ArrayList<Principal>();
 		this.chales = new ArrayList<Chale>();
+		this.clientes = new ArrayList<Cliente>();
 
 		carregaPrincipalDAO();
 		carregaChaleDAO();
+		carregaClienteDAO();
 		preecheInfo();
 		preencheCategoria();
 		preencheTipoDoc();
@@ -177,14 +238,15 @@ public class PrincipalCtrl {
 		temporizador();
 		versao();
 	}
-	
+
+
 	public void versao(){
-		
-	lblVersao.setText( "versão: " + infos.get(0).getVersao() );	
+
+		lblVersao.setText( "versão: " + infos.get(0).getVersao() );	
 	}
-	
-	
-	public void limpaCampos(){
+
+
+	public void limpaCampo(){
 
 		Integer guiaAtiva = tabContainer.getSelectedIndex();
 		Component[] painelAtivo = null;
@@ -223,6 +285,70 @@ public class PrincipalCtrl {
 	}
 
 
+	public void validaCampo(){
+
+		boolean vazio = false;
+		Integer guiaAtiva = tabContainer.getSelectedIndex();
+		Component[] painelAtivo = null;
+
+		switch ( guiaAtiva){
+		case 4:
+			painelAtivo = painelReserva.getComponents();
+			break;
+
+		case 5:
+			painelAtivo = painelContato.getComponents();
+			break;
+		}
+
+		for ( Component c : painelAtivo ) {
+
+			if ( c instanceof JTextField ) {
+				JTextField l = ( JTextField )c;
+				if ( l.getText().isEmpty() && l.isVisible() ){
+					if ( l.getName() != "pesquisa" ){
+						vazio = true;
+						l.setBackground(new Color(255,240,245));
+					}
+				} else {
+					l.setBackground(new Color(255,255,255));
+				}
+			}
+			if ( c instanceof JFormattedTextField ) {
+				JFormattedTextField  l = ( JFormattedTextField )c;
+				if ( l.getText().isEmpty() ){
+					vazio = true;
+					l.setBackground(new Color(255,240,245));
+				} else {
+					l.setBackground(new Color(255,255,255));
+				}
+			}
+			if (c instanceof JComboBox ) {
+				@SuppressWarnings("unchecked")
+				JComboBox<String> l = ( JComboBox<String> )c;
+				if ( l.getSelectedIndex() > 0){
+				}
+			}
+			if ( c instanceof JTextArea ) {
+				JTextArea  l = ( JTextArea )c;
+				if ( l.getText().isEmpty() ){
+					vazio = true;
+					l.setBackground(new Color(255,240,245));
+				} else {
+					l.setBackground(new Color(255,255,255));
+				}
+			}
+		}
+		if ( vazio == true ){
+			msg( "erroVazio", "" );
+			validar = false;
+			return;
+		} else {
+			validar = true;
+		}
+	}
+
+
 	public void temporizador(){
 
 		Timer timer = new Timer();
@@ -238,10 +364,10 @@ public class PrincipalCtrl {
 	public void imagensRandom(){
 
 		Integer guiaAtiva = tabContainer.getSelectedIndex();
-		
+
 		Random gerador = new Random(); 
-        int numero = gerador.nextInt(4);
-        
+		int numero = gerador.nextInt(4);
+
 		switch ( guiaAtiva){
 		case 0:
 			imagem = new ImageIcon( diretorio + "/imagens/externa" + numero + ".jpg" );
@@ -281,9 +407,8 @@ public class PrincipalCtrl {
 
 	public void imagensCombo(){
 
-
 		imagem = new ImageIcon( diretorio + "/imagens/chale" 
-		+ cboReservaCategoria.getSelectedIndex() + ".jpg" );
+				+ cboReservaCategoria.getSelectedIndex() + ".jpg" );
 		lblReservaImg.setIcon( new ImageIcon( 
 				imagem.getImage().getScaledInstance( 
 						lblReservaImg.getWidth(), 
@@ -291,28 +416,106 @@ public class PrincipalCtrl {
 						Image.SCALE_DEFAULT )));
 	}
 
-	public void adicionaReserva ( Chale chale ){
 
-		if( chales.size() > 0 ){
+	public void adicionaReserva () throws ParseException{
 
-			ReservaFrm reserva;
+		validaCampo();
 
-			try {
-				reserva = new ReservaFrm();
-				ReservaCtrl ctrl = new ReservaCtrl(
-						reserva, 
-						reserva.tabCompra, 
-						reserva.ftxtQtd, 
-						reserva.ftxtVlrTotal, 
-						btnContatoEnviar, 
-						btnContatoEnviar, 
-						btnContatoEnviar, 
-						btnContatoEnviar, 
-						btnContatoEnviar);
-				ctrl.adicionaChale ( chale );
-			} catch (ParseException e) {
-				e.printStackTrace();
+		if( validar != false  ){
+			Chale ch = new Chale();
+
+			for( int i = 0; i < chales.size(); i++ ){
+				if( chales.get(i).getCategoria().equals( (String) cboReservaCategoria.getSelectedItem() )){
+					ch.setNumero( chales.get(i).getNumero() );
+					ch.setCategoria( chales.get(i).getCategoria() );
+					ch.setDiaria( chales.get(i).getDiaria() );
+					ch.setFrigobar( chales.get(i).getFrigobar() );
+				}
 			}
+
+			Cliente cl = new Cliente();
+
+			if( clientes.isEmpty() ){
+				cl.setNome( txtReservaNome.getText() );
+				cl.setEmail( txtReservaEmail.getText() );
+				cl.setDocumento( txtReservaDocNum.getText() );
+				cl.setDocTipo( cboReservaDocTipo.getSelectedItem().toString() );
+				cl.setDtNasc( null );
+				cl.setTelefone( txtReservaTelefone.getText() );
+				cl.setCelular( txtReservaCelular.getText() );
+				cl.setEndereco( null );
+				cl.setBairro( null );
+				cl.setCidade( txtReservaCidade.getText() );
+				cl.setEstado( txtReservaEstado.getText() );
+				cl.setPais( txtReservaPais.getText() );
+				cl.setCep( null );
+				cl.setDtCadastro( new Date() );
+				cl.setAtivo( false );
+			} else {
+				for( int i = 0; i < clientes.size(); i++ ){
+					if( !clientes.get(i).getDocumento().equals( txtReservaDocNum.getText() )){
+						cl.setNome( txtReservaNome.getText() );
+						cl.setEmail( txtReservaEmail.getText() );
+						cl.setDocumento( txtReservaDocNum.getText() );
+						cl.setDocTipo( cboReservaDocTipo.getSelectedItem().toString() );
+						cl.setDtNasc( null );
+						cl.setTelefone( txtReservaTelefone.getText() );
+						cl.setCelular( txtReservaCelular.getText() );
+						cl.setEndereco( null );
+						cl.setBairro( null );
+						cl.setCidade( txtReservaCidade.getText() );
+						cl.setEstado( txtReservaEstado.getText() );
+						cl.setPais( txtReservaPais.getText() );
+						cl.setCep( null );
+						cl.setDtCadastro( new Date() );
+						cl.setAtivo( false );
+					} else {
+						cl.setNome( clientes.get(i).getNome() );
+						cl.setEmail( clientes.get(i).getEmail() );
+						cl.setDocumento( clientes.get(i).getDocumento() );
+						cl.setDocTipo( clientes.get(i).getDocTipo() );
+						cl.setDtNasc( clientes.get(i).getDtNasc() );
+						cl.setTelefone( clientes.get(i).getTelefone() );
+						cl.setCelular( clientes.get(i).getCelular() );
+						cl.setEndereco( clientes.get(i).getEndereco() );
+						cl.setBairro( clientes.get(i).getBairro() );
+						cl.setCidade( clientes.get(i).getCidade() );
+						cl.setEstado( clientes.get(i).getEstado() );
+						cl.setPais( clientes.get(i).getPais() );
+						cl.setCep( clientes.get(i).getCep() );
+						cl.setDtCadastro( clientes.get(i).getDtCadastro() );
+						cl.setAtivo( clientes.get(i).getAtivo() );
+					}
+				}
+			}
+
+			Reserva rs = new Reserva();
+			DateFormat sdf = new SimpleDateFormat("ddMMyyyy");
+			rs.setNumero( 0 );
+			rs.setCliente( cl );
+			rs.setChale( ch );
+			rs.setQtdAdulto( Integer.parseInt( txtReservaQtdAdulto.getText() ));
+			rs.setQtdCrianca( Integer.parseInt(txtReservaQtdCrianca.getText() ));
+			rs.setDtInicio( sdf.parse( ftxtReservaDtInicio.getText().replace("/","") ));
+			rs.setDtFim( sdf.parse( ftxtReservaDtFim.getText().replace("/","") ));
+			rs.setDesconto( 0 );
+			rs.setEstado( "reservado" );
+			rs.setDtCadastro( new Date() );
+			
+			ReservaFrm frm = new ReservaFrm();
+			ReservaCtrl ctrl = new ReservaCtrl(
+					frm, 
+					frm.tabCompra, 
+					frm.ftxtQtd, 
+					frm.ftxtVlrTotal, 
+					frm.btnAlterar,
+					frm.btnRetirar,
+					frm.btnLimpar,
+					frm.btnConcluir,
+					frm.btnVoltar
+					);
+			ctrl.adicionaChale ( rs );
+			abrir( "reservas" );
 		}
 	}
 
@@ -328,12 +531,22 @@ public class PrincipalCtrl {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void carregaChaleDAO(){
 
 		ChaleDAO dao = new ChaleDAOImpl();
 		try {
 			chales = dao.todosChales();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void carregaClienteDAO(){
+
+		ClienteDAO dao = new ClienteDAOImpl();
+		try {
+			clientes = dao.todosClientes();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -432,31 +645,6 @@ public class PrincipalCtrl {
 				e.printStackTrace();
 			}
 			break;
-
-		case "construir":
-			JOptionPane.showMessageDialog(null, 
-					"Em construção!\nEsta função ainda não foi implementada.", 
-					"Sem implementação", 
-					JOptionPane.PLAIN_MESSAGE,
-					new ImageIcon( diretorio + "/icons/builder.png" ));
-			break;
-
-		case "sair":
-			Object[] exit = { "Confirmar", "Cancelar" };  
-			int fechar = JOptionPane.showOptionDialog( null, "ATENÇÃO!\n\nChamada para o fechamento" 
-					+ " do sistema!\n\nDeseja encerrar a aplicação?",
-					"Fechamento do Programa", 
-					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
-					new ImageIcon( diretorio + "/icons/warning.png" ), exit, exit[1] );
-			if ( fechar == 0 ) {
-				validar = true;
-			} else {
-				validar = false;
-			}
-			if(validar == true){
-				System.exit(0);
-			}
-			break;
 		}
 	}
 
@@ -470,31 +658,30 @@ public class PrincipalCtrl {
 			Object source = e.getSource();
 
 			if( source == btnLogin ){
-				abrir( "construir" );
+				msg( "construir", "" );
 			}
 			if( source == btnReservaEnviar ){
 				if ( cboReservaCategoria.getSelectedIndex() != 0 ){
-					abrir( "reservas" );
-					adicionaReserva ( chales.get( cboReservaCategoria.getSelectedIndex() ));
+					try {
+						adicionaReserva ();
+					} catch (ParseException e1) {
+						e1.printStackTrace();
+					}
 				}else {
-					JOptionPane.showMessageDialog(null, 
-							"Seleção inválida:\n" 
-									+ "\nPor favor, selecione uma categoria.", 
-									"Seleção Inválida", JOptionPane.PLAIN_MESSAGE,
-									new ImageIcon( diretorio + "/icons/error.png" ));
+					msg( "erroSelecao", "" );
 				}
 			}
 			if( source == btnContatoEnviar ){
-				abrir( "construir" );
+				msg( "construir", "" );
 			}
 			if( source == btnPesquisar ){
-				abrir( "construir" );
+				msg( "construir", "" );
 			}
 			if( source == btnReservaLimpar ){
-				limpaCampos();
+				limpaCampo();
 			}
 			if( source == btnContatoLimpar ){
-				limpaCampos();
+				limpaCampo();
 			}
 			if( source == cboReservaCategoria ){
 				imagensCombo();
@@ -531,7 +718,7 @@ public class PrincipalCtrl {
 							if(validar == false){
 							System.exit(0);
 							}*/
-				abrir( "sair" );
+				msg( "sair", "" );
 				break;
 			case KeyEvent.VK_DELETE:
 				//removeLinha();
@@ -576,4 +763,59 @@ public class PrincipalCtrl {
 			}
 		}
 	};
+
+
+	// MENSAGENS //////////////////////////////
+
+	public void msg( String tipo, String mensagem ) {
+
+		switch ( tipo ) {
+
+		case "erroVazio":
+			JOptionPane.showMessageDialog(null, 
+					"ATENÇÃO!\n\nCampo não preenchido."
+							+ "\nPor favor, digite o dado solicitado pelo campo.", 
+							"Erro", 
+							JOptionPane.PLAIN_MESSAGE,
+							new ImageIcon( diretorio + "/icons/warning.png" ));
+			break;
+
+		case "erroSelecao":
+			JOptionPane.showMessageDialog(null, 
+					"Seleção inválida:\n" 
+							+ "\nPor favor, selecione uma categoria.", 
+							"Seleção Inválida", JOptionPane.PLAIN_MESSAGE,
+							new ImageIcon( diretorio + "/icons/error.png" ));
+			break;
+
+		case "construir":
+			JOptionPane.showMessageDialog(null, 
+					"Em construção!\nEsta função ainda não foi implementada.", 
+					"Sem implementação", 
+					JOptionPane.PLAIN_MESSAGE,
+					new ImageIcon( diretorio + "/icons/builder.png" ));
+			break;
+
+		case "sistema":
+			Object[] exit = { "Confirmar", "Cancelar" };  
+			int fechar = JOptionPane.showOptionDialog( null, "ATENÇÃO!\n\nChamada para o " + mensagem 
+					+ " do sistema!\n\nDeseja encerrar a aplicação?",
+					"Fechamento do Programa!", 
+					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
+					new ImageIcon( diretorio + "/icons/warning.png" ), exit, exit[1] );
+			if ( fechar == 0 ) {
+				validar = true;
+			} else {
+				validar = false;
+			}
+			break;
+
+		default:
+			JOptionPane.showMessageDialog(null, 
+					mensagem, 
+					"Erro no Sistema", 
+					JOptionPane.PLAIN_MESSAGE,
+					new ImageIcon( diretorio + "/icons/error.png" ));
+		}
+	}
 }

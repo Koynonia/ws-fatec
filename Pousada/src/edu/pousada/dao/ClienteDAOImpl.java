@@ -138,7 +138,7 @@ public class ClienteDAOImpl implements ClienteDAO {
 		return cliente;
 	}
 
-	public List<Cliente> listaCliente() throws SQLException {
+	public List<Cliente> todosClientes() throws SQLException {
 		List<Cliente> listaCliente = new ArrayList<Cliente>();
 		String sql = "SELECT * FROM cliente";
 		PreparedStatement ps = con.prepareStatement(sql);
