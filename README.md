@@ -21,4 +21,4 @@ A **documentação** deste sistema também se encontra na pasta "Documentos" jun
 na Classe DBUtil (package edu.pousada.dao).
 - Os arquivos estão codificados em UTF-8. É necessário configurar o Eclipse.
 
-![Captura de tela 2016-10-24 17.37.37.png](https://bitbucket.org/repo/RGaybG/images/3052398979-Captura%20de%20tela%202016-10-24%2017.37.37.png)
+![Captura de tela 2016-10-25 12.13.05.png](https://bitbucket.org/repo/RGaybG/images/32987899-Captura%20de%20tela%202016-10-25%2012.13.05.png)
