@@ -16,7 +16,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.File;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -49,6 +48,8 @@ import edu.pousada.dao.ClienteDAO;
 import edu.pousada.dao.ClienteDAOImpl;
 import edu.pousada.dao.PrincipalDAO;
 import edu.pousada.dao.PrincipalDAOImpl;
+import edu.pousada.dao.ReservaDAO;
+import edu.pousada.dao.ReservaDAOImpl;
 import edu.pousada.entity.Chale;
 import edu.pousada.entity.Cliente;
 import edu.pousada.entity.Principal;
@@ -115,6 +116,7 @@ public class PrincipalCtrl {
 	private List<Principal> infos;
 	private List<Chale> chales;
 	private List<Cliente> clientes;
+	private List<Reserva> reservas;
 
 	public PrincipalCtrl(
 			PrincipalFrm form, 
@@ -226,10 +228,12 @@ public class PrincipalCtrl {
 		this.infos = new ArrayList<Principal>();
 		this.chales = new ArrayList<Chale>();
 		this.clientes = new ArrayList<Cliente>();
+		this.reservas = new ArrayList<Reserva>();
 
-		carregaPrincipalDAO();
-		carregaChaleDAO();
-		carregaClienteDAO();
+		cargaPrincipal();
+		cargaChale();
+		cargaCliente();
+		cargaReserva();
 		preecheInfo();
 		preencheCategoria();
 		preencheTipoDoc();
@@ -426,10 +430,12 @@ public class PrincipalCtrl {
 
 			for( int i = 0; i < chales.size(); i++ ){
 				if( chales.get(i).getCategoria().equals( (String) cboReservaCategoria.getSelectedItem() )){
+					if( chales.get(i).getNumero().equals( cboReservaCategoria.getSelectedItem() )){
 					ch.setNumero( chales.get(i).getNumero() );
 					ch.setCategoria( chales.get(i).getCategoria() );
 					ch.setDiaria( chales.get(i).getDiaria() );
 					ch.setFrigobar( chales.get(i).getFrigobar() );
+					}
 				}
 			}
 
@@ -491,7 +497,7 @@ public class PrincipalCtrl {
 
 			Reserva rs = new Reserva();
 			DateFormat sdf = new SimpleDateFormat("ddMMyyyy");
-			rs.setNumero( 0 );
+			rs.setNumero( 1 );
 			rs.setCliente( cl );
 			rs.setChale( ch );
 			rs.setQtdAdulto( Integer.parseInt( txtReservaQtdAdulto.getText() ));
@@ -499,7 +505,6 @@ public class PrincipalCtrl {
 			rs.setDtInicio( sdf.parse( ftxtReservaDtInicio.getText().replace("/","") ));
 			rs.setDtFim( sdf.parse( ftxtReservaDtFim.getText().replace("/","") ));
 			rs.setDesconto( 0 );
-			rs.setEstado( "reservado" );
 			rs.setDtCadastro( new Date() );
 			
 			ReservaFrm frm = new ReservaFrm();
@@ -522,7 +527,7 @@ public class PrincipalCtrl {
 
 	// DAO //////////////////////////////////////
 
-	public void carregaPrincipalDAO(){
+	public void cargaPrincipal(){
 
 		PrincipalDAO dao = new PrincipalDAOImpl();
 		try {
@@ -532,7 +537,7 @@ public class PrincipalCtrl {
 		}
 	}
 
-	public void carregaChaleDAO(){
+	public void cargaChale(){
 
 		ChaleDAO dao = new ChaleDAOImpl();
 		try {
@@ -542,7 +547,7 @@ public class PrincipalCtrl {
 		}
 	}
 
-	public void carregaClienteDAO(){
+	public void cargaCliente(){
 
 		ClienteDAO dao = new ClienteDAOImpl();
 		try {
@@ -551,6 +556,17 @@ public class PrincipalCtrl {
 			e.printStackTrace();
 		}
 	}
+	
+	public void cargaReserva(){
+
+		ReservaDAO dao = new ReservaDAOImpl();
+		try {
+			reservas = dao.todasReservas();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
 
 
 	// AREA DE TEXTO /////////////////////////////

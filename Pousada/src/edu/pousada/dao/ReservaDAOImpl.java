@@ -31,7 +31,6 @@ public class ReservaDAOImpl implements ReservaDAO{
 	 * dtIncio DATE NOT NULL,
 	 * dtFim DATE NOT NULL, 
 	 * desconto INT NOT NULL,
-	 * estado VARCHAR(20) NOT NULL,
 	 * dtCadastro DATE NOT NULL
 	 * );
 	 */
@@ -49,8 +48,7 @@ public class ReservaDAOImpl implements ReservaDAO{
 		ps.setDate(7, new java.sql.Date( reserva.getDtInicio().getTime() ));
 		ps.setDate(8, new java.sql.Date( reserva.getDtFim().getTime() ));
 		ps.setInt(9, reserva.getDesconto());
-		ps.setString(10, reserva.getEstado());
-		ps.setDate(11, new java.sql.Date( reserva.getDtCadastro().getTime() ));
+		ps.setDate(10, new java.sql.Date( reserva.getDtCadastro().getTime() ));
 		ps.execute();
 		ps.close();
 	}
@@ -71,8 +69,7 @@ public class ReservaDAOImpl implements ReservaDAO{
 		ps.setDate(7, new java.sql.Date( reserva.getDtInicio().getTime() ));
 		ps.setDate(8, new java.sql.Date( reserva.getDtFim().getTime() ));
 		ps.setInt(9, reserva.getDesconto());
-		ps.setString(10, reserva.getEstado());
-		ps.setDate(11, new java.sql.Date( reserva.getDtCadastro().getTime() ));
+		ps.setDate(10, new java.sql.Date( reserva.getDtCadastro().getTime() ));
 		ps.execute();
 		ps.close();
 	}
@@ -102,7 +99,6 @@ public class ReservaDAOImpl implements ReservaDAO{
 			reserva.setDtInicio(rs.getDate("dtInicio"));
 			reserva.setDtFim(rs.getDate("dtFim"));
 			reserva.setDesconto(rs.getInt("desconto"));
-			reserva.setEstado(rs.getString("estado"));
 			reserva.setDtCadastro(rs.getDate("dtCadastro"));
 		}
 		ps.close();
@@ -110,8 +106,7 @@ public class ReservaDAOImpl implements ReservaDAO{
 	}
 
 	@Override
-	public List<Reserva> listaReserva() throws SQLException {
-
+	public List<Reserva> todasReservas() throws SQLException {
 		String sql = "SELECT * FROM reserva";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();

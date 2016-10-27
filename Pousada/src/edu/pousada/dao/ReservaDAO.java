@@ -11,5 +11,5 @@ public interface ReservaDAO {
 	public void alteraReserva(Reserva Reserva) throws SQLException;
 	public void excluiReserva(Reserva Reserva) throws SQLException;
 	public Reserva consultaReserva(Reserva Reserva) throws SQLException;
-	public List<Reserva> listaReserva() throws SQLException;
+	public List<Reserva> todasReservas() throws SQLException;
 }

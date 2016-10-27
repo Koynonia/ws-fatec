@@ -147,7 +147,7 @@ public class ReservaCtrl {
 
 		ReservaDAO dao = new ReservaDAOImpl();
 		try {
-			reservas = dao.listaReserva();
+			reservas = dao.todasReservas();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -167,7 +167,6 @@ public class ReservaCtrl {
 			rs.setDtInicio( item.get(0).getDtInicio() );
 			rs.setDtFim( item.get(0).getDtFim() );
 			rs.setDesconto( item.get(0).getDesconto() );
-			rs.setEstado( item.get(0).getEstado() );
 			rs.setDtCadastro( item.get(0).getDtCadastro() );
 			try {
 				dao.adicionaReserva( rs );
@@ -204,7 +203,6 @@ public class ReservaCtrl {
 								item.setDtInicio( r.getDtInicio() );
 								item.setDtFim( r.getDtFim() );
 								item.setDesconto( 0 );
-								item.setEstado( r.getEstado() );
 								item.setDtCadastro( new Date() );
 								reservas.set( q, item );
 							}
@@ -230,7 +228,6 @@ public class ReservaCtrl {
 					item.setDtInicio( r.getDtInicio() );
 					item.setDtFim( r.getDtFim() );
 					item.setDesconto( 0 );
-					item.setEstado( r.getEstado() );
 					item.setDtCadastro( new Date() );
 					reservas.add( item );
 				}
@@ -251,7 +248,6 @@ public class ReservaCtrl {
 				item.setDtInicio( r.getDtInicio() );
 				item.setDtFim( r.getDtFim() );
 				item.setDesconto( 0 );
-				item.setEstado( r.getEstado() );
 				item.setDtCadastro( new Date() );
 				reservas.add( item );
 			}

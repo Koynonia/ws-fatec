@@ -20,7 +20,6 @@ public class Reserva {
 	private Date dtInicio;
 	private Date dtFim;
 	private Integer desconto;
-	private String estado;
 	private Date dtCadastro;
 	
 	
@@ -77,12 +76,6 @@ public class Reserva {
 	}
 	public void setDesconto(Integer desconto) {
 		this.desconto = desconto;
-	}
-	public String getEstado() {
-		return estado;
-	}
-	public void setEstado(String estado) {
-		this.estado = estado;
 	}
 	public Date getDtCadastro() {
 		return dtCadastro;
