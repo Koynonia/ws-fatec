@@ -10,8 +10,6 @@ DROP DATABASE IF EXISTS pousada;
 CREATE DATABASE pousada;
 
 USE pousada;
- 
-DROP TABLE IF EXISTS cliente;
 
 CREATE TABLE cliente(
  nome VARCHAR(100) NOT NULL,
@@ -31,8 +29,6 @@ CREATE TABLE cliente(
  ativo BOOLEAN NOT NULL
 );
 
-DROP TABLE IF EXISTS funcionario;
-
 CREATE TABLE funcionario (
  nome VARCHAR(100) NOT NULL,
  cpf VARCHAR(11) PRIMARY KEY,
@@ -50,23 +46,17 @@ CREATE TABLE funcionario (
  setor VARCHAR(30) NOT NULL
 );
 
-DROP TABLE IF EXISTS pessoa;
-
 CREATE TABLE pessoa (
  nome VARCHAR(200) NOT NULL,
  nascimento DATE NOT NULL,
  responsavel VARCHAR(200) NOT NULL
 );
 
-DROP TABLE IF EXISTS chale;
-
 CREATE TABLE chale (
  numero INT PRIMARY KEY,
  categoria VARCHAR(30) NOT NULL,
  diaria DECIMAL(7,2) NOT NULL
  );
- 
-DROP TABLE IF EXISTS reserva;
 
 CREATE TABLE reserva (
  numero INT PRIMARY KEY,
@@ -80,8 +70,6 @@ CREATE TABLE reserva (
  desconto INT NOT NULL,
  dtCadastro DATE NOT NULL
  );
- 
-DROP TABLE IF EXISTS spa;
 
 CREATE TABLE spa (
  -- cartao VARCHAR(100) NOT NULL,
@@ -91,8 +79,6 @@ CREATE TABLE spa (
  servico VARCHAR(100) NOT NULL
  );
 
-DROP TABLE IF EXISTS lanchonete;
-
 CREATE TABLE lanchonete(
  nome VARCHAR(100) NOT NULL,
  tipo VARCHAR(100) NOT NULL,  
@@ -101,8 +87,6 @@ CREATE TABLE lanchonete(
  hora DATE NOT NULL,
  valor DECIMAL(7,2) NOT NULL
  );
-
-DROP TABLE IF EXISTS transporte;
 
 CREATE TABLE transporte(
  id VARCHAR(100) PRIMARY KEY,
@@ -115,8 +99,6 @@ CREATE TABLE transporte(
  valor DECIMAL(7,2) NOT NULL
 );
 
-DROP TABLE IF EXISTS jacuzzi;
-
 CREATE TABLE jacuzzi(
  qtd INT NOT NULL,
  -- cartao VARCHAR(100) NOT NULL,
@@ -125,8 +107,6 @@ CREATE TABLE jacuzzi(
  valor DECIMAL(7,2) NOT NULL
 );
 
-DROP TABLE IF EXISTS internet;
-
 CREATE TABLE internet(
  qtd INT NOT NULL,
  -- cartao VARCHAR(100) NOT NULL,
@@ -134,8 +114,6 @@ CREATE TABLE internet(
  hora DATE NOT NULL,
  valor DECIMAL(7,2) NOT NULL
 );
-
-DROP TABLE IF EXISTS principal;
 
 CREATE TABLE principal(
 principalInfo VARCHAR(550) NOT NULL,
