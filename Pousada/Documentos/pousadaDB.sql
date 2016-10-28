@@ -28,7 +28,7 @@ CREATE TABLE cliente(
  cep VARCHAR(8),
  dtCadastro DATE NOT NULL,
  ativo BOOLEAN NOT NULL
-);
+) ENGINE = innodb;
 
 CREATE TABLE funcionario (
  id INT AUTO_INCREMENT PRIMARY KEY,
@@ -47,32 +47,32 @@ CREATE TABLE funcionario (
  setor VARCHAR(30) NOT NULL,
  
  datacadastro DATE NOT NULL
-);
+) ENGINE = innodb;
 
 CREATE TABLE pessoa (
  id INT AUTO_INCREMENT PRIMARY KEY,
  nome VARCHAR(200) NOT NULL,
  dtNasc DATE NOT NULL,
  responsavel VARCHAR(200) NOT NULL
-);
+) ENGINE = innodb;
 
 CREATE TABLE chale (
  id INT AUTO_INCREMENT PRIMARY KEY,
  categoria VARCHAR(30) NOT NULL,
  diaria DECIMAL(7,2) NOT NULL
- );
+ ) ENGINE = innodb;
 
 CREATE TABLE reserva (
  id INT AUTO_INCREMENT PRIMARY KEY,
- cliente VARCHAR(50) NOT NULL,
- chale INT NULL,
+ cliente INT NOT NULL,
+ chale INT NOT NULL,
  qtdAdulto INT NOT NULL,
  qtdCrianca INT NOT NULL,
  dtInicio DATE NOT NULL,
  dtFim DATE NOT NULL, 
  desconto INT NOT NULL,
  dtCadastro DATE NOT NULL
- );
+ ) ENGINE = innodb;
 
 CREATE TABLE spa (
  id INT AUTO_INCREMENT PRIMARY KEY,
@@ -80,7 +80,7 @@ CREATE TABLE spa (
  dtReserva DATE NOT NULL,
  hrReserva DATE NOT NULL,
  valor DECIMAL(7,2) NOT NULL
- );
+ ) ENGINE = innodb;
 
 CREATE TABLE lanchonete(
  id INT AUTO_INCREMENT PRIMARY KEY,
@@ -89,7 +89,7 @@ CREATE TABLE lanchonete(
  dtReserva DATE NOT NULL,
  hrReserva DATE NOT NULL,
  valor DECIMAL(7,2) NOT NULL
- );
+ ) ENGINE = innodb;
 
 CREATE TABLE transporte(
  id INT AUTO_INCREMENT PRIMARY KEY,
@@ -99,21 +99,21 @@ CREATE TABLE transporte(
  dtReserva DATE NOT NULL,
  hrReserva DATE NOT NULL,
  valor DECIMAL(7,2) NOT NULL
-);
+) ENGINE = innodb;
 
 CREATE TABLE jacuzzi(
  id INT AUTO_INCREMENT PRIMARY KEY,
  dtReserva DATE NOT NULL,
  hrReserva DATE NOT NULL,
  valor DECIMAL(7,2) NOT NULL
-);
+) ENGINE = innodb;
 
 CREATE TABLE internet(
  id INT AUTO_INCREMENT PRIMARY KEY,
  dtReserva DATE NOT NULL,
  hrReserva DATE NOT NULL,
  valor DECIMAL(7,2) NOT NULL
-);
+) ENGINE = innodb;
 
 CREATE TABLE principal(
 id INT AUTO_INCREMENT PRIMARY KEY,
@@ -128,7 +128,12 @@ servicoDetalhe VARCHAR(850) NOT NULL,
 reservaInfo VARCHAR(550) NOT NULL,
 contatoInfo VARCHAR(550) NOT NULL,
 versao VARCHAR(10) NOT NULL 
-);
+) ENGINE = innodb;
+
+-- INSERE AS FK's NAS TABELAS
+
+ALTER TABLE `reserva` ADD CONSTRAINT `fk_cliente` FOREIGN KEY ( `cliente` ) REFERENCES `cliente` ( `id` );
+ALTER TABLE `reserva` ADD CONSTRAINT `fk_chale` FOREIGN KEY ( `chale` ) REFERENCES `chale` ( `id` );
 
 -- DADOS PARA TESTE:
 
