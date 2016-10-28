@@ -2,20 +2,19 @@
  * @author FERNANDO MORAES OLIVEIRA
  * Materia Engenharia de Software 2
  * FATEC ZL 5º ADS - Tarde
- * 24/10/2016
+ * 28/10/2016
  */
 
 package edu.pousada.entity;
 
 import java.util.Date;
 
-public class Cliente {
+public class Funcionario {
 
 	private Integer id;
 	private String nome;
 	private String email;
-	private String documento;
-	private String docTipo;
+	private String cpf;
 	private Date dtNasc;
 	private String telefone;
 	private String celular;
@@ -25,6 +24,8 @@ public class Cliente {
 	private String estado;
 	private String pais;
 	private String cep;
+	private String cargo;
+	private String setor;
 	private Date dtCadastro;
 	private Boolean ativo;
 	
@@ -47,17 +48,11 @@ public class Cliente {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getDocumento() {
-		return documento;
+	public String getCpf() {
+		return cpf;
 	}
-	public void setDocumento(String documento) {
-		this.documento = documento;
-	}
-	public String getDocTipo() {
-		return docTipo;
-	}
-	public void setDocTipo(String docTipo) {
-		this.docTipo = docTipo;
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 	public Date getDtNasc() {
 		return dtNasc;
@@ -112,6 +107,18 @@ public class Cliente {
 	}
 	public void setCep(String cep) {
 		this.cep = cep;
+	}
+	public String getCargo() {
+		return cargo;
+	}
+	public void setCargo(String cargo) {
+		this.cargo = cargo;
+	}
+	public String getSetor() {
+		return setor;
+	}
+	public void setSetor(String setor) {
+		this.setor = setor;
 	}
 	public Date getDtCadastro() {
 		return dtCadastro;

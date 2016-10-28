@@ -8,7 +8,6 @@
 package edu.pousada.dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,62 +22,60 @@ public class SpaDAOImpl implements SpaDAO{
 
 	/**
 	 * CREATE TABLE spa (
-	 * idSpa INT PRIMARY KEY,
-	 * cartao VARCHAR(100) NOT NULL,
-	 * dt DATE NOT NULL,
-	 * hora DATE NOT NULL, 
-	 * valor FLOAT NOT NULL,
-	 * servico VARCHAR(100) NOT NULL
+	 * id INT PRIMARY KEY,
+	 * servico VARCHAR(50) NOT NULL,
+	 * dtReserva DATE NOT NULL,
+	 * hrReserva DATE NOT NULL, 
+	 * valor FLOAT NOT NULL
+	 * );
 	 */
 
 	public void adicionaSpa(Spa spa) throws SQLException {
-		String sql = "INSERT INTO spa VALUES (?,?,?,?,?)";
+		String sql = "INSERT INTO spa VALUES (NULL,?,?,?,?)";
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt(1, spa.getIdSpa());
-		ps.setDate(2, (Date) spa.getData());
-		ps.setDate(3, (Date) spa.getHora());
-		ps.setFloat(4, spa.getValor());
-		ps.setString(5, spa.getServico());
+		ps.setString(2, spa.getServico());
+		ps.setDate(3, new java.sql.Date( spa.getDtReserva().getTime() ));
+		ps.setDate(4, new java.sql.Date( spa.getHrReserva().getTime() ));
+		ps.setFloat(5, spa.getValor());
 		ps.execute();
 		ps.close();
 	}
 
 	public void alteraSpa(Spa spa) throws SQLException {
-		String sql =  "UPDATE spa SET data = ?, hora = ?, valor = ?, servico = ? WHERE idSpa = ?";
+		String sql =  "UPDATE spa SET servico = ?, dtReserva = ?, hrReserva = ?, valor = ? WHERE id = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setDate(1, (Date) spa.getData());
-		ps.setDate(2, (Date) spa.getHora());
-		ps.setFloat(3, spa.getValor());
-		ps.setString(4, spa.getServico());		
-		ps.setInt(5, spa.getIdSpa());	
+		ps.setString(1, spa.getServico());
+		ps.setDate(2, new java.sql.Date( spa.getDtReserva().getTime() ));
+		ps.setDate(3, new java.sql.Date( spa.getHrReserva().getTime() ));
+		ps.setFloat(4, spa.getValor());
+		ps.setInt(5, spa.getId());			
 		ps.execute();
 		ps.close();		
 	}
 
 	public void excluiSpa(Spa spa) throws SQLException {
-		String sql = "DELETE spa WHERE idSpa = ?";
+		String sql = "DELETE spa WHERE id = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt(1, spa.getIdSpa());
+		ps.setInt(1, spa.getId());
 		ps.execute();
 		ps.close();
-
 	}
 
 	public Spa consultaSpa(Spa spa) throws SQLException {
-		String sql = "SELECT * FROM spa WHERE idSpa = ?";
+		String sql = "SELECT * FROM spa WHERE id = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt(1, spa.getIdSpa());
+		ps.setInt(1, spa.getId());
 		ResultSet rs = ps.executeQuery();
 		if(rs.next()){
-			spa.setIdSpa(rs.getInt("idSpa"));
-			spa.setData(rs.getDate("data"));
-			spa.setHora(rs.getDate("hora"));
-			spa.setValor(rs.getFloat("valor"));
+			spa.setId(rs.getInt("id"));
 			spa.setServico(rs.getString("servico"));
+			spa.setDtReserva(rs.getDate("dtReserva"));
+			spa.setHrReserva(rs.getDate("hrReserva"));
+			spa.setValor(rs.getFloat("valor"));
 		}
+		rs.close();
 		ps.close();
 		return spa;
-
 	}
 
 	public List<Spa> listaSpa() throws SQLException {
@@ -88,15 +85,15 @@ public class SpaDAOImpl implements SpaDAO{
 		ResultSet rs = ps.executeQuery();
 		while(rs.next()){
 			Spa spa = new Spa();
-			spa.setIdSpa(rs.getInt("idSpa"));
-			spa.setData(rs.getDate("data"));
-			spa.setHora(rs.getDate("hora"));
-			spa.setValor(rs.getFloat("valor"));
+			spa.setId(rs.getInt("id"));
 			spa.setServico(rs.getString("servico"));
+			spa.setDtReserva(rs.getDate("dtReserva"));
+			spa.setHrReserva(rs.getDate("hrReserva"));
+			spa.setValor(rs.getFloat("valor"));
 			listaSpa.add(spa);
 		}
+		rs.close();
 		ps.close();
 		return listaSpa;
 	}
-
 }

@@ -8,13 +8,11 @@
 package edu.pousada.dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 
 import edu.pousada.entity.Lanchonete;
 
@@ -24,70 +22,70 @@ public class LanchoneteDAOImpl implements LanchoneteDAO{
 	
 	/**
 	 * CREATE TABLE lanchonete(
-	 *  nome VARCHAR(100) NOT NULL,
-	 * tipo VARCHAR(100) NOT NULL,  
-	 * -- cartao VARCHAR(100) NOT NULL,
-	 * dt DATE NOT NULL,
-	 * hora DATE NOT NULL,
+	 * id INT AUTO_INCREMENT PRIMARY KEY,
+	 * nome VARCHAR(100) NOT NULL,
+	 * tipo VARCHAR(100) NOT NULL,
+	 * dtReserva DATE NOT NULL,
+	 * hrReserva DATE NOT NULL,
 	 * valor DECIMAL(7,2) NOT NULL
 	 * );
 	 */
-	
+
 	public void adicionarLanchonete(Lanchonete lanchonete) throws SQLException {
-		String sql = "INSERT INTO lanchonete VALUES (?,?,?,?,?)";
+		String sql = "INSERT INTO lanchonete VALUES (NULL,?,?,?,?,?)";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1, lanchonete.getNome());
 		ps.setString(2, lanchonete.getTipo());
-		ps.setDate(3, (Date) lanchonete.getData());
-		ps.setDate(4, (Date) lanchonete.getHora());
+		ps.setDate(3, new java.sql.Date( lanchonete.getDtReserva().getTime() ));
+		ps.setDate(3, new java.sql.Date( lanchonete.getHrReserva().getTime() ));
 		ps.setFloat(5, lanchonete.getValor());
-		
 		ps.execute();
 		ps.close();
 	}
 
 	@Override
 	public void alterarLanchonete(Lanchonete lanchonete) throws SQLException {
-		String sql =  "UPDATE lanchonete SET nome = ?, tipo = ?, data = ?, hora = ?, valor = ? WHERE idLanchonete = ?";
+		String sql =  "UPDATE lanchonete SET nome = ?, tipo = ?, dtReserva = ?, hrReserva = ?, valor = ? WHERE id = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1, lanchonete.getNome());
 		ps.setString(2, lanchonete.getTipo());
-		ps.setDate(3, (Date) lanchonete.getData());
-		ps.setDate(4, (Date) lanchonete.getHora());
+		ps.setDate(3, new java.sql.Date( lanchonete.getDtReserva().getTime() ));
+		ps.setDate(3, new java.sql.Date( lanchonete.getHrReserva().getTime() ));
 		ps.setFloat(5, lanchonete.getValor());
-		
-		ps.setInt(6, lanchonete.getIdLanchonete() );
+		ps.setInt(6, lanchonete.getId());
 		ps.execute();
 		ps.close();
 	}
 
 	@Override
 	public void excluirLanchonete(Lanchonete lanchonete) throws SQLException {
-		String sql = "DELETE lanchonete WHERE idLanchonete = ?";
+		String sql = "DELETE lanchonete WHERE id = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt(1, lanchonete.getIdLanchonete());
+		ps.setInt(1, lanchonete.getId());
 		ps.execute();
 		ps.close();
-		
 	}
 
 
 	public Lanchonete consultaLanchonete(Lanchonete lanchonete) throws SQLException {
-		String sql = "SELECT * FROM lanchonete WHERE idLanchonete = ?";
+		String sql = "SELECT * FROM lanchonete WHERE id = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt(1, lanchonete.getIdLanchonete());
+		ps.setInt(1, lanchonete.getId());
 		ResultSet rs = ps.executeQuery();
 		if(rs.next()){
-			lanchonete.setIdLanchonete(rs.getInt("idLanchonete"));
+			lanchonete.setId(rs.getInt("id"));
 			lanchonete.setNome(rs.getString("nome"));
 			lanchonete.setTipo(rs.getString("tipo"));
-			lanchonete.setData(rs.getDate("data"));
-			lanchonete.setHora(rs.getDate("hora"));
+			lanchonete.setData(rs.getDate("dtReserva"));
+			lanchonete.setHora(rs.getDate("hrReserva"));
 			lanchonete.setValor(rs.getFloat("valor"));
-			
+			lanchonete.setId(rs.getInt("id"));
 		}
-		return lanchonete;
+		ps.execute();
+		ps.close();
+		rs.close();
 		
+		return lanchonete;
 	}
 
 	public List<Lanchonete> listaLanchonete() throws SQLException {
@@ -97,16 +95,18 @@ public class LanchoneteDAOImpl implements LanchoneteDAO{
 		ResultSet rs = ps.executeQuery();
 		while(rs.next()){
 			Lanchonete lanchonete = new Lanchonete();
-			lanchonete.setIdLanchonete(rs.getInt("idLanchonete"));
+			lanchonete.setId(rs.getInt("id"));
 			lanchonete.setNome(rs.getString("nome"));
 			lanchonete.setTipo(rs.getString("tipo"));
-			lanchonete.setData(rs.getDate("data"));
-			lanchonete.setHora(rs.getDate("hora"));
+			lanchonete.setData(rs.getDate("dtReserva"));
+			lanchonete.setHora(rs.getDate("hrReserva"));
 			lanchonete.setValor(rs.getFloat("valor"));
 			listaLanchonete.add(lanchonete);
 		}
+		ps.execute();
+		ps.close();
+		rs.close();
 		
 		return listaLanchonete;
 	}
-
 }

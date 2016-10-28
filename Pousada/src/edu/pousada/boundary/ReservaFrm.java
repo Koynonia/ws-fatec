@@ -35,16 +35,15 @@ public class ReservaFrm extends JFrame {
 	private JPanel painel;
 	private JScrollPane spCompras;
 	private JSeparator linha;
-	public JButton btnAlterar;
-	public JButton btnRetirar;
+	public JButton btnCancelar;
 	public JButton btnLimpar;
 	public JButton btnConcluir;
 	public JButton btnVoltar;
-	private DecimalFormat maskValor;
-	public JTable tabCompra; //Campos compartilhados com o FrmLista
+	public JTable tabCompra;
 	public JFormattedTextField ftxtQtd;
 	public JFormattedTextField ftxtVlrTotal;
-
+	private DecimalFormat maskValor;
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -123,15 +122,10 @@ public class ReservaFrm extends JFrame {
 		ftxtVlrTotal.setColumns(10);
 		painel.add(ftxtVlrTotal);
 
-		btnAlterar = new JButton("Quantidade");
-		btnAlterar.setToolTipText("Selecione a reserva que deseja alterar a quantidade…");
-		btnAlterar.setBounds(38, 329, 117, 29);
-		painel.add(btnAlterar);
-
-		btnRetirar = new JButton("Retirar");
-		btnRetirar.setToolTipText("Selecione a reserva que deseja retirar…");
-		btnRetirar.setBounds(160, 329, 117, 29);
-		painel.add(btnRetirar);
+		btnCancelar = new JButton("Cancelar");
+		btnCancelar.setToolTipText("Selecione a reserva que deseja cancelar");
+		btnCancelar.setBounds(38, 329, 117, 29);
+		painel.add(btnCancelar);
 
 		btnLimpar = new JButton("Limpar");
 		btnLimpar.setBounds(353, 408, 117, 29);
@@ -150,8 +144,7 @@ public class ReservaFrm extends JFrame {
 				tabCompra, 
 				ftxtQtd, 
 				ftxtVlrTotal,
-				btnAlterar,
-				btnRetirar,
+				btnCancelar,
 				btnLimpar,
 				btnConcluir,
 				btnVoltar
@@ -159,8 +152,7 @@ public class ReservaFrm extends JFrame {
 
 		tabCompra.addMouseListener(ctrl.clicar);
 		tabCompra.addKeyListener(ctrl.teclar);
-		btnAlterar.addActionListener(ctrl.acionar);
-		btnRetirar.addActionListener(ctrl.acionar);
+		btnCancelar.addActionListener(ctrl.acionar);
 		btnLimpar.addActionListener(ctrl.acionar);
 		btnConcluir.addActionListener(ctrl.acionar);
 		btnVoltar.addActionListener(ctrl.acionar);

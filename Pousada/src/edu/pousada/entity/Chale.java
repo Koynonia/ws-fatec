@@ -9,17 +9,17 @@ package edu.pousada.entity;
 
 public class Chale {
 
-	private Integer numero;
+	private Integer id;
 	private String categoria;
 	private Float diaria;
 	private Frigobar frigobar;
 	
 	
-	public Integer getNumero() {
-		return numero;
+	public Integer getId() {
+		return id;
 	}
-	public void setNumero(Integer numero) {
-		this.numero = numero;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	public String getCategoria() {
 		return categoria;

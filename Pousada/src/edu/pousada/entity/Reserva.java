@@ -11,23 +11,22 @@ import java.util.Date;
 
 public class Reserva {
 	
-	private Integer numero;
+	private Integer id;
 	private Cliente cliente;
 	private Chale chale;
 	private Integer qtdAdulto;
 	private Integer qtdCrianca;
-	private Integer quantidade;
 	private Date dtInicio;
 	private Date dtFim;
 	private Integer desconto;
 	private Date dtCadastro;
 	
 	
-	public Integer getNumero() {
-		return numero;
+	public Integer getId() {
+		return id;
 	}
-	public void setNumero(Integer numero) {
-		this.numero = numero;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	public Cliente getCliente() {
 		return cliente;
@@ -52,12 +51,6 @@ public class Reserva {
 	}
 	public void setQtdCrianca(Integer qtdCrianca) {
 		this.qtdCrianca = qtdCrianca;
-	}
-	public Integer getQuantidade() {
-		return quantidade;
-	}
-	public void setQuantidade(Integer quantidade) {
-		this.quantidade = quantidade;
 	}
 	public Date getDtInicio() {
 		return dtInicio;

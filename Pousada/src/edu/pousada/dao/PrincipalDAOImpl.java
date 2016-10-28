@@ -35,15 +35,38 @@ public class PrincipalDAOImpl implements PrincipalDAO {
 	 * versao VARCHAR(10) NOT NULL 
 	 * );
 	 */
+
+	@Override
+	public void adicionaPrincipal(Principal Principal) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void alteraPrincipal(Principal Principal) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void excluiPrincipal(Principal Principal) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Principal consultaPrincipal(Principal Principal) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	@Override
-	public List<Principal> info() throws SQLException {
+	public List<Principal> todasPrincipal() throws SQLException {
 
 		String sql = "SELECT * FROM principal";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
 		List<Principal>lista = new ArrayList<>();
-
 		while (rs.next()) {
 			Principal itens = new Principal();
 			itens.setPrincipalInfo(rs.getString( "principalInfo" ));

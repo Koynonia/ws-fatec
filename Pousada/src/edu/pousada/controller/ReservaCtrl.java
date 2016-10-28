@@ -44,25 +44,21 @@ public class ReservaCtrl {
 	private JTable tabela;
 	private JFormattedTextField ftxtQtd;
 	private JFormattedTextField ftxtValor;
-	private JButton btnAlterar;
-	private JButton btnRetirar; 
+	private JButton btnCancelar; 
 	private JButton btnLimpar; 
 	private JButton btnConcluir; 
 	private JButton btnVoltar;
 	private String diretorio = "../Pousada/resources/";
-	private String imagem;
 	private LogonCtrl logon = LogonCtrl.getInstance();
 	private boolean validar;
-	private int quantidade = 1;
 	private List<Reserva>reservas;
 
 	public ReservaCtrl(
 			ReservaFrm form, 
 			JTable tabela, 
 			JFormattedTextField ftxtQtd,  
-			JFormattedTextField ftxtValor, 
-			JButton btnAlterar, 
-			JButton btnRetirar, 
+			JFormattedTextField ftxtValor,  
+			JButton btnCancelar, 
 			JButton btnLimpar, 
 			JButton btnConcluir, 
 			JButton btnVoltar
@@ -72,8 +68,7 @@ public class ReservaCtrl {
 		this.tabela = tabela;
 		this.ftxtQtd = ftxtQtd;
 		this.ftxtValor = ftxtValor;
-		this.btnAlterar = btnAlterar;
-		this.btnRetirar = btnRetirar;
+		this.btnCancelar = btnCancelar;
 		this.btnLimpar = btnLimpar;
 		this.btnConcluir = btnConcluir;
 		this.btnVoltar = btnVoltar;
@@ -86,9 +81,8 @@ public class ReservaCtrl {
 	public void limpaCampo(){
 
 		reservas.removeAll(reservas);
-		atualizaReservaDAO(reservas);
 		formataTabela();
-		ftxtValor.setValue(null);
+		ftxtValor.setValue(0.00);
 	}
 	
 
@@ -98,52 +92,18 @@ public class ReservaCtrl {
 		double total = 0;
 		int qtd = 0;
 		for( int i = 0; i < reservas.size(); i++ ){
-			total = total + ( reservas.get(i).getQuantidade() 
-					* reservas.get(i).getChale().getDiaria() );	
-			qtd = qtd + ( reservas.get(i).getQuantidade() );
+			//total = total + ( reservas.get(i).getQuantidade() 
+			//		* reservas.get(i).getChale().getDiaria() );	
+			//qtd = qtd + ( reservas.get(i).getQuantidade() );
 		}
 		ftxtQtd.setValue( Integer.toString ( qtd ) );
 		ftxtValor.setValue( total );
 	}
 
 
-	public void alteraQtd(){
-
-		reservas.clear();
-		carregaReservaDAO();
-		
-		if(tabela.getRowCount() > 0){
-			if ( tabela.getSelectedRowCount() != 0){
-				for(int i = 0; i <= reservas.size(); i ++){
-					if ( tabela.isRowSelected(i)){
-						if((tabela.getValueAt(tabela.getSelectedRow(), 0).toString())
-								.equals( reservas.get(i).getNumero() )){
-							msg( "alterar", reservas.get(i).getChale().getCategoria() );
-							if ( validar != false){
-								Reserva item = new Reserva();
-								item.setQuantidade( quantidade );
-								item.setDtCadastro( new Date() );
-								reservas.set(i,item);
-								atualizaReservaDAO( reservas );
-								formataTabela();
-								validar = false;
-								msg( "realizado", reservas.get(i).getChale().getCategoria() );
-							}
-						}
-					}
-				}
-			} else {
-				msg( "", "Por Favor, selecione um Livro para alterar a quantidade!");
-			} 
-		} else {
-			msg( "", "Por favor, adicione primeiro uma reserva." );
-		}
-	}
-
-
 	// DAO //////////////////////////////////////
 	
-	public void carregaReservaDAO(){
+	public void cargaReserva(){
 
 		ReservaDAO dao = new ReservaDAOImpl();
 		try {
@@ -153,106 +113,24 @@ public class ReservaCtrl {
 		}
 	}
 	
-	public void atualizaReservaDAO( List<Reserva> item ){
-		
+	public void cadastraReserva( Reserva r ){
+
 		ReservaDAO dao = new ReservaDAOImpl();
-		for( Reserva rs : item ){
-			
-			rs.setNumero( item.get(0).getNumero() );
-			rs.setCliente( item.get(0).getCliente() );
-			rs.setChale( item.get(0).getChale() );
-			rs.setQtdAdulto( item.get(0).getQtdAdulto() );
-			rs.setQtdCrianca( item.get(0).getQtdCrianca() );
-			rs.setQuantidade( item.get(0).getQuantidade() );
-			rs.setDtInicio( item.get(0).getDtInicio() );
-			rs.setDtFim( item.get(0).getDtFim() );
-			rs.setDesconto( item.get(0).getDesconto() );
-			rs.setDtCadastro( item.get(0).getDtCadastro() );
-			try {
-				dao.adicionaReserva( rs );
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+
+		try {
+			dao.adicionaReserva( r );
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 	
 	
 	// CRUD ///////////////////////////////////
 
-	public void adicionaChale( Reserva r ) {
-		
-		Reserva item = new Reserva();
-		DecimalFormat formato = new DecimalFormat("#,##0.00");
-		
-		if ( !reservas.isEmpty() ){
-			for ( int i = 0; i < reservas.size(); i++ ){
-				imagem = reservas.get(i).getChale().getCategoria();
-				//Verifica se o Chalé já foi adicionada à Reserva
-				if ( reservas.get(i).getChale().getNumero().equals( r.getChale().getNumero() )){
-					msg( "adicionar", reservas.get(i).getChale().getCategoria() );
-					//Se o chalé já estiver na Reserva, soma + 1 à quantidade
-					if ( validar != false){
-						for ( int q = 0; q < reservas.size(); q++ ){
-							if ( reservas.get(i).getChale().getNumero().equals( r.getChale().getNumero() )){
-								item.setNumero( r.getNumero() );
-								item.setCliente( r.getCliente() );
-								item.setChale( r.getChale() );
-								item.setQtdAdulto( r.getQtdAdulto() );
-								item.setQtdCrianca( r.getQtdCrianca() );
-								item.setQuantidade( reservas.get(q).getQuantidade() + 1 );
-								item.setDtInicio( r.getDtInicio() );
-								item.setDtFim( r.getDtFim() );
-								item.setDesconto( 0 );
-								item.setDtCadastro( new Date() );
-								reservas.set( q, item );
-							}
-						}
-					} else {
-						fechar();
-					}
-				} 
-			}
-			if ( validar == false) {
-				//Adiciona o chalé se não estiver na Reserva
-				imagem = r.getChale().getCategoria();
-				msg( "adicionarQtd", "Reserva do chalé: " 
-						+ r.getChale().getCategoria() 
-						+ "\n\nValor da Diária: R$ " + formato.format( r.getChale().getDiaria() ));
-				if ( validar != false ){
-					item.setNumero( r.getNumero() );
-					item.setCliente( r.getCliente() );
-					item.setChale( r.getChale() );
-					item.setQtdAdulto( r.getQtdAdulto() );
-					item.setQtdCrianca( r.getQtdCrianca() );
-					item.setQuantidade( 1 );
-					item.setDtInicio( r.getDtInicio() );
-					item.setDtFim( r.getDtFim() );
-					item.setDesconto( 0 );
-					item.setDtCadastro( new Date() );
-					reservas.add( item );
-				}
-			}
-		} else {
-			//Adiciona à Reserva se já houver chalés adicionados na Reserva
-			imagem = r.getChale().getCategoria();
-			msg( "adicionarQtd", "Reserva do chalé: " 
-					+ r.getChale().getCategoria() 
-					+ "\n\nValor da Diária: R$ " + formato.format( r.getChale().getDiaria() ));
-			if ( validar != false ){
-				item.setNumero( r.getNumero() );
-				item.setCliente( r.getCliente() );
-				item.setChale( r.getChale() );
-				item.setQtdAdulto( r.getQtdAdulto() );
-				item.setQtdCrianca( r.getQtdCrianca() );
-				item.setQuantidade( 1 );
-				item.setDtInicio( r.getDtInicio() );
-				item.setDtFim( r.getDtFim() );
-				item.setDesconto( 0 );
-				item.setDtCadastro( new Date() );
-				reservas.add( item );
-			}
-		}
-		atualizaReservaDAO( reservas );
+	public void adicionaReserva( Reserva r ) {
+
+		cadastraReserva( r );
+		cargaReserva();
 		formataTabela();
 	}
 
@@ -270,12 +148,12 @@ public class ReservaCtrl {
 			DecimalFormat formato = new DecimalFormat("#,##0.00");
 			for (int i = 0; i < reservas.size(); i++) {
 				String[] item = { 
+						Integer.toString( reservas.get(i).getId() ),
 						sdf.format( reservas.get(i).getDtInicio() ),
 						sdf.format( reservas.get(i).getDtFim() ),
-						reservas.get(i).getChale().getCategoria(), 
-						Integer.toString( reservas.get(i).getQuantidade() ),  
+						reservas.get(i).getChale().getCategoria(),   
 						formato.format( reservas.get(i).getChale().getDiaria() ),
-						formato.format( reservas.get(i).getQuantidade() 
+						formato.format( reservas.get(i).getId() 
 								* reservas.get(i).getChale().getDiaria() ),
 				};
 				linhas.add(item);
@@ -294,7 +172,7 @@ public class ReservaCtrl {
 		direito.setHorizontalAlignment(SwingConstants.RIGHT);
 
 		//Nomes das colunas da tabela
-		String[] nomesColunas = { "Chegada","Partida", "Chalé", "Quantidade", "Preço Unitário", "Valor Total"};
+		String[] nomesColunas = { "Número","Chegada","Partida", "Chalé", "Diária", "Valor Total"};
 
 		//Cria um defaultablemodel com os dados (linhas e colunas)
 		@SuppressWarnings("serial")
@@ -303,7 +181,7 @@ public class ReservaCtrl {
 
 		//Trava a edição das celulas
 		{ boolean[] canEdit = new boolean []{    
-				false, false, false, true, false, false };
+				false, false, false, false, false, false };
 		@Override    
 		public boolean isCellEditable(int rowIndex, int columnIndex) {    
 			return canEdit [columnIndex]; } 
@@ -318,19 +196,11 @@ public class ReservaCtrl {
 		//Define o alinhamento das colunas
 		tabela.getColumnModel().getColumn(0).setCellRenderer(centro);
 		tabela.getColumnModel().getColumn(1).setCellRenderer(centro);
-		tabela.getColumnModel().getColumn(2).setCellRenderer(esquerdo);
+		tabela.getColumnModel().getColumn(2).setCellRenderer(centro);
 		tabela.getColumnModel().getColumn(3).setCellRenderer(centro);
 		tabela.getColumnModel().getColumn(4).setCellRenderer(direito);
 		tabela.getColumnModel().getColumn(5).setCellRenderer(direito);
-
-		//Configura o tamanho das colunas
-		tabela.getColumnModel().getColumn(0).setPreferredWidth(50);
-		tabela.getColumnModel().getColumn(1).setPreferredWidth(50);
-		tabela.getColumnModel().getColumn(2).setPreferredWidth(50);
-		tabela.getColumnModel().getColumn(3).setPreferredWidth(0);
-		tabela.getColumnModel().getColumn(4).setPreferredWidth(0);
-		tabela.getColumnModel().getColumn(5).setPreferredWidth(0);
-
+		
 		atualizaValor();
 	}
 
@@ -347,13 +217,13 @@ public class ReservaCtrl {
 					//Atualiza a base de dados excluindo o registro selecionado
 					for(int i = 0; i < reservas.size(); i ++){
 						if((tabela.getValueAt(tabela.getSelectedRow(), 0).toString())
-								.equals( reservas.get(i).getNumero() )){
+								.equals( reservas.get(i).getId() )){
 							reservas.remove(i);
 						}
 					}
 					validar = false;
 					//Atualiza base de dados
-					atualizaReservaDAO( reservas );
+					//cancelaReserva( reservas );
 
 					//Atualiza a tabela, removendo o dado
 					((DefaultTableModel) tabela.getModel()).removeRow(tabela.getSelectedRow());
@@ -410,10 +280,7 @@ public class ReservaCtrl {
 			//verifica qual botao esta solicitando a acao
 			Object source = e.getSource();
 
-			if(source == btnAlterar){
-				alteraQtd();
-			}
-			if(source == btnRetirar){
+			if(source == btnCancelar){
 				removeLinha();
 			}
 			if(source == btnLimpar){
@@ -510,73 +377,6 @@ public class ReservaCtrl {
 		form.setAlwaysOnTop ( false );
 
 		switch ( tipo ) {
-
-		case "realizado":
-			JOptionPane.showMessageDialog( null, 
-					"A reserva do Chalé " + mensagem 
-					+ " foi alterada com sucesso.", 
-					"Confirmação", 
-					JOptionPane.PLAIN_MESSAGE, 
-					new ImageIcon( diretorio + "/icons/confirm.png" ));
-			break;
-			
-		case "adicionar":
-			Object[] save = { "Confirmar", "Cancelar" };  
-			int confirmar = JOptionPane.showOptionDialog(null, "Um chalé de categoria" + mensagem
-					+ "\n\nJá adicionado à Reserva.\nGostaria de adicionar mais uma reserva?",
-					"Adicionar Reserva", 
-					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
-					new ImageIcon( diretorio + "/icons/warning.png" ), save, save[1]);
-			if (confirmar == 0) {
-				validar = true;
-			} else {
-				validar = false;
-			}
-			break;
-			
-		case "adicionarQtd":
-			Object aQtd = JOptionPane.showInputDialog( null,
-					mensagem + "\n\nDigite a quantidade do Chalé desta categoria:",
-					"Informar a Quantidade", JOptionPane.QUESTION_MESSAGE, 
-					new ImageIcon( diretorio + "/miniaturas/" + imagem + "-thumb.jpg"  ), null, 1 );
-			if ( aQtd == null){
-				validar = false;
-				fechar();
-				return;
-			} else {
-				if ( ! logon.testarNumero( aQtd.toString() ) ){
-					msg( "erroDigit", aQtd.toString() );
-				} else {
-					if ( aQtd.toString().contains( "0" ) ) {
-						removeLinha();
-					} else {
-						quantidade = Integer.parseInt( aQtd.toString() );
-						mostrar();
-						validar = true;			
-					}
-				}
-			}
-			break;
-			
-		case "alterar":
-			String resp = JOptionPane.showInputDialog( null,
-					"Digite a quantidade desejada da reserva do chalé " + mensagem + ":",
-					"Alterar Quantidade", JOptionPane.QUESTION_MESSAGE );
-			if ( resp == null){
-				return;
-			} else {
-				if ( ! logon.testarNumero( resp ) ){
-					msg( "erroDigit", resp );
-				} else {
-					if ( resp.contains( "0" ) ) {
-						removeLinha();
-					} else {
-						quantidade = Integer.parseInt( resp );
-						validar = true;			
-					}
-				}
-			}
-			break;
 
 		case "retirar":
 			Object[] opt = { "Confirmar", "Cancelar" };

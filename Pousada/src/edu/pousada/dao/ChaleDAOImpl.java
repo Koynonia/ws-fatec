@@ -22,7 +22,7 @@ public class ChaleDAOImpl implements ChaleDAO {
 	
 	/**
 	 * CREATE TABLE chale (
-	 * numero INT PRIMARY KEY, 
+	 * id INT AUTO_INCREMENT PRIMARY KEY, 
 	 * categoria VARCHAR(30) NOT NULL, 
 	 * diaria DOUBLE NOT NULL
 	 * );
@@ -30,31 +30,30 @@ public class ChaleDAOImpl implements ChaleDAO {
 
 	@Override
 	public void adicionarChale(Chale chale) throws SQLException {
-		String sql = "INSERT INTO chale (numero, categoria, diaria) VALUES (?,?,?)";
+		String sql = "INSERT INTO chale (NULL, categoria, diaria) VALUES (?,?)";
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt(1, chale.getNumero());
-		ps.setString(2, chale.getCategoria());
-		ps.setDouble(3, chale.getDiaria());
+		ps.setString(1, chale.getCategoria());
+		ps.setDouble(2, chale.getDiaria());
 		ps.execute();
 		ps.close();
 	}
 
 	public void alterarChale(Chale chale) throws SQLException {
 
-		String sql = "UPDATE chale SET categoria = ?, diaria = ? WHERE numero = ?";
+		String sql = "UPDATE chale SET categoria = ?, diaria = ? WHERE id = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1, chale.getCategoria());
 		ps.setDouble(2, chale.getDiaria());
-		ps.setInt(3, chale.getNumero());
+		ps.setInt(3, chale.getId());
 		ps.execute();
 		ps.close();
 
 	}
 
 	public void apagarChale(Chale chale) throws SQLException {
-		String sql = "DELETE chale WHERE numero = ?";
+		String sql = "DELETE chale WHERE id = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt(1, chale.getNumero());
+		ps.setInt(1, chale.getId());
 		ps.execute();
 		ps.close();
 
@@ -62,12 +61,12 @@ public class ChaleDAOImpl implements ChaleDAO {
 
 	@Override
 	public Chale consultarChale(Chale chale) throws SQLException {
-		String sql = "SELECT numero, categoria, diaria FROM chale WHERE numero = ?";
+		String sql = "SELECT id, categoria, diaria FROM chale WHERE id = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt(1, chale.getNumero());
+		ps.setInt(1, chale.getId());
 		ResultSet rs = ps.executeQuery();
 		if (rs.next()) {
-			chale.setNumero(rs.getInt("numero"));
+			chale.setId(rs.getInt("id"));
 			chale.setCategoria(rs.getString("categoria"));
 			chale.setDiaria(rs.getFloat("diaria"));
 		}
@@ -80,12 +79,12 @@ public class ChaleDAOImpl implements ChaleDAO {
 	@Override
 	public List<Chale> todosChales() throws SQLException {
 		List<Chale> listaChale = new ArrayList<Chale>();
-		String sql = "SELECT numero, categoria, diaria FROM chale";
+		String sql = "SELECT id, categoria, diaria FROM chale";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
 		while(rs.next()){
 			Chale chale = new Chale();
-			chale.setNumero(rs.getInt("numero"));
+			chale.setId(rs.getInt("id"));
 			chale.setCategoria(rs.getString("categoria"));
 			chale.setDiaria(rs.getFloat("diaria"));
 			listaChale.add(chale);

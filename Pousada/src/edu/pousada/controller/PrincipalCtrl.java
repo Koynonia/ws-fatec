@@ -22,12 +22,15 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -39,6 +42,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import javax.swing.text.JTextComponent;
 
 import edu.pousada.boundary.PrincipalFrm;
 import edu.pousada.boundary.ReservaFrm;
@@ -248,7 +253,7 @@ public class PrincipalCtrl {
 
 		lblVersao.setText( "versão: " + infos.get(0).getVersao() );	
 	}
-
+	
 
 	public void limpaCampo(){
 
@@ -264,7 +269,6 @@ public class PrincipalCtrl {
 			painelAtivo = painelContato.getComponents();
 			break;
 		}
-
 		for ( Component c : painelAtivo ) {
 			if ( c instanceof JTextField ) {
 				JTextField l = ( JTextField )c;
@@ -292,6 +296,7 @@ public class PrincipalCtrl {
 	public void validaCampo(){
 
 		boolean vazio = false;
+		String campo = null;
 		Integer guiaAtiva = tabContainer.getSelectedIndex();
 		Component[] painelAtivo = null;
 
@@ -310,8 +315,10 @@ public class PrincipalCtrl {
 			if ( c instanceof JTextField ) {
 				JTextField l = ( JTextField )c;
 				if ( l.getText().isEmpty() && l.isVisible() ){
-					if ( l.getName() != "pesquisa" ){
+					if ( !l.getName().equalsIgnoreCase( "pesquisa")){
 						vazio = true;
+						campo = l.getName();
+						l.requestFocus();
 						l.setBackground(new Color(255,240,245));
 					}
 				} else {
@@ -320,8 +327,10 @@ public class PrincipalCtrl {
 			}
 			if ( c instanceof JFormattedTextField ) {
 				JFormattedTextField  l = ( JFormattedTextField )c;
-				if ( l.getText().isEmpty() ){
+				if ( l.getText().isEmpty() || l.getText().equalsIgnoreCase("  /  /    ")){
 					vazio = true;
+					campo = l.getName();
+					l.requestFocus();
 					l.setBackground(new Color(255,240,245));
 				} else {
 					l.setBackground(new Color(255,255,255));
@@ -330,21 +339,77 @@ public class PrincipalCtrl {
 			if (c instanceof JComboBox ) {
 				@SuppressWarnings("unchecked")
 				JComboBox<String> l = ( JComboBox<String> )c;
-				if ( l.getSelectedIndex() > 0){
-				}
-			}
-			if ( c instanceof JTextArea ) {
-				JTextArea  l = ( JTextArea )c;
-				if ( l.getText().isEmpty() ){
+				if ( l.getSelectedIndex() == 0){
 					vazio = true;
+					campo = l.getName();
+					l.requestFocus();
 					l.setBackground(new Color(255,240,245));
 				} else {
 					l.setBackground(new Color(255,255,255));
 				}
 			}
+			if ( c instanceof JTextArea ) {
+				JTextArea  l = ( JTextArea )c;
+				if ( !l.getName().equalsIgnoreCase( "Observações")){
+				if ( l.getText().isEmpty() ){
+					vazio = true;
+					campo = l.getName();
+					l.requestFocus();
+					l.setBackground(new Color(255,240,245));
+				} else {
+					l.setBackground(new Color(255,255,255));
+				}
+			}
+			}
 		}
 		if ( vazio == true ){
-			msg( "erroVazio", "" );
+			msg( "erroCampo", campo );
+			validar = false;
+			return;
+		} else {
+			validar = true;
+			validaData( ftxtReservaDtInicio, ftxtReservaDtFim );
+		}
+	}
+	
+
+	public void validaData( JFormattedTextField dtInicio, JFormattedTextField dtFim ){
+		Date inicio = null;
+		Date fim = null;
+		Date atual = null;
+		Date dt = new Date();
+		String dta;
+		
+		DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		
+		dta = sdf.format( dt );
+
+		try {
+			inicio = sdf.parse( dtInicio.getText() );
+			fim = sdf.parse( dtFim.getText() );
+			atual = sdf.parse( dta );
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		if( !inicio.equals( atual ) ){
+			if ( !inicio.after( atual )){
+				msg("erroDataInicial","");
+				dtInicio.setText(null);
+				dtInicio.requestFocus();
+				validar = false;
+				return;
+			} else if( fim.before(inicio) ){
+				msg("erroDataFinal","");
+				dtFim.setText(null);
+				dtFim.requestFocus();
+				validar = false;
+				return;
+			}
+		} else if( fim.before(inicio) ){
+			msg("erroDataFinal","");
+			dtFim.setText(null);
+			dtFim.requestFocus();
 			validar = false;
 			return;
 		} else {
@@ -426,27 +491,31 @@ public class PrincipalCtrl {
 		validaCampo();
 
 		if( validar != false  ){
-			Chale ch = new Chale();
 
-			for( int i = 0; i < chales.size(); i++ ){
-				if( chales.get(i).getCategoria().equals( (String) cboReservaCategoria.getSelectedItem() )){
-					if( chales.get(i).getNumero() != null ){
-					ch.setNumero( chales.get(i).getNumero() );
-					ch.setCategoria( chales.get(i).getCategoria() );
-					ch.setDiaria( chales.get(i).getDiaria() );
-					ch.setFrigobar( chales.get(i).getFrigobar() );
+			Chale ch = new Chale();
+			if( !chales.isEmpty() ){
+				for( int i = 0; i < chales.size(); i++ ){
+					if( chales.get(i).getCategoria().equals( (String) cboReservaCategoria.getSelectedItem() )){
+						if( chales.get(i).getId() != null ){
+							ch.setId( chales.get(i).getId() );
+							ch.setCategoria( chales.get(i).getCategoria() );
+							ch.setDiaria( chales.get(i).getDiaria() );
+							ch.setFrigobar( chales.get(i).getFrigobar() );
+						} else {
+							msg("erroChale", (String) cboReservaCategoria.getSelectedItem() );
+						}
 					}
 				}
+			} else {
+				msg("erroChale", (String) cboReservaCategoria.getSelectedItem() );
 			}
-
 			Cliente cl = new Cliente();
-
 			if( clientes.isEmpty() ){
 				cl.setNome( txtReservaNome.getText() );
 				cl.setEmail( txtReservaEmail.getText() );
 				cl.setDocumento( txtReservaDocNum.getText() );
 				cl.setDocTipo( cboReservaDocTipo.getSelectedItem().toString() );
-				cl.setDtNasc( null );
+				cl.setDtNasc( new Date() );
 				cl.setTelefone( txtReservaTelefone.getText() );
 				cl.setCelular( txtReservaCelular.getText() );
 				cl.setEndereco( null );
@@ -457,14 +526,17 @@ public class PrincipalCtrl {
 				cl.setCep( null );
 				cl.setDtCadastro( new Date() );
 				cl.setAtivo( false );
+				cadastraCliente( cl );
+				cargaCliente();
 			} else {
 				for( int i = 0; i < clientes.size(); i++ ){
 					if( !clientes.get(i).getDocumento().equals( txtReservaDocNum.getText() )){
+						if( i == clientes.size()-1 ){
 						cl.setNome( txtReservaNome.getText() );
 						cl.setEmail( txtReservaEmail.getText() );
 						cl.setDocumento( txtReservaDocNum.getText() );
 						cl.setDocTipo( cboReservaDocTipo.getSelectedItem().toString() );
-						cl.setDtNasc( null );
+						cl.setDtNasc( new Date() );
 						cl.setTelefone( txtReservaTelefone.getText() );
 						cl.setCelular( txtReservaCelular.getText() );
 						cl.setEndereco( null );
@@ -475,6 +547,9 @@ public class PrincipalCtrl {
 						cl.setCep( null );
 						cl.setDtCadastro( new Date() );
 						cl.setAtivo( false );
+						cadastraCliente( cl );
+						cargaCliente();
+						}
 					} else {
 						cl.setNome( clientes.get(i).getNome() );
 						cl.setEmail( clientes.get(i).getEmail() );
@@ -497,7 +572,6 @@ public class PrincipalCtrl {
 
 			Reserva rs = new Reserva();
 			DateFormat sdf = new SimpleDateFormat("ddMMyyyy");
-			rs.setNumero( 1 );
 			rs.setCliente( cl );
 			rs.setChale( ch );
 			rs.setQtdAdulto( Integer.parseInt( txtReservaQtdAdulto.getText() ));
@@ -513,13 +587,12 @@ public class PrincipalCtrl {
 					frm.tabCompra, 
 					frm.ftxtQtd, 
 					frm.ftxtVlrTotal, 
-					frm.btnAlterar,
-					frm.btnRetirar,
+					frm.btnCancelar,
 					frm.btnLimpar,
 					frm.btnConcluir,
 					frm.btnVoltar
 					);
-			ctrl.adicionaChale ( rs );
+			ctrl.adicionaReserva ( rs );
 			abrir( "reservas" );
 		}
 	}
@@ -531,7 +604,7 @@ public class PrincipalCtrl {
 
 		PrincipalDAO dao = new PrincipalDAOImpl();
 		try {
-			infos = dao.info();
+			infos = dao.todasPrincipal();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -566,8 +639,16 @@ public class PrincipalCtrl {
 			e.printStackTrace();
 		}
 	}
+	
+	public void cadastraCliente( Cliente cliente ){
 
-
+		ClienteDAO dao = new ClienteDAOImpl();
+			try {
+				dao.adicionarCliente( cliente );
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+	}
 
 	// AREA DE TEXTO /////////////////////////////
 
@@ -677,14 +758,10 @@ public class PrincipalCtrl {
 				msg( "construir", "" );
 			}
 			if( source == btnReservaEnviar ){
-				if ( cboReservaCategoria.getSelectedIndex() != 0 ){
-					try {
-						adicionaReserva ();
-					} catch (ParseException e1) {
-						e1.printStackTrace();
-					}
-				}else {
-					msg( "erroSelecao", "" );
+				try {
+					adicionaReserva ();
+				} catch (ParseException e1) {
+					e1.printStackTrace();
 				}
 			}
 			if( source == btnContatoEnviar ){
@@ -706,8 +783,45 @@ public class PrincipalCtrl {
 	};
 
 	// CONTROLE TECLA ///////////////////////////////
+	
+	public KeyListener numero = new KeyListener() {  
 
+		@Override  
+		public void keyTyped(KeyEvent e) {
+			String caracteres="0987654321";
+			if(!caracteres.contains(e.getKeyChar()+"")){
+				e.consume();
+			}
+		}
 
+		@Override
+		public void keyPressed(KeyEvent e) {			
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+		}
+	};
+	
+	public KeyListener alfa = new KeyListener() {  
+
+		@Override  
+		public void keyTyped(KeyEvent e) {
+			String caracteres="0987654321";
+			if(caracteres.contains(e.getKeyChar()+"")){
+				e.consume();
+			}
+		}
+
+		@Override
+		public void keyPressed(KeyEvent e) {			
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+		}
+	};
+		
 	public KeyListener teclar = new KeyListener() {  
 
 		@Override  
@@ -730,10 +844,6 @@ public class PrincipalCtrl {
 			case KeyEvent.VK_RIGHT:
 				break;
 			case KeyEvent.VK_ESCAPE:
-				/*msg("sistema","Fechamento");
-							if(validar == false){
-							System.exit(0);
-							}*/
 				msg( "sair", "" );
 				break;
 			case KeyEvent.VK_DELETE:
@@ -787,9 +897,18 @@ public class PrincipalCtrl {
 
 		switch ( tipo ) {
 
-		case "erroVazio":
+		case "erroChale":
 			JOptionPane.showMessageDialog(null, 
-					"ATENÇÃO!\n\nCampo não preenchido."
+					"DESCUPE-NOS!\n\nNão existem Chalés disponíveis da categoria " + mensagem
+							+ "\nPor favor, selecione outra categoria disponível.", 
+							"Não disponível", 
+							JOptionPane.PLAIN_MESSAGE,
+							new ImageIcon( diretorio + "/icons/warning.png" ));
+			break;
+			
+		case "erroCampo":
+			JOptionPane.showMessageDialog(null, 
+					"ATENÇÃO!\n\nCampo '" + mensagem + "' não preenchido."
 							+ "\nPor favor, digite o dado solicitado pelo campo.", 
 							"Erro", 
 							JOptionPane.PLAIN_MESSAGE,
@@ -798,33 +917,52 @@ public class PrincipalCtrl {
 
 		case "erroSelecao":
 			JOptionPane.showMessageDialog(null, 
-					"Seleção inválida:\n" 
-							+ "\nPor favor, selecione uma categoria.", 
+					"Seleção inválida!\n\n" 
+							+ "Por favor, selecione uma categoria.", 
 							"Seleção Inválida", JOptionPane.PLAIN_MESSAGE,
+							new ImageIcon( diretorio + "/icons/error.png" ));
+			break;
+		
+		case "erroDataInicial":
+			JOptionPane.showMessageDialog(null, 
+					"ERRO nas datas!\n\n" 
+							+ "Por favor, digite uma data de Chegada\nigual ou superior à data de atual.", 
+							"Datas Inválidas", JOptionPane.PLAIN_MESSAGE,
+							new ImageIcon( diretorio + "/icons/error.png" ));
+			break;
+		
+		case "erroDataFinal":
+			JOptionPane.showMessageDialog(null, 
+					"ERRO nas datas!\n\n" 
+							+ "Por favor, digite uma data de Chegada\nanterior ou igual à data de Partida.", 
+							"Datas Inválidas", JOptionPane.PLAIN_MESSAGE,
 							new ImageIcon( diretorio + "/icons/error.png" ));
 			break;
 
 		case "construir":
 			JOptionPane.showMessageDialog(null, 
-					"Em construção!\nEsta função ainda não foi implementada.", 
+					"Em construção!\n\nEsta função ainda não foi implementada.", 
 					"Sem implementação", 
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon( diretorio + "/icons/builder.png" ));
 			break;
 
-		case "sistema":
-			Object[] exit = { "Confirmar", "Cancelar" };  
-			int fechar = JOptionPane.showOptionDialog( null, "ATENÇÃO!\n\nChamada para o " + mensagem 
-					+ " do sistema!\n\nDeseja encerrar a aplicação?",
-					"Fechamento do Programa!", 
-					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
-					new ImageIcon( diretorio + "/icons/warning.png" ), exit, exit[1] );
-			if ( fechar == 0 ) {
-				validar = true;
-			} else {
-				validar = false;
-			}
-			break;
+		case "sair":
+		Object[] exit = { "Confirmar", "Cancelar" };  
+		int fechar = JOptionPane.showOptionDialog( null, "ATENÇÃO!\n\nChamada para o fechamento" 
+				+ " do sistema!\n\nDeseja encerrar a aplicação?",
+				"Fechamento do Programa", 
+				JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
+				new ImageIcon( diretorio + "/icons/warning.png" ), exit, exit[1] );
+		if ( fechar == 0 ) {
+			validar = true;
+		} else {
+			validar = false;
+		}
+		if(validar == true){
+			System.exit(0);
+		}
+		break;
 
 		default:
 			JOptionPane.showMessageDialog(null, 

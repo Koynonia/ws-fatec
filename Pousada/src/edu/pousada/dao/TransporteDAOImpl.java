@@ -8,7 +8,6 @@
 package edu.pousada.dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,44 +22,39 @@ public class TransporteDAOImpl implements TransporteDAO {
 
 	/**
 	 * CREATE TABLE transporte(
-	 * id VARCHAR(100) PRIMARY KEY,
+	 * id INT AUTO_INCREMENT PRIMARY KEY,
+	 * placa VARCHAR(100) UNIQUE NOT NULL,
 	 * estado VARCHAR(30) NOT NULL,
 	 * destino VARCHAR(200) NOT NULL,
-	 * qtd INT NOT NULL,
-	 * -- cartao VARCHAR(100) NOT NULL,
-	 * dt DATE NOT NULL,
-	 * hora DATE NOT NULL,
+	 * dtReserva DATE NOT NULL,
+	 * hrReserva DATE NOT NULL,
 	 * valor DECIMAL(7,2) NOT NULL
 	 * );
 	 */
 	
 	public void adicionaTransporte(Transporte transporte) throws SQLException {
-		String sql = "INSERT INTO transporte VALUES () ";
+		String sql = "INSERT INTO transporte VALUES (NULL,?,?,?,?,?,?) ";
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setString(1, transporte.getId());
-		ps.setString(2, transporte.getStatus());
-		ps.setString(3, transporte.getLocal());
-		ps.setInt(4, transporte.getQuantidade());
-		ps.setDate(3, (Date) transporte.getData());
-		ps.setDate(4, (Date) transporte.getHora());
-		ps.setFloat(5, transporte.getValor());
-
+		ps.setString(1, transporte.getPlaca());
+		ps.setString(2, transporte.getEstado());
+		ps.setString(3, transporte.getDestino());
+		ps.setDate(4, new java.sql.Date( transporte.getDtReserva().getTime() ));
+		ps.setDate(5, new java.sql.Date( transporte.getHrReserva().getTime() ));
+		ps.setFloat(6, transporte.getValor());
 		ps.execute();
 		ps.close();
-
 	}
 
 	public void alteraTransporte(Transporte transporte) throws SQLException {
-		String sql = "UPDATE transporte SET estado = ?, destino = ?, qtd = ? dt = ?, hora = ?, valor = ? WHERE id = ?";
+		String sql = "UPDATE transporte SET placa = ?, estado = ?, destino = ? dtReserva = ?, hrReserva = ?, valor = ? WHERE placa = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setString(7, transporte.getId());
-		ps.setString(1, transporte.getStatus());
-		ps.setString(2, transporte.getLocal());
-		ps.setInt(3, transporte.getQuantidade());
-		ps.setDate(4, (Date) transporte.getData());
-		ps.setDate(5, (Date) transporte.getHora());
+		ps.setString(1, transporte.getPlaca());
+		ps.setString(2, transporte.getEstado());
+		ps.setString(3, transporte.getDestino());
+		ps.setDate(4, new java.sql.Date( transporte.getDtReserva().getTime() ));
+		ps.setDate(5, new java.sql.Date( transporte.getHrReserva().getTime() ));
 		ps.setFloat(6, transporte.getValor());
-
+		ps.setString(7, transporte.getPlaca());
 		ps.execute();
 		ps.close();
 	}
@@ -79,16 +73,17 @@ public class TransporteDAOImpl implements TransporteDAO {
 		ps.setString(1, transporte.getId());
 		ResultSet rs = ps.executeQuery();
 		if (rs.next()) {
-			transporte.setStatus(rs.getString("estado"));
-			transporte.setLocal(rs.getString("destino"));
-			transporte.setQuantidade(rs.getInt("qtd"));
-			transporte.setData(rs.getDate("data"));
-			transporte.setHora(rs.getDate("hora"));
+			transporte.setPlaca(rs.getString("placa"));
+			transporte.setEstado(rs.getString("estado"));
+			transporte.setDestino(rs.getString("destino"));
+			transporte.setData(rs.getDate("dtReserva"));
+			transporte.setHora(rs.getDate("hrReserva"));
 			transporte.setValor(rs.getFloat("valor"));
 		}
-
+		rs.close();
+		ps.close();
+		
 		return transporte;
-
 	}
 
 	public List<Transporte> listaTransporte() throws SQLException {
@@ -98,17 +93,17 @@ public class TransporteDAOImpl implements TransporteDAO {
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			Transporte transporte = new Transporte();
-			transporte.setStatus(rs.getString("estado"));
-			transporte.setLocal(rs.getString("destino"));
-			transporte.setQuantidade(rs.getInt("qtd"));
-			transporte.setData(rs.getDate("data"));
-			transporte.setHora(rs.getDate("hora"));
+			transporte.setPlaca(rs.getString("placa"));
+			transporte.setEstado(rs.getString("estado"));
+			transporte.setDestino(rs.getString("destino"));
+			transporte.setData(rs.getDate("dtReserva"));
+			transporte.setHora(rs.getDate("hrReserva"));
 			transporte.setValor(rs.getFloat("valor"));
-
 			listaTransporte.add(transporte);
 		}
-
+		rs.close();
+		ps.close();
+		
 		return listaTransporte;
 	}
-
 }

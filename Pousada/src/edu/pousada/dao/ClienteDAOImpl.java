@@ -7,7 +7,6 @@
 package edu.pousada.dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,6 +19,7 @@ public class ClienteDAOImpl implements ClienteDAO {
 
 	/**
 	 * CREATE TABLE cliente(
+	 * id INT AUTO_INCREMENT PRIMARY KEY,
 	 * nome VARCHAR(100) NOT NULL,
 	 * email VARCHAR(30) UNIQUE NOT NULL,
 	 * documento VARCHAR(15) PRIMARY KEY,
@@ -41,13 +41,13 @@ public class ClienteDAOImpl implements ClienteDAO {
 	private Connection con = DBUtil.getInstance().getConnection();
 
 	public void adicionarCliente(Cliente cliente) throws SQLException {
-		String sql = "INSERT INTO cliente VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		String sql = "INSERT INTO cliente VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1, cliente.getNome());
 		ps.setString(2, cliente.getEmail());
 		ps.setString(3, cliente.getDocumento());
 		ps.setString(4, cliente.getDocTipo());
-		ps.setDate(5, (Date) cliente.getDtNasc());
+		ps.setDate(5, new java.sql.Date( cliente.getDtNasc().getTime() ));
 		ps.setString(6, cliente.getTelefone());
 		ps.setString(7, cliente.getCelular());
 		ps.setString(8, cliente.getEndereco());
@@ -56,7 +56,7 @@ public class ClienteDAOImpl implements ClienteDAO {
 		ps.setString(11, cliente.getEstado());
 		ps.setString(12, cliente.getPais());
 		ps.setString(13, cliente.getCep());
-		ps.setDate(14, (Date) cliente.getDtCadastro());
+		ps.setDate(14, new java.sql.Date( cliente.getDtCadastro().getTime() ));
 		ps.setBoolean(15, cliente.getAtivo());
 		ps.execute();
 		ps.close();
@@ -64,37 +64,26 @@ public class ClienteDAOImpl implements ClienteDAO {
 
 	public void alterarCliente(Cliente cliente) throws SQLException {
 		String sql = "UPDATE cliente SET "
-				+ "nome = ?, "
-				+ "email = ?, "
-				+ "docTipo = ?, "
-				+ "dtNasc = ?, "
-				+ "telefone = ?, "
-				+ "celular = ?, "
-				+ "endereco = ?, "
-				+ "bairro = ?, "
-				+ "cidade = ?, "
-				+ "estado = ?, "
-				+ "pais = ?, "
-				+ "cep = ?, "
-				+ "dtCadastro = ?, "
-				+ "ativo = ? "
-				+ "WHERE documento = ?";
+				+ "nome = ?, email = ?, docTipo = ?, dtNasc = ?, telefone = ?, celular = ?, "
+				+ "endereco = ?, bairro = ?, cidade = ?, estado = ?, pais = ?, cep = ?, "
+				+ "dtCadastro = ?, ativo = ? WHERE documento = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1, cliente.getNome());
 		ps.setString(2, cliente.getEmail());
-		ps.setString(3, cliente.getDocTipo());
-		ps.setDate(4, (Date) cliente.getDtNasc());
-		ps.setString(5, cliente.getTelefone());
-		ps.setString(6, cliente.getCelular());
-		ps.setString(7, cliente.getEndereco());
-		ps.setString(8, cliente.getBairro());
-		ps.setString(9, cliente.getCidade());
-		ps.setString(10, cliente.getEstado());
-		ps.setString(11, cliente.getPais());
-		ps.setString(12, cliente.getCep());
-		ps.setDate(13, (Date) cliente.getDtCadastro());
-		ps.setBoolean(14, cliente.getAtivo());
-		ps.setString(15, cliente.getDocumento());
+		ps.setString(3, cliente.getDocumento());
+		ps.setString(4, cliente.getDocTipo());
+		ps.setDate(5, new java.sql.Date( cliente.getDtNasc().getTime() ));
+		ps.setString(6, cliente.getTelefone());
+		ps.setString(7, cliente.getCelular());
+		ps.setString(8, cliente.getEndereco());
+		ps.setString(9, cliente.getBairro());
+		ps.setString(10, cliente.getCidade());
+		ps.setString(11, cliente.getEstado());
+		ps.setString(12, cliente.getPais());
+		ps.setString(13, cliente.getCep());
+		ps.setDate(14, new java.sql.Date( cliente.getDtCadastro().getTime() ));
+		ps.setBoolean(15, cliente.getAtivo());
+		ps.setString(16, cliente.getDocumento());
 		ps.execute();
 		ps.close();
 	}
@@ -116,6 +105,7 @@ public class ClienteDAOImpl implements ClienteDAO {
 		ps.setString(1, cliente.getDocumento());
 		ResultSet rs = ps.executeQuery();
 		if (rs.next()) {
+			cliente.setId(rs.getInt("id"));
 			cliente.setNome(rs.getString("nome"));
 			cliente.setEmail(rs.getString("email"));
 			cliente.setDocumento(rs.getString("documento"));
@@ -145,6 +135,7 @@ public class ClienteDAOImpl implements ClienteDAO {
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			Cliente cliente = new Cliente();
+			cliente.setId(rs.getInt("id"));
 			cliente.setNome(rs.getString("nome"));
 			cliente.setEmail(rs.getString("email"));
 			cliente.setDocumento(rs.getString("documento"));
