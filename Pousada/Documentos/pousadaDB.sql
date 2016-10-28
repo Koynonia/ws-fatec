@@ -26,8 +26,8 @@ CREATE TABLE cliente(
  estado VARCHAR(15),
  pais VARCHAR(10),
  cep VARCHAR(8),
- dtCadastro DATE NOT NULL,
- ativo BOOLEAN NOT NULL
+ ativo BOOLEAN NOT NULL,
+ dtCadastro DATE NOT NULL
 ) ENGINE = innodb;
 
 CREATE TABLE funcionario (
@@ -45,7 +45,7 @@ CREATE TABLE funcionario (
  cep VARCHAR(8) NOT NULL,
  cargo VARCHAR(30) NOT NULL,
  setor VARCHAR(30) NOT NULL,
- 
+ ativo BOOLEAN NOT NULL,
  datacadastro DATE NOT NULL
 ) ENGINE = innodb;
 

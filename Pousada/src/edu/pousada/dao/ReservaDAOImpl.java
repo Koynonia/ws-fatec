@@ -14,6 +14,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.pousada.entity.Chale;
+import edu.pousada.entity.Cliente;
 import edu.pousada.entity.Reserva;
 
 public class ReservaDAOImpl implements ReservaDAO{
@@ -23,7 +25,7 @@ public class ReservaDAOImpl implements ReservaDAO{
 	/**
 	 * CREATE TABLE reserva (
 	 * id INT AUTO_INCREMENT PRIMARY KEY,
-	 * cliente VARCHAR(50) NOT NULL,
+	 * cliente INT NOT NULL,
 	 * chale INT NOT NULL,
 	 * qtdAdulto INT NOT NULL,
 	 * qtdCrianca INT NOT NULL,
@@ -38,7 +40,7 @@ public class ReservaDAOImpl implements ReservaDAO{
 	public void adicionaReserva(Reserva reserva) throws SQLException {
 		String sql = "INSERT INTO reserva VALUES (NULL,?,?,?,?,?,?,?,?)";
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setString(1, reserva.getCliente().getDocumento());
+		ps.setInt(1, reserva.getCliente().getId());
 		ps.setInt(2, reserva.getChale().getId());
 		ps.setInt(3, reserva.getQtdAdulto());
 		ps.setInt(4, reserva.getQtdCrianca());
@@ -57,7 +59,7 @@ public class ReservaDAOImpl implements ReservaDAO{
 				+ "dtInicio = ?, dtFim = ?, "
 				+ "desconto = ? WHERE id = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setString(1, reserva.getCliente().getDocumento());
+		ps.setInt(1, reserva.getCliente().getId());
 		ps.setInt(2, reserva.getChale().getId());
 		ps.setInt(3, reserva.getQtdAdulto());
 		ps.setInt(4, reserva.getQtdCrianca());
@@ -86,8 +88,8 @@ public class ReservaDAOImpl implements ReservaDAO{
 		ResultSet rs = ps.executeQuery();
 		if(rs.next()){
 			reserva.setId(rs.getInt("id"));
-			//reserva.setCliente(rs.getString("cliente"));
-			//reserva.setChale(rs.getString("chale"));
+			reserva.setCliente( cliente( rs.getInt("cliente") ));
+			reserva.setChale( chale( rs.getInt("chale") ));
 			reserva.setQtdAdulto(rs.getInt("qtdAdulto"));
 			reserva.setQtdCrianca(rs.getInt("qtdCrianca"));
 			reserva.setDtInicio(rs.getDate("dtInicio"));
@@ -102,25 +104,76 @@ public class ReservaDAOImpl implements ReservaDAO{
 
 	@Override
 	public List<Reserva> todasReservas() throws SQLException {
+
 		String sql = "SELECT * FROM reserva";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
 		List<Reserva>lista = new ArrayList<>();
 		while (rs.next()) {
-			Reserva reservas = new Reserva();
-			reservas.setId(rs.getInt("id"));
-			//reservas.setCliente(rs.getString("cliente"));
-			//reserva.setChale(rs.getString("chale"));
-			reservas.setQtdAdulto(rs.getInt("qtdAdulto"));
-			reservas.setQtdCrianca(rs.getInt("qtdCrianca"));
-			reservas.setDtInicio(rs.getDate("dtInicio"));
-			reservas.setDtFim(rs.getDate("dtFim"));
-			reservas.setDesconto(rs.getInt("desconto"));
-			reservas.setDtCadastro(rs.getDate("dtCadastro"));
-			lista.add( reservas );
+			Reserva reserva = new Reserva();
+			reserva.setId(rs.getInt("id"));
+			reserva.setCliente( cliente( rs.getInt("cliente") ));
+			reserva.setChale( chale( rs.getInt("chale") ));
+			reserva.setQtdAdulto(rs.getInt("qtdAdulto"));
+			reserva.setQtdCrianca(rs.getInt("qtdCrianca"));
+			reserva.setDtInicio(rs.getDate("dtInicio"));
+			reserva.setDtFim(rs.getDate("dtFim"));
+			reserva.setDesconto(rs.getInt("desconto"));
+			reserva.setDtCadastro(rs.getDate("dtCadastro"));
+			lista.add( reserva );
 		}
 		rs.close();
 		ps.close();
+		
 		return lista;
+	}
+	
+	public Cliente cliente(Integer id) throws SQLException {
+		
+		String sql = "SELECT * FROM cliente AS cl INNER JOIN reserva AS rs ON cl.id = rs.cliente WHERE id = ?";	
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setInt( 1, id );
+		ResultSet rs = ps.executeQuery();
+		Cliente cliente = new Cliente();
+		while (rs.next()) {
+			cliente.setId(rs.getInt("id"));
+			cliente.setNome(rs.getString("nome"));
+			cliente.setEmail(rs.getString("email"));
+			cliente.setDocumento(rs.getString("documento"));
+			cliente.setDocTipo(rs.getString("docTipo"));
+			cliente.setDtNasc(rs.getDate("dtNasc"));
+			cliente.setTelefone(rs.getString("telefone"));
+			cliente.setCelular(rs.getString("celular"));
+			cliente.setEndereco(rs.getString("endereco"));
+			cliente.setBairro(rs.getString("bairro"));
+			cliente.setCidade(rs.getString("cidade"));
+			cliente.setEstado(rs.getString("estado"));
+			cliente.setPais(rs.getString("pais"));
+			cliente.setCep(rs.getString("cep"));
+			cliente.setDtCadastro(rs.getDate("dtCadastro"));
+			cliente.setAtivo(rs.getBoolean("ativo"));
+		}
+		rs.close();
+		ps.close();
+		
+		return cliente;
+	}
+	
+	public Chale chale(Integer id) throws SQLException {
+		
+		String sql = "SELECT * FROM chale AS ch INNER JOIN reserva AS rs ON ch.id = ?";	
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setInt( 1, id );
+		ResultSet rs = ps.executeQuery();
+		Chale chale = new Chale();
+		while (rs.next()) {
+			chale.setId(rs.getInt("id"));
+			chale.setCategoria(rs.getString("categoria"));
+			chale.setDiaria(rs.getFloat("diaria"));
+		}
+		rs.close();
+		ps.close();
+		
+		return chale;
 	}
 }

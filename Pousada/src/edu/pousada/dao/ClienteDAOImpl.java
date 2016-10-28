@@ -33,8 +33,8 @@ public class ClienteDAOImpl implements ClienteDAO {
 	 * estado VARCHAR(15) NOT NULL,
 	 * pais VARCHAR(10) NOT NULL,
 	 * cep VARCHAR(8),
-	 * dtCadastro DATE NOT NULL,
-	 * ativo BOOLEAN NOT NULL
+	 * ativo BOOLEAN NOT NULL,
+	 * dtCadastro DATE NOT NULL
 	 * );
 	 */
 	
@@ -56,8 +56,8 @@ public class ClienteDAOImpl implements ClienteDAO {
 		ps.setString(11, cliente.getEstado());
 		ps.setString(12, cliente.getPais());
 		ps.setString(13, cliente.getCep());
-		ps.setDate(14, new java.sql.Date( cliente.getDtCadastro().getTime() ));
-		ps.setBoolean(15, cliente.getAtivo());
+		ps.setBoolean(14, cliente.getAtivo());
+		ps.setDate(15, new java.sql.Date( cliente.getDtCadastro().getTime() ));
 		ps.execute();
 		ps.close();
 	}
@@ -81,8 +81,8 @@ public class ClienteDAOImpl implements ClienteDAO {
 		ps.setString(11, cliente.getEstado());
 		ps.setString(12, cliente.getPais());
 		ps.setString(13, cliente.getCep());
-		ps.setDate(14, new java.sql.Date( cliente.getDtCadastro().getTime() ));
-		ps.setBoolean(15, cliente.getAtivo());
+		ps.setBoolean(14, cliente.getAtivo());
+		ps.setDate(15, new java.sql.Date( cliente.getDtCadastro().getTime() ));
 		ps.setString(16, cliente.getDocumento());
 		ps.execute();
 		ps.close();
@@ -119,8 +119,8 @@ public class ClienteDAOImpl implements ClienteDAO {
 			cliente.setEstado(rs.getString("estado"));
 			cliente.setPais(rs.getString("pais"));
 			cliente.setCep(rs.getString("cep"));
-			cliente.setDtCadastro(rs.getDate("dtCadastro"));
 			cliente.setAtivo(rs.getBoolean("ativo"));
+			cliente.setDtCadastro(rs.getDate("dtCadastro"));
 		}
 		rs.close();
 		ps.close();
@@ -149,8 +149,8 @@ public class ClienteDAOImpl implements ClienteDAO {
 			cliente.setEstado(rs.getString("estado"));
 			cliente.setPais(rs.getString("pais"));
 			cliente.setCep(rs.getString("cep"));
-			cliente.setDtCadastro(rs.getDate("dtCadastro"));
 			cliente.setAtivo(rs.getBoolean("ativo"));
+			cliente.setDtCadastro(rs.getDate("dtCadastro"));
 			listaCliente.add(cliente);
 		}
 		rs.close();
