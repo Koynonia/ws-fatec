@@ -9,30 +9,31 @@ package edu.pousada.entity;
 
 import java.util.Date;
 
-public class Servico {
+public abstract class Servico {
 	
-	private Cartao cartao;
-	private Date data;
-	private Date hora;
+	private Integer id;
+	private Date dtReserva;
+	private Date hrReserva;
 	private Float valor;
 	
-	public Cartao getCartao() {
-		return cartao;
+	
+	public Integer getId() {
+		return id;
 	}
-	public void setCartao(Cartao cartao) {
-		this.cartao = cartao;
+	public void setId(Integer id) {
+		this.id = id;
 	}
-	public Date getData() {
-		return data;
+	public Date getDtReserva() {
+		return dtReserva;
 	}
-	public void setData(Date data) {
-		this.data = data;
+	public void setDtReserva(Date dtReserva) {
+		this.dtReserva = dtReserva;
 	}
-	public Date getHora() {
-		return hora;
+	public Date getHrReserva() {
+		return hrReserva;
 	}
-	public void setHora(Date hora) {
-		this.hora = hora;
+	public void setHrReserva(Date hrReserva) {
+		this.hrReserva = hrReserva;
 	}
 	public Float getValor() {
 		return valor;
@@ -40,7 +41,4 @@ public class Servico {
 	public void setValor(Float valor) {
 		this.valor = valor;
 	}
-	
-	
-
 }

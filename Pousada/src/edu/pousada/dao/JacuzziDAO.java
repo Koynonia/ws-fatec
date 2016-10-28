@@ -18,4 +18,5 @@ public interface JacuzziDAO {
 	public void alteraJacuzzi(Jacuzzi jacuzzi) throws SQLException;
 	public void excluiJacuzzi(Jacuzzi jacuzzi) throws SQLException;
 	public List<Jacuzzi> listaJacuzzi() throws SQLException;
+
 }

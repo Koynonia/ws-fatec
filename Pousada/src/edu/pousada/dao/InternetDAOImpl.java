@@ -23,47 +23,40 @@ public class InternetDAOImpl implements InternetDAO{
 	
 	/**
 	 * CREATE TABLE internet(
-	 * qtd INT NOT NULL,
-	 * -- cartao VARCHAR(100) NOT NULL,
-	 * dt DATE NOT NULL,
-	 * hora DATE NOT NULL,
+	 *  id INT AUTO_INCREMENT PRIMARY KEY,
+	 * dtReserva DATE NOT NULL,
+	 * hrReserva DATE NOT NULL,
 	 * valor DECIMAL(7,2) NOT NULL
 	 * );
 	 */
 
 	public void adicionaInternet(Internet internet) throws SQLException {
-		String sql = "INSERT INTO internet VALUES (?,?,?,?,?)";
+		String sql = "INSERT INTO internet VALUES (NULL,?,?,?)";
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt(1, internet.getQuantidade());
-		ps.setDate(2, (Date) internet.getData());
-		ps.setDate(3, (Date) internet.getHora());
-		ps.setFloat(4, internet.getValor());
-		
+		ps.setDate(1, new java.sql.Date( internet.getDtReserva().getTime() ));
+		ps.setDate(2, new java.sql.Date( internet.getHrReserva().getTime() ));
+		ps.setFloat(3, internet.getValor());
 		ps.execute();
 		ps.close();
 	}
 
 	public void alterarInternet(Internet internet) throws SQLException {
-		String sql = "UPDATE lanchonete SET qtd = ?, dt = ?, hora = ?, valor = ? WHERE idInternet = ?";
+		String sql = "UPDATE lanchonete SET dtReserva = ?, hrReserva = ?, valor = ? WHERE id = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt(1, internet.getQuantidade());
-		ps.setDate(2, (Date) internet.getData());
-		ps.setDate(3, (Date) internet.getHora());
-		ps.setFloat(4, internet.getValor());
-		
-		ps.setInt(5, internet.getIdLanchonete());
+		ps.setDate(1, new java.sql.Date( internet.getDtReserva().getTime() ));
+		ps.setDate(2, new java.sql.Date( internet.getHrReserva().getTime() ));
+		ps.setFloat(3, internet.getValor());
+		ps.setInt(4, internet.getId());
 		ps.execute();
 		ps.close();
 	}
 
 	public void excluiIntenret(Internet internet) throws SQLException {
-		String sql = "DELETE lanchonete WHERE idLanchonete = ?";
+		String sql = "DELETE internet WHERE id = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt(1, internet.getIdLanchonete());
-		
+		ps.setInt(1, internet.getId());
 		ps.execute();
 		ps.close();
-		
 	}
 
 	public List<Internet> listaInternet() throws SQLException {
@@ -73,16 +66,15 @@ public class InternetDAOImpl implements InternetDAO{
 		ResultSet rs = ps.executeQuery();
 		while(rs.next()){
 			Internet internet = new Internet();
-			internet.setIdLanchonete(rs.getInt("qtd"));
-			internet.setData(rs.getDate("dt"));
-			internet.setHora(rs.getDate("hora"));
+			internet.setId(rs.getInt("id"));
+			internet.setDtReserva(rs.getDate("dtReserva"));
+			internet.setHrReserva(rs.getDate("hrReserva"));
 			internet.setValor(rs.getFloat("valor"));
 			listaInternet.add(internet);
-			
 		}
+		rs.close();
+		ps.close();
 		
 		return listaInternet;
 	}
-	
-
 }

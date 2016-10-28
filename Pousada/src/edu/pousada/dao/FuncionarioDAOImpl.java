@@ -34,8 +34,8 @@ public class FuncionarioDAOImpl implements FuncionarioDAO {
 	 * cep VARCHAR(8) NOT NULL,
 	 * cargo VARCHAR(30) NOT NULL,
 	 * setor VARCHAR(30) NOT NULL, 
-	 * dtCadastro DATE NOT NULL,
-	 * ativo BOOLEAN NOT NULL
+	 * ativo BOOLEAN NOT NULL,
+	 * dtCadastro DATE NOT NULL
 	 * );
 	 */
 	
@@ -58,8 +58,8 @@ public class FuncionarioDAOImpl implements FuncionarioDAO {
 		ps.setString(12, funcionario.getCep());
 		ps.setString(13, funcionario.getCargo());
 		ps.setString(14, funcionario.getSetor());
-		ps.setDate(15, new java.sql.Date( funcionario.getDtCadastro().getTime() ));
-		ps.setBoolean(16, funcionario.getAtivo());
+		ps.setBoolean(15, funcionario.getAtivo());
+		ps.setDate(16, new java.sql.Date( funcionario.getDtCadastro().getTime() ));
 		ps.execute();
 		ps.close();
 	}
@@ -68,7 +68,7 @@ public class FuncionarioDAOImpl implements FuncionarioDAO {
 		String sql = "UPDATE funcionario SET "
 				+ "nome = ?, email = ?, cpf = ?, dtNasc = ?, telefone = ?, celular = ?, "
 				+ "endereco = ?, bairro = ?, cidade = ?, estado = ?, pais = ?, cep = ?, "
-				+ "cargo = ?, setor = ?, dtCadastro = ?, ativo = ? WHERE cpf = ?";
+				+ "cargo = ?, setor = ?, ativo = ?, dtCadastro = ? WHERE cpf = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1, funcionario.getNome());
 		ps.setString(2, funcionario.getEmail());
@@ -84,8 +84,8 @@ public class FuncionarioDAOImpl implements FuncionarioDAO {
 		ps.setString(12, funcionario.getCep());
 		ps.setString(13, funcionario.getCargo());
 		ps.setString(14, funcionario.getSetor());
-		ps.setDate(15, new java.sql.Date( funcionario.getDtCadastro().getTime() ));
 		ps.setBoolean(16, funcionario.getAtivo());
+		ps.setDate(15, new java.sql.Date( funcionario.getDtCadastro().getTime() ));
 		ps.setString(17, funcionario.getCpf());
 		ps.execute();
 		ps.close();
@@ -123,8 +123,8 @@ public class FuncionarioDAOImpl implements FuncionarioDAO {
 			funcionario.setCep(rs.getString("cep"));
 			funcionario.setCargo(rs.getString("cargo"));
 			funcionario.setSetor(rs.getString("setor"));
-			funcionario.setDtCadastro(rs.getDate("dtCadastro"));
 			funcionario.setAtivo(rs.getBoolean("ativo"));
+			funcionario.setDtCadastro(rs.getDate("dtCadastro"));
 		}
 		rs.close();
 		ps.close();
@@ -154,8 +154,8 @@ public class FuncionarioDAOImpl implements FuncionarioDAO {
 			funcionario.setCep(rs.getString("cep"));
 			funcionario.setCargo(rs.getString("cargo"));
 			funcionario.setSetor(rs.getString("setor"));
-			funcionario.setDtCadastro(rs.getDate("dtCadastro"));
 			funcionario.setAtivo(rs.getBoolean("ativo"));
+			funcionario.setDtCadastro(rs.getDate("dtCadastro"));
 		}
 		rs.close();
 		ps.close();

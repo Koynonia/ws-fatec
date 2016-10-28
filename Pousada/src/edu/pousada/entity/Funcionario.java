@@ -26,8 +26,8 @@ public class Funcionario {
 	private String cep;
 	private String cargo;
 	private String setor;
-	private Date dtCadastro;
 	private Boolean ativo;
+	private Date dtCadastro;
 	
 	
 	public Integer getId() {
@@ -120,16 +120,16 @@ public class Funcionario {
 	public void setSetor(String setor) {
 		this.setor = setor;
 	}
-	public Date getDtCadastro() {
-		return dtCadastro;
-	}
-	public void setDtCadastro(Date dtCadastro) {
-		this.dtCadastro = dtCadastro;
-	}
 	public Boolean getAtivo() {
 		return ativo;
 	}
 	public void setAtivo(Boolean ativo) {
 		this.ativo = ativo;
+	}
+	public Date getDtCadastro() {
+		return dtCadastro;
+	}
+	public void setDtCadastro(Date dtCadastro) {
+		this.dtCadastro = dtCadastro;
 	}
 }

@@ -7,26 +7,31 @@
 
 package edu.pousada.entity;
 
+import java.util.Date;
+
 public class Jacuzzi extends Servico {
 	
-	private Integer idJacuzzi;
-	private Integer quantidade;
-
-	public Integer getIdJacuzzi() {
-		return idJacuzzi;
-	}
-
-	public void setIdJacuzzi(Integer idJacuzzi) {
-		this.idJacuzzi = idJacuzzi;
-	}
-
-	public Integer getQuantidade() {
-		return quantidade;
-	}
-
-	public void setQuantidade(Integer quantidade) {
-		this.quantidade = quantidade;
-	}
+	private Integer id;
+	private Date dtReserva;
+	private Date hrReserva;
 	
 	
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public Date getDtReserva() {
+		return dtReserva;
+	}
+	public void setDtReserva(Date dtReserva) {
+		this.dtReserva = dtReserva;
+	}
+	public Date getHrReserva() {
+		return hrReserva;
+	}
+	public void setHrReserva(Date hrReserva) {
+		this.hrReserva = hrReserva;
+	}
 }

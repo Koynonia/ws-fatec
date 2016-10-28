@@ -44,10 +44,9 @@ CREATE TABLE funcionario (
  estado VARCHAR(2) NOT NULL,
  cep VARCHAR(8) NOT NULL,
  cargo VARCHAR(30) NOT NULL,
- setor VARCHAR(30) NOT NULL, 
- datacadastro DATE NOT NULL,
- cargo VARCHAR(30) NOT NULL,
- setor VARCHAR(30) NOT NULL
+ setor VARCHAR(30) NOT NULL,
+ 
+ datacadastro DATE NOT NULL
 );
 
 CREATE TABLE pessoa (
@@ -104,19 +103,15 @@ CREATE TABLE transporte(
 
 CREATE TABLE jacuzzi(
  id INT AUTO_INCREMENT PRIMARY KEY,
- qtd INT NOT NULL,
- -- cartao VARCHAR(100) NOT NULL,
- dt DATE NOT NULL,
- hora DATE NOT NULL,
+ dtReserva DATE NOT NULL,
+ hrReserva DATE NOT NULL,
  valor DECIMAL(7,2) NOT NULL
 );
 
 CREATE TABLE internet(
  id INT AUTO_INCREMENT PRIMARY KEY,
- qtd INT NOT NULL,
- -- cartao VARCHAR(100) NOT NULL,
- dt DATE NOT NULL,
- hora DATE NOT NULL,
+ dtReserva DATE NOT NULL,
+ hrReserva DATE NOT NULL,
  valor DECIMAL(7,2) NOT NULL
 );
 
@@ -137,7 +132,7 @@ versao VARCHAR(10) NOT NULL
 
 -- DADOS PARA TESTE:
 
-INSERT INTO `chale` (`numero`, `categoria`, `diaria`) VALUES
+INSERT INTO `chale` (`id`, `categoria`, `diaria`) VALUES
 (1, 'Luxo', '299.90'),
 (2, 'Clássico', '199.90'),
 (3, 'Padrão', '99.90');

@@ -37,7 +37,7 @@ public class LanchoneteDAOImpl implements LanchoneteDAO{
 		ps.setString(1, lanchonete.getNome());
 		ps.setString(2, lanchonete.getTipo());
 		ps.setDate(3, new java.sql.Date( lanchonete.getDtReserva().getTime() ));
-		ps.setDate(3, new java.sql.Date( lanchonete.getHrReserva().getTime() ));
+		ps.setDate(4, new java.sql.Date( lanchonete.getHrReserva().getTime() ));
 		ps.setFloat(5, lanchonete.getValor());
 		ps.execute();
 		ps.close();
@@ -50,7 +50,7 @@ public class LanchoneteDAOImpl implements LanchoneteDAO{
 		ps.setString(1, lanchonete.getNome());
 		ps.setString(2, lanchonete.getTipo());
 		ps.setDate(3, new java.sql.Date( lanchonete.getDtReserva().getTime() ));
-		ps.setDate(3, new java.sql.Date( lanchonete.getHrReserva().getTime() ));
+		ps.setDate(4, new java.sql.Date( lanchonete.getHrReserva().getTime() ));
 		ps.setFloat(5, lanchonete.getValor());
 		ps.setInt(6, lanchonete.getId());
 		ps.execute();
@@ -76,8 +76,8 @@ public class LanchoneteDAOImpl implements LanchoneteDAO{
 			lanchonete.setId(rs.getInt("id"));
 			lanchonete.setNome(rs.getString("nome"));
 			lanchonete.setTipo(rs.getString("tipo"));
-			lanchonete.setData(rs.getDate("dtReserva"));
-			lanchonete.setHora(rs.getDate("hrReserva"));
+			lanchonete.setDtReserva(rs.getDate("dtReserva"));
+			lanchonete.setHrReserva(rs.getDate("hrReserva"));
 			lanchonete.setValor(rs.getFloat("valor"));
 			lanchonete.setId(rs.getInt("id"));
 		}
@@ -98,8 +98,8 @@ public class LanchoneteDAOImpl implements LanchoneteDAO{
 			lanchonete.setId(rs.getInt("id"));
 			lanchonete.setNome(rs.getString("nome"));
 			lanchonete.setTipo(rs.getString("tipo"));
-			lanchonete.setData(rs.getDate("dtReserva"));
-			lanchonete.setHora(rs.getDate("hrReserva"));
+			lanchonete.setDtReserva(rs.getDate("dtReserva"));
+			lanchonete.setHrReserva(rs.getDate("hrReserva"));
 			lanchonete.setValor(rs.getFloat("valor"));
 			listaLanchonete.add(lanchonete);
 		}

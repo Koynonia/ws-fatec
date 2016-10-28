@@ -11,7 +11,7 @@ import java.util.Date;
 
 public class Transporte extends Servico {
 
-	private String id;
+	private Integer id;
 	private String placa;
 	private String estado;
 	private String destino;
@@ -20,10 +20,10 @@ public class Transporte extends Servico {
 	private Float valor;
 	
 	
-	public String getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public String getPlaca() {

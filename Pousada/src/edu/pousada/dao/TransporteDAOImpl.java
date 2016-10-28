@@ -62,7 +62,7 @@ public class TransporteDAOImpl implements TransporteDAO {
 	public void excluiTransporte(Transporte transporte) throws SQLException {
 		String sql = "DELETE transporte WHERE id = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setString(1, transporte.getId());
+		ps.setInt(1, transporte.getId());
 		ps.execute();
 		ps.close();
 	}
@@ -70,14 +70,14 @@ public class TransporteDAOImpl implements TransporteDAO {
 	public Transporte consultaTransporte(Transporte transporte) throws SQLException {
 		String sql = "SELECT * FROM transporte WHERE id = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setString(1, transporte.getId());
+		ps.setInt(1, transporte.getId());
 		ResultSet rs = ps.executeQuery();
 		if (rs.next()) {
 			transporte.setPlaca(rs.getString("placa"));
 			transporte.setEstado(rs.getString("estado"));
 			transporte.setDestino(rs.getString("destino"));
-			transporte.setData(rs.getDate("dtReserva"));
-			transporte.setHora(rs.getDate("hrReserva"));
+			transporte.setDtReserva(rs.getDate("dtReserva"));
+			transporte.setHrReserva(rs.getDate("hrReserva"));
 			transporte.setValor(rs.getFloat("valor"));
 		}
 		rs.close();
@@ -96,8 +96,8 @@ public class TransporteDAOImpl implements TransporteDAO {
 			transporte.setPlaca(rs.getString("placa"));
 			transporte.setEstado(rs.getString("estado"));
 			transporte.setDestino(rs.getString("destino"));
-			transporte.setData(rs.getDate("dtReserva"));
-			transporte.setHora(rs.getDate("hrReserva"));
+			transporte.setDtReserva(rs.getDate("dtReserva"));
+			transporte.setHrReserva(rs.getDate("hrReserva"));
 			transporte.setValor(rs.getFloat("valor"));
 			listaTransporte.add(transporte);
 		}

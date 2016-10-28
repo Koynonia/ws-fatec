@@ -8,7 +8,6 @@
 package edu.pousada.dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,48 +22,40 @@ public class JacuzziDAOImpl implements JacuzziDAO {
 
 	/**
 	 * 	CREATE TABLE jacuzzi(
-	 * qtd INT NOT NULL,
-	 * -- cartao VARCHAR(100) NOT NULL,
-	 * dt DATE NOT NULL,
-	 * hora DATE NOT NULL,
+	 * id INT AUTO_INCREMENT PRIMARY KEY,
+	 * dtReserva DATE NOT NULL,
+	 * hrReserva DATE NOT NULL,
 	 * valor DECIMAL(7,2) NOT NULL
 	 * );
 	 */
 	
 	public void adicionaJacuzzi(Jacuzzi jacuzzi) throws SQLException {
-		String sql = "INSERT INTO jacuzzi VALUES (?,?,?,?)";
+		String sql = "INSERT INTO jacuzzi VALUES (NULL,?,?,?)";
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt(1, jacuzzi.getQuantidade());
-		ps.setDate(2, (Date) jacuzzi.getData());
-		ps.setDate(3, (Date) jacuzzi.getHora());
-		ps.setFloat(4, jacuzzi.getValor());
-
+		ps.setDate(1, new java.sql.Date( jacuzzi.getDtReserva().getTime() ));
+		ps.setDate(2, new java.sql.Date( jacuzzi.getHrReserva().getTime() ));
+		ps.setFloat(3, jacuzzi.getValor());
 		ps.execute();
 		ps.close();
-
 	}
 
 	@Override
 	public void alteraJacuzzi(Jacuzzi jacuzzi) throws SQLException {
-		String sql = "UPDATE jacuzzki SET qtd = ?, dt = ?, hora = ?, valor = ? WHERE idJacuzzi = ?";
+		String sql = "UPDATE jacuzzki SET dtReserva = ?, hrReserva = ?, valor = ? WHERE id = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt(1, jacuzzi.getQuantidade());
-		ps.setDate(2, (Date) jacuzzi.getData());
-		ps.setDate(3, (Date) jacuzzi.getHora());
-		ps.setFloat(4, jacuzzi.getValor());		
-		
-		ps.setInt(5, jacuzzi.getIdJacuzzi());
+		ps.setDate(1, new java.sql.Date( jacuzzi.getDtReserva().getTime() ));
+		ps.setDate(2, new java.sql.Date( jacuzzi.getHrReserva().getTime() ));
+		ps.setFloat(3, jacuzzi.getValor());		
+		ps.setInt(4, jacuzzi.getId());
 		ps.execute();
-		ps.close();
-		
+		ps.close();	
 	}
 
 	@Override
 	public void excluiJacuzzi(Jacuzzi jacuzzi) throws SQLException {
 		String sql = "DELETE jacuzzi WHERE idJacuzzi = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt(1, jacuzzi.getIdJacuzzi());
-		
+		ps.setInt(1, jacuzzi.getId());
 		ps.execute();
 		ps.close();
 	}
@@ -77,14 +68,15 @@ public class JacuzziDAOImpl implements JacuzziDAO {
 		ResultSet rs = ps.executeQuery();
 		while(rs.next()){
 			Jacuzzi jacuzzi = new Jacuzzi();
-			jacuzzi.setIdJacuzzi(rs.getInt("idJacuzzi"));
-			jacuzzi.setData(rs.getDate("dt"));
-			jacuzzi.setHora(rs.getDate("hora"));
+			jacuzzi.setId(rs.getInt("id"));
+			jacuzzi.setDtReserva(rs.getDate("dtReserva"));
+			jacuzzi.setHrReserva(rs.getDate("hrReserva"));
 			jacuzzi.setValor(rs.getFloat("valor"));
 			listaJacuzzi.add(jacuzzi);
-			
 		}
+		rs.close();
+		ps.close();
+		
 		return listaJacuzzi;
 	}
-
 }
