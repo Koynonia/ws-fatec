@@ -9,7 +9,6 @@ Projeto realizado por:
 - GABRIELA DE OLIVEIRA MANZOLINI
 - GUILHERME JATOBÁ
 - JESSICA CARNEIRO BATISTA
-- WELLINGTON DOS SANTOS CRUZ
 
 O histórico e a documentação podem ser acompanhados no [wiki do projeto](https://bitbucket.org/jaegers/pousada/wiki/).
 
