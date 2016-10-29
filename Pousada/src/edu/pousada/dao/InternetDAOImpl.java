@@ -8,7 +8,6 @@
 package edu.pousada.dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,47 +29,63 @@ public class InternetDAOImpl implements InternetDAO{
 	 * );
 	 */
 
-	public void adicionar(Internet internet) throws SQLException {
+	@Override
+	public void adicionar(Internet i) throws SQLException {
+		
 		String sql = "INSERT INTO internet VALUES (NULL,?,?,?)";
+		
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setDate(1, new java.sql.Date( internet.getDtReserva().getTime() ));
-		ps.setDate(2, new java.sql.Date( internet.getHrReserva().getTime() ));
-		ps.setFloat(3, internet.getValor());
+		ps.setDate(1, new java.sql.Date( i.getDtReserva().getTime() ));
+		ps.setDate(2, new java.sql.Date( i.getHrReserva().getTime() ));
+		ps.setFloat(3, i.getValor());
 		ps.execute();
 		ps.close();
 	}
 
-	public void alterar(Internet internet) throws SQLException {
-		String sql = "UPDATE lanchonete SET dtReserva = ?, hrReserva = ?, valor = ? WHERE id = ?";
+	@Override
+	public void alterar(Internet i) throws SQLException {
+		
+		String sql = "UPDATE lanchonete SET "
+				+ "dtReserva = ?, "
+				+ "hrReserva = ?, "
+				+ "valor = ? "
+				+ "WHERE id = ?";
+		
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setDate(1, new java.sql.Date( internet.getDtReserva().getTime() ));
-		ps.setDate(2, new java.sql.Date( internet.getHrReserva().getTime() ));
-		ps.setFloat(3, internet.getValor());
-		ps.setInt(4, internet.getId());
+		ps.setDate(1, new java.sql.Date( i.getDtReserva().getTime() ));
+		ps.setDate(2, new java.sql.Date( i.getHrReserva().getTime() ));
+		ps.setFloat(3, i.getValor());
+		ps.setInt(4, i.getId());
 		ps.execute();
 		ps.close();
 	}
 
-	public void excluir(Internet internet) throws SQLException {
+	@Override
+	public void excluir(Internet i) throws SQLException {
+		
 		String sql = "DELETE FROM internet WHERE id = ?";
+		
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt(1, internet.getId());
+		ps.setInt(1, i.getId());
 		ps.execute();
 		ps.close();
 	}
 
+	@Override
 	public List<Internet> todos() throws SQLException {
-		List<Internet> listaInternet = new ArrayList<Internet>();
+		
 		String sql = "SELECT * FROM internet";
+		
 		PreparedStatement ps = con.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
+		List<Internet> listaInternet = new ArrayList<Internet>();
 		while(rs.next()){
-			Internet internet = new Internet();
-			internet.setId(rs.getInt("id"));
-			internet.setDtReserva(rs.getDate("dtReserva"));
-			internet.setHrReserva(rs.getDate("hrReserva"));
-			internet.setValor(rs.getFloat("valor"));
-			listaInternet.add(internet);
+			Internet i = new Internet();
+			i.setId(rs.getInt("id"));
+			i.setDtReserva(rs.getDate("dtReserva"));
+			i.setHrReserva(rs.getDate("hrReserva"));
+			i.setValor(rs.getFloat("valor"));
+			listaInternet.add(i);
 		}
 		rs.close();
 		ps.close();

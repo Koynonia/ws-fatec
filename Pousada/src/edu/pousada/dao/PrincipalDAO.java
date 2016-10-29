@@ -14,10 +14,10 @@ import edu.pousada.entity.Principal;
 
 public interface PrincipalDAO {
 
-	public void adicionar(Principal Principal) throws SQLException;
-	public void alterar(Principal Principal) throws SQLException;
-	public void excluir(Principal Principal) throws SQLException;
-	public Principal consultar(Principal Principal) throws SQLException;
+	public void adicionar(Principal p) throws SQLException;
+	public void alterar(Principal p) throws SQLException;
+	public void excluir(Principal p) throws SQLException;
+	public Principal consultar(Principal p) throws SQLException;
 	public List<Principal> todos() throws SQLException;
 	
 }

@@ -2,30 +2,25 @@
  * @author FERNANDO MORAES OLIVEIRA
  * Materia Engenharia de Software 2
  * FATEC ZL 5º ADS - Tarde
- * 24/10/2016
+ * 29/10/2016
  */
 
 package edu.pousada.entity;
 
 import java.util.Date;
 
-public class Cliente {
+public class Contato {
 
 	private Integer id;
+	private Integer assunto;
 	private String nome;
 	private String email;
-	private String documento;
-	private String docTipo;
-	private Date dtNasc;
 	private String telefone;
-	private String celular;
 	private String endereco;
 	private String bairro;
 	private String cidade;
 	private String estado;
 	private String pais;
-	private String cep;
-	private Boolean ativo;
 	private Date dtCadastro;
 	
 	
@@ -34,6 +29,12 @@ public class Cliente {
 	}
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	public Integer getAssunto() {
+		return assunto;
+	}
+	public void setAssunto(Integer assunto) {
+		this.assunto = assunto;
 	}
 	public String getNome() {
 		return nome;
@@ -47,35 +48,11 @@ public class Cliente {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getDocumento() {
-		return documento;
-	}
-	public void setDocumento(String documento) {
-		this.documento = documento;
-	}
-	public String getDocTipo() {
-		return docTipo;
-	}
-	public void setDocTipo(String docTipo) {
-		this.docTipo = docTipo;
-	}
-	public Date getDtNasc() {
-		return dtNasc;
-	}
-	public void setDtNasc(Date dtNasc) {
-		this.dtNasc = dtNasc;
-	}
 	public String getTelefone() {
 		return telefone;
 	}
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
-	}
-	public String getCelular() {
-		return celular;
-	}
-	public void setCelular(String celular) {
-		this.celular = celular;
 	}
 	public String getEndereco() {
 		return endereco;
@@ -106,18 +83,6 @@ public class Cliente {
 	}
 	public void setPais(String pais) {
 		this.pais = pais;
-	}
-	public String getCep() {
-		return cep;
-	}
-	public void setCep(String cep) {
-		this.cep = cep;
-	}
-	public Boolean getAtivo() {
-		return ativo;
-	}
-	public void setAtivo(Boolean ativo) {
-		this.ativo = ativo;
 	}
 	public Date getDtCadastro() {
 		return dtCadastro;

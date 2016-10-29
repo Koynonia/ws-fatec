@@ -29,54 +29,67 @@ public class JacuzziDAOImpl implements JacuzziDAO {
 	 * );
 	 */
 	
-	public void adicionar(Jacuzzi jacuzzi) throws SQLException {
+	@Override
+	public void adicionar(Jacuzzi j) throws SQLException {
+		
 		String sql = "INSERT INTO jacuzzi VALUES (NULL,?,?,?)";
+		
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setDate(1, new java.sql.Date( jacuzzi.getDtReserva().getTime() ));
-		ps.setDate(2, new java.sql.Date( jacuzzi.getHrReserva().getTime() ));
-		ps.setFloat(3, jacuzzi.getValor());
+		ps.setDate(1, new java.sql.Date( j.getDtReserva().getTime() ));
+		ps.setDate(2, new java.sql.Date( j.getHrReserva().getTime() ));
+		ps.setFloat(3, j.getValor());
 		ps.execute();
 		ps.close();
 	}
 
 	@Override
-	public void alterar(Jacuzzi jacuzzi) throws SQLException {
-		String sql = "UPDATE jacuzzki SET dtReserva = ?, hrReserva = ?, valor = ? WHERE id = ?";
+	public void alterar(Jacuzzi j) throws SQLException {
+		
+		String sql = "UPDATE jacuzzki SET "
+				+ "dtReserva = ?, "
+				+ "hrReserva = ?, "
+				+ "valor = ? "
+				+ "WHERE id = ?";
+		
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setDate(1, new java.sql.Date( jacuzzi.getDtReserva().getTime() ));
-		ps.setDate(2, new java.sql.Date( jacuzzi.getHrReserva().getTime() ));
-		ps.setFloat(3, jacuzzi.getValor());		
-		ps.setInt(4, jacuzzi.getId());
+		ps.setDate(1, new java.sql.Date( j.getDtReserva().getTime() ));
+		ps.setDate(2, new java.sql.Date( j.getHrReserva().getTime() ));
+		ps.setFloat(3, j.getValor());		
+		ps.setInt(4, j.getId());
 		ps.execute();
 		ps.close();	
 	}
 
 	@Override
-	public void excluir(Jacuzzi jacuzzi) throws SQLException {
-		String sql = "DELETE FROM jacuzzi WHERE idJacuzzi = ?";
+	public void excluir(Jacuzzi j) throws SQLException {
+		
+		String sql = "DELETE FROM jacuzzi WHERE id = ?";
+		
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt(1, jacuzzi.getId());
+		ps.setInt(1, j.getId());
 		ps.execute();
 		ps.close();
 	}
 
 	@Override
 	public List<Jacuzzi> todos() throws SQLException {
-		List<Jacuzzi> listaJacuzzi = new ArrayList<Jacuzzi>();
+		
 		String sql = "SELECT * FROM jacuzzi";
+		
 		PreparedStatement ps = con.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
+		List<Jacuzzi> lista = new ArrayList<Jacuzzi>();
 		while(rs.next()){
-			Jacuzzi jacuzzi = new Jacuzzi();
-			jacuzzi.setId(rs.getInt("id"));
-			jacuzzi.setDtReserva(rs.getDate("dtReserva"));
-			jacuzzi.setHrReserva(rs.getDate("hrReserva"));
-			jacuzzi.setValor(rs.getFloat("valor"));
-			listaJacuzzi.add(jacuzzi);
+			Jacuzzi j = new Jacuzzi();
+			j.setId(rs.getInt("id"));
+			j.setDtReserva(rs.getDate("dtReserva"));
+			j.setHrReserva(rs.getDate("hrReserva"));
+			j.setValor(rs.getFloat("valor"));
+			lista.add(j);
 		}
 		rs.close();
 		ps.close();
 		
-		return listaJacuzzi;
+		return lista;
 	}
 }

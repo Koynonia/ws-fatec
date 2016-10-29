@@ -19,30 +19,30 @@ public class FrigobarDAOImpl implements FrigobarDAO{
 	private Connection con = DBUtil.getInstance().getConnection();
 
 	@Override
-	public void adicionar(Frigobar frigobar) throws SQLException {
+	public void adicionar(Frigobar f) throws SQLException {
 	}
 
 	@Override
-	public void alterar(Frigobar frigobar) throws SQLException {
-		// TODO Auto-generated method stub
+	public void alterar(Frigobar f) throws SQLException {
+		
 		
 	}
 
 	@Override
-	public void excluir(Frigobar frigobar) throws SQLException {
-		// TODO Auto-generated method stub
+	public void excluir(Frigobar f) throws SQLException {
+		
 		
 	}
 
 	@Override
-	public Frigobar consultar(Frigobar frigobar) throws SQLException {
-		// TODO Auto-generated method stub
+	public Frigobar consultar(Frigobar f) throws SQLException {
+		
 		return null;
 	}
 
 	@Override
 	public List<Frigobar> todos() throws SQLException {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 }

@@ -41,125 +41,152 @@ public class FuncionarioDAOImpl implements FuncionarioDAO {
 	
 	private Connection con = DBUtil.getInstance().getConnection();
 
-	public void adicionar(Funcionario funcionario) throws SQLException {
+	@Override
+	public void adicionar(Funcionario f) throws SQLException {
+		
 		String sql = "INSERT INTO funcionario VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setString(1, funcionario.getNome());
-		ps.setString(2, funcionario.getEmail());
-		ps.setString(3, funcionario.getCpf());
-		ps.setDate(4, new java.sql.Date( funcionario.getDtNasc().getTime() ));
-		ps.setString(5, funcionario.getTelefone());
-		ps.setString(6, funcionario.getCelular());
-		ps.setString(7, funcionario.getEndereco());
-		ps.setString(8, funcionario.getBairro());
-		ps.setString(9, funcionario.getCidade());
-		ps.setString(10, funcionario.getEstado());
-		ps.setString(11, funcionario.getPais());
-		ps.setString(12, funcionario.getCep());
-		ps.setString(13, funcionario.getCargo());
-		ps.setString(14, funcionario.getSetor());
-		ps.setBoolean(15, funcionario.getAtivo());
-		ps.setDate(16, new java.sql.Date( funcionario.getDtCadastro().getTime() ));
-		ps.execute();
-		ps.close();
-	}
-
-	public void alterar(Funcionario funcionario) throws SQLException {
-		String sql = "UPDATE funcionario SET "
-				+ "nome = ?, email = ?, cpf = ?, dtNasc = ?, telefone = ?, celular = ?, "
-				+ "endereco = ?, bairro = ?, cidade = ?, estado = ?, pais = ?, cep = ?, "
-				+ "cargo = ?, setor = ?, ativo = ?, dtCadastro = ? WHERE cpf = ?";
-		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setString(1, funcionario.getNome());
-		ps.setString(2, funcionario.getEmail());
-		ps.setString(3, funcionario.getCpf());
-		ps.setDate(4, new java.sql.Date( funcionario.getDtNasc().getTime() ));
-		ps.setString(5, funcionario.getTelefone());
-		ps.setString(6, funcionario.getCelular());
-		ps.setString(7, funcionario.getEndereco());
-		ps.setString(8, funcionario.getBairro());
-		ps.setString(9, funcionario.getCidade());
-		ps.setString(10, funcionario.getEstado());
-		ps.setString(11, funcionario.getPais());
-		ps.setString(12, funcionario.getCep());
-		ps.setString(13, funcionario.getCargo());
-		ps.setString(14, funcionario.getSetor());
-		ps.setBoolean(16, funcionario.getAtivo());
-		ps.setDate(15, new java.sql.Date( funcionario.getDtCadastro().getTime() ));
-		ps.setString(17, funcionario.getCpf());
+		ps.setString(1, f.getNome());
+		ps.setString(2, f.getEmail());
+		ps.setString(3, f.getCpf());
+		ps.setDate(4, new java.sql.Date( f.getDtNasc().getTime() ));
+		ps.setString(5, f.getTelefone());
+		ps.setString(6, f.getCelular());
+		ps.setString(7, f.getEndereco());
+		ps.setString(8, f.getBairro());
+		ps.setString(9, f.getCidade());
+		ps.setString(10, f.getEstado());
+		ps.setString(11, f.getPais());
+		ps.setString(12, f.getCep());
+		ps.setString(13, f.getCargo());
+		ps.setString(14, f.getSetor());
+		ps.setBoolean(15, f.getAtivo());
+		ps.setDate(16, new java.sql.Date( f.getDtCadastro().getTime() ));
 		ps.execute();
 		ps.close();
 	}
 
 	@Override
-	public void excluir(Funcionario funcionario) throws SQLException {
-		String sql = "DELETE FROM funcionario WHERE cpf = ?";
+	public void alterar(Funcionario f) throws SQLException {
+		
+		String sql = "UPDATE funcionario SET "
+				+ "nome = ?, "
+				+ "email = ?, "
+				+ "cpf = ?, "
+				+ "dtNasc = ?, "
+				+ "telefone = ?, "
+				+ "celular = ?, "
+				+ "endereco = ?, "
+				+ "bairro = ?, "
+				+ "cidade = ?, "
+				+ "estado = ?, "
+				+ "pais = ?, "
+				+ "cep = ?, "
+				+ "cargo = ?, "
+				+ "setor = ?, "
+				+ "ativo = ?, "
+				+ "dtCadastro = ? "
+				+ "WHERE cpf = ?";
+		
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setString(1, funcionario.getCpf());
+		ps.setString(1, f.getNome());
+		ps.setString(2, f.getEmail());
+		ps.setString(3, f.getCpf());
+		ps.setDate(4, new java.sql.Date( f.getDtNasc().getTime() ));
+		ps.setString(5, f.getTelefone());
+		ps.setString(6, f.getCelular());
+		ps.setString(7, f.getEndereco());
+		ps.setString(8, f.getBairro());
+		ps.setString(9, f.getCidade());
+		ps.setString(10, f.getEstado());
+		ps.setString(11, f.getPais());
+		ps.setString(12, f.getCep());
+		ps.setString(13, f.getCargo());
+		ps.setString(14, f.getSetor());
+		ps.setBoolean(16, f.getAtivo());
+		ps.setDate(15, new java.sql.Date( f.getDtCadastro().getTime() ));
+		ps.setString(17, f.getCpf());
+		ps.execute();
+		ps.close();
+	}
+
+	@Override
+	public void excluir(Funcionario f) throws SQLException {
+		
+		String sql = "DELETE FROM funcionario WHERE cpf = ?";
+		
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setString(1, f.getCpf());
 		ps.execute();
 		ps.close();
 
 	}
 
-
-	public Funcionario consultar(Funcionario funcionario) throws SQLException {
+	@Override
+	public Funcionario consultar(Funcionario f) throws SQLException {
+		
 		String sql = "SELECT * FROM funcionarios WHERE cpf =  ?";
+		
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setString(1, funcionario.getCpf());
+		ps.setString(1, f.getCpf());
 		ResultSet rs = ps.executeQuery();
 		if (rs.next()) {
-			funcionario.setId(rs.getInt("id"));
-			funcionario.setNome(rs.getString("nome"));
-			funcionario.setEmail(rs.getString("email"));
-			funcionario.setCpf(rs.getString("cpf"));
-			funcionario.setDtNasc(rs.getDate("dtNasc"));
-			funcionario.setTelefone(rs.getString("telefone"));
-			funcionario.setCelular(rs.getString("celular"));
-			funcionario.setEndereco(rs.getString("endereco"));
-			funcionario.setBairro(rs.getString("bairro"));
-			funcionario.setCidade(rs.getString("cidade"));
-			funcionario.setEstado(rs.getString("estado"));
-			funcionario.setPais(rs.getString("pais"));
-			funcionario.setCep(rs.getString("cep"));
-			funcionario.setCargo(rs.getString("cargo"));
-			funcionario.setSetor(rs.getString("setor"));
-			funcionario.setAtivo(rs.getBoolean("ativo"));
-			funcionario.setDtCadastro(rs.getDate("dtCadastro"));
+			f.setId(rs.getInt("id"));
+			f.setNome(rs.getString("nome"));
+			f.setEmail(rs.getString("email"));
+			f.setCpf(rs.getString("cpf"));
+			f.setDtNasc(rs.getDate("dtNasc"));
+			f.setTelefone(rs.getString("telefone"));
+			f.setCelular(rs.getString("celular"));
+			f.setEndereco(rs.getString("endereco"));
+			f.setBairro(rs.getString("bairro"));
+			f.setCidade(rs.getString("cidade"));
+			f.setEstado(rs.getString("estado"));
+			f.setPais(rs.getString("pais"));
+			f.setCep(rs.getString("cep"));
+			f.setCargo(rs.getString("cargo"));
+			f.setSetor(rs.getString("setor"));
+			f.setAtivo(rs.getBoolean("ativo"));
+			f.setDtCadastro(rs.getDate("dtCadastro"));
 		}
 		rs.close();
 		ps.close();
 
-		return funcionario;
+		return f;
 	}
 
+	@Override
 	public List<Funcionario> todos() throws SQLException {
-		List<Funcionario> listaFuncionario = new ArrayList<Funcionario>();
+		
 		String sql = "SELECT * FROM funcionario";
+		
 		PreparedStatement ps = con.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
+		List<Funcionario> lista = new ArrayList<Funcionario>();
 		while (rs.next()) {
-			Funcionario funcionario = new Funcionario();
-			funcionario.setId(rs.getInt("id"));
-			funcionario.setNome(rs.getString("nome"));
-			funcionario.setEmail(rs.getString("email"));
-			funcionario.setCpf(rs.getString("cpf"));
-			funcionario.setDtNasc(rs.getDate("dtNasc"));
-			funcionario.setTelefone(rs.getString("telefone"));
-			funcionario.setCelular(rs.getString("celular"));
-			funcionario.setEndereco(rs.getString("endereco"));
-			funcionario.setBairro(rs.getString("bairro"));
-			funcionario.setCidade(rs.getString("cidade"));
-			funcionario.setEstado(rs.getString("estado"));
-			funcionario.setPais(rs.getString("pais"));
-			funcionario.setCep(rs.getString("cep"));
-			funcionario.setCargo(rs.getString("cargo"));
-			funcionario.setSetor(rs.getString("setor"));
-			funcionario.setAtivo(rs.getBoolean("ativo"));
-			funcionario.setDtCadastro(rs.getDate("dtCadastro"));
+			Funcionario f = new Funcionario();
+			f.setId(rs.getInt("id"));
+			f.setNome(rs.getString("nome"));
+			f.setEmail(rs.getString("email"));
+			f.setCpf(rs.getString("cpf"));
+			f.setDtNasc(rs.getDate("dtNasc"));
+			f.setTelefone(rs.getString("telefone"));
+			f.setCelular(rs.getString("celular"));
+			f.setEndereco(rs.getString("endereco"));
+			f.setBairro(rs.getString("bairro"));
+			f.setCidade(rs.getString("cidade"));
+			f.setEstado(rs.getString("estado"));
+			f.setPais(rs.getString("pais"));
+			f.setCep(rs.getString("cep"));
+			f.setCargo(rs.getString("cargo"));
+			f.setSetor(rs.getString("setor"));
+			f.setAtivo(rs.getBoolean("ativo"));
+			f.setDtCadastro(rs.getDate("dtCadastro"));
 		}
 		rs.close();
 		ps.close();
 		
-		return listaFuncionario;
+		return lista;
 	}
 }

@@ -38,7 +38,9 @@ public class ReservaDAOImpl implements ReservaDAO{
 	
 	@Override
 	public void adicionar(Reserva r) throws SQLException {
+		
 		String sql = "INSERT INTO reserva VALUES (NULL,?,?,?,?,?,?,?,?)";
+		
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt(1, r.getCliente().getId());
 		ps.setInt(2, r.getChale().getId());
@@ -54,10 +56,17 @@ public class ReservaDAOImpl implements ReservaDAO{
 
 	@Override
 	public void alterar(Reserva r) throws SQLException {
-		String sql =  "UPDATE reserva SET cliente = ?, "
-				+ "chale = ?, qtdAdulto = ?, qtdCrianca = ?, "
-				+ "dtInicio = ?, dtFim = ?, "
-				+ "desconto = ? WHERE id = ?";
+		
+		String sql =  "UPDATE reserva SET "
+				+ "cliente = ?, "
+				+ "chale = ?, "
+				+ "qtdAdulto = ?, "
+				+ "qtdCrianca = ?, "
+				+ "dtInicio = ?, "
+				+ "dtFim = ?, "
+				+ "desconto = ? "
+				+ "WHERE id = ?";
+		
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt(1, r.getCliente().getId());
 		ps.setInt(2, r.getChale().getId());
@@ -73,7 +82,9 @@ public class ReservaDAOImpl implements ReservaDAO{
 
 	@Override
 	public void excluir(Reserva r) throws SQLException {
+		
 		String sql = "DELETE FROM reserva WHERE id = ?";
+		
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt( 1, r.getId() );
 		ps.execute();
@@ -82,7 +93,9 @@ public class ReservaDAOImpl implements ReservaDAO{
 
 	@Override
 	public Reserva consultar(Reserva r) throws SQLException {
+		
 		String sql = "SELECT * FROM reserva WHERE id = ?";
+		
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt( 1, r.getId() );
 		ResultSet rs = ps.executeQuery();
@@ -106,6 +119,7 @@ public class ReservaDAOImpl implements ReservaDAO{
 	public List<Reserva> todos() throws SQLException {
 
 		String sql = "SELECT * FROM reserva";
+		
 		PreparedStatement ps = con.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
 		List<Reserva>lista = new ArrayList<>();
@@ -130,7 +144,11 @@ public class ReservaDAOImpl implements ReservaDAO{
 	
 	public Cliente cliente(Integer id) throws SQLException {
 		
-		String sql = "SELECT * FROM cliente AS cl INNER JOIN reserva AS rs ON cl.id = rs.cliente WHERE cl.id = ?";	
+		String sql = "SELECT * FROM cliente AS cl "
+				+ "INNER JOIN reserva AS rs "
+				+ "ON cl.id = rs.cliente "
+				+ "WHERE cl.id = ?";
+		
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt( 1, id );
 		ResultSet rs = ps.executeQuery();
@@ -161,7 +179,10 @@ public class ReservaDAOImpl implements ReservaDAO{
 	
 	public Chale chale(Integer id) throws SQLException {
 		
-		String sql = "SELECT * FROM chale AS ch INNER JOIN reserva AS rs ON ch.id = ?";	
+		String sql = "SELECT * FROM chale AS ch "
+				+ "INNER JOIN reserva AS rs "
+				+ "ON ch.id = ?";	
+		
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt( 1, id );
 		ResultSet rs = ps.executeQuery();

@@ -40,118 +40,142 @@ public class ClienteDAOImpl implements ClienteDAO {
 	
 	private Connection con = DBUtil.getInstance().getConnection();
 
-	public void adicionar(Cliente cliente) throws SQLException {
+	@Override
+	public void adicionar(Cliente c) throws SQLException {
+		
 		String sql = "INSERT INTO cliente VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setString(1, cliente.getNome());
-		ps.setString(2, cliente.getEmail());
-		ps.setString(3, cliente.getDocumento());
-		ps.setString(4, cliente.getDocTipo());
-		ps.setDate(5, new java.sql.Date( cliente.getDtNasc().getTime() ));
-		ps.setString(6, cliente.getTelefone());
-		ps.setString(7, cliente.getCelular());
-		ps.setString(8, cliente.getEndereco());
-		ps.setString(9, cliente.getBairro());
-		ps.setString(10, cliente.getCidade());
-		ps.setString(11, cliente.getEstado());
-		ps.setString(12, cliente.getPais());
-		ps.setString(13, cliente.getCep());
-		ps.setBoolean(14, cliente.getAtivo());
-		ps.setDate(15, new java.sql.Date( cliente.getDtCadastro().getTime() ));
+		ps.setString(1, c.getNome());
+		ps.setString(2, c.getEmail());
+		ps.setString(3, c.getDocumento());
+		ps.setString(4, c.getDocTipo());
+		ps.setDate(5, new java.sql.Date( c.getDtNasc().getTime() ));
+		ps.setString(6, c.getTelefone());
+		ps.setString(7, c.getCelular());
+		ps.setString(8, c.getEndereco());
+		ps.setString(9, c.getBairro());
+		ps.setString(10, c.getCidade());
+		ps.setString(11, c.getEstado());
+		ps.setString(12, c.getPais());
+		ps.setString(13, c.getCep());
+		ps.setBoolean(14, c.getAtivo());
+		ps.setDate(15, new java.sql.Date( c.getDtCadastro().getTime() ));
 		ps.execute();
 		ps.close();
 	}
-
-	public void alterar(Cliente cliente) throws SQLException {
+	
+	@Override
+	public void alterar(Cliente c) throws SQLException {
+		
 		String sql = "UPDATE cliente SET "
-				+ "nome = ?, email = ?, docTipo = ?, dtNasc = ?, telefone = ?, celular = ?, "
-				+ "endereco = ?, bairro = ?, cidade = ?, estado = ?, pais = ?, cep = ?, "
-				+ "dtCadastro = ?, ativo = ? WHERE documento = ?";
+				+ "nome = ?, "
+				+ "email = ?, "
+				+ "docTipo = ?, "
+				+ "dtNasc = ?, "
+				+ "telefone = ?, "
+				+ "celular = ?, "
+				+ "endereco = ?, "
+				+ "bairro = ?, "
+				+ "cidade = ?, "
+				+ "estado = ?, "
+				+ "pais = ?, "
+				+ "cep = ?, "
+				+ "dtCadastro = ?, "
+				+ "ativo = ? "
+				+ "WHERE documento = ?";
+		
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setString(1, cliente.getNome());
-		ps.setString(2, cliente.getEmail());
-		ps.setString(3, cliente.getDocumento());
-		ps.setString(4, cliente.getDocTipo());
-		ps.setDate(5, new java.sql.Date( cliente.getDtNasc().getTime() ));
-		ps.setString(6, cliente.getTelefone());
-		ps.setString(7, cliente.getCelular());
-		ps.setString(8, cliente.getEndereco());
-		ps.setString(9, cliente.getBairro());
-		ps.setString(10, cliente.getCidade());
-		ps.setString(11, cliente.getEstado());
-		ps.setString(12, cliente.getPais());
-		ps.setString(13, cliente.getCep());
-		ps.setBoolean(14, cliente.getAtivo());
-		ps.setDate(15, new java.sql.Date( cliente.getDtCadastro().getTime() ));
-		ps.setString(16, cliente.getDocumento());
+		ps.setString(1, c.getNome());
+		ps.setString(2, c.getEmail());
+		ps.setString(3, c.getDocumento());
+		ps.setString(4, c.getDocTipo());
+		ps.setDate(5, new java.sql.Date( c.getDtNasc().getTime() ));
+		ps.setString(6, c.getTelefone());
+		ps.setString(7, c.getCelular());
+		ps.setString(8, c.getEndereco());
+		ps.setString(9, c.getBairro());
+		ps.setString(10, c.getCidade());
+		ps.setString(11, c.getEstado());
+		ps.setString(12, c.getPais());
+		ps.setString(13, c.getCep());
+		ps.setBoolean(14, c.getAtivo());
+		ps.setDate(15, new java.sql.Date( c.getDtCadastro().getTime() ));
+		ps.setString(16, c.getDocumento());
 		ps.execute();
 		ps.close();
 	}
 
 	@Override
 	public void excluir(Cliente cliente) throws SQLException {
+		
 		String sql = "DELETE FROM cliente WHERE documento = ?";
+		
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1, cliente.getDocumento());
 		ps.execute();
 		ps.close();
-
 	}
 
-
-	public Cliente consultar(Cliente cliente) throws SQLException {
-		String sql = "SELECT * FROM clientes WHERE documento =  ?";
+	@Override
+	public Cliente consultar(Cliente c) throws SQLException {
+		
+		String sql = "SELECT * FROM cliente WHERE documento =  ?";
+		
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setString(1, cliente.getDocumento());
+		ps.setString(1, c.getDocumento());
 		ResultSet rs = ps.executeQuery();
 		if (rs.next()) {
-			cliente.setId(rs.getInt("id"));
-			cliente.setNome(rs.getString("nome"));
-			cliente.setEmail(rs.getString("email"));
-			cliente.setDocumento(rs.getString("documento"));
-			cliente.setDocTipo(rs.getString("docTipo"));
-			cliente.setDtNasc(rs.getDate("dtNasc"));
-			cliente.setTelefone(rs.getString("telefone"));
-			cliente.setCelular(rs.getString("celular"));
-			cliente.setEndereco(rs.getString("endereco"));
-			cliente.setBairro(rs.getString("bairro"));
-			cliente.setCidade(rs.getString("cidade"));
-			cliente.setEstado(rs.getString("estado"));
-			cliente.setPais(rs.getString("pais"));
-			cliente.setCep(rs.getString("cep"));
-			cliente.setAtivo(rs.getBoolean("ativo"));
-			cliente.setDtCadastro(rs.getDate("dtCadastro"));
+			c.setId(rs.getInt("id"));
+			c.setNome(rs.getString("nome"));
+			c.setEmail(rs.getString("email"));
+			c.setDocumento(rs.getString("documento"));
+			c.setDocTipo(rs.getString("docTipo"));
+			c.setDtNasc(rs.getDate("dtNasc"));
+			c.setTelefone(rs.getString("telefone"));
+			c.setCelular(rs.getString("celular"));
+			c.setEndereco(rs.getString("endereco"));
+			c.setBairro(rs.getString("bairro"));
+			c.setCidade(rs.getString("cidade"));
+			c.setEstado(rs.getString("estado"));
+			c.setPais(rs.getString("pais"));
+			c.setCep(rs.getString("cep"));
+			c.setAtivo(rs.getBoolean("ativo"));
+			c.setDtCadastro(rs.getDate("dtCadastro"));
 		}
 		rs.close();
 		ps.close();
 
-		return cliente;
+		return c;
 	}
-
+	
+	@Override
 	public List<Cliente> todos() throws SQLException {
-		List<Cliente> listaCliente = new ArrayList<Cliente>();
+		
 		String sql = "SELECT * FROM cliente";
+		
 		PreparedStatement ps = con.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
+		List<Cliente> listaCliente = new ArrayList<Cliente>();
 		while (rs.next()) {
-			Cliente cliente = new Cliente();
-			cliente.setId(rs.getInt("id"));
-			cliente.setNome(rs.getString("nome"));
-			cliente.setEmail(rs.getString("email"));
-			cliente.setDocumento(rs.getString("documento"));
-			cliente.setDocTipo(rs.getString("docTipo"));
-			cliente.setDtNasc(rs.getDate("dtNasc"));
-			cliente.setTelefone(rs.getString("telefone"));
-			cliente.setCelular(rs.getString("celular"));
-			cliente.setEndereco(rs.getString("endereco"));
-			cliente.setBairro(rs.getString("bairro"));
-			cliente.setCidade(rs.getString("cidade"));
-			cliente.setEstado(rs.getString("estado"));
-			cliente.setPais(rs.getString("pais"));
-			cliente.setCep(rs.getString("cep"));
-			cliente.setAtivo(rs.getBoolean("ativo"));
-			cliente.setDtCadastro(rs.getDate("dtCadastro"));
-			listaCliente.add(cliente);
+			Cliente c = new Cliente();
+			c.setId(rs.getInt("id"));
+			c.setNome(rs.getString("nome"));
+			c.setEmail(rs.getString("email"));
+			c.setDocumento(rs.getString("documento"));
+			c.setDocTipo(rs.getString("docTipo"));
+			c.setDtNasc(rs.getDate("dtNasc"));
+			c.setTelefone(rs.getString("telefone"));
+			c.setCelular(rs.getString("celular"));
+			c.setEndereco(rs.getString("endereco"));
+			c.setBairro(rs.getString("bairro"));
+			c.setCidade(rs.getString("cidade"));
+			c.setEstado(rs.getString("estado"));
+			c.setPais(rs.getString("pais"));
+			c.setCep(rs.getString("cep"));
+			c.setAtivo(rs.getBoolean("ativo"));
+			c.setDtCadastro(rs.getDate("dtCadastro"));
+			listaCliente.add(c);
 		}
 		rs.close();
 		ps.close();

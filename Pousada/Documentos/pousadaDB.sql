@@ -130,6 +130,20 @@ contatoInfo VARCHAR(550) NOT NULL,
 versao VARCHAR(10) NOT NULL 
 ) ENGINE = innodb;
 
+CREATE TABLE contato(
+ id INT AUTO_INCREMENT PRIMARY KEY,
+ assunto INT NOT NULL,
+ nome VARCHAR(100) NOT NULL,
+ email VARCHAR(30) NOT NULL,
+ telefone VARCHAR(11) NOT NULL,
+ endereco VARCHAR(200),
+ bairro VARCHAR(30),
+ cidade VARCHAR(30),
+ estado VARCHAR(15),
+ pais VARCHAR(10),
+ dtCadastro DATE NOT NULL
+) ENGINE = innodb;
+
 -- INSERE AS FK's NAS TABELAS
 
 ALTER TABLE `reserva` ADD CONSTRAINT `fk_cliente` FOREIGN KEY ( `cliente` ) REFERENCES `cliente` ( `id` );

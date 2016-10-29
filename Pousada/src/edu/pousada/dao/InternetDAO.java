@@ -14,9 +14,9 @@ import edu.pousada.entity.Internet;
 
 public interface InternetDAO {
 	
-	public void adicionar(Internet internet) throws SQLException;
-	public void alterar(Internet internet) throws SQLException;
-	public void excluir(Internet internet) throws SQLException;
+	public void adicionar(Internet i) throws SQLException;
+	public void alterar(Internet i) throws SQLException;
+	public void excluir(Internet i) throws SQLException;
 	public List<Internet> todos() throws SQLException;
 	
 }

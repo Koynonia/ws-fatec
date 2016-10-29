@@ -14,10 +14,10 @@ import edu.pousada.entity.Cliente;
 
 public interface ClienteDAO {
 
-	public void adicionar(Cliente cliente) throws SQLException;
-	public void alterar(Cliente cliente) throws SQLException;
-	public void excluir(Cliente cliente) throws SQLException;
-	public Cliente consultar(Cliente cliente) throws SQLException;
+	public void adicionar(Cliente c) throws SQLException;
+	public void alterar(Cliente c) throws SQLException;
+	public void excluir(Cliente c) throws SQLException;
+	public Cliente consultar(Cliente c) throws SQLException;
 	public List<Cliente> todos() throws SQLException;
 	
 }

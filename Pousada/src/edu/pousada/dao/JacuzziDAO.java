@@ -14,9 +14,9 @@ import edu.pousada.entity.Jacuzzi;
 
 public interface JacuzziDAO {
 	
-	public void adicionar(Jacuzzi jacuzzi) throws SQLException;
-	public void alterar(Jacuzzi jacuzzi) throws SQLException;
-	public void excluir(Jacuzzi jacuzzi) throws SQLException;
+	public void adicionar(Jacuzzi j) throws SQLException;
+	public void alterar(Jacuzzi j) throws SQLException;
+	public void excluir(Jacuzzi j) throws SQLException;
 	public List<Jacuzzi> todos() throws SQLException;
 
 }

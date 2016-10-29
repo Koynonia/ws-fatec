@@ -14,9 +14,9 @@ import edu.pousada.entity.Chale;
 
 public interface ChaleDAO {
 
-	public void adicionar(Chale chale) throws SQLException;
-	public void alterar(Chale chale) throws SQLException;
-	public void excluir(Chale chale) throws SQLException;
-	public Chale consultar(Chale chale) throws SQLException;
+	public void adicionar(Chale c) throws SQLException;
+	public void alterar(Chale c) throws SQLException;
+	public void excluir(Chale c) throws SQLException;
+	public Chale consultar(Chale c) throws SQLException;
 	public List<Chale> todos() throws SQLException;
 }

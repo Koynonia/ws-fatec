@@ -29,67 +29,86 @@ public class PessoaDAOImpl implements PessoaDAO{
 	 * );
 	 */
 
-	public void adicionar(Pessoa pessoa) throws SQLException {
+	@Override
+	public void adicionar(Pessoa p) throws SQLException {
+		
 		String sql = "INSERT INTO pessoa VALUES (NULL,?,?,?)";
+		
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setString(1, pessoa.getNome());
-		ps.setDate(2, new java.sql.Date( pessoa.getDtNasc().getTime() ));
-		ps.setString(3, pessoa.getResponsavel());
+		ps.setString(1, p.getNome());
+		ps.setDate(2, new java.sql.Date( p.getDtNasc().getTime() ));
+		ps.setString(3, p.getResponsavel());
 		ps.execute();
 		ps.close();
 	}
 
-	public void alterar(Pessoa pessoa) throws SQLException {
-		String sql =  "UPDATE pessoa SET nome = ?, dtNasc = ?, responsavel = ? WHERE id = ?";
+	@Override
+	public void alterar(Pessoa p) throws SQLException {
+		
+		String sql =  "UPDATE pessoa SET "
+				+ "nome = ?, "
+				+ "dtNasc = ?, "
+				+ "responsavel = ? "
+				+ "WHERE id = ?";
+		
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setString(1, pessoa.getNome());
-		ps.setDate(2, new java.sql.Date( pessoa.getDtNasc().getTime() ));
-		ps.setString(3, pessoa.getResponsavel());
-		ps.setInt(4, pessoa.getId());
+		ps.setString(1, p.getNome());
+		ps.setDate(2, new java.sql.Date( p.getDtNasc().getTime() ));
+		ps.setString(3, p.getResponsavel());
+		ps.setInt(4, p.getId());
 		ps.execute();
 		ps.close();		
 	}
 
-	public void excluir(Pessoa pessoa) throws SQLException {
+	@Override
+	public void excluir(Pessoa p) throws SQLException {
+		
 		String sql = "DELETE FROM pessoa WHERE id = ?";
+		
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt(1, pessoa.getId());
+		ps.setInt(1, p.getId());
 		ps.execute();
 		ps.close();
 
 	}
 
-	public Pessoa consultar(Pessoa pessoa) throws SQLException {
+	@Override
+	public Pessoa consultar(Pessoa p) throws SQLException {
+		
 		String sql = "SELECT * FROM pessoa WHERE id = ?";
+		
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt(1, pessoa.getId());
+		ps.setInt(1, p.getId());
 		ResultSet rs = ps.executeQuery();
 		if(rs.next()){
-			pessoa.setId(rs.getInt("id"));
-			pessoa.setNome(rs.getString("nome"));
-			pessoa.setDtNasc(rs.getDate("dtNasc"));
-			pessoa.setResponsavel(rs.getString("responsavel"));
+			p.setId(rs.getInt("id"));
+			p.setNome(rs.getString("nome"));
+			p.setDtNasc(rs.getDate("dtNasc"));
+			p.setResponsavel(rs.getString("responsavel"));
 		}
 		rs.close();
 		ps.close();
-		return pessoa;
+		return p;
 	}
 
+	@Override
 	public List<Pessoa> todos() throws SQLException {
-		List<Pessoa> listaPessoa = new ArrayList<Pessoa>();
+		
 		String sql = "SELECT * FROM pessoa";
+		
 		PreparedStatement ps = con.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
+		List<Pessoa> lista = new ArrayList<Pessoa>();
 		while(rs.next()){
-			Pessoa pessoa = new Pessoa();
-			pessoa.setId(rs.getInt("id"));
-			pessoa.setNome(rs.getString("nome"));
-			pessoa.setDtNasc(rs.getDate("dtNasc"));
-			pessoa.setResponsavel(rs.getString("responsavel"));
-			listaPessoa.add(pessoa);
+			Pessoa p = new Pessoa();
+			p.setId(rs.getInt("id"));
+			p.setNome(rs.getString("nome"));
+			p.setDtNasc(rs.getDate("dtNasc"));
+			p.setResponsavel(rs.getString("responsavel"));
+			lista.add(p);
 		}
 		rs.close();
 		ps.close();
-		return listaPessoa;
+		return lista;
 	}
 }

@@ -31,8 +31,11 @@ public class LanchoneteDAOImpl implements LanchoneteDAO{
 	 * );
 	 */
 
+	@Override
 	public void adicionar(Lanchonete lanchonete) throws SQLException {
+		
 		String sql = "INSERT INTO lanchonete VALUES (NULL,?,?,?,?,?)";
+		
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1, lanchonete.getNome());
 		ps.setString(2, lanchonete.getTipo());
@@ -45,7 +48,15 @@ public class LanchoneteDAOImpl implements LanchoneteDAO{
 
 	@Override
 	public void alterar(Lanchonete lanchonete) throws SQLException {
-		String sql =  "UPDATE lanchonete SET nome = ?, tipo = ?, dtReserva = ?, hrReserva = ?, valor = ? WHERE id = ?";
+		
+		String sql =  "UPDATE lanchonete SET "
+				+ "nome = ?, "
+				+ "tipo = ?, "
+				+ "dtReserva = ?, "
+				+ "hrReserva = ?, "
+				+ "valor = ? "
+				+ "WHERE id = ?";
+		
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1, lanchonete.getNome());
 		ps.setString(2, lanchonete.getTipo());
@@ -59,16 +70,20 @@ public class LanchoneteDAOImpl implements LanchoneteDAO{
 
 	@Override
 	public void excluir(Lanchonete lanchonete) throws SQLException {
+		
 		String sql = "DELETE FROM lanchonete WHERE id = ?";
+		
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt(1, lanchonete.getId());
 		ps.execute();
 		ps.close();
 	}
 
-
+	@Override
 	public Lanchonete consultar(Lanchonete lanchonete) throws SQLException {
+		
 		String sql = "SELECT * FROM lanchonete WHERE id = ?";
+		
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt(1, lanchonete.getId());
 		ResultSet rs = ps.executeQuery();
@@ -88,25 +103,28 @@ public class LanchoneteDAOImpl implements LanchoneteDAO{
 		return lanchonete;
 	}
 
+	@Override
 	public List<Lanchonete> todos() throws SQLException {
-		List<Lanchonete> listaLanchonete = new ArrayList<Lanchonete>();
+		
 		String sql = "SELECT * FROM lanchonete";
+		
 		PreparedStatement ps = con.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
+		List<Lanchonete> lista = new ArrayList<Lanchonete>();
 		while(rs.next()){
-			Lanchonete lanchonete = new Lanchonete();
-			lanchonete.setId(rs.getInt("id"));
-			lanchonete.setNome(rs.getString("nome"));
-			lanchonete.setTipo(rs.getString("tipo"));
-			lanchonete.setDtReserva(rs.getDate("dtReserva"));
-			lanchonete.setHrReserva(rs.getDate("hrReserva"));
-			lanchonete.setValor(rs.getFloat("valor"));
-			listaLanchonete.add(lanchonete);
+			Lanchonete l = new Lanchonete();
+			l.setId(rs.getInt("id"));
+			l.setNome(rs.getString("nome"));
+			l.setTipo(rs.getString("tipo"));
+			l.setDtReserva(rs.getDate("dtReserva"));
+			l.setHrReserva(rs.getDate("hrReserva"));
+			l.setValor(rs.getFloat("valor"));
+			lista.add(l);
 		}
 		ps.execute();
 		ps.close();
 		rs.close();
 		
-		return listaLanchonete;
+		return lista;
 	}
 }

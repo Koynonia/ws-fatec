@@ -29,69 +29,80 @@ public class ChaleDAOImpl implements ChaleDAO {
 	 */
 
 	@Override
-	public void adicionar(Chale chale) throws SQLException {
+	public void adicionar(Chale c) throws SQLException {
+		
 		String sql = "INSERT INTO chale (NULL, categoria, diaria) VALUES (?,?)";
+		
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setString(1, chale.getCategoria());
-		ps.setDouble(2, chale.getDiaria());
+		ps.setString(1, c.getCategoria());
+		ps.setDouble(2, c.getDiaria());
 		ps.execute();
 		ps.close();
 	}
 
-	public void alterar(Chale chale) throws SQLException {
+	@Override
+	public void alterar(Chale c) throws SQLException {
 
 		String sql = "UPDATE chale SET categoria = ?, diaria = ? WHERE id = ?";
+		
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setString(1, chale.getCategoria());
-		ps.setDouble(2, chale.getDiaria());
-		ps.setInt(3, chale.getId());
-		ps.execute();
-		ps.close();
-
-	}
-
-	public void excluir(Chale chale) throws SQLException {
-		String sql = "DELETE FROM chale WHERE id = ?";
-		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt(1, chale.getId());
+		ps.setString(1, c.getCategoria());
+		ps.setDouble(2, c.getDiaria());
+		ps.setInt(3, c.getId());
 		ps.execute();
 		ps.close();
 
 	}
 
 	@Override
-	public Chale consultar(Chale chale) throws SQLException {
-		String sql = "SELECT id, categoria, diaria FROM chale WHERE id = ?";
+	public void excluir(Chale c) throws SQLException {
+		
+		String sql = "DELETE FROM chale WHERE id = ?";
+		
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt(1, chale.getId());
+		ps.setInt(1, c.getId());
+		ps.execute();
+		ps.close();
+
+	}
+
+	@Override
+	public Chale consultar(Chale c) throws SQLException {
+		
+		String sql = "SELECT id, categoria, diaria FROM chale WHERE id = ?";
+		
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setInt(1, c.getId());
 		ResultSet rs = ps.executeQuery();
 		if (rs.next()) {
-			chale.setId(rs.getInt("id"));
-			chale.setCategoria(rs.getString("categoria"));
-			chale.setDiaria(rs.getFloat("diaria"));
+			c.setId(rs.getInt("id"));
+			c.setCategoria(rs.getString("categoria"));
+			c.setDiaria(rs.getFloat("diaria"));
 		}
 		rs.close();
 		ps.close();
 		
-		return chale;
+		return c;
 	}
 
 	@Override
 	public List<Chale> todos() throws SQLException {
-		List<Chale> listaChale = new ArrayList<Chale>();
+		
 		String sql = "SELECT id, categoria, diaria FROM chale";
+		
 		PreparedStatement ps = con.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
+		List<Chale> lista = new ArrayList<Chale>();
 		while(rs.next()){
-			Chale chale = new Chale();
-			chale.setId(rs.getInt("id"));
-			chale.setCategoria(rs.getString("categoria"));
-			chale.setDiaria(rs.getFloat("diaria"));
-			listaChale.add(chale);
+			Chale c = new Chale();
+			c.setId(rs.getInt("id"));
+			c.setCategoria(rs.getString("categoria"));
+			c.setDiaria(rs.getFloat("diaria"));
+			lista.add(c);
 		}
 		rs.close();
 		ps.close();
 		
-		return listaChale;
+		return lista;
 	}
 }

@@ -32,78 +32,100 @@ public class TransporteDAOImpl implements TransporteDAO {
 	 * );
 	 */
 	
-	public void adicionar(Transporte transporte) throws SQLException {
+	@Override
+	public void adicionar(Transporte t) throws SQLException {
+		
 		String sql = "INSERT INTO transporte VALUES (NULL,?,?,?,?,?,?) ";
+		
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setString(1, transporte.getPlaca());
-		ps.setString(2, transporte.getEstado());
-		ps.setString(3, transporte.getDestino());
-		ps.setDate(4, new java.sql.Date( transporte.getDtReserva().getTime() ));
-		ps.setDate(5, new java.sql.Date( transporte.getHrReserva().getTime() ));
-		ps.setFloat(6, transporte.getValor());
+		ps.setString(1, t.getPlaca());
+		ps.setString(2, t.getEstado());
+		ps.setString(3, t.getDestino());
+		ps.setDate(4, new java.sql.Date( t.getDtReserva().getTime() ));
+		ps.setDate(5, new java.sql.Date( t.getHrReserva().getTime() ));
+		ps.setFloat(6, t.getValor());
 		ps.execute();
 		ps.close();
 	}
 
-	public void alterar(Transporte transporte) throws SQLException {
-		String sql = "UPDATE transporte SET placa = ?, estado = ?, destino = ? dtReserva = ?, hrReserva = ?, valor = ? WHERE placa = ?";
+	@Override
+	public void alterar(Transporte t) throws SQLException {
+		
+		String sql = "UPDATE transporte SET "
+				+ "placa = ?, "
+				+ "estado = ?, "
+				+ "destino = ? "
+				+ "dtReserva = ?, "
+				+ "hrReserva = ?, "
+				+ "valor = ? "
+				+ "WHERE placa = ?";
+		
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setString(1, transporte.getPlaca());
-		ps.setString(2, transporte.getEstado());
-		ps.setString(3, transporte.getDestino());
-		ps.setDate(4, new java.sql.Date( transporte.getDtReserva().getTime() ));
-		ps.setDate(5, new java.sql.Date( transporte.getHrReserva().getTime() ));
-		ps.setFloat(6, transporte.getValor());
-		ps.setString(7, transporte.getPlaca());
+		ps.setString(1, t.getPlaca());
+		ps.setString(2, t.getEstado());
+		ps.setString(3, t.getDestino());
+		ps.setDate(4, new java.sql.Date( t.getDtReserva().getTime() ));
+		ps.setDate(5, new java.sql.Date( t.getHrReserva().getTime() ));
+		ps.setFloat(6, t.getValor());
+		ps.setString(7, t.getPlaca());
 		ps.execute();
 		ps.close();
 	}
 
-	public void excluir(Transporte transporte) throws SQLException {
+	@Override
+	public void excluir(Transporte t) throws SQLException {
+		
 		String sql = "DELETE FROM transporte WHERE id = ?";
+		
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt(1, transporte.getId());
+		ps.setInt(1, t.getId());
 		ps.execute();
 		ps.close();
 	}
 
-	public Transporte consultar(Transporte transporte) throws SQLException {
+	@Override
+	public Transporte consultar(Transporte t) throws SQLException {
+		
 		String sql = "SELECT * FROM transporte WHERE id = ?";
+		
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt(1, transporte.getId());
+		ps.setInt(1, t.getId());
 		ResultSet rs = ps.executeQuery();
 		if (rs.next()) {
-			transporte.setPlaca(rs.getString("placa"));
-			transporte.setEstado(rs.getString("estado"));
-			transporte.setDestino(rs.getString("destino"));
-			transporte.setDtReserva(rs.getDate("dtReserva"));
-			transporte.setHrReserva(rs.getDate("hrReserva"));
-			transporte.setValor(rs.getFloat("valor"));
+			t.setPlaca(rs.getString("placa"));
+			t.setEstado(rs.getString("estado"));
+			t.setDestino(rs.getString("destino"));
+			t.setDtReserva(rs.getDate("dtReserva"));
+			t.setHrReserva(rs.getDate("hrReserva"));
+			t.setValor(rs.getFloat("valor"));
 		}
 		rs.close();
 		ps.close();
 		
-		return transporte;
+		return t;
 	}
 
+	@Override
 	public List<Transporte> todos() throws SQLException {
-		List<Transporte> listaTransporte = new ArrayList<Transporte>();
+		
 		String sql = "SELECT * FROM transporte";
+		
 		PreparedStatement ps = con.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
+		List<Transporte> lista = new ArrayList<Transporte>();
 		while (rs.next()) {
-			Transporte transporte = new Transporte();
-			transporte.setPlaca(rs.getString("placa"));
-			transporte.setEstado(rs.getString("estado"));
-			transporte.setDestino(rs.getString("destino"));
-			transporte.setDtReserva(rs.getDate("dtReserva"));
-			transporte.setHrReserva(rs.getDate("hrReserva"));
-			transporte.setValor(rs.getFloat("valor"));
-			listaTransporte.add(transporte);
+			Transporte t = new Transporte();
+			t.setPlaca(rs.getString("placa"));
+			t.setEstado(rs.getString("estado"));
+			t.setDestino(rs.getString("destino"));
+			t.setDtReserva(rs.getDate("dtReserva"));
+			t.setHrReserva(rs.getDate("hrReserva"));
+			t.setValor(rs.getFloat("valor"));
+			lista.add(t);
 		}
 		rs.close();
 		ps.close();
 		
-		return listaTransporte;
+		return lista;
 	}
 }

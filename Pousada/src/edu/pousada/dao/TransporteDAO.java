@@ -14,10 +14,10 @@ import edu.pousada.entity.Transporte;
 
 public interface TransporteDAO {
 
-	public void adicionar(Transporte transporte) throws SQLException;
-	public void alterar(Transporte transporte) throws SQLException;
-	public void excluir(Transporte transporte) throws SQLException;
-	public Transporte consultar(Transporte transporte) throws SQLException;
+	public void adicionar(Transporte t) throws SQLException;
+	public void alterar(Transporte t) throws SQLException;
+	public void excluir(Transporte t) throws SQLException;
+	public Transporte consultar(Transporte t) throws SQLException;
 	public List<Transporte> todos() throws SQLException;
 	
 }

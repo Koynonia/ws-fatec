@@ -37,26 +37,27 @@ public class PrincipalDAOImpl implements PrincipalDAO {
 	 */
 
 	@Override
-	public void adicionar(Principal Principal) throws SQLException {
-		// TODO Auto-generated method stub
+	public void adicionar(Principal p) throws SQLException {
+
 		
 	}
 
 	@Override
-	public void alterar(Principal Principal) throws SQLException {
-		// TODO Auto-generated method stub
+	public void alterar(Principal p) throws SQLException {
+		
 		
 	}
 
 	@Override
-	public void excluir(Principal Principal) throws SQLException {
-		// TODO Auto-generated method stub
+	public void excluir(Principal p) throws SQLException {
+		
 		
 	}
 
 	@Override
-	public Principal consultar(Principal Principal) throws SQLException {
-		// TODO Auto-generated method stub
+	public Principal consultar(Principal p) throws SQLException {
+		
+		
 		return null;
 	}
 	
