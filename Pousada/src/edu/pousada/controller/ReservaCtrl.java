@@ -334,10 +334,10 @@ public class ReservaCtrl {
 				msg( "sair", "" );
 				break;
 			case KeyEvent.VK_DELETE:
-				//removeLinha();
+				cancela();
 				break;
 			case 8: //MAC OSX: DELETE
-				//removeLinha();
+				cancela();
 				break;
 			}
 		}
@@ -371,8 +371,9 @@ public class ReservaCtrl {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 
-			if(e.getClickCount() == 2){  
-
+			if(e.getClickCount() == 2){ 
+				
+				cancela();
 			}
 		}
 	};
@@ -388,7 +389,7 @@ public class ReservaCtrl {
 		case "cancelar":
 			Object[] opt = { "Confirmar", "Cancelar" };
 			int retirar = JOptionPane.showOptionDialog(null, mensagem +
-					"\n\nDeseja cancelar esta Reserva?",
+					"ATENÇÃO!\n\nDeseja cancelar esta Reserva?",
 					"Cancelar Reserva", 
 					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
 					new ImageIcon( diretorio + "/icons/error.png" ), opt, opt[1]);
@@ -431,17 +432,20 @@ public class ReservaCtrl {
 					new ImageIcon( diretorio + "/icons/builder.png" ));
 			break;
 
-		case "sistema":
+		case "sair":
 			Object[] exit = { "Confirmar", "Cancelar" };  
-			int fechar = JOptionPane.showOptionDialog( null, "ATENÇÃO!\n\nChamada para o " + mensagem 
+			int fechar = JOptionPane.showOptionDialog( null, "ATENÇÃO!\n\nChamada para o fechamento" 
 					+ " do sistema!\n\nDeseja encerrar a aplicação?",
-					"Fechamento do Programa!", 
+					"Fechamento do Programa", 
 					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
 					new ImageIcon( diretorio + "/icons/warning.png" ), exit, exit[1] );
 			if ( fechar == 0 ) {
 				validar = true;
 			} else {
 				validar = false;
+			}
+			if(validar == true){
+				System.exit(0);
 			}
 			break;
 
