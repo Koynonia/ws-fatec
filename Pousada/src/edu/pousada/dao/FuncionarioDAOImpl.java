@@ -93,7 +93,7 @@ public class FuncionarioDAOImpl implements FuncionarioDAO {
 
 	@Override
 	public void excluir(Funcionario funcionario) throws SQLException {
-		String sql = "DELETE funcionario WHERE cpf = ?";
+		String sql = "DELETE FROM funcionario WHERE cpf = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1, funcionario.getCpf());
 		ps.execute();

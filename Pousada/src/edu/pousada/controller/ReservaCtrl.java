@@ -73,19 +73,19 @@ public class ReservaCtrl {
 		this.btnConcluir = btnConcluir;
 		this.btnVoltar = btnVoltar;
 		this.reservas = new ArrayList<Reserva>();
-		
-		cargaReserva();
+
+		todos();
 		formataTabela();
 	}
-	
-	
+
+
 	public void limpaCampo(){
 
 		reservas.removeAll(reservas);
 		formataTabela();
 		ftxtValor.setValue(0.00);
 	}
-	
+
 
 	public void atualizaValor(){
 
@@ -107,10 +107,51 @@ public class ReservaCtrl {
 		ftxtValor.setValue( total );
 	}
 
+	public void cancela(){
 
-	// DAO //////////////////////////////////////
-	
-	public void cargaReserva(){
+		if ( tabela.getSelectedRowCount() == 0 ) {
+			msg( "erroLinha", "" );
+		} else {
+			if(tabela.getRowCount() > 0){
+				msg( "cancelar", "" );
+				if (validar != false){
+					//Atualiza a base de dados excluindo o registro selecionado
+					Reserva r = new Reserva();
+					for(int i = 0; i < reservas.size(); i ++){
+						if((tabela.getValueAt(tabela.getSelectedRow(), 0).toString().replace("00000",""))
+								.equals( reservas.get(i).getId().toString() )){
+							r.setId(reservas.get(i).getId());
+							excluir( r );
+							todos();
+							msg("sucesso", tabela.getValueAt(tabela.getSelectedRow(), 0).toString() );
+						}
+					}
+					validar = false;
+					//Atualiza a tabela, removendo a linha
+					((DefaultTableModel) tabela.getModel()).removeRow(tabela.getSelectedRow());
+					tabela.updateUI();
+
+					//Atualiza o valor total
+					atualizaValor();
+				} 
+			}
+		}
+	}
+
+
+	// CRUD ///////////////////////////////////
+
+	public void excluir( Reserva r ) {
+
+		ReservaDAO dao = new ReservaDAOImpl();
+		try {
+			dao.excluir( r );
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void todos(){
 
 		ReservaDAO dao = new ReservaDAOImpl();
 		try {
@@ -118,27 +159,6 @@ public class ReservaCtrl {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	public void cadastraReserva( Reserva r ){
-
-		ReservaDAO dao = new ReservaDAOImpl();
-
-		try {
-			dao.adicionar( r );
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	
-	// CRUD ///////////////////////////////////
-
-	public void adicionaReserva( Reserva r ) {
-
-		cadastraReserva( r );
-		cargaReserva();
-		formataTabela();
 	}
 
 
@@ -223,40 +243,8 @@ public class ReservaCtrl {
 		tabela.getColumnModel().getColumn(3).setCellRenderer(centro);
 		tabela.getColumnModel().getColumn(4).setCellRenderer(direito);
 		tabela.getColumnModel().getColumn(5).setCellRenderer(direito);
-		
+
 		atualizaValor();
-	}
-
-
-	public void removeLinha(){
-		
-		if ( tabela.getSelectedRowCount() == 0 ) {
-			msg( "erroLinha", "" );
-		} else {
-			if(tabela.getRowCount() > 0){
-				msg( "retirar", "" );
-				if (validar != false){
-
-					//Atualiza a base de dados excluindo o registro selecionado
-					for(int i = 0; i < reservas.size(); i ++){
-						if((tabela.getValueAt(tabela.getSelectedRow(), 0).toString())
-								.equals( reservas.get(i).getId() )){
-							reservas.remove(i);
-						}
-					}
-					validar = false;
-					//Atualiza base de dados
-					//cancelaReserva( reservas );
-
-					//Atualiza a tabela, removendo o dado
-					((DefaultTableModel) tabela.getModel()).removeRow(tabela.getSelectedRow());
-					tabela.updateUI();
-
-					//Atualiza o valor total
-					atualizaValor();
-				} 
-			}
-		}
 	}
 
 
@@ -271,7 +259,7 @@ public class ReservaCtrl {
 			break;
 		}
 	}
-	
+
 	public void fechar(){
 		if(form != null)
 			form.dispose();
@@ -304,7 +292,7 @@ public class ReservaCtrl {
 			Object source = e.getSource();
 
 			if(source == btnCancelar){
-				removeLinha();
+				cancela();
 			}
 			if(source == btnLimpar){
 				limpaCampo();
@@ -343,11 +331,7 @@ public class ReservaCtrl {
 			case KeyEvent.VK_RIGHT:
 				break;
 			case KeyEvent.VK_ESCAPE:
-				/*msg("sistema","Fechamento");
-						if(validar == false){
-						System.exit(0);
-						}*/
-				form.dispose();
+				msg( "sair", "" );
 				break;
 			case KeyEvent.VK_DELETE:
 				//removeLinha();
@@ -392,8 +376,8 @@ public class ReservaCtrl {
 			}
 		}
 	};
-	
-	
+
+
 	// MENSAGENS //////////////////////////////
 
 	public void msg( String tipo, String mensagem ) {
@@ -401,11 +385,11 @@ public class ReservaCtrl {
 
 		switch ( tipo ) {
 
-		case "retirar":
+		case "cancelar":
 			Object[] opt = { "Confirmar", "Cancelar" };
 			int retirar = JOptionPane.showOptionDialog(null, mensagem +
-					"\n\nDeseja retirar o Chalé da Reserva?\nVocê poderá adicioná-lo novamente mais tarde.",
-					"Retirar Chalé", 
+					"\n\nDeseja cancelar esta Reserva?",
+					"Cancelar Reserva", 
 					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
 					new ImageIcon( diretorio + "/icons/error.png" ), opt, opt[1]);
 			if (retirar == 0) {
@@ -414,7 +398,13 @@ public class ReservaCtrl {
 				validar = false;
 			}
 			break;
-
+		case "sucesso":
+			JOptionPane.showMessageDialog(null, 
+					"CONFIRMADO!\n\nA reserva " + mensagem + " foi cancelada.", 
+					"ECancelamento Efetuado", 
+					JOptionPane.PLAIN_MESSAGE,
+					new ImageIcon( diretorio + "/icons/confirm.png" ));
+			break;
 		case "erroLinha":
 			JOptionPane.showMessageDialog(null, 
 					"Por favor, selecione um Chalé para retirar.", 
@@ -432,7 +422,7 @@ public class ReservaCtrl {
 							JOptionPane.PLAIN_MESSAGE,
 							new ImageIcon( diretorio + "/icons/error.png" ));
 			break;
-			
+
 		case "construir":
 			JOptionPane.showMessageDialog(null, 
 					"Em construção!\nEsta função ainda não foi implementada.", 

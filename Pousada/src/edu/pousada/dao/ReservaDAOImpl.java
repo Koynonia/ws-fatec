@@ -37,69 +37,69 @@ public class ReservaDAOImpl implements ReservaDAO{
 	 */
 	
 	@Override
-	public void adicionar(Reserva reserva) throws SQLException {
+	public void adicionar(Reserva r) throws SQLException {
 		String sql = "INSERT INTO reserva VALUES (NULL,?,?,?,?,?,?,?,?)";
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt(1, reserva.getCliente().getId());
-		ps.setInt(2, reserva.getChale().getId());
-		ps.setInt(3, reserva.getQtdAdulto());
-		ps.setInt(4, reserva.getQtdCrianca());
-		ps.setDate(5, new java.sql.Date( reserva.getDtInicio().getTime() ));
-		ps.setDate(6, new java.sql.Date( reserva.getDtFim().getTime() ));
-		ps.setInt(7, reserva.getDesconto());
-		ps.setDate(8, new java.sql.Date( reserva.getDtCadastro().getTime() ));
+		ps.setInt(1, r.getCliente().getId());
+		ps.setInt(2, r.getChale().getId());
+		ps.setInt(3, r.getQtdAdulto());
+		ps.setInt(4, r.getQtdCrianca());
+		ps.setDate(5, new java.sql.Date( r.getDtInicio().getTime() ));
+		ps.setDate(6, new java.sql.Date( r.getDtFim().getTime() ));
+		ps.setInt(7, r.getDesconto());
+		ps.setDate(8, new java.sql.Date( r.getDtCadastro().getTime() ));
 		ps.execute();
 		ps.close();
 	}
 
 	@Override
-	public void alterar(Reserva reserva) throws SQLException {
+	public void alterar(Reserva r) throws SQLException {
 		String sql =  "UPDATE reserva SET cliente = ?, "
 				+ "chale = ?, qtdAdulto = ?, qtdCrianca = ?, "
 				+ "dtInicio = ?, dtFim = ?, "
 				+ "desconto = ? WHERE id = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt(1, reserva.getCliente().getId());
-		ps.setInt(2, reserva.getChale().getId());
-		ps.setInt(3, reserva.getQtdAdulto());
-		ps.setInt(4, reserva.getQtdCrianca());
-		ps.setDate(5, new java.sql.Date( reserva.getDtInicio().getTime() ));
-		ps.setDate(6, new java.sql.Date( reserva.getDtFim().getTime() ));
-		ps.setInt(7, reserva.getDesconto());
-		ps.setInt(8, reserva.getId());
+		ps.setInt(1, r.getCliente().getId());
+		ps.setInt(2, r.getChale().getId());
+		ps.setInt(3, r.getQtdAdulto());
+		ps.setInt(4, r.getQtdCrianca());
+		ps.setDate(5, new java.sql.Date( r.getDtInicio().getTime() ));
+		ps.setDate(6, new java.sql.Date( r.getDtFim().getTime() ));
+		ps.setInt(7, r.getDesconto());
+		ps.setInt(8, r.getId());
 		ps.execute();
 		ps.close();
 	}
 
 	@Override
-	public void excluir(Reserva reserva) throws SQLException {
-		String sql = "DELETE reserva WHERE id = ?";
+	public void excluir(Reserva r) throws SQLException {
+		String sql = "DELETE FROM reserva WHERE id = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt( 1, reserva.getId() );
+		ps.setInt( 1, r.getId() );
 		ps.execute();
 		ps.close();	
 	}
 
 	@Override
-	public Reserva consultar(Reserva reserva) throws SQLException {
+	public Reserva consultar(Reserva r) throws SQLException {
 		String sql = "SELECT * FROM reserva WHERE id = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt( 1, reserva.getId() );
+		ps.setInt( 1, r.getId() );
 		ResultSet rs = ps.executeQuery();
 		if(rs.next()){
-			reserva.setId(rs.getInt("id"));
-			reserva.setCliente( cliente( rs.getInt("cliente") ));
-			reserva.setChale( chale( rs.getInt("chale") ));
-			reserva.setQtdAdulto(rs.getInt("qtdAdulto"));
-			reserva.setQtdCrianca(rs.getInt("qtdCrianca"));
-			reserva.setDtInicio(rs.getDate("dtInicio"));
-			reserva.setDtFim(rs.getDate("dtFim"));
-			reserva.setDesconto(rs.getInt("desconto"));
-			reserva.setDtCadastro(rs.getDate("dtCadastro"));
+			r.setId(rs.getInt("id"));
+			r.setCliente( cliente( rs.getInt("cliente") ));
+			r.setChale( chale( rs.getInt("chale") ));
+			r.setQtdAdulto(rs.getInt("qtdAdulto"));
+			r.setQtdCrianca(rs.getInt("qtdCrianca"));
+			r.setDtInicio(rs.getDate("dtInicio"));
+			r.setDtFim(rs.getDate("dtFim"));
+			r.setDesconto(rs.getInt("desconto"));
+			r.setDtCadastro(rs.getDate("dtCadastro"));
 		}
 		rs.close();
 		ps.close();
-		return reserva;
+		return r;
 	}
 
 	@Override
@@ -110,17 +110,17 @@ public class ReservaDAOImpl implements ReservaDAO{
 		ResultSet rs = ps.executeQuery();
 		List<Reserva>lista = new ArrayList<>();
 		while (rs.next()) {
-			Reserva reserva = new Reserva();
-			reserva.setId(rs.getInt("id"));
-			reserva.setCliente( cliente( rs.getInt("cliente") ));
-			reserva.setChale( chale( rs.getInt("chale") ));
-			reserva.setQtdAdulto(rs.getInt("qtdAdulto"));
-			reserva.setQtdCrianca(rs.getInt("qtdCrianca"));
-			reserva.setDtInicio(rs.getDate("dtInicio"));
-			reserva.setDtFim(rs.getDate("dtFim"));
-			reserva.setDesconto(rs.getInt("desconto"));
-			reserva.setDtCadastro(rs.getDate("dtCadastro"));
-			lista.add( reserva );
+			Reserva r = new Reserva();
+			r.setId(rs.getInt("id"));
+			r.setCliente( cliente( rs.getInt("cliente") ));
+			r.setChale( chale( rs.getInt("chale") ));
+			r.setQtdAdulto(rs.getInt("qtdAdulto"));
+			r.setQtdCrianca(rs.getInt("qtdCrianca"));
+			r.setDtInicio(rs.getDate("dtInicio"));
+			r.setDtFim(rs.getDate("dtFim"));
+			r.setDesconto(rs.getInt("desconto"));
+			r.setDtCadastro(rs.getDate("dtCadastro"));
+			lista.add( r );
 		}
 		rs.close();
 		ps.close();
@@ -134,29 +134,29 @@ public class ReservaDAOImpl implements ReservaDAO{
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt( 1, id );
 		ResultSet rs = ps.executeQuery();
-		Cliente cliente = new Cliente();
+		Cliente cl = new Cliente();
 		while (rs.next()) {
-			cliente.setId(rs.getInt("id"));
-			cliente.setNome(rs.getString("nome"));
-			cliente.setEmail(rs.getString("email"));
-			cliente.setDocumento(rs.getString("documento"));
-			cliente.setDocTipo(rs.getString("docTipo"));
-			cliente.setDtNasc(rs.getDate("dtNasc"));
-			cliente.setTelefone(rs.getString("telefone"));
-			cliente.setCelular(rs.getString("celular"));
-			cliente.setEndereco(rs.getString("endereco"));
-			cliente.setBairro(rs.getString("bairro"));
-			cliente.setCidade(rs.getString("cidade"));
-			cliente.setEstado(rs.getString("estado"));
-			cliente.setPais(rs.getString("pais"));
-			cliente.setCep(rs.getString("cep"));
-			cliente.setDtCadastro(rs.getDate("dtCadastro"));
-			cliente.setAtivo(rs.getBoolean("ativo"));
+			cl.setId(rs.getInt("id"));
+			cl.setNome(rs.getString("nome"));
+			cl.setEmail(rs.getString("email"));
+			cl.setDocumento(rs.getString("documento"));
+			cl.setDocTipo(rs.getString("docTipo"));
+			cl.setDtNasc(rs.getDate("dtNasc"));
+			cl.setTelefone(rs.getString("telefone"));
+			cl.setCelular(rs.getString("celular"));
+			cl.setEndereco(rs.getString("endereco"));
+			cl.setBairro(rs.getString("bairro"));
+			cl.setCidade(rs.getString("cidade"));
+			cl.setEstado(rs.getString("estado"));
+			cl.setPais(rs.getString("pais"));
+			cl.setCep(rs.getString("cep"));
+			cl.setDtCadastro(rs.getDate("dtCadastro"));
+			cl.setAtivo(rs.getBoolean("ativo"));
 		}
 		rs.close();
 		ps.close();
 		
-		return cliente;
+		return cl;
 	}
 	
 	public Chale chale(Integer id) throws SQLException {
@@ -165,15 +165,15 @@ public class ReservaDAOImpl implements ReservaDAO{
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt( 1, id );
 		ResultSet rs = ps.executeQuery();
-		Chale chale = new Chale();
+		Chale ch = new Chale();
 		while (rs.next()) {
-			chale.setId(rs.getInt("id"));
-			chale.setCategoria(rs.getString("categoria"));
-			chale.setDiaria(rs.getFloat("diaria"));
+			ch.setId(rs.getInt("id"));
+			ch.setCategoria(rs.getString("categoria"));
+			ch.setDiaria(rs.getFloat("diaria"));
 		}
 		rs.close();
 		ps.close();
 		
-		return chale;
+		return ch;
 	}
 }

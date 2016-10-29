@@ -51,7 +51,7 @@ public class ChaleDAOImpl implements ChaleDAO {
 	}
 
 	public void excluir(Chale chale) throws SQLException {
-		String sql = "DELETE chale WHERE id = ?";
+		String sql = "DELETE FROM chale WHERE id = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt(1, chale.getId());
 		ps.execute();

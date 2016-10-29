@@ -59,7 +59,7 @@ public class LanchoneteDAOImpl implements LanchoneteDAO{
 
 	@Override
 	public void excluir(Lanchonete lanchonete) throws SQLException {
-		String sql = "DELETE lanchonete WHERE id = ?";
+		String sql = "DELETE FROM lanchonete WHERE id = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt(1, lanchonete.getId());
 		ps.execute();

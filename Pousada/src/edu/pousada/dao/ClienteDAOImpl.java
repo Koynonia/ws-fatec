@@ -90,7 +90,7 @@ public class ClienteDAOImpl implements ClienteDAO {
 
 	@Override
 	public void excluir(Cliente cliente) throws SQLException {
-		String sql = "DELETE cliente WHERE documento = ?";
+		String sql = "DELETE FROM cliente WHERE documento = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1, cliente.getDocumento());
 		ps.execute();

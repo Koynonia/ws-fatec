@@ -35,13 +35,13 @@ public class ReservaFrm extends JFrame {
 	private JPanel painel;
 	private JScrollPane spCompras;
 	private JSeparator linha;
-	public JButton btnCancelar;
-	public JButton btnLimpar;
-	public JButton btnConcluir;
-	public JButton btnVoltar;
-	public JTable tabCompra;
-	public JFormattedTextField ftxtQtd;
-	public JFormattedTextField ftxtVlrTotal;
+	private JFormattedTextField ftxtQtd;
+	private JFormattedTextField ftxtVlrTotal;
+	private JButton btnCancelar;
+	private JButton btnLimpar;
+	private JButton btnConcluir;
+	private JButton btnVoltar;
+	private JTable tabCompra;
 	private DecimalFormat maskValor;
 	
 	public static void main(String[] args) {

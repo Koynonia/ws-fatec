@@ -53,7 +53,7 @@ public class JacuzziDAOImpl implements JacuzziDAO {
 
 	@Override
 	public void excluir(Jacuzzi jacuzzi) throws SQLException {
-		String sql = "DELETE jacuzzi WHERE idJacuzzi = ?";
+		String sql = "DELETE FROM jacuzzi WHERE idJacuzzi = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt(1, jacuzzi.getId());
 		ps.execute();

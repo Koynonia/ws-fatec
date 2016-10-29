@@ -546,8 +546,8 @@ public class PrincipalCtrl {
 						cl.setEstado( txtReservaEstado.getText() );
 						cl.setPais( txtReservaPais.getText() );
 						cl.setCep( null );
-						cl.setDtCadastro( new Date() );
 						cl.setAtivo( false );
+						cl.setDtCadastro( new Date() );
 						cadastraCliente( cl );
 						cargaCliente();
 						}
@@ -572,29 +572,18 @@ public class PrincipalCtrl {
 				}
 			}
 
-			Reserva rs = new Reserva();
+			Reserva r = new Reserva();
 			DateFormat sdf = new SimpleDateFormat("ddMMyyyy");
-			rs.setCliente( cl );
-			rs.setChale( ch );
-			rs.setQtdAdulto( Integer.parseInt( txtReservaQtdAdulto.getText() ));
-			rs.setQtdCrianca( Integer.parseInt(txtReservaQtdCrianca.getText() ));
-			rs.setDtInicio( sdf.parse( ftxtReservaDtInicio.getText().replace("/","") ));
-			rs.setDtFim( sdf.parse( ftxtReservaDtFim.getText().replace("/","") ));
-			rs.setDesconto( 0 );
-			rs.setDtCadastro( new Date() );
+			r.setCliente( cl );
+			r.setChale( ch );
+			r.setQtdAdulto( Integer.parseInt( txtReservaQtdAdulto.getText() ));
+			r.setQtdCrianca( Integer.parseInt(txtReservaQtdCrianca.getText() ));
+			r.setDtInicio( sdf.parse( ftxtReservaDtInicio.getText().replace("/","") ));
+			r.setDtFim( sdf.parse( ftxtReservaDtFim.getText().replace("/","") ));
+			r.setDesconto( 0 );
+			r.setDtCadastro( new Date() );
 			
-			ReservaFrm frm = new ReservaFrm();
-			ReservaCtrl ctrl = new ReservaCtrl(
-					frm, 
-					frm.tabCompra, 
-					frm.ftxtQtd, 
-					frm.ftxtVlrTotal, 
-					frm.btnCancelar,
-					frm.btnLimpar,
-					frm.btnConcluir,
-					frm.btnVoltar
-					);
-			ctrl.adicionaReserva ( rs );
+			cadastraReserva( r );
 			abrir( "reservas" );
 		}
 	}
@@ -642,14 +631,25 @@ public class PrincipalCtrl {
 		}
 	}
 	
-	public void cadastraCliente( Cliente cliente ){
+	public void cadastraCliente( Cliente c ){
 
 		ClienteDAO dao = new ClienteDAOImpl();
 			try {
-				dao.adicionar( cliente );
+				dao.adicionar( c );
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+	}
+	
+	public void cadastraReserva( Reserva r ){
+
+		ReservaDAO dao = new ReservaDAOImpl();
+
+		try {
+			dao.adicionar( r );
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	// AREA DE TEXTO /////////////////////////////

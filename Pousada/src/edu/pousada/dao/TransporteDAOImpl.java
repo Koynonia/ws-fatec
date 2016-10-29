@@ -60,7 +60,7 @@ public class TransporteDAOImpl implements TransporteDAO {
 	}
 
 	public void excluir(Transporte transporte) throws SQLException {
-		String sql = "DELETE transporte WHERE id = ?";
+		String sql = "DELETE FROM transporte WHERE id = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt(1, transporte.getId());
 		ps.execute();

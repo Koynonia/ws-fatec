@@ -52,7 +52,7 @@ public class InternetDAOImpl implements InternetDAO{
 	}
 
 	public void excluir(Internet internet) throws SQLException {
-		String sql = "DELETE internet WHERE id = ?";
+		String sql = "DELETE FROM internet WHERE id = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt(1, internet.getId());
 		ps.execute();

@@ -54,7 +54,7 @@ public class SpaDAOImpl implements SpaDAO{
 	}
 
 	public void excluir(Spa spa) throws SQLException {
-		String sql = "DELETE spa WHERE id = ?";
+		String sql = "DELETE FROM spa WHERE id = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt(1, spa.getId());
 		ps.execute();

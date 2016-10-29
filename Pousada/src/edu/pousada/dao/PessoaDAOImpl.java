@@ -51,7 +51,7 @@ public class PessoaDAOImpl implements PessoaDAO{
 	}
 
 	public void excluir(Pessoa pessoa) throws SQLException {
-		String sql = "DELETE pessoa WHERE id = ?";
+		String sql = "DELETE FROM pessoa WHERE id = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt(1, pessoa.getId());
 		ps.execute();
