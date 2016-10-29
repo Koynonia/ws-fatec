@@ -32,7 +32,7 @@ public class TransporteDAOImpl implements TransporteDAO {
 	 * );
 	 */
 	
-	public void adicionaTransporte(Transporte transporte) throws SQLException {
+	public void adicionar(Transporte transporte) throws SQLException {
 		String sql = "INSERT INTO transporte VALUES (NULL,?,?,?,?,?,?) ";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1, transporte.getPlaca());
@@ -45,7 +45,7 @@ public class TransporteDAOImpl implements TransporteDAO {
 		ps.close();
 	}
 
-	public void alteraTransporte(Transporte transporte) throws SQLException {
+	public void alterar(Transporte transporte) throws SQLException {
 		String sql = "UPDATE transporte SET placa = ?, estado = ?, destino = ? dtReserva = ?, hrReserva = ?, valor = ? WHERE placa = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1, transporte.getPlaca());
@@ -59,7 +59,7 @@ public class TransporteDAOImpl implements TransporteDAO {
 		ps.close();
 	}
 
-	public void excluiTransporte(Transporte transporte) throws SQLException {
+	public void excluir(Transporte transporte) throws SQLException {
 		String sql = "DELETE transporte WHERE id = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt(1, transporte.getId());
@@ -67,7 +67,7 @@ public class TransporteDAOImpl implements TransporteDAO {
 		ps.close();
 	}
 
-	public Transporte consultaTransporte(Transporte transporte) throws SQLException {
+	public Transporte consultar(Transporte transporte) throws SQLException {
 		String sql = "SELECT * FROM transporte WHERE id = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt(1, transporte.getId());
@@ -86,7 +86,7 @@ public class TransporteDAOImpl implements TransporteDAO {
 		return transporte;
 	}
 
-	public List<Transporte> listaTransporte() throws SQLException {
+	public List<Transporte> todos() throws SQLException {
 		List<Transporte> listaTransporte = new ArrayList<Transporte>();
 		String sql = "SELECT * FROM transporte";
 		PreparedStatement ps = con.prepareStatement(sql);

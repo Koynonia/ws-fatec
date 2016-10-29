@@ -14,10 +14,10 @@ import edu.pousada.entity.Spa;
 
 public interface SpaDAO {
 	
-	public void adicionaSpa(Spa spa) throws SQLException;
-	public void alteraSpa(Spa spa) throws SQLException;
-	public void excluiSpa(Spa spa) throws SQLException;
-	public Spa consultaSpa(Spa spa) throws SQLException;
-	public List<Spa> listaSpa() throws SQLException;
+	public void adicionar(Spa spa) throws SQLException;
+	public void alterar(Spa spa) throws SQLException;
+	public void excluir(Spa spa) throws SQLException;
+	public Spa consultar(Spa spa) throws SQLException;
+	public List<Spa> todos() throws SQLException;
 	
 }

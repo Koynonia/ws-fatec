@@ -9,6 +9,7 @@ package edu.pousada.dao;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 import edu.pousada.entity.Frigobar;
 
@@ -18,23 +19,29 @@ public class FrigobarDAOImpl implements FrigobarDAO{
 	private Connection con = DBUtil.getInstance().getConnection();
 
 	@Override
-	public void adicionarFrigobar(Frigobar frigobar) throws SQLException {
+	public void adicionar(Frigobar frigobar) throws SQLException {
 	}
 
 	@Override
-	public void alterarFrigobar(Frigobar frigobar) throws SQLException {
+	public void alterar(Frigobar frigobar) throws SQLException {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void excluirFrigobar(Frigobar frigobar) throws SQLException {
+	public void excluir(Frigobar frigobar) throws SQLException {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public Frigobar consultaFrigobar(Frigobar frigobar) throws SQLException {
+	public Frigobar consultar(Frigobar frigobar) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Frigobar> todos() throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}

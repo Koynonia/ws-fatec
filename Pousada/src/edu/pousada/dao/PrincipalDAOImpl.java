@@ -37,31 +37,31 @@ public class PrincipalDAOImpl implements PrincipalDAO {
 	 */
 
 	@Override
-	public void adicionaPrincipal(Principal Principal) throws SQLException {
+	public void adicionar(Principal Principal) throws SQLException {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void alteraPrincipal(Principal Principal) throws SQLException {
+	public void alterar(Principal Principal) throws SQLException {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void excluiPrincipal(Principal Principal) throws SQLException {
+	public void excluir(Principal Principal) throws SQLException {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public Principal consultaPrincipal(Principal Principal) throws SQLException {
+	public Principal consultar(Principal Principal) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 	
 	@Override
-	public List<Principal> todasPrincipal() throws SQLException {
+	public List<Principal> todos() throws SQLException {
 
 		String sql = "SELECT * FROM principal";
 		PreparedStatement ps = con.prepareStatement(sql);

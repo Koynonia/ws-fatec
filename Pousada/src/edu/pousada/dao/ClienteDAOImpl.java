@@ -40,7 +40,7 @@ public class ClienteDAOImpl implements ClienteDAO {
 	
 	private Connection con = DBUtil.getInstance().getConnection();
 
-	public void adicionarCliente(Cliente cliente) throws SQLException {
+	public void adicionar(Cliente cliente) throws SQLException {
 		String sql = "INSERT INTO cliente VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1, cliente.getNome());
@@ -62,7 +62,7 @@ public class ClienteDAOImpl implements ClienteDAO {
 		ps.close();
 	}
 
-	public void alterarCliente(Cliente cliente) throws SQLException {
+	public void alterar(Cliente cliente) throws SQLException {
 		String sql = "UPDATE cliente SET "
 				+ "nome = ?, email = ?, docTipo = ?, dtNasc = ?, telefone = ?, celular = ?, "
 				+ "endereco = ?, bairro = ?, cidade = ?, estado = ?, pais = ?, cep = ?, "
@@ -89,7 +89,7 @@ public class ClienteDAOImpl implements ClienteDAO {
 	}
 
 	@Override
-	public void excluiCliente(Cliente cliente) throws SQLException {
+	public void excluir(Cliente cliente) throws SQLException {
 		String sql = "DELETE cliente WHERE documento = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1, cliente.getDocumento());
@@ -99,7 +99,7 @@ public class ClienteDAOImpl implements ClienteDAO {
 	}
 
 
-	public Cliente consultaCliente(Cliente cliente) throws SQLException {
+	public Cliente consultar(Cliente cliente) throws SQLException {
 		String sql = "SELECT * FROM clientes WHERE documento =  ?";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1, cliente.getDocumento());
@@ -128,7 +128,7 @@ public class ClienteDAOImpl implements ClienteDAO {
 		return cliente;
 	}
 
-	public List<Cliente> todosClientes() throws SQLException {
+	public List<Cliente> todos() throws SQLException {
 		List<Cliente> listaCliente = new ArrayList<Cliente>();
 		String sql = "SELECT * FROM cliente";
 		PreparedStatement ps = con.prepareStatement(sql);

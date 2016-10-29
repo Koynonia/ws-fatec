@@ -14,12 +14,10 @@ import edu.pousada.entity.Lanchonete;
 
 public interface LanchoneteDAO {
 	
-	public void adicionarLanchonete(Lanchonete lanchonete)  throws SQLException;
-	public void alterarLanchonete(Lanchonete lanchonete)  throws SQLException;
-	public void excluirLanchonete(Lanchonete lanchonete) throws SQLException;
-	public Lanchonete consultaLanchonete(Lanchonete lanchonete) throws SQLException;
-	public List<Lanchonete> listaLanchonete() throws SQLException;
-	
-	
+	public void adicionar(Lanchonete lanchonete)  throws SQLException;
+	public void alterar(Lanchonete lanchonete)  throws SQLException;
+	public void excluir(Lanchonete lanchonete) throws SQLException;
+	public Lanchonete consultar(Lanchonete lanchonete) throws SQLException;
+	public List<Lanchonete> todos() throws SQLException;
 	
 }

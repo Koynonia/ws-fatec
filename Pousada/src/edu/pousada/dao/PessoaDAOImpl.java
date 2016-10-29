@@ -29,7 +29,7 @@ public class PessoaDAOImpl implements PessoaDAO{
 	 * );
 	 */
 
-	public void adicionaPessoa(Pessoa pessoa) throws SQLException {
+	public void adicionar(Pessoa pessoa) throws SQLException {
 		String sql = "INSERT INTO pessoa VALUES (NULL,?,?,?)";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1, pessoa.getNome());
@@ -39,7 +39,7 @@ public class PessoaDAOImpl implements PessoaDAO{
 		ps.close();
 	}
 
-	public void alteraPessoa(Pessoa pessoa) throws SQLException {
+	public void alterar(Pessoa pessoa) throws SQLException {
 		String sql =  "UPDATE pessoa SET nome = ?, dtNasc = ?, responsavel = ? WHERE id = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1, pessoa.getNome());
@@ -50,7 +50,7 @@ public class PessoaDAOImpl implements PessoaDAO{
 		ps.close();		
 	}
 
-	public void excluiPessoa(Pessoa pessoa) throws SQLException {
+	public void excluir(Pessoa pessoa) throws SQLException {
 		String sql = "DELETE pessoa WHERE id = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt(1, pessoa.getId());
@@ -59,7 +59,7 @@ public class PessoaDAOImpl implements PessoaDAO{
 
 	}
 
-	public Pessoa consultaPessoa(Pessoa pessoa) throws SQLException {
+	public Pessoa consultar(Pessoa pessoa) throws SQLException {
 		String sql = "SELECT * FROM pessoa WHERE id = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt(1, pessoa.getId());
@@ -75,7 +75,7 @@ public class PessoaDAOImpl implements PessoaDAO{
 		return pessoa;
 	}
 
-	public List<Pessoa> listaPessoa() throws SQLException {
+	public List<Pessoa> todos() throws SQLException {
 		List<Pessoa> listaPessoa = new ArrayList<Pessoa>();
 		String sql = "SELECT * FROM pessoa";
 		PreparedStatement ps = con.prepareStatement(sql);

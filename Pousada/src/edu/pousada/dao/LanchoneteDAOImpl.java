@@ -31,7 +31,7 @@ public class LanchoneteDAOImpl implements LanchoneteDAO{
 	 * );
 	 */
 
-	public void adicionarLanchonete(Lanchonete lanchonete) throws SQLException {
+	public void adicionar(Lanchonete lanchonete) throws SQLException {
 		String sql = "INSERT INTO lanchonete VALUES (NULL,?,?,?,?,?)";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1, lanchonete.getNome());
@@ -44,7 +44,7 @@ public class LanchoneteDAOImpl implements LanchoneteDAO{
 	}
 
 	@Override
-	public void alterarLanchonete(Lanchonete lanchonete) throws SQLException {
+	public void alterar(Lanchonete lanchonete) throws SQLException {
 		String sql =  "UPDATE lanchonete SET nome = ?, tipo = ?, dtReserva = ?, hrReserva = ?, valor = ? WHERE id = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1, lanchonete.getNome());
@@ -58,7 +58,7 @@ public class LanchoneteDAOImpl implements LanchoneteDAO{
 	}
 
 	@Override
-	public void excluirLanchonete(Lanchonete lanchonete) throws SQLException {
+	public void excluir(Lanchonete lanchonete) throws SQLException {
 		String sql = "DELETE lanchonete WHERE id = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt(1, lanchonete.getId());
@@ -67,7 +67,7 @@ public class LanchoneteDAOImpl implements LanchoneteDAO{
 	}
 
 
-	public Lanchonete consultaLanchonete(Lanchonete lanchonete) throws SQLException {
+	public Lanchonete consultar(Lanchonete lanchonete) throws SQLException {
 		String sql = "SELECT * FROM lanchonete WHERE id = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt(1, lanchonete.getId());
@@ -88,7 +88,7 @@ public class LanchoneteDAOImpl implements LanchoneteDAO{
 		return lanchonete;
 	}
 
-	public List<Lanchonete> listaLanchonete() throws SQLException {
+	public List<Lanchonete> todos() throws SQLException {
 		List<Lanchonete> listaLanchonete = new ArrayList<Lanchonete>();
 		String sql = "SELECT * FROM lanchonete";
 		PreparedStatement ps = con.prepareStatement(sql);

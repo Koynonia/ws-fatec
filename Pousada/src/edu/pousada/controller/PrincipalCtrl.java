@@ -606,7 +606,7 @@ public class PrincipalCtrl {
 
 		PrincipalDAO dao = new PrincipalDAOImpl();
 		try {
-			infos = dao.todasPrincipal();
+			infos = dao.todos();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -616,7 +616,7 @@ public class PrincipalCtrl {
 
 		ChaleDAO dao = new ChaleDAOImpl();
 		try {
-			chales = dao.todosChales();
+			chales = dao.todos();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -626,7 +626,7 @@ public class PrincipalCtrl {
 
 		ClienteDAO dao = new ClienteDAOImpl();
 		try {
-			clientes = dao.todosClientes();
+			clientes = dao.todos();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -636,7 +636,7 @@ public class PrincipalCtrl {
 
 		ReservaDAO dao = new ReservaDAOImpl();
 		try {
-			reservas = dao.todasReservas();
+			reservas = dao.todos();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -646,7 +646,7 @@ public class PrincipalCtrl {
 
 		ClienteDAO dao = new ClienteDAOImpl();
 			try {
-				dao.adicionarCliente( cliente );
+				dao.adicionar( cliente );
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

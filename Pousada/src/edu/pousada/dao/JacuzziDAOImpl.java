@@ -29,7 +29,7 @@ public class JacuzziDAOImpl implements JacuzziDAO {
 	 * );
 	 */
 	
-	public void adicionaJacuzzi(Jacuzzi jacuzzi) throws SQLException {
+	public void adicionar(Jacuzzi jacuzzi) throws SQLException {
 		String sql = "INSERT INTO jacuzzi VALUES (NULL,?,?,?)";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setDate(1, new java.sql.Date( jacuzzi.getDtReserva().getTime() ));
@@ -40,7 +40,7 @@ public class JacuzziDAOImpl implements JacuzziDAO {
 	}
 
 	@Override
-	public void alteraJacuzzi(Jacuzzi jacuzzi) throws SQLException {
+	public void alterar(Jacuzzi jacuzzi) throws SQLException {
 		String sql = "UPDATE jacuzzki SET dtReserva = ?, hrReserva = ?, valor = ? WHERE id = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setDate(1, new java.sql.Date( jacuzzi.getDtReserva().getTime() ));
@@ -52,7 +52,7 @@ public class JacuzziDAOImpl implements JacuzziDAO {
 	}
 
 	@Override
-	public void excluiJacuzzi(Jacuzzi jacuzzi) throws SQLException {
+	public void excluir(Jacuzzi jacuzzi) throws SQLException {
 		String sql = "DELETE jacuzzi WHERE idJacuzzi = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt(1, jacuzzi.getId());
@@ -61,7 +61,7 @@ public class JacuzziDAOImpl implements JacuzziDAO {
 	}
 
 	@Override
-	public List<Jacuzzi> listaJacuzzi() throws SQLException {
+	public List<Jacuzzi> todos() throws SQLException {
 		List<Jacuzzi> listaJacuzzi = new ArrayList<Jacuzzi>();
 		String sql = "SELECT * FROM jacuzzi";
 		PreparedStatement ps = con.prepareStatement(sql);

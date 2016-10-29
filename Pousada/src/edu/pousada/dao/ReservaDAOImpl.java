@@ -37,7 +37,7 @@ public class ReservaDAOImpl implements ReservaDAO{
 	 */
 	
 	@Override
-	public void adicionaReserva(Reserva reserva) throws SQLException {
+	public void adicionar(Reserva reserva) throws SQLException {
 		String sql = "INSERT INTO reserva VALUES (NULL,?,?,?,?,?,?,?,?)";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt(1, reserva.getCliente().getId());
@@ -53,7 +53,7 @@ public class ReservaDAOImpl implements ReservaDAO{
 	}
 
 	@Override
-	public void alteraReserva(Reserva reserva) throws SQLException {
+	public void alterar(Reserva reserva) throws SQLException {
 		String sql =  "UPDATE reserva SET cliente = ?, "
 				+ "chale = ?, qtdAdulto = ?, qtdCrianca = ?, "
 				+ "dtInicio = ?, dtFim = ?, "
@@ -72,7 +72,7 @@ public class ReservaDAOImpl implements ReservaDAO{
 	}
 
 	@Override
-	public void excluiReserva(Reserva reserva) throws SQLException {
+	public void excluir(Reserva reserva) throws SQLException {
 		String sql = "DELETE reserva WHERE id = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt( 1, reserva.getId() );
@@ -81,7 +81,7 @@ public class ReservaDAOImpl implements ReservaDAO{
 	}
 
 	@Override
-	public Reserva consultaReserva(Reserva reserva) throws SQLException {
+	public Reserva consultar(Reserva reserva) throws SQLException {
 		String sql = "SELECT * FROM reserva WHERE id = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt( 1, reserva.getId() );
@@ -103,7 +103,7 @@ public class ReservaDAOImpl implements ReservaDAO{
 	}
 
 	@Override
-	public List<Reserva> todasReservas() throws SQLException {
+	public List<Reserva> todos() throws SQLException {
 
 		String sql = "SELECT * FROM reserva";
 		PreparedStatement ps = con.prepareStatement(sql);

@@ -41,7 +41,7 @@ public class FuncionarioDAOImpl implements FuncionarioDAO {
 	
 	private Connection con = DBUtil.getInstance().getConnection();
 
-	public void adicionarFuncionario(Funcionario funcionario) throws SQLException {
+	public void adicionar(Funcionario funcionario) throws SQLException {
 		String sql = "INSERT INTO funcionario VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1, funcionario.getNome());
@@ -64,7 +64,7 @@ public class FuncionarioDAOImpl implements FuncionarioDAO {
 		ps.close();
 	}
 
-	public void alterarFuncionario(Funcionario funcionario) throws SQLException {
+	public void alterar(Funcionario funcionario) throws SQLException {
 		String sql = "UPDATE funcionario SET "
 				+ "nome = ?, email = ?, cpf = ?, dtNasc = ?, telefone = ?, celular = ?, "
 				+ "endereco = ?, bairro = ?, cidade = ?, estado = ?, pais = ?, cep = ?, "
@@ -92,7 +92,7 @@ public class FuncionarioDAOImpl implements FuncionarioDAO {
 	}
 
 	@Override
-	public void excluiFuncionario(Funcionario funcionario) throws SQLException {
+	public void excluir(Funcionario funcionario) throws SQLException {
 		String sql = "DELETE funcionario WHERE cpf = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1, funcionario.getCpf());
@@ -102,7 +102,7 @@ public class FuncionarioDAOImpl implements FuncionarioDAO {
 	}
 
 
-	public Funcionario consultaFuncionario(Funcionario funcionario) throws SQLException {
+	public Funcionario consultar(Funcionario funcionario) throws SQLException {
 		String sql = "SELECT * FROM funcionarios WHERE cpf =  ?";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1, funcionario.getCpf());
@@ -132,7 +132,7 @@ public class FuncionarioDAOImpl implements FuncionarioDAO {
 		return funcionario;
 	}
 
-	public List<Funcionario> todosFuncionarios() throws SQLException {
+	public List<Funcionario> todos() throws SQLException {
 		List<Funcionario> listaFuncionario = new ArrayList<Funcionario>();
 		String sql = "SELECT * FROM funcionario";
 		PreparedStatement ps = con.prepareStatement(sql);

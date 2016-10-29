@@ -30,7 +30,7 @@ public class SpaDAOImpl implements SpaDAO{
 	 * );
 	 */
 
-	public void adicionaSpa(Spa spa) throws SQLException {
+	public void adicionar(Spa spa) throws SQLException {
 		String sql = "INSERT INTO spa VALUES (NULL,?,?,?,?)";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(2, spa.getServico());
@@ -41,7 +41,7 @@ public class SpaDAOImpl implements SpaDAO{
 		ps.close();
 	}
 
-	public void alteraSpa(Spa spa) throws SQLException {
+	public void alterar(Spa spa) throws SQLException {
 		String sql =  "UPDATE spa SET servico = ?, dtReserva = ?, hrReserva = ?, valor = ? WHERE id = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1, spa.getServico());
@@ -53,7 +53,7 @@ public class SpaDAOImpl implements SpaDAO{
 		ps.close();		
 	}
 
-	public void excluiSpa(Spa spa) throws SQLException {
+	public void excluir(Spa spa) throws SQLException {
 		String sql = "DELETE spa WHERE id = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt(1, spa.getId());
@@ -61,7 +61,7 @@ public class SpaDAOImpl implements SpaDAO{
 		ps.close();
 	}
 
-	public Spa consultaSpa(Spa spa) throws SQLException {
+	public Spa consultar(Spa spa) throws SQLException {
 		String sql = "SELECT * FROM spa WHERE id = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt(1, spa.getId());
@@ -78,7 +78,7 @@ public class SpaDAOImpl implements SpaDAO{
 		return spa;
 	}
 
-	public List<Spa> listaSpa() throws SQLException {
+	public List<Spa> todos() throws SQLException {
 		List<Spa> listaSpa = new ArrayList<Spa>();
 		String sql = "SELECT * FROM spa";
 		PreparedStatement ps = con.prepareStatement(sql);

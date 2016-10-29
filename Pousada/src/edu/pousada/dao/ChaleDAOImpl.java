@@ -29,7 +29,7 @@ public class ChaleDAOImpl implements ChaleDAO {
 	 */
 
 	@Override
-	public void adicionarChale(Chale chale) throws SQLException {
+	public void adicionar(Chale chale) throws SQLException {
 		String sql = "INSERT INTO chale (NULL, categoria, diaria) VALUES (?,?)";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1, chale.getCategoria());
@@ -38,7 +38,7 @@ public class ChaleDAOImpl implements ChaleDAO {
 		ps.close();
 	}
 
-	public void alterarChale(Chale chale) throws SQLException {
+	public void alterar(Chale chale) throws SQLException {
 
 		String sql = "UPDATE chale SET categoria = ?, diaria = ? WHERE id = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
@@ -50,7 +50,7 @@ public class ChaleDAOImpl implements ChaleDAO {
 
 	}
 
-	public void apagarChale(Chale chale) throws SQLException {
+	public void excluir(Chale chale) throws SQLException {
 		String sql = "DELETE chale WHERE id = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt(1, chale.getId());
@@ -60,7 +60,7 @@ public class ChaleDAOImpl implements ChaleDAO {
 	}
 
 	@Override
-	public Chale consultarChale(Chale chale) throws SQLException {
+	public Chale consultar(Chale chale) throws SQLException {
 		String sql = "SELECT id, categoria, diaria FROM chale WHERE id = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt(1, chale.getId());
@@ -77,7 +77,7 @@ public class ChaleDAOImpl implements ChaleDAO {
 	}
 
 	@Override
-	public List<Chale> todosChales() throws SQLException {
+	public List<Chale> todos() throws SQLException {
 		List<Chale> listaChale = new ArrayList<Chale>();
 		String sql = "SELECT id, categoria, diaria FROM chale";
 		PreparedStatement ps = con.prepareStatement(sql);

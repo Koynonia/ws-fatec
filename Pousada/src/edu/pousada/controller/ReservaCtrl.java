@@ -114,7 +114,7 @@ public class ReservaCtrl {
 
 		ReservaDAO dao = new ReservaDAOImpl();
 		try {
-			reservas = dao.todasReservas();
+			reservas = dao.todos();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -125,7 +125,7 @@ public class ReservaCtrl {
 		ReservaDAO dao = new ReservaDAOImpl();
 
 		try {
-			dao.adicionaReserva( r );
+			dao.adicionar( r );
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

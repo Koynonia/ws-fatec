@@ -30,7 +30,7 @@ public class InternetDAOImpl implements InternetDAO{
 	 * );
 	 */
 
-	public void adicionaInternet(Internet internet) throws SQLException {
+	public void adicionar(Internet internet) throws SQLException {
 		String sql = "INSERT INTO internet VALUES (NULL,?,?,?)";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setDate(1, new java.sql.Date( internet.getDtReserva().getTime() ));
@@ -40,7 +40,7 @@ public class InternetDAOImpl implements InternetDAO{
 		ps.close();
 	}
 
-	public void alterarInternet(Internet internet) throws SQLException {
+	public void alterar(Internet internet) throws SQLException {
 		String sql = "UPDATE lanchonete SET dtReserva = ?, hrReserva = ?, valor = ? WHERE id = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setDate(1, new java.sql.Date( internet.getDtReserva().getTime() ));
@@ -51,7 +51,7 @@ public class InternetDAOImpl implements InternetDAO{
 		ps.close();
 	}
 
-	public void excluiIntenret(Internet internet) throws SQLException {
+	public void excluir(Internet internet) throws SQLException {
 		String sql = "DELETE internet WHERE id = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt(1, internet.getId());
@@ -59,7 +59,7 @@ public class InternetDAOImpl implements InternetDAO{
 		ps.close();
 	}
 
-	public List<Internet> listaInternet() throws SQLException {
+	public List<Internet> todos() throws SQLException {
 		List<Internet> listaInternet = new ArrayList<Internet>();
 		String sql = "SELECT * FROM internet";
 		PreparedStatement ps = con.prepareStatement(sql);
