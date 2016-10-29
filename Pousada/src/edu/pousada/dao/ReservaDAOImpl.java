@@ -130,7 +130,7 @@ public class ReservaDAOImpl implements ReservaDAO{
 	
 	public Cliente cliente(Integer id) throws SQLException {
 		
-		String sql = "SELECT * FROM cliente AS cl INNER JOIN reserva AS rs ON cl.id = rs.cliente WHERE id = ?";	
+		String sql = "SELECT * FROM cliente AS cl INNER JOIN reserva AS rs ON cl.id = rs.cliente WHERE cl.id = ?";	
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt( 1, id );
 		ResultSet rs = ps.executeQuery();

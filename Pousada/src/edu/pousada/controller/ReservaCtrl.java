@@ -73,7 +73,8 @@ public class ReservaCtrl {
 		this.btnConcluir = btnConcluir;
 		this.btnVoltar = btnVoltar;
 		this.reservas = new ArrayList<Reserva>();
-
+		
+		cargaReserva();
 		formataTabela();
 	}
 	
@@ -89,14 +90,20 @@ public class ReservaCtrl {
 	public void atualizaValor(){
 
 		//Atualiza total da reserva
-		double total = 0;
-		int qtd = 0;
+		float total = 0;
+
 		for( int i = 0; i < reservas.size(); i++ ){
-			//total = total + ( reservas.get(i).getQuantidade() 
-			//		* reservas.get(i).getChale().getDiaria() );	
-			//qtd = qtd + ( reservas.get(i).getQuantidade() );
+			if( reservas.get(i).getDtInicio().getTime() != reservas.get(i).getDtFim().getTime() ){
+				total = total + ( 
+						((( reservas.get(i).getDtFim().getTime() 
+								- reservas.get(i).getDtInicio().getTime() ) + 3600000) / 86400000L)
+								* reservas.get(i).getChale().getDiaria()  
+						);
+			} else {
+				total = total + reservas.get(i).getChale().getDiaria();
+			}
 		}
-		ftxtQtd.setValue( Integer.toString ( qtd ) );
+		ftxtQtd.setValue( Integer.toString ( reservas.size() ) );
 		ftxtValor.setValue( total );
 	}
 
@@ -145,18 +152,34 @@ public class ReservaCtrl {
 		//Carrega as linhas na tabela com os dados da compra (somente as colunas configuradas)
 		if(reservas != null){
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			sdf.setLenient(false);
 			DecimalFormat formato = new DecimalFormat("#,##0.00");
 			for (int i = 0; i < reservas.size(); i++) {
-				String[] item = { 
-						Integer.toString( reservas.get(i).getId() ),
-						sdf.format( reservas.get(i).getDtInicio() ),
-						sdf.format( reservas.get(i).getDtFim() ),
-						reservas.get(i).getChale().getCategoria(),   
-						formato.format( reservas.get(i).getChale().getDiaria() ),
-						formato.format( reservas.get(i).getId() 
-								* reservas.get(i).getChale().getDiaria() ),
-				};
-				linhas.add(item);
+				if( reservas.get(i).getDtInicio().getTime() != reservas.get(i).getDtFim().getTime() ){
+					String[] item = { 
+							String.format( "%06d",reservas.get(i).getId() ),
+							sdf.format( reservas.get(i).getDtInicio() ),
+							sdf.format( reservas.get(i).getDtFim() ),
+							reservas.get(i).getChale().getCategoria(),   
+							formato.format( reservas.get(i).getChale().getDiaria() ),
+							formato.format(
+									((( reservas.get(i).getDtFim().getTime() 
+											- reservas.get(i).getDtInicio().getTime() ) + 3600000) / 86400000L)
+											* reservas.get(i).getChale().getDiaria() 
+									),
+					};
+					linhas.add(item);
+				} else {
+					String[] item = { 
+							String.format( "%06d",reservas.get(i).getId() ),
+							sdf.format( reservas.get(i).getDtInicio() ),
+							sdf.format( reservas.get(i).getDtFim() ),
+							reservas.get(i).getChale().getCategoria(),   
+							formato.format( reservas.get(i).getChale().getDiaria() ),
+							formato.format(reservas.get(i).getChale().getDiaria() ),
+					};
+					linhas.add(item);
+				}
 			}
 		} 
 		//Configura o alinhamento dos titulos das colunas da tabela

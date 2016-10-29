@@ -532,6 +532,7 @@ public class PrincipalCtrl {
 				for( int i = 0; i < clientes.size(); i++ ){
 					if( !clientes.get(i).getDocumento().equals( txtReservaDocNum.getText() )){
 						if( i == clientes.size()-1 ){
+						cl.setId( clientes.size() );
 						cl.setNome( txtReservaNome.getText() );
 						cl.setEmail( txtReservaEmail.getText() );
 						cl.setDocumento( txtReservaDocNum.getText() );
@@ -551,6 +552,7 @@ public class PrincipalCtrl {
 						cargaCliente();
 						}
 					} else {
+						cl.setId( clientes.get(i).getId() );
 						cl.setNome( clientes.get(i).getNome() );
 						cl.setEmail( clientes.get(i).getEmail() );
 						cl.setDocumento( clientes.get(i).getDocumento() );
