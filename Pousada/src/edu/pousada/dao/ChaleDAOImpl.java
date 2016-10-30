@@ -108,4 +108,27 @@ public class ChaleDAOImpl implements ChaleDAO {
 		
 		return lista;
 	}
+
+	@Override
+	public List<Chale> disponivel() throws SQLException {
+
+		String sql = "SELECT * FROM chale "
+				+ "INNER JOIN reserva "
+				+ "ON chale.id <> reserva.chale";
+
+		PreparedStatement ps = con.prepareStatement(sql);
+		ResultSet rs = ps.executeQuery();
+		List<Chale> lista = new ArrayList<Chale>();
+		while(rs.next()){
+			Chale c = new Chale();
+			c.setId(rs.getInt("id"));
+			c.setCategoria(rs.getString("categoria"));
+			c.setDiaria(rs.getFloat("diaria"));
+			lista.add(c);
+		}
+		rs.close();
+		ps.close();
+		
+		return lista;
+	}
 }

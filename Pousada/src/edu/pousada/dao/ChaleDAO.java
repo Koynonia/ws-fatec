@@ -19,4 +19,5 @@ public interface ChaleDAO {
 	public void excluir(Chale c) throws SQLException;
 	public Chale consultar(Chale c) throws SQLException;
 	public List<Chale> todos() throws SQLException;
+	public List<Chale> disponivel() throws SQLException;
 }

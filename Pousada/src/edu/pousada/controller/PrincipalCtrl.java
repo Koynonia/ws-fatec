@@ -239,9 +239,6 @@ public class PrincipalCtrl {
 		this.reservas = new ArrayList<Reserva>();
 
 		cargaPrincipal();
-		cargaChale();
-		cargaCliente();
-		cargaReserva();
 		preecheInfo();
 		preencheCategoria();
 		preencheTipoDoc();
@@ -492,6 +489,9 @@ public class PrincipalCtrl {
 	public void adicionaReserva () throws ParseException{
 
 		int count = 0;
+		cargaCliente();
+		cargaChale();
+		cargaReserva();
 		validaCampo();
 
 		if( validar != false  ){
@@ -499,7 +499,7 @@ public class PrincipalCtrl {
 			Chale ch = new Chale();
 			if( !chales.isEmpty() ){
 				for( int i = 0; i < chales.size(); i++ ){
-					if( chales.get(i).getCategoria().equals( (String) cboReservaCategoria.getSelectedItem() )){
+					if( chales.get(i).getCategoria().equals( cboReservaCategoria.getSelectedItem() )){
 						if( chales.get(i).getId() != null ){
 							ch.setId( chales.get(i).getId() );
 							ch.setCategoria( chales.get(i).getCategoria() );
@@ -508,6 +508,9 @@ public class PrincipalCtrl {
 						} else {
 							msg("erroChale", (String) cboReservaCategoria.getSelectedItem() );
 						}
+					} else {
+						msg("erroChale", (String) cboReservaCategoria.getSelectedItem() );
+						return;
 					}
 				}
 			} else {
@@ -522,12 +525,9 @@ public class PrincipalCtrl {
 				cl.setDtNasc( new Date() );
 				cl.setTelefone( txtReservaTelefone.getText() );
 				cl.setCelular( txtReservaCelular.getText() );
-				cl.setEndereco( null );
-				cl.setBairro( null );
 				cl.setCidade( txtReservaCidade.getText() );
 				cl.setEstado( txtReservaEstado.getText() );
 				cl.setPais( txtReservaPais.getText() );
-				cl.setCep( null );
 				cl.setDtCadastro( new Date() );
 				cl.setAtivo( false );
 				cadastraCliente( cl );
@@ -535,8 +535,10 @@ public class PrincipalCtrl {
 			} else {
 				for( int i = 0; i < clientes.size(); i++ ){
 					if( clientes.get(i).getDocumento().equals( txtReservaDocNum.getText() )){
-						count = count + i;
-						if( i == clientes.size() && count == 0 ){
+						validar = true;
+					}
+					if( i == clientes.size()-1 ){
+						if(	validar = false ){
 							cl.setId( clientes.size() );
 							cl.setNome( txtReservaNome.getText() );
 							cl.setEmail( txtReservaEmail.getText() );
@@ -545,33 +547,35 @@ public class PrincipalCtrl {
 							cl.setDtNasc( new Date() );
 							cl.setTelefone( txtReservaTelefone.getText() );
 							cl.setCelular( txtReservaCelular.getText() );
-							cl.setEndereco( null );
-							cl.setBairro( null );
 							cl.setCidade( txtReservaCidade.getText() );
 							cl.setEstado( txtReservaEstado.getText() );
 							cl.setPais( txtReservaPais.getText() );
-							cl.setCep( null );
 							cl.setAtivo( false );
 							cl.setDtCadastro( new Date() );
 							cadastraCliente( cl );
 							cargaCliente();
 						} else {
-							cl.setId( clientes.get(i).getId() );
-							cl.setNome( clientes.get(i).getNome() );
-							cl.setEmail( clientes.get(i).getEmail() );
-							cl.setDocumento( clientes.get(i).getDocumento() );
-							cl.setDocTipo( clientes.get(i).getDocTipo() );
-							cl.setDtNasc( clientes.get(i).getDtNasc() );
-							cl.setTelefone( clientes.get(i).getTelefone() );
-							cl.setCelular( clientes.get(i).getCelular() );
-							cl.setEndereco( clientes.get(i).getEndereco() );
-							cl.setBairro( clientes.get(i).getBairro() );
-							cl.setCidade( clientes.get(i).getCidade() );
-							cl.setEstado( clientes.get(i).getEstado() );
-							cl.setPais( clientes.get(i).getPais() );
-							cl.setCep( clientes.get(i).getCep() );
-							cl.setDtCadastro( clientes.get(i).getDtCadastro() );
-							cl.setAtivo( clientes.get(i).getAtivo() );
+							for( int j = 0; j < clientes.size(); j++ ){
+								if( clientes.get(j).getDocumento().equals( txtReservaDocNum.getText() )){
+									cl.setId( clientes.get(j).getId() );
+									cl.setNome( clientes.get(j).getNome() );
+									cl.setEmail( clientes.get(j).getEmail() );
+									cl.setDocumento( clientes.get(j).getDocumento() );
+									cl.setDocTipo( clientes.get(j).getDocTipo() );
+									cl.setDtNasc( clientes.get(j).getDtNasc() );
+									cl.setTelefone( clientes.get(j).getTelefone() );
+									cl.setCelular( clientes.get(j).getCelular() );
+									cl.setEndereco( clientes.get(j).getEndereco() );
+									cl.setBairro( clientes.get(j).getBairro() );
+									cl.setCidade( clientes.get(j).getCidade() );
+									cl.setEstado( clientes.get(j).getEstado() );
+									cl.setPais( clientes.get(j).getPais() );
+									cl.setCep( clientes.get(j).getCep() );
+									cl.setDtCadastro( clientes.get(j).getDtCadastro() );
+									cl.setAtivo( clientes.get(j).getAtivo() );
+								}
+							}
+							validar = false;
 						}
 					}
 				}
@@ -607,6 +611,12 @@ public class PrincipalCtrl {
 
 		cadastraContato( c );
 		msg( "sucesso", cboContatoAssunto.getSelectedItem().toString() );
+		txtaReservaObs.setText(null);
+		cboReservaCategoria.setSelectedIndex(0);
+		ftxtReservaDtInicio.setText(null);
+		ftxtReservaDtFim.setText(null);
+		txtReservaQtdAdulto.setText(null);
+		txtReservaQtdCrianca.setText(null);
 	}
 
 
@@ -626,7 +636,7 @@ public class PrincipalCtrl {
 
 		ChaleDAO dao = new ChaleDAOImpl();
 		try {
-			chales = dao.todos();
+			chales = dao.disponivel();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -683,6 +693,7 @@ public class PrincipalCtrl {
 			e.printStackTrace();
 		}
 	}
+	
 
 	// AREA DE TEXTO /////////////////////////////
 
@@ -708,29 +719,37 @@ public class PrincipalCtrl {
 	// COMBOBOX /////////////////////////////////
 
 	public void preencheCategoria(){
-
+		
+		List<Chale> c = new ArrayList<Chale>();
+		ChaleDAO dao = new ChaleDAOImpl();
+		try {
+			c = dao.todos();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 		//Ordenar alfabeticamente
-		String[] listaCategoria = new String[chales.size()];
-		for ( int i = 0; i < chales.size(); i++ ){		
-			String item = chales.get(i).getCategoria();		
+		String[] listaCategoria = new String[c.size()];
+		for ( int i = 0; i < c.size(); i++ ){		
+			String item = c.get(i).getCategoria();		
 			listaCategoria[i] = item;	
 		}
 		Arrays.sort(listaCategoria);
 
 		//Adicionar na combobox
 		cboReservaCategoria.addItem( "Selecione…" );
-		for ( int i = 0; i < chales.size(); i++ ){
+		for ( int i = 0; i < c.size(); i++ ){
 			cboReservaCategoria.addItem( listaCategoria[i] );
 		}
 	}
 
 	public void preencheTipoDoc(){
+		
 		String[] tipos = {
 				"CPF",
 				"RG",
 				"Passaporte"
 		};
-
 		//Adicionar na combobox
 		cboReservaDocTipo.addItem( "Selecione…" );
 		for ( int i = 0; i < tipos.length; i++ ){
@@ -747,7 +766,6 @@ public class PrincipalCtrl {
 				"Sugestões, Elogios ou Reclamações",
 				"Outros"
 		};
-
 		//Adicionar na combobox
 		cboContatoAssunto.addItem( "Selecione…" );
 		for ( int i = 0; i < assuntos.length; i++ ){
@@ -794,12 +812,6 @@ public class PrincipalCtrl {
 			if( source == btnReservaEnviar ){
 				try {
 					adicionaReserva ();
-					txtaReservaObs.setText(null);
-					cboReservaCategoria.setSelectedIndex(0);
-					ftxtReservaDtInicio.setText(null);
-					ftxtReservaDtFim.setText(null);
-					txtReservaQtdAdulto.setText(null);
-					txtReservaQtdCrianca.setText(null);
 				} catch (ParseException e1) {
 					e1.printStackTrace();
 				}
@@ -948,8 +960,8 @@ public class PrincipalCtrl {
 
 		case "erroChale":
 			JOptionPane.showMessageDialog(null, 
-					"DESCUPE-NOS!\n\nNão existem Chalés disponíveis da categoria " + mensagem
-					+ "\nPor favor, selecione outra categoria disponível.", 
+					"INDISPONÍVEL\n\nOs Chalés da categoria " + mensagem
+					+ " não estão disponíveis neste período.\nPor favor, selecione um período ou categoria diferente.", 
 					"Não disponível", 
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon( diretorio + "/icons/warning.png" ));

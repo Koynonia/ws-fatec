@@ -207,31 +207,14 @@ public class ReservaDAOImpl implements ReservaDAO{
 	}
 	
 	public void excluirCliente() throws SQLException{
-		
-		String sql;
-		PreparedStatement ps;
-		ResultSet rs;
-		
-		sql = "SELECT cliente.id FROM cliente "
-				+ "LEFT JOIN reserva "
+
+		String sql = "DELETE cliente FROM cliente "
+				+ "LEFT OUTER JOIN reserva "
 				+ "ON cliente.id = reserva.cliente "
-				+ "WHERE cliente.ativo = 0 AND reserva.cliente IS NULL";
-				
-		ps = con.prepareStatement(sql);
-		rs = ps.executeQuery();
-		Cliente c = new Cliente();
-		while (rs.next()) {
-			c.setId(rs.getInt("id"));
-		}
+				+ "WHERE reserva.cliente IS NULL AND cliente.ativo = 0";
 
-		if( c.getId() != null ){
-			
-			sql = "DELETE FROM cliente WHERE id = ?";
-
-			ps = con.prepareStatement(sql);
-			ps.setInt( 1, c.getId() );
-			ps.execute();
-			ps.close();
-		}
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.execute();
+		ps.close();
 	}
 }

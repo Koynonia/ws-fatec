@@ -385,6 +385,7 @@ public class ReservaCtrl {
 				validar = false;
 			}
 			break;
+			
 		case "sucesso":
 			JOptionPane.showMessageDialog(null, 
 					"CONFIRMADO!\n\nA reserva " + mensagem + " foi cancelada.", 
