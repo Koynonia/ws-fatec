@@ -488,33 +488,39 @@ public class PrincipalCtrl {
 
 	public void adicionaReserva () throws ParseException{
 
-		int count = 0;
 		cargaCliente();
 		cargaChale();
 		cargaReserva();
 		validaCampo();
 
 		if( validar != false  ){
-
 			Chale ch = new Chale();
+			validar = false;
 			if( !chales.isEmpty() ){
 				for( int i = 0; i < chales.size(); i++ ){
 					if( chales.get(i).getCategoria().equals( cboReservaCategoria.getSelectedItem() )){
-						if( chales.get(i).getId() != null ){
-							ch.setId( chales.get(i).getId() );
-							ch.setCategoria( chales.get(i).getCategoria() );
-							ch.setDiaria( chales.get(i).getDiaria() );
-							ch.setFrigobar( chales.get(i).getFrigobar() );
-						} else {
-							msg("erroChale", (String) cboReservaCategoria.getSelectedItem() );
-						}
-					} else {
-						msg("erroChale", (String) cboReservaCategoria.getSelectedItem() );
-						return;
+						validar = true;
 					}
+				}
+				if( validar != false ){
+					for( int i = 0; i < chales.size(); i++ ){
+						if( chales.get(i).getCategoria().equals( cboReservaCategoria.getSelectedItem() )){
+							if( chales.get(i).getId() != null ){
+								ch.setId( chales.get(i).getId() );
+								ch.setCategoria( chales.get(i).getCategoria() );
+								ch.setDiaria( chales.get(i).getDiaria() );
+								ch.setFrigobar( chales.get(i).getFrigobar() );
+							}
+						}
+					}
+					validar = false;
+				} else {
+					msg("erroChale", (String) cboReservaCategoria.getSelectedItem() );
+					return;
 				}
 			} else {
 				msg("erroChale", (String) cboReservaCategoria.getSelectedItem() );
+				return;
 			}
 			Cliente cl = new Cliente();
 			if( clientes.isEmpty() ){
@@ -538,7 +544,7 @@ public class PrincipalCtrl {
 						validar = true;
 					}
 					if( i == clientes.size()-1 ){
-						if(	validar = false ){
+						if(	validar == false ){
 							cl.setId( clientes.size() );
 							cl.setNome( txtReservaNome.getText() );
 							cl.setEmail( txtReservaEmail.getText() );

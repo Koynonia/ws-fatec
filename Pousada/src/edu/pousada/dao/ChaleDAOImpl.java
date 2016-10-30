@@ -113,8 +113,9 @@ public class ChaleDAOImpl implements ChaleDAO {
 	public List<Chale> disponivel() throws SQLException {
 
 		String sql = "SELECT * FROM chale "
-				+ "INNER JOIN reserva "
-				+ "ON chale.id <> reserva.chale";
+				+ "LEFT OUTER JOIN reserva "
+				+ "ON chale.id = reserva.chale "
+				+ "WHERE reserva.chale IS NULL";
 
 		PreparedStatement ps = con.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
