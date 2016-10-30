@@ -735,17 +735,19 @@ public class PrincipalCtrl {
 		}
 		
 		//Ordenar alfabeticamente
-		String[] listaCategoria = new String[c.size()];
-		for ( int i = 0; i < c.size(); i++ ){		
+		String[] lista = new String[c.size()];
+		for ( int i = 0; i < c.size(); i++ ){
 			String item = c.get(i).getCategoria();		
-			listaCategoria[i] = item;	
-		}
-		Arrays.sort(listaCategoria);
+			lista[i] = item;	
 
-		//Adicionar na combobox
+		}
+		Arrays.sort(lista);
+
+		//Verificar itens repetidos e adiciona na combobox
 		cboReservaCategoria.addItem( "Selecione…" );
 		for ( int i = 0; i < c.size(); i++ ){
-			cboReservaCategoria.addItem( listaCategoria[i] );
+			if( !lista[i].equals(cboReservaCategoria.getItemAt(i) ))
+			cboReservaCategoria.addItem( lista[i] );
 		}
 	}
 
