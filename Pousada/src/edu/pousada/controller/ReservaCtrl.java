@@ -44,8 +44,7 @@ public class ReservaCtrl {
 	private JTable tabela;
 	private JFormattedTextField ftxtQtd;
 	private JFormattedTextField ftxtValor;
-	private JButton btnCancelar; 
-	private JButton btnLimpar; 
+	private JButton btnCancelar;  
 	private JButton btnConcluir; 
 	private JButton btnVoltar;
 	private String diretorio = "../Pousada/resources/";
@@ -59,7 +58,6 @@ public class ReservaCtrl {
 			JFormattedTextField ftxtQtd,  
 			JFormattedTextField ftxtValor,  
 			JButton btnCancelar, 
-			JButton btnLimpar, 
 			JButton btnConcluir, 
 			JButton btnVoltar
 			) {
@@ -69,21 +67,12 @@ public class ReservaCtrl {
 		this.ftxtQtd = ftxtQtd;
 		this.ftxtValor = ftxtValor;
 		this.btnCancelar = btnCancelar;
-		this.btnLimpar = btnLimpar;
 		this.btnConcluir = btnConcluir;
 		this.btnVoltar = btnVoltar;
 		this.reservas = new ArrayList<Reserva>();
 
 		todos();
 		formataTabela();
-	}
-
-
-	public void limpaCampo(){
-
-		reservas.removeAll(reservas);
-		formataTabela();
-		ftxtValor.setValue(0.00);
 	}
 
 
@@ -118,7 +107,7 @@ public class ReservaCtrl {
 					//Atualiza a base de dados excluindo o registro selecionado
 					Reserva r = new Reserva();
 					for(int i = 0; i < reservas.size(); i ++){
-						if((tabela.getValueAt(tabela.getSelectedRow(), 0).toString().replace("00000",""))
+						if((tabela.getValueAt(tabela.getSelectedRow(), 0).toString().replaceFirst("0*", ""))
 								.equals( reservas.get(i).getId().toString() )){
 							r.setId(reservas.get(i).getId());
 							excluir( r );
@@ -142,7 +131,7 @@ public class ReservaCtrl {
 	// CRUD ///////////////////////////////////
 
 	public void excluir( Reserva r ) {
-
+		
 		ReservaDAO dao = new ReservaDAOImpl();
 		try {
 			dao.excluir( r );
@@ -294,9 +283,6 @@ public class ReservaCtrl {
 			if(source == btnCancelar){
 				cancela();
 			}
-			if(source == btnLimpar){
-				limpaCampo();
-			}
 			if(source == btnConcluir){
 				msg( "construir", "" );
 			}
@@ -402,13 +388,13 @@ public class ReservaCtrl {
 		case "sucesso":
 			JOptionPane.showMessageDialog(null, 
 					"CONFIRMADO!\n\nA reserva " + mensagem + " foi cancelada.", 
-					"ECancelamento Efetuado", 
+					"Cancelamento Efetuado", 
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon( diretorio + "/icons/confirm.png" ));
 			break;
 		case "erroLinha":
 			JOptionPane.showMessageDialog(null, 
-					"Por favor, selecione um Chalé para retirar.", 
+					"Por favor, selecione um Chalé para cancelar.", 
 					"Chalé não selecionado", 
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon( diretorio + "/icons/error.png" ));

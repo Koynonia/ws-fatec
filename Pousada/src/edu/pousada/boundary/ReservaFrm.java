@@ -38,7 +38,6 @@ public class ReservaFrm extends JFrame {
 	private JFormattedTextField ftxtQtd;
 	private JFormattedTextField ftxtVlrTotal;
 	private JButton btnCancelar;
-	private JButton btnLimpar;
 	private JButton btnConcluir;
 	private JButton btnVoltar;
 	private JTable tabCompra;
@@ -124,12 +123,8 @@ public class ReservaFrm extends JFrame {
 
 		btnCancelar = new JButton("Cancelar");
 		btnCancelar.setToolTipText("Selecione a reserva que deseja cancelar");
-		btnCancelar.setBounds(38, 329, 117, 29);
+		btnCancelar.setBounds(353, 408, 117, 29);
 		painel.add(btnCancelar);
-
-		btnLimpar = new JButton("Limpar");
-		btnLimpar.setBounds(353, 408, 117, 29);
-		painel.add(btnLimpar);
 
 		btnConcluir = new JButton("Concluir");
 		btnConcluir.setBounds(478, 408, 127, 29);
@@ -145,7 +140,6 @@ public class ReservaFrm extends JFrame {
 				ftxtQtd, 
 				ftxtVlrTotal,
 				btnCancelar,
-				btnLimpar,
 				btnConcluir,
 				btnVoltar
 				);
@@ -153,7 +147,6 @@ public class ReservaFrm extends JFrame {
 		tabCompra.addMouseListener(ctrl.clicar);
 		tabCompra.addKeyListener(ctrl.teclar);
 		btnCancelar.addActionListener(ctrl.acionar);
-		btnLimpar.addActionListener(ctrl.acionar);
 		btnConcluir.addActionListener(ctrl.acionar);
 		btnVoltar.addActionListener(ctrl.acionar);
 	}

@@ -31,7 +31,7 @@ public class ChaleDAOImpl implements ChaleDAO {
 	@Override
 	public void adicionar(Chale c) throws SQLException {
 		
-		String sql = "INSERT INTO chale (NULL, categoria, diaria) VALUES (?,?)";
+		String sql = "INSERT INTO chale VALUES (NULL,?,?)";
 		
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1, c.getCategoria());
@@ -43,7 +43,10 @@ public class ChaleDAOImpl implements ChaleDAO {
 	@Override
 	public void alterar(Chale c) throws SQLException {
 
-		String sql = "UPDATE chale SET categoria = ?, diaria = ? WHERE id = ?";
+		String sql = "UPDATE chale SET "
+				+ "categoria = ?, "
+				+ "diaria = ? "
+				+ "WHERE id = ?";
 		
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1, c.getCategoria());
@@ -69,7 +72,7 @@ public class ChaleDAOImpl implements ChaleDAO {
 	@Override
 	public Chale consultar(Chale c) throws SQLException {
 		
-		String sql = "SELECT id, categoria, diaria FROM chale WHERE id = ?";
+		String sql = "SELECT * FROM chale WHERE id = ?";
 		
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt(1, c.getId());
@@ -88,7 +91,7 @@ public class ChaleDAOImpl implements ChaleDAO {
 	@Override
 	public List<Chale> todos() throws SQLException {
 		
-		String sql = "SELECT id, categoria, diaria FROM chale";
+		String sql = "SELECT * FROM chale";
 		
 		PreparedStatement ps = con.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();

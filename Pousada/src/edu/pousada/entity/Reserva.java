@@ -18,6 +18,7 @@ public class Reserva {
 	private Integer qtdCrianca;
 	private Date dtInicio;
 	private Date dtFim;
+	private String mensagem;
 	private Integer desconto;
 	private Date dtCadastro;
 	
@@ -63,6 +64,12 @@ public class Reserva {
 	}
 	public void setDtFim(Date dtFim) {
 		this.dtFim = dtFim;
+	}
+	public String getMensagem() {
+		return mensagem;
+	}
+	public void setMensagem(String mensagem) {
+		this.mensagem = mensagem;
 	}
 	public Integer getDesconto() {
 		return desconto;

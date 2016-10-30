@@ -51,12 +51,15 @@ import edu.pousada.dao.ChaleDAO;
 import edu.pousada.dao.ChaleDAOImpl;
 import edu.pousada.dao.ClienteDAO;
 import edu.pousada.dao.ClienteDAOImpl;
+import edu.pousada.dao.ContatoDAO;
+import edu.pousada.dao.ContatoDAOImpl;
 import edu.pousada.dao.PrincipalDAO;
 import edu.pousada.dao.PrincipalDAOImpl;
 import edu.pousada.dao.ReservaDAO;
 import edu.pousada.dao.ReservaDAOImpl;
 import edu.pousada.entity.Chale;
 import edu.pousada.entity.Cliente;
+import edu.pousada.entity.Contato;
 import edu.pousada.entity.Principal;
 import edu.pousada.entity.Reserva;
 
@@ -253,7 +256,7 @@ public class PrincipalCtrl {
 
 		lblVersao.setText( "versão: " + infos.get(0).getVersao() );	
 	}
-	
+
 
 	public void limpaCampo(){
 
@@ -351,15 +354,15 @@ public class PrincipalCtrl {
 			if ( c instanceof JTextArea ) {
 				JTextArea  l = ( JTextArea )c;
 				if ( !l.getName().equalsIgnoreCase( "Observações")){
-				if ( l.getText().isEmpty() ){
-					vazio = true;
-					campo = l.getName();
-					l.requestFocus();
-					l.setBackground(new Color(255,240,245));
-				} else {
-					l.setBackground(new Color(255,255,255));
+					if ( l.getText().isEmpty() ){
+						vazio = true;
+						campo = l.getName();
+						l.requestFocus();
+						l.setBackground(new Color(255,240,245));
+					} else {
+						l.setBackground(new Color(255,255,255));
+					}
 				}
-			}
 			}
 		}
 		if ( vazio == true ){
@@ -371,7 +374,7 @@ public class PrincipalCtrl {
 			validaData( ftxtReservaDtInicio, ftxtReservaDtFim );
 		}
 	}
-	
+
 
 	public void validaData( JFormattedTextField dtInicio, JFormattedTextField dtFim ){
 		Date inicio = null;
@@ -379,9 +382,9 @@ public class PrincipalCtrl {
 		Date atual = null;
 		Date dt = new Date();
 		String dta;
-		
+
 		DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		
+
 		dta = sdf.format( dt );
 
 		try {
@@ -488,6 +491,7 @@ public class PrincipalCtrl {
 
 	public void adicionaReserva () throws ParseException{
 
+		int count = 0;
 		validaCampo();
 
 		if( validar != false  ){
@@ -530,48 +534,48 @@ public class PrincipalCtrl {
 				cargaCliente();
 			} else {
 				for( int i = 0; i < clientes.size(); i++ ){
-					if( !clientes.get(i).getDocumento().equals( txtReservaDocNum.getText() )){
-						if( i == clientes.size()-1 ){
-						cl.setId( clientes.size() );
-						cl.setNome( txtReservaNome.getText() );
-						cl.setEmail( txtReservaEmail.getText() );
-						cl.setDocumento( txtReservaDocNum.getText() );
-						cl.setDocTipo( cboReservaDocTipo.getSelectedItem().toString() );
-						cl.setDtNasc( new Date() );
-						cl.setTelefone( txtReservaTelefone.getText() );
-						cl.setCelular( txtReservaCelular.getText() );
-						cl.setEndereco( null );
-						cl.setBairro( null );
-						cl.setCidade( txtReservaCidade.getText() );
-						cl.setEstado( txtReservaEstado.getText() );
-						cl.setPais( txtReservaPais.getText() );
-						cl.setCep( null );
-						cl.setAtivo( false );
-						cl.setDtCadastro( new Date() );
-						cadastraCliente( cl );
-						cargaCliente();
+					if( clientes.get(i).getDocumento().equals( txtReservaDocNum.getText() )){
+						count = count + i;
+						if( i == clientes.size() && count == 0 ){
+							cl.setId( clientes.size() );
+							cl.setNome( txtReservaNome.getText() );
+							cl.setEmail( txtReservaEmail.getText() );
+							cl.setDocumento( txtReservaDocNum.getText() );
+							cl.setDocTipo( cboReservaDocTipo.getSelectedItem().toString() );
+							cl.setDtNasc( new Date() );
+							cl.setTelefone( txtReservaTelefone.getText() );
+							cl.setCelular( txtReservaCelular.getText() );
+							cl.setEndereco( null );
+							cl.setBairro( null );
+							cl.setCidade( txtReservaCidade.getText() );
+							cl.setEstado( txtReservaEstado.getText() );
+							cl.setPais( txtReservaPais.getText() );
+							cl.setCep( null );
+							cl.setAtivo( false );
+							cl.setDtCadastro( new Date() );
+							cadastraCliente( cl );
+							cargaCliente();
+						} else {
+							cl.setId( clientes.get(i).getId() );
+							cl.setNome( clientes.get(i).getNome() );
+							cl.setEmail( clientes.get(i).getEmail() );
+							cl.setDocumento( clientes.get(i).getDocumento() );
+							cl.setDocTipo( clientes.get(i).getDocTipo() );
+							cl.setDtNasc( clientes.get(i).getDtNasc() );
+							cl.setTelefone( clientes.get(i).getTelefone() );
+							cl.setCelular( clientes.get(i).getCelular() );
+							cl.setEndereco( clientes.get(i).getEndereco() );
+							cl.setBairro( clientes.get(i).getBairro() );
+							cl.setCidade( clientes.get(i).getCidade() );
+							cl.setEstado( clientes.get(i).getEstado() );
+							cl.setPais( clientes.get(i).getPais() );
+							cl.setCep( clientes.get(i).getCep() );
+							cl.setDtCadastro( clientes.get(i).getDtCadastro() );
+							cl.setAtivo( clientes.get(i).getAtivo() );
 						}
-					} else {
-						cl.setId( clientes.get(i).getId() );
-						cl.setNome( clientes.get(i).getNome() );
-						cl.setEmail( clientes.get(i).getEmail() );
-						cl.setDocumento( clientes.get(i).getDocumento() );
-						cl.setDocTipo( clientes.get(i).getDocTipo() );
-						cl.setDtNasc( clientes.get(i).getDtNasc() );
-						cl.setTelefone( clientes.get(i).getTelefone() );
-						cl.setCelular( clientes.get(i).getCelular() );
-						cl.setEndereco( clientes.get(i).getEndereco() );
-						cl.setBairro( clientes.get(i).getBairro() );
-						cl.setCidade( clientes.get(i).getCidade() );
-						cl.setEstado( clientes.get(i).getEstado() );
-						cl.setPais( clientes.get(i).getPais() );
-						cl.setCep( clientes.get(i).getCep() );
-						cl.setDtCadastro( clientes.get(i).getDtCadastro() );
-						cl.setAtivo( clientes.get(i).getAtivo() );
 					}
 				}
 			}
-
 			Reserva r = new Reserva();
 			DateFormat sdf = new SimpleDateFormat("ddMMyyyy");
 			r.setCliente( cl );
@@ -580,12 +584,29 @@ public class PrincipalCtrl {
 			r.setQtdCrianca( Integer.parseInt(txtReservaQtdCrianca.getText() ));
 			r.setDtInicio( sdf.parse( ftxtReservaDtInicio.getText().replace("/","") ));
 			r.setDtFim( sdf.parse( ftxtReservaDtFim.getText().replace("/","") ));
+			r.setMensagem( txtaReservaObs.getText() );
 			r.setDesconto( 0 );
 			r.setDtCadastro( new Date() );
-			
 			cadastraReserva( r );
 			abrir( "reservas" );
 		}
+	}
+
+	public void adicionaContato(){
+
+		Contato c = new Contato();
+		c.setNome( txtContatoNome.getText() );
+		c.setEmail( txtContatoEmail.getText() );
+		c.setTelefone( txtContatoTelefone.getText() );
+		c.setCidade( txtContatoCidade.getText() );
+		c.setEstado( txtContatoEstado.getText() );
+		c.setPais( txtContatoPais.getText() );
+		c.setAssunto( cboContatoAssunto.getSelectedIndex() );
+		c.setMensagem( txtaContatoMsg.getText() );
+		c.setDtCadastro( new Date() );
+
+		cadastraContato( c );
+		msg( "sucesso", cboContatoAssunto.getSelectedItem().toString() );
 	}
 
 
@@ -620,7 +641,7 @@ public class PrincipalCtrl {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void cargaReserva(){
 
 		ReservaDAO dao = new ReservaDAOImpl();
@@ -630,23 +651,34 @@ public class PrincipalCtrl {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void cadastraCliente( Cliente c ){
 
 		ClienteDAO dao = new ClienteDAOImpl();
-			try {
-				dao.adicionar( c );
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+		try {
+			dao.adicionar( c );
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
-	
+
 	public void cadastraReserva( Reserva r ){
 
 		ReservaDAO dao = new ReservaDAOImpl();
 
 		try {
 			dao.adicionar( r );
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void cadastraContato( Contato c ){
+
+		ContatoDAO dao = new ContatoDAOImpl();
+
+		try {
+			dao.adicionar( c );
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -762,12 +794,19 @@ public class PrincipalCtrl {
 			if( source == btnReservaEnviar ){
 				try {
 					adicionaReserva ();
+					txtaReservaObs.setText(null);
+					cboReservaCategoria.setSelectedIndex(0);
+					ftxtReservaDtInicio.setText(null);
+					ftxtReservaDtFim.setText(null);
+					txtReservaQtdAdulto.setText(null);
+					txtReservaQtdCrianca.setText(null);
 				} catch (ParseException e1) {
 					e1.printStackTrace();
 				}
 			}
 			if( source == btnContatoEnviar ){
-				msg( "construir", "" );
+				adicionaContato();
+				limpaCampo();
 			}
 			if( source == btnPesquisar ){
 				msg( "construir", "" );
@@ -785,7 +824,7 @@ public class PrincipalCtrl {
 	};
 
 	// CONTROLE TECLA ///////////////////////////////
-	
+
 	public KeyListener numero = new KeyListener() {  
 
 		@Override  
@@ -804,7 +843,7 @@ public class PrincipalCtrl {
 		public void keyReleased(KeyEvent e) {
 		}
 	};
-	
+
 	public KeyListener alfa = new KeyListener() {  
 
 		@Override  
@@ -823,7 +862,7 @@ public class PrincipalCtrl {
 		public void keyReleased(KeyEvent e) {
 		}
 	};
-		
+
 	public KeyListener teclar = new KeyListener() {  
 
 		@Override  
@@ -899,15 +938,23 @@ public class PrincipalCtrl {
 
 		switch ( tipo ) {
 
+		case "sucesso":
+			JOptionPane.showMessageDialog(null, 
+					"CONFIRMADO!\n\nSua mensagem com o assunto:\n" + mensagem + "\nfoi enviada.", 
+					"Mensagem Recebida", 
+					JOptionPane.PLAIN_MESSAGE,
+					new ImageIcon( diretorio + "/icons/confirm.png" ));
+			break;
+
 		case "erroChale":
 			JOptionPane.showMessageDialog(null, 
 					"DESCUPE-NOS!\n\nNão existem Chalés disponíveis da categoria " + mensagem
-							+ "\nPor favor, selecione outra categoria disponível.", 
-							"Não disponível", 
-							JOptionPane.PLAIN_MESSAGE,
-							new ImageIcon( diretorio + "/icons/warning.png" ));
+					+ "\nPor favor, selecione outra categoria disponível.", 
+					"Não disponível", 
+					JOptionPane.PLAIN_MESSAGE,
+					new ImageIcon( diretorio + "/icons/warning.png" ));
 			break;
-			
+
 		case "erroCampo":
 			JOptionPane.showMessageDialog(null, 
 					"ATENÇÃO!\n\nCampo '" + mensagem + "' não preenchido."
@@ -924,7 +971,7 @@ public class PrincipalCtrl {
 							"Seleção Inválida", JOptionPane.PLAIN_MESSAGE,
 							new ImageIcon( diretorio + "/icons/error.png" ));
 			break;
-		
+
 		case "erroDataInicial":
 			JOptionPane.showMessageDialog(null, 
 					"ERRO nas datas!\n\n" 
@@ -932,7 +979,7 @@ public class PrincipalCtrl {
 							"Datas Inválidas", JOptionPane.PLAIN_MESSAGE,
 							new ImageIcon( diretorio + "/icons/error.png" ));
 			break;
-		
+
 		case "erroDataFinal":
 			JOptionPane.showMessageDialog(null, 
 					"ERRO nas datas!\n\n" 
@@ -950,21 +997,21 @@ public class PrincipalCtrl {
 			break;
 
 		case "sair":
-		Object[] exit = { "Confirmar", "Cancelar" };  
-		int fechar = JOptionPane.showOptionDialog( null, "ATENÇÃO!\n\nChamada para o fechamento" 
-				+ " do sistema!\n\nDeseja encerrar a aplicação?",
-				"Fechamento do Programa", 
-				JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
-				new ImageIcon( diretorio + "/icons/warning.png" ), exit, exit[1] );
-		if ( fechar == 0 ) {
-			validar = true;
-		} else {
-			validar = false;
-		}
-		if(validar == true){
-			System.exit(0);
-		}
-		break;
+			Object[] exit = { "Confirmar", "Cancelar" };  
+			int fechar = JOptionPane.showOptionDialog( null, "ATENÇÃO!\n\nChamada para o fechamento" 
+					+ " do sistema!\n\nDeseja encerrar a aplicação?",
+					"Fechamento do Programa", 
+					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
+					new ImageIcon( diretorio + "/icons/warning.png" ), exit, exit[1] );
+			if ( fechar == 0 ) {
+				validar = true;
+			} else {
+				validar = false;
+			}
+			if(validar == true){
+				System.exit(0);
+			}
+			break;
 
 		default:
 			JOptionPane.showMessageDialog(null, 

@@ -31,6 +31,7 @@ public class ReservaDAOImpl implements ReservaDAO{
 	 * qtdCrianca INT NOT NULL,
 	 * dtInicio DATE NOT NULL,
 	 * dtFim DATE NOT NULL, 
+	 * mensagem VARCHAR(300),
 	 * desconto INT NOT NULL,
 	 * dtCadastro DATE NOT NULL
 	 * );
@@ -39,7 +40,7 @@ public class ReservaDAOImpl implements ReservaDAO{
 	@Override
 	public void adicionar(Reserva r) throws SQLException {
 		
-		String sql = "INSERT INTO reserva VALUES (NULL,?,?,?,?,?,?,?,?)";
+		String sql = "INSERT INTO reserva VALUES (NULL,?,?,?,?,?,?,?,?,?)";
 		
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt(1, r.getCliente().getId());
@@ -48,8 +49,9 @@ public class ReservaDAOImpl implements ReservaDAO{
 		ps.setInt(4, r.getQtdCrianca());
 		ps.setDate(5, new java.sql.Date( r.getDtInicio().getTime() ));
 		ps.setDate(6, new java.sql.Date( r.getDtFim().getTime() ));
-		ps.setInt(7, r.getDesconto());
-		ps.setDate(8, new java.sql.Date( r.getDtCadastro().getTime() ));
+		ps.setString(7, r.getMensagem());
+		ps.setInt(8, r.getDesconto());
+		ps.setDate(9, new java.sql.Date( r.getDtCadastro().getTime() ));
 		ps.execute();
 		ps.close();
 	}
@@ -64,6 +66,7 @@ public class ReservaDAOImpl implements ReservaDAO{
 				+ "qtdCrianca = ?, "
 				+ "dtInicio = ?, "
 				+ "dtFim = ?, "
+				+ "mensagem = ?"
 				+ "desconto = ? "
 				+ "WHERE id = ?";
 		
@@ -74,8 +77,9 @@ public class ReservaDAOImpl implements ReservaDAO{
 		ps.setInt(4, r.getQtdCrianca());
 		ps.setDate(5, new java.sql.Date( r.getDtInicio().getTime() ));
 		ps.setDate(6, new java.sql.Date( r.getDtFim().getTime() ));
-		ps.setInt(7, r.getDesconto());
-		ps.setInt(8, r.getId());
+		ps.setString(7, r.getMensagem());
+		ps.setInt(8, r.getDesconto());
+		ps.setInt(9, r.getId());
 		ps.execute();
 		ps.close();
 	}
@@ -88,7 +92,9 @@ public class ReservaDAOImpl implements ReservaDAO{
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt( 1, r.getId() );
 		ps.execute();
-		ps.close();	
+		ps.close();
+		
+		excluirCliente();
 	}
 
 	@Override
@@ -107,6 +113,7 @@ public class ReservaDAOImpl implements ReservaDAO{
 			r.setQtdCrianca(rs.getInt("qtdCrianca"));
 			r.setDtInicio(rs.getDate("dtInicio"));
 			r.setDtFim(rs.getDate("dtFim"));
+			r.setMensagem(rs.getString("mensagem"));
 			r.setDesconto(rs.getInt("desconto"));
 			r.setDtCadastro(rs.getDate("dtCadastro"));
 		}
@@ -132,6 +139,7 @@ public class ReservaDAOImpl implements ReservaDAO{
 			r.setQtdCrianca(rs.getInt("qtdCrianca"));
 			r.setDtInicio(rs.getDate("dtInicio"));
 			r.setDtFim(rs.getDate("dtFim"));
+			r.setMensagem(rs.getString("mensagem"));
 			r.setDesconto(rs.getInt("desconto"));
 			r.setDtCadastro(rs.getDate("dtCadastro"));
 			lista.add( r );
@@ -196,5 +204,34 @@ public class ReservaDAOImpl implements ReservaDAO{
 		ps.close();
 		
 		return ch;
+	}
+	
+	public void excluirCliente() throws SQLException{
+		
+		String sql;
+		PreparedStatement ps;
+		ResultSet rs;
+		
+		sql = "SELECT cliente.id FROM cliente "
+				+ "LEFT JOIN reserva "
+				+ "ON cliente.id = reserva.cliente "
+				+ "WHERE cliente.ativo = 0 AND reserva.cliente IS NULL";
+				
+		ps = con.prepareStatement(sql);
+		rs = ps.executeQuery();
+		Cliente c = new Cliente();
+		while (rs.next()) {
+			c.setId(rs.getInt("id"));
+		}
+
+		if( c.getId() != null ){
+			
+			sql = "DELETE FROM cliente WHERE id = ?";
+
+			ps = con.prepareStatement(sql);
+			ps.setInt( 1, c.getId() );
+			ps.execute();
+			ps.close();
+		}
 	}
 }

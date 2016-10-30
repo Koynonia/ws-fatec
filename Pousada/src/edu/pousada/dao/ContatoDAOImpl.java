@@ -21,15 +21,15 @@ public class ContatoDAOImpl implements ContatoDAO {
 	/**
 	 * CREATE TABLE contato(
 	 * id INT AUTO_INCREMENT PRIMARY KEY,
-	 * assunto INT NOT NULL,
 	 * nome VARCHAR(100) NOT NULL,
 	 * email VARCHAR(30) NOT NULL,
 	 * telefone VARCHAR(11) NOT NULL,
-	 * endereco VARCHAR(200),
 	 * bairro VARCHAR(30),
 	 * cidade VARCHAR(30),
 	 * estado VARCHAR(15),
 	 * pais VARCHAR(10),
+	 * assunto INT NOT NULL,
+	 * mensagem VARCHAR(300),
 	 * dtCadastro DATE NOT NULL
 	 * ) ENGINE = innodb;
 	 */
@@ -45,11 +45,11 @@ public class ContatoDAOImpl implements ContatoDAO {
 		ps.setString(1, c.getNome());
 		ps.setString(2, c.getEmail());
 		ps.setString(3, c.getTelefone());
-		ps.setString(4, c.getEndereco());
-		ps.setString(5, c.getBairro());
-		ps.setString(6, c.getCidade());
-		ps.setString(7, c.getEstado());
-		ps.setString(8, c.getPais());
+		ps.setString(4, c.getCidade());
+		ps.setString(5, c.getEstado());
+		ps.setString(6, c.getPais());
+		ps.setInt(7, c.getAssunto());
+		ps.setString(8, c.getMensagem());
 		ps.setDate(9, new java.sql.Date( c.getDtCadastro().getTime() ));
 		ps.execute();
 		ps.close();
@@ -62,11 +62,11 @@ public class ContatoDAOImpl implements ContatoDAO {
 				+ "nome = ?, "
 				+ "email = ?, "
 				+ "telefone = ?, "
-				+ "endereco = ?, "
-				+ "bairro = ?, "
 				+ "cidade = ?, "
 				+ "estado = ?, "
 				+ "pais = ?, "
+				+ "assunto = ?"
+				+ "mensagem = ?"
 				+ "dtCadastro = ? "
 				+ "WHERE id = ?";
 		
@@ -74,11 +74,11 @@ public class ContatoDAOImpl implements ContatoDAO {
 		ps.setString(1, c.getNome());
 		ps.setString(2, c.getEmail());
 		ps.setString(3, c.getTelefone());
-		ps.setString(4, c.getEndereco());
-		ps.setString(5, c.getBairro());
-		ps.setString(6, c.getCidade());
-		ps.setString(7, c.getEstado());
-		ps.setString(8, c.getPais());
+		ps.setString(4, c.getCidade());
+		ps.setString(5, c.getEstado());
+		ps.setString(6, c.getPais());
+		ps.setInt(7, c.getAssunto());
+		ps.setString(8, c.getMensagem());
 		ps.setDate(9, new java.sql.Date( c.getDtCadastro().getTime() ));
 		ps.setInt(10, c.getId());
 		ps.execute();
@@ -110,11 +110,11 @@ public class ContatoDAOImpl implements ContatoDAO {
 			c.setNome(rs.getString("nome"));
 			c.setEmail(rs.getString("email"));;
 			c.setTelefone(rs.getString("telefone"));
-			c.setEndereco(rs.getString("endereco"));
-			c.setBairro(rs.getString("bairro"));
 			c.setCidade(rs.getString("cidade"));
 			c.setEstado(rs.getString("estado"));
 			c.setPais(rs.getString("pais"));
+			c.setAssunto(rs.getInt("assunto"));
+			c.setMensagem(rs.getString("mensagem"));
 			c.setDtCadastro(rs.getDate("dtCadastro"));
 		}
 		rs.close();
@@ -133,13 +133,13 @@ public class ContatoDAOImpl implements ContatoDAO {
 			Contato c = new Contato();
 			c.setId(rs.getInt("id"));
 			c.setNome(rs.getString("nome"));
-			c.setEmail(rs.getString("email"));
+			c.setEmail(rs.getString("email"));;
 			c.setTelefone(rs.getString("telefone"));
-			c.setEndereco(rs.getString("endereco"));
-			c.setBairro(rs.getString("bairro"));
 			c.setCidade(rs.getString("cidade"));
 			c.setEstado(rs.getString("estado"));
 			c.setPais(rs.getString("pais"));
+			c.setAssunto(rs.getInt("assunto"));
+			c.setMensagem(rs.getString("mensagem"));
 			c.setDtCadastro(rs.getDate("dtCadastro"));
 			listaContato.add(c);
 		}

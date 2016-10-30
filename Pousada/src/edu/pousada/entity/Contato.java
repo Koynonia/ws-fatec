@@ -12,15 +12,14 @@ import java.util.Date;
 public class Contato {
 
 	private Integer id;
-	private Integer assunto;
 	private String nome;
 	private String email;
 	private String telefone;
-	private String endereco;
-	private String bairro;
 	private String cidade;
 	private String estado;
 	private String pais;
+	private Integer assunto;
+	private String mensagem;
 	private Date dtCadastro;
 	
 	
@@ -29,12 +28,6 @@ public class Contato {
 	}
 	public void setId(Integer id) {
 		this.id = id;
-	}
-	public Integer getAssunto() {
-		return assunto;
-	}
-	public void setAssunto(Integer assunto) {
-		this.assunto = assunto;
 	}
 	public String getNome() {
 		return nome;
@@ -54,18 +47,6 @@ public class Contato {
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
-	public String getEndereco() {
-		return endereco;
-	}
-	public void setEndereco(String endereco) {
-		this.endereco = endereco;
-	}
-	public String getBairro() {
-		return bairro;
-	}
-	public void setBairro(String bairro) {
-		this.bairro = bairro;
-	}
 	public String getCidade() {
 		return cidade;
 	}
@@ -83,6 +64,18 @@ public class Contato {
 	}
 	public void setPais(String pais) {
 		this.pais = pais;
+	}
+	public Integer getAssunto() {
+		return assunto;
+	}
+	public void setAssunto(Integer assunto) {
+		this.assunto = assunto;
+	}
+	public String getMensagem() {
+		return mensagem;
+	}
+	public void setMensagem(String mensagem) {
+		this.mensagem = mensagem;
 	}
 	public Date getDtCadastro() {
 		return dtCadastro;
