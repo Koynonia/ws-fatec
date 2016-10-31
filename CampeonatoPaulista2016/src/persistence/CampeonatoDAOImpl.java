@@ -17,6 +17,8 @@ import java.util.List;
 
 import model.Grupo;
 import model.Jogo;
+import model.Resultado;
+import model.Times;
 
 public class CampeonatoDAOImpl implements CampeonatoDAO {
 
@@ -26,137 +28,144 @@ public class CampeonatoDAOImpl implements CampeonatoDAO {
 		GenericDAO gDao = new GenericDAOImpl();
 		con = gDao.getConnection();
 	}
+	
+	public Times time(int codigoTime) throws SQLException {
 
-	@Override
-	public String geraGrupos() {
+		String sql = "SELECT * FROM times WHERE codigoTime = ?";
 
-		String sql = "{CALL sp_grupos}";
-		String saida = "";
-		try {
-			CallableStatement cs = con.prepareCall(sql);
-			cs.execute();
-			cs.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setInt(1, codigoTime);
+		ResultSet rs = ps.executeQuery();
+		Times time = new Times();
+		if (rs.next()) {
+			time.setCodigoTime(rs.getInt("codigoTime"));
+			time.setNomeTime(rs.getString("nomeTime"));
+			time.setCidade(rs.getString("cidade"));
+			time.setEstadio(rs.getString("estadio"));
 		}
-		return saida;
+		return time;
 	}
 
 	@Override
-	public void apagaGrupos() throws CampeonatoDAOException{
-		String sql = "DELETE FROM Grupos";
+	public void geraGrupos(int trigger) throws SQLException {
 
-		try {
-			PreparedStatement pst = con.prepareStatement( sql );
-			pst.execute();
-			pst.close();
-		} catch( SQLException e ) {
-			e.printStackTrace();
-			throw new CampeonatoDAOException( e );
-		}
+		String sql = "{CALL sp_grupos(?)}";
+
+		CallableStatement cs = con.prepareCall(sql);
+		cs.setInt(1, trigger);
+		cs.execute();
+		cs.close();
 	}
 
 	@Override
-	public List<Grupo> consultaGrupos() throws CampeonatoDAOException{
+	public List<Grupo> consultaGrupos() throws SQLException{
 
-		List<Grupo> lista = new ArrayList<Grupo>();
 		String sql = "SELECT  g.Grupo, t.NomeTime "
 				+ "FROM Times AS t "
 				+ "INNER JOIN Grupos AS g "
 				+ "ON g.CodigoTime = t.CodigoTime "
 				+ "GROUP BY g.Grupo, t.NomeTime "
 				+ "ORDER BY g.Grupo ASC, t.NomeTime DESC";
-		try {
-			PreparedStatement pst = con.prepareStatement( sql );
-			ResultSet rs = pst.executeQuery();
-			while( rs.next() ) { 
-				Grupo g = new Grupo();
-				g.setGrupo( rs.getString( "Grupo" ));
-				g.setTime( rs.getString( "NomeTime" ));
-				lista.add( g );
-			}
-			rs.close();
-		} catch( SQLException e ) {
-			e.printStackTrace();
-			throw new CampeonatoDAOException( e );
+
+		PreparedStatement ps = con.prepareStatement( sql );
+		ResultSet rs = ps.executeQuery();
+		List<Grupo> lista = new ArrayList<Grupo>();
+		while( rs.next() ) { 
+			Grupo g = new Grupo();
+			g.setGrupo( rs.getString( "Grupo" ));
+			g.setTime( rs.getString( "NomeTime" ));
+			lista.add( g );
 		}
+		rs.close();
+		ps.close();
+
 		return lista;
 	}
 
 	@Override
-	public String geraJogos(Date dtInicio) {
+	public void apagaGrupos() throws SQLException{
 
-		String sql = "{CALL sp_jogos(?)}";
-		String saida = "";
-		try {
-			CallableStatement cs = con.prepareCall(sql);
-			long num = dtInicio.getTime();
-			java.sql.Date data = new java.sql.Date(num);
-			cs.setDate(1, data);
-			//cs.registerOutParameter(1, Types.VARCHAR);
-			cs.execute();
-			//saida = cs.getString(1);
-			cs.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return saida;
+		String sql = "DELETE FROM Grupos";
+
+		PreparedStatement ps = con.prepareStatement( sql );
+		ps.execute();
+		ps.close();
 	}
 
 	@Override
-	public void apagaJogos() throws CampeonatoDAOException{
-		
-		String sql = "DELETE FROM Jogos";
+	public void geraJogos(Date dtInicio, int trigger) throws SQLException {
 
-		try {
-			PreparedStatement pst = con.prepareStatement( sql );
-			pst.execute();
-			pst.close();
-		} catch( SQLException e ) {
-			e.printStackTrace();
-			throw new CampeonatoDAOException( e );
-		}
+		String sql = "{CALL sp_jogos(?,?)}";
 
+		CallableStatement cs = con.prepareCall(sql);
+		long num = dtInicio.getTime();
+		java.sql.Date data = new java.sql.Date(num);
+		cs.setDate(1, data);
+		cs.setInt(2, trigger);
+		cs.execute();
+		cs.close();
 	}
 
 	@Override
-	public List<Jogo> consultaJogos() throws CampeonatoDAOException{
+	public void atualizaJogos(List<Jogo> gols) throws SQLException {
 
-		List<Jogo> lista = new ArrayList<Jogo>();
-		String sql = "SELECT a.Data, a.NomeTime AS 'Time A', b.NomeTime AS 'Time B' "
+		String sql = "UPDATE Jogos SET "
+				+ "GolsTimeA = ?, "
+				+ "GolsTimeB = ? "
+				+ "WHERE CodigoTimeA = ? AND CodigoTimeB = ? AND Data = ?";
+
+		PreparedStatement ps = con.prepareStatement(sql);
+		for( int i = 0; i < gols.size(); i++ ){
+			ps.setInt( 1, gols.get(i).getGolTimeA() );
+			ps.setInt( 2, gols.get(i).getGolTimeB() );
+			ps.setInt( 3, gols.get(i).getCodigoTimeA() );
+			ps.setInt( 4, gols.get(i).getCodigoTimeB() );
+			ps.setDate( 5, new java.sql.Date( gols.get(i).getData().getTime() ));
+		}
+		//ps.execute();
+		ps.close();
+	}
+
+	@Override
+	public List<Jogo> consultaJogos() throws SQLException {
+
+		String sql = "SELECT a.Data, "
+				+ "a.CodigoTimeA AS 'CodA', a.NomeTime AS 'Time A', "
+				+ "b.CodigoTimeB AS 'CodB', b.NomeTime AS 'Time B' "
 				+ "FROM("
-				+ "SELECT j.Data, t.NomeTime "
-				+ "FROM Jogos AS j "
+				+ "SELECT j.Data, j.CodigoTimeA, t.NomeTime "
 				+ "INNER JOIN Times AS t "
 				+ "ON j.CodigoTimeA = t.CodigoTime) a "
 				+ "INNER JOIN("
-				+ "SELECT j.Data, t.NomeTime "
+				+ "SELECT j.Data, j.CodigoTimeB, t.NomeTime "
 				+ "FROM Jogos AS j "
 				+ "INNER JOIN Times AS t "
 				+ "ON j.CodigoTimeB = t.CodigoTime) b "
-				+ "ON a.Data = b.Data ";
-		try {
-			PreparedStatement pst = con.prepareStatement( sql );
-			//pst.setString(1, "%" + data + "%");
-			ResultSet rs = pst.executeQuery();
-			while( rs.next() ) { 
-				Jogo j = new Jogo();
-				j.setData( rs.getDate( "Data" ) );
-				j.setTimeA( rs.getString( "Time A" ) );
-				j.setTimeB( rs.getString( "Time B" ) );
-				lista.add( j );
-			}
-			rs.close();
-		} catch( SQLException e ) { 
-			e.printStackTrace();
-			throw new CampeonatoDAOException( e );
+				+ "ON a.Data = b.Data";
+
+		PreparedStatement ps = con.prepareStatement( sql );
+		ResultSet rs = ps.executeQuery();
+		List<Jogo> lista = new ArrayList<Jogo>();
+		while( rs.next() ) {
+			Jogo j = new Jogo();
+			j.setData( rs.getDate( "Data" ) );
+			j.setCodigoTimeA( rs.getInt( "CodA" ));
+			j.setCodigoTimeB( rs.getInt( "CodB" ));
+			j.setTimeA( rs.getString( "Time A" ) );
+			j.setTimeB( rs.getString( "Time B" ) );
+			lista.add( j );
+System.out.println(lista.get(0).getCodigoTimeA());
 		}
+
+		rs.close();
+		ps.close();
+		
 		return lista;
 	}
 
-	public List<Jogo> consultaDataJogos(Date dtPesq) throws CampeonatoDAOException{
+	@Override
+	public List<Jogo> consultaDataJogos(Date dtPesq) throws SQLException {
 
-		List<Jogo> lista = new ArrayList<Jogo>();
 		String  sql = "";
 		if( dtPesq != null ){
 			sql = "SELECT a.Data, a.NomeTime AS 'Time A', b.NomeTime AS 'Time B' "
@@ -186,26 +195,99 @@ public class CampeonatoDAOImpl implements CampeonatoDAO {
 					+ "ON j.CodigoTimeB = t.CodigoTime) b "
 					+ "ON a.Data = b.Data ";
 		}
-		try {
-			PreparedStatement pst = con.prepareStatement( sql );
-			if( dtPesq != null ){
-				long num = dtPesq.getTime();
-				java.sql.Date data = new java.sql.Date(num);
-				pst.setDate(1, data);
-			}
-			ResultSet rs = pst.executeQuery();
-			while( rs.next() ) { 
-				Jogo j = new Jogo();
-				j.setData( rs.getDate( "Data" ) );
-				j.setTimeA( rs.getString( "Time A" ) );
-				j.setTimeB( rs.getString( "Time B" ) );
-				lista.add( j );
-			}
-			rs.close();
-		} catch( SQLException e ) { 
-			e.printStackTrace();
-			throw new CampeonatoDAOException( e );
+		PreparedStatement ps = con.prepareStatement( sql );
+		if( dtPesq != null ){
+			long num = dtPesq.getTime();
+			java.sql.Date data = new java.sql.Date(num);
+			ps.setDate(1, data);
+		}
+		ResultSet rs = ps.executeQuery();
+		List<Jogo> lista = new ArrayList<Jogo>();
+		while( rs.next() ) { 
+			Jogo j = new Jogo();
+			j.setData( rs.getDate( "Data" ) );
+			j.setTimeA( rs.getString( "Time A" ) );
+			j.setTimeB( rs.getString( "Time B" ) );
+			lista.add( j );
+		}
+		rs.close();
+		ps.close();
+
+		return lista;
+	}
+
+	@Override
+	public void apagaJogos() throws SQLException {
+
+		String sql = "DELETE FROM Jogos";
+
+		PreparedStatement ps = con.prepareStatement( sql );
+		ps.execute();
+		ps.close();
+	}
+
+	@Override
+	public List<Resultado> resultadoGrupo(String grupo) throws SQLException {
+
+		String sql = "SELECT * FROM fn_grupos(?) ORDER BY pontos DESC";
+
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setString(1, grupo);
+		ResultSet rs = ps.executeQuery();
+		List<Resultado> lista = new ArrayList<Resultado>();
+		while(rs.next()){
+			Resultado r =  new Resultado();
+			r.setNomeTime(rs.getString("nome_time"));
+			r.setJogosDisputados(rs.getInt("num_jogos_disputados"));
+			r.setVitorias(rs.getInt("vitorias"));
+			r.setEmpates(rs.getInt("empates"));
+			r.setDerrotas(rs.getInt("derrotas"));
+			r.setGolsMarcados(rs.getInt("gols_marcados"));
+			r.setGolsSofridos(rs.getInt("gols_sofridos"));
+			r.setSaldoGols(rs.getInt("saldo_gols"));
+			r.setPontos(rs.getInt("pontos"));
+			lista.add(r);
 		}
 		return lista;
+	}
+	
+	@Override
+	public List<Resultado> resultadoGeral() throws SQLException {
+		
+		String sql = "SELECT * FROM fn_campeonato() ";
+		
+		PreparedStatement ps = con.prepareStatement(sql);
+		ResultSet rs = ps.executeQuery();
+		List<Resultado> lista = new ArrayList<Resultado>();
+		while(rs.next()){
+			Resultado c =  new Resultado();
+			c.setNomeTime(rs.getString("nome_time"));
+			c.setJogosDisputados(rs.getInt("num_jogos_disputados"));
+			c.setVitorias(rs.getInt("vitorias"));
+			c.setEmpates(rs.getInt("empates"));
+			c.setDerrotas(rs.getInt("derrotas"));
+			c.setGolsMarcados(rs.getInt("gols_marcados"));
+			c.setGolsSofridos(rs.getInt("gols_sofridos"));
+			c.setSaldoGols(rs.getInt("saldo_gols"));
+			c.setPontos(rs.getInt("pontos"));
+			lista.add(c);
+		}
+		return lista;
+	}
+	
+	@Override
+	public List<Times> quartasdeFinal() throws SQLException {
+		
+		String sql = "SELECT * FROM fn_quartaFinal()";
+		
+		PreparedStatement ps = con.prepareStatement(sql);
+		ResultSet rs = ps.executeQuery();
+		List<Times> listaTimes = new ArrayList<>();
+		while(rs.next()){
+			Times time = new Times();
+			time = time(rs.getInt("codigoTime1"));
+			listaTimes.add(time);
+		}
+		return listaTimes;	
 	}
 }

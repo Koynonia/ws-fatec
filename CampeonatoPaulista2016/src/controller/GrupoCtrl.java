@@ -9,6 +9,7 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,18 +17,18 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import model.Grupo;
 import persistence.CampeonatoDAO;
-import persistence.CampeonatoDAOException;
 import persistence.CampeonatoDAOImpl;
 import view.GrupoView;
 import view.MenuView;
-import model.Grupo;
 
 public class GrupoCtrl {
 
@@ -37,7 +38,9 @@ public class GrupoCtrl {
 	private JTable tbGrupoB;
 	private JTable tbGrupoC;
 	private JTable tbGrupoD;
+	private JRadioButton rdbtnTrigger;
 	private JButton btnApagar;
+	private int trigger;
 	private List<Grupo> grupos;
 
 	public GrupoCtrl(
@@ -46,6 +49,7 @@ public class GrupoCtrl {
 			JTable tbGrupoB, 
 			JTable tbGrupoC,
 			JTable tbGrupoD, 
+			JRadioButton rdbtnTrigger, 
 			JButton btnApagar) {
 
 		this.janela = janela;
@@ -53,6 +57,7 @@ public class GrupoCtrl {
 		this.tbGrupoB = tbGrupoB;
 		this.tbGrupoC = tbGrupoC;
 		this.tbGrupoD = tbGrupoD;
+		this.rdbtnTrigger = rdbtnTrigger;
 		this.btnApagar = btnApagar;
 		this.grupos = new ArrayList<Grupo>();
 
@@ -60,11 +65,9 @@ public class GrupoCtrl {
 	}
 
 	public void inicia(){
-		try {
-			consultaGrupos();
-		} catch (CampeonatoDAOException e) {
-			e.printStackTrace();
-		}
+
+		consultaGrupos();
+
 		if( !grupos.isEmpty() ){
 			formataTabGrupoA();
 			formataTabGrupoB();
@@ -80,17 +83,27 @@ public class GrupoCtrl {
 		}
 	}
 
-	public void carregaGrupo() throws CampeonatoDAOException {
-
-		CampeonatoDAO dao = new CampeonatoDAOImpl();
-		dao.geraGrupos();
+	public void carregaGrupo(){
+		
+		try {
+			CampeonatoDAO dao = new CampeonatoDAOImpl();
+			dao.geraGrupos( trigger );
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		consultaGrupos();
 	}
 
-	public void consultaGrupos() throws CampeonatoDAOException {
+	public void consultaGrupos(){
 
-		CampeonatoDAO dao = new CampeonatoDAOImpl();
-		grupos = dao.consultaGrupos();
+		try {
+			CampeonatoDAO dao = new CampeonatoDAOImpl();
+			grupos = dao.consultaGrupos();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	//FORMATA GRUPO A
@@ -349,16 +362,19 @@ public class GrupoCtrl {
 	public ActionListener preencherTabela = new ActionListener() {
 
 		public void actionPerformed(ActionEvent e) {
-			try {
-				carregaGrupo();
+			
+			if( rdbtnTrigger.isSelected() ){
+				trigger = 1;
+			} else {
+				trigger = 0;
 				formataTabGrupoA();
 				formataTabGrupoB();
 				formataTabGrupoC();
 				formataTabGrupoD();
-				btnApagar.setEnabled(true);
-			} catch (CampeonatoDAOException e1) {
-				e1.printStackTrace();
 			}
+			
+			carregaGrupo();
+			btnApagar.setEnabled(true);
 		}
 	};
 
@@ -373,31 +389,31 @@ public class GrupoCtrl {
 					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
 					new ImageIcon( "../CampeonatoPaulista2016/src/resources/warning.png" ), excluir, excluir[1]);
 			if (ex == 0) { 
+				CampeonatoDAO dao = new CampeonatoDAOImpl();
 				try {
-					CampeonatoDAO dao = new CampeonatoDAOImpl();
 					dao.apagaJogos();
 					dao.apagaGrupos();
-					
-					while (tbGrupoA.getModel().getRowCount() > 0) {  
-				           ((DefaultTableModel) tbGrupoA.getModel()).removeRow(0);  
-				       }
-					while (tbGrupoB.getModel().getRowCount() > 0) {  
-				           ((DefaultTableModel) tbGrupoB.getModel()).removeRow(0);  
-				       }
-					while (tbGrupoC.getModel().getRowCount() > 0) {  
-				           ((DefaultTableModel) tbGrupoC.getModel()).removeRow(0);  
-				       }
-					while (tbGrupoD.getModel().getRowCount() > 0) {  
-				           ((DefaultTableModel) tbGrupoD.getModel()).removeRow(0);  
-				       }
-					tbGrupoA.updateUI();
-					tbGrupoB.updateUI();
-					tbGrupoC.updateUI();
-					tbGrupoD.updateUI();
-					btnApagar.setEnabled(false);
-				} catch (CampeonatoDAOException e1) {
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
 					e1.printStackTrace();
-				} 			
+				}
+				while (tbGrupoA.getModel().getRowCount() > 0) {  
+					((DefaultTableModel) tbGrupoA.getModel()).removeRow(0);  
+				}
+				while (tbGrupoB.getModel().getRowCount() > 0) {  
+					((DefaultTableModel) tbGrupoB.getModel()).removeRow(0);  
+				}
+				while (tbGrupoC.getModel().getRowCount() > 0) {  
+					((DefaultTableModel) tbGrupoC.getModel()).removeRow(0);  
+				}
+				while (tbGrupoD.getModel().getRowCount() > 0) {  
+					((DefaultTableModel) tbGrupoD.getModel()).removeRow(0);  
+				}
+				tbGrupoA.updateUI();
+				tbGrupoB.updateUI();
+				tbGrupoC.updateUI();
+				tbGrupoD.updateUI();
+				btnApagar.setEnabled(false);		
 			}
 		}
 	};

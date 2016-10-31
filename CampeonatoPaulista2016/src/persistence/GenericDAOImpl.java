@@ -20,7 +20,7 @@ public class GenericDAOImpl implements GenericDAO{
 	public void sqlServer(){
 		try {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver").newInstance();
-			String url = "jdbc:sqlserver://192.168.150.128:1433;DatabaseName=campeonato;namedPipe=true";
+			String url = "jdbc:sqlserver://192.168.150.138:1433;DatabaseName=campeonato;namedPipe=true";
 			String usr = "Fernando";
 			String pwd = "12345";
 			con = DriverManager.getConnection( url, usr, pwd );

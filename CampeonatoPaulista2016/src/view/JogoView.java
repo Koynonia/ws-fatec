@@ -16,6 +16,7 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
@@ -107,19 +108,28 @@ public class JogoView extends JFrame {
 		btnApagar.setBounds(520, 347, 126, 29);
 		contentPane.add(btnApagar);
 		
+		JButton btnGol = new JButton("Gerar Gols");
+		btnGol.setBounds(382, 347, 126, 29);
+		contentPane.add(btnGol);
+		
 		JButton btnFechar = new JButton("Voltar");
 		btnFechar.setBounds(658, 347, 117, 29);
 		contentPane.add(btnFechar);
+		
+		JRadioButton rdbtnTrigger = new JRadioButton("Ativar Trigger");
+		rdbtnTrigger.setBounds(55, 350, 141, 23);
+		contentPane.add(rdbtnTrigger);
 		
 		JLabel lblBackground = new JLabel("");
 		lblBackground.setIcon(new ImageIcon(JogoView.class.getResource("/resources/back.jpg")));
 		lblBackground.setBounds(0, 0, 826, 432);
 		contentPane.add(lblBackground);
 		
-		JogoCtrl j = new JogoCtrl( this, lblData, lblJogos, btnVerificar, btnGerar, btnApagar, ftxtData, tabJogos );
+		JogoCtrl j = new JogoCtrl( this, lblData, lblJogos, rdbtnTrigger, btnVerificar, btnGerar, btnApagar, ftxtData, tabJogos );
 		
-		btnVerificar.addActionListener(j.verificaData);
+		btnVerificar.addActionListener(j.data);
 		btnGerar.addActionListener(j.preencherTabela);
+		btnGol.addActionListener(j.gerarGols);
 		btnApagar.addActionListener(j.apagar);
 		btnFechar.addActionListener(j.fechar);
 	}

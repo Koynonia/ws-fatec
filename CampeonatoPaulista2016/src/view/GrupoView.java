@@ -12,6 +12,7 @@ import java.awt.EventQueue;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.WindowConstants;
 import javax.swing.JButton;
 import javax.swing.JTable;
@@ -19,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 
 import controller.GrupoCtrl;
+import java.awt.Font;
 
 public class GrupoView extends JFrame {
 
@@ -64,19 +66,23 @@ public class GrupoView extends JFrame {
 		contentPane.setLayout(null);
 		
 		JLabel lblGrupoA = new JLabel("Grupo A");
-		lblGrupoA.setBounds(55, 36, 51, 16);
+		lblGrupoA.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+		lblGrupoA.setBounds(55, 36, 66, 16);
 		contentPane.add(lblGrupoA);
 		
 		JLabel lblGrupoB = new JLabel("Grupo B");
-		lblGrupoB.setBounds(444, 36, 49, 16);
+		lblGrupoB.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+		lblGrupoB.setBounds(444, 36, 66, 16);
 		contentPane.add(lblGrupoB);
 		
 		JLabel lblGrupoC = new JLabel("Grupo C");
-		lblGrupoC.setBounds(55, 190, 51, 16);
+		lblGrupoC.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+		lblGrupoC.setBounds(55, 190, 66, 16);
 		contentPane.add(lblGrupoC);
 		
 		JLabel lblGrupoD = new JLabel("Grupo D");
-		lblGrupoD.setBounds(444, 190, 52, 16);
+		lblGrupoD.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+		lblGrupoD.setBounds(444, 190, 66, 16);
 		contentPane.add(lblGrupoD);
 		
 		tbGrupoA = new JTable();
@@ -123,12 +129,16 @@ public class GrupoView extends JFrame {
 		btnFechar.setBounds(649, 361, 126, 29);
 		contentPane.add(btnFechar);
 		
+		JRadioButton rdbtnTrigger = new JRadioButton("Ativar Trigger");
+		rdbtnTrigger.setBounds(55, 362, 141, 23);
+		contentPane.add(rdbtnTrigger);
+		
 		JLabel lblBackground = new JLabel("");
 		lblBackground.setIcon(new ImageIcon(JogoView.class.getResource("/resources/back.jpg")));
 		lblBackground.setBounds(0, 0, 826, 432);
 		contentPane.add(lblBackground);
 		
-		GrupoCtrl g = new GrupoCtrl(this, tbGrupoA, tbGrupoB, tbGrupoC, tbGrupoD, btnApagar);
+		GrupoCtrl g = new GrupoCtrl(this, tbGrupoA, tbGrupoB, tbGrupoC, tbGrupoD, rdbtnTrigger, btnApagar);
 		btnApagar.addActionListener(g.apagar);
 		btnGerar.addActionListener(g.preencherTabela);
 		btnFechar.addActionListener(g.fechar);

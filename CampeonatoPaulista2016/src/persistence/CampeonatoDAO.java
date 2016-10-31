@@ -7,20 +7,28 @@
 
 package persistence;
 
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
 import model.Grupo;
 import model.Jogo;
+import model.Resultado;
+import model.Times;
 
 
 public interface CampeonatoDAO {
 
-	public String geraGrupos();
-	public void apagaGrupos() throws CampeonatoDAOException;
-	public List<Grupo> consultaGrupos() throws CampeonatoDAOException;
-	public String geraJogos(Date dtInicio);	
-	public List<Jogo> consultaJogos() throws CampeonatoDAOException;
-	public void apagaJogos() throws CampeonatoDAOException;
-	public List<Jogo> consultaDataJogos(Date data) throws CampeonatoDAOException;
+	public void geraGrupos(int trigger) throws SQLException;
+	public List<Grupo> consultaGrupos() throws SQLException;
+	public void apagaGrupos() throws SQLException;
+	public void geraJogos(Date dtInicio, int trigger) throws SQLException;
+	public void atualizaJogos( List<Jogo> gols ) throws SQLException;
+	public List<Jogo> consultaJogos() throws SQLException;
+	public List<Jogo> consultaDataJogos(Date data) throws SQLException;
+	public void apagaJogos() throws SQLException;
+	public List<Resultado> resultadoGrupo(String grupo) throws SQLException;
+	public List<Resultado> resultadoGeral() throws SQLException;
+	public List<Times> quartasdeFinal() throws SQLException;
+	public Times time(int codigoTime) throws SQLException;
 }

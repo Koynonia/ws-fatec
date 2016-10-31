@@ -1,5 +1,7 @@
 package test;
 
+import java.sql.SQLException;
+
 import model.Grupo;
 
 import org.junit.AfterClass;
@@ -19,7 +21,7 @@ public class UC01GerarGrupo {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		dao = new CampeonatoDAOImpl();
-		dao.geraGrupos();
+		dao.geraGrupos(0);
 	}
 	
 	/**
@@ -41,7 +43,7 @@ public class UC01GerarGrupo {
 	}
 
 	@Test
-	public void CT01UC01GerarGrupo_sucesso() {
-		dao.geraGrupos();
+	public void CT01UC01GerarGrupo_sucesso() throws SQLException {
+		dao.geraGrupos(0);
 	}
 }

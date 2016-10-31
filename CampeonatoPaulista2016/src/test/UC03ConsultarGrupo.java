@@ -1,9 +1,8 @@
 package test;
 
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
+import java.sql.SQLException;
 import java.util.List;
 
 import model.Grupo;
@@ -14,7 +13,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import persistence.CampeonatoDAO;
-import persistence.CampeonatoDAOException;
 import persistence.CampeonatoDAOImpl;
 
 public class UC03ConsultarGrupo {
@@ -27,7 +25,7 @@ public class UC03ConsultarGrupo {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		dao = new CampeonatoDAOImpl();
-		dao.geraGrupos();
+		dao.geraGrupos(0);
 		resultadoEsperado = dao.consultaGrupos();
 	}
 	
@@ -37,7 +35,7 @@ public class UC03ConsultarGrupo {
 	 */
 	@Before
 	public void tearDownBeforeClass() throws Exception{
-		dao.geraGrupos();
+		dao.geraGrupos(0);
 	}
 	
 	/**
@@ -51,21 +49,21 @@ public class UC03ConsultarGrupo {
 	
 	/**
 	 * consulta com sucesso os Grupos Existentes
-	 * @throws CampeonatoDAOException
+	 * @throws SQLException 
 	 */
 	@Test
-	public void CT01UC03ConsultarGrupo_sucesso() throws CampeonatoDAOException {
+	public void CT01UC03ConsultarGrupo_sucesso() throws SQLException {
 		resultadoObtido = dao.consultaGrupos();
 		assertFalse(resultadoEsperado.equals( resultadoObtido ));
 	}
 	
 	/**
 	 * consulta com sucesso os Grupos Inesxistentes
-	 * @throws CampeonatoDAOException
+	 * @throws SQLException 
 	 */
 	
-	@Test ( expected = CampeonatoDAOException.class )
-	public void CT02UC03ConsultarGrupo_sucesso() throws CampeonatoDAOException {
+	@Test ( expected = SQLException.class )
+	public void CT02UC03ConsultarGrupo_sucesso() throws SQLException{
 		dao.apagaGrupos();
 		resultadoObtido = dao.consultaGrupos();
 		assertFalse(resultadoEsperado.equals( resultadoObtido ));

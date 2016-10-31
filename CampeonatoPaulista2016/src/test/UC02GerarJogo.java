@@ -1,5 +1,6 @@
 package test;
 
+import java.sql.SQLException;
 import java.util.Date;
 
 import model.Jogo;
@@ -21,7 +22,7 @@ public class UC02GerarJogo {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		dao = new CampeonatoDAOImpl();
-		dao.geraJogos( new Date() );
+		dao.geraJogos( new Date(), 1 );
 	}
 	
 	/**
@@ -43,7 +44,7 @@ public class UC02GerarJogo {
 	}
 
 	@Test
-	public void CT01UC02GerarJogo_sucesso() {
-		dao.geraJogos( new Date() );
+	public void CT01UC02GerarJogo_sucesso() throws SQLException {
+		dao.geraJogos( new Date(), 1 );
 	}
 }
