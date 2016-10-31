@@ -126,6 +126,21 @@ public class JogoCtrl {
 			e.printStackTrace();
 		}
 	}
+
+	
+	public void consultaJogo( ) {
+
+		CampeonatoDAO dao = new CampeonatoDAOImpl();
+
+		try {
+
+			jogos = dao.consultaJogos();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	public void atualizaJogo() throws SQLException, ParseException{
 		
@@ -152,8 +167,8 @@ public class JogoCtrl {
 
 		Object[] excluir = { "Confirmar", "Cancelar" };  
 		int ex = JOptionPane.showOptionDialog(null, 
-				"Voc√™ confirma a exclus√£o dos Jogos do Campeonato?",
-				"Exclus√£o dos Jogos", 
+				"Voc√™ confirma a exclus„o dos Jogos do Campeonato?",
+				"Exclus„o dos Jogos", 
 				JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
 				new ImageIcon( "../CampeonatoPaulista2016/src/resources/warning.png" ), excluir, excluir[1]);
 		if (ex == 0) { 
@@ -170,7 +185,7 @@ public class JogoCtrl {
 			}
 
 			tabela.updateUI();
-			lblData.setText("In√≠cio do Campeonato:");
+			lblData.setText("InÌcio do Campeonato:");
 			lblJogos.setText("Jogos do Campeonato:");
 			btnVerificar.setVisible(false);
 			btnGerar.setVisible(true);
@@ -203,10 +218,10 @@ public class JogoCtrl {
 			}
 		} else {
 			JOptionPane.showMessageDialog(null, 
-					"Por favor, digite uma data v√°lida!"
-							+ "\n\n√â necess√°rio informar o in√≠cio "
+					"Por favor, digite uma data v·lida!"
+							+ "\n\n… necess·rio informar o inÌcio "
 							+ "\ndo Campeonato.", 
-							"Aten√ß√£o", 
+							"AtenÁ„o", 
 							JOptionPane.PLAIN_MESSAGE,
 							new ImageIcon( "../CampeonatoPaulista2016/src/resources/error.png" ));
 			focarCampo();
@@ -222,10 +237,10 @@ public class JogoCtrl {
 			Jogo j = new Jogo();
 			j.setData( sdf.parse( (String) tabela.getModel().getValueAt( i , 0 ) ));
 			j.setTimeA( tabela.getModel().getValueAt( i , 1 ).toString() );
-			//j.setCodigoTimeA( Integer.parseInt( (String) tabela.getModel().getValueAt( i , 2 ).toString() ));
+			j.setCodigoTimeA( Integer.parseInt( (String) tabela.getModel().getValueAt( i , 2 ).toString() ));
 			j.setGolTimeA( Integer.parseInt( (String) tabela.getModel().getValueAt( i , 3 ) ));
 			j.setGolTimeB( Integer.parseInt( (String) tabela.getModel().getValueAt( i , 5 ) ));
-			//j.setCodigoTimeB( Integer.parseInt( (String) tabela.getModel().getValueAt( i , 6 ).toString() ));
+			j.setCodigoTimeB( Integer.parseInt( (String) tabela.getModel().getValueAt( i , 6 ).toString() ));
 			j.setTimeB( tabela.getModel().getValueAt( i , 7 ).toString() );
 			gols.add(j);
 		}
@@ -243,10 +258,10 @@ public class JogoCtrl {
 				pesquisaJogo( data );
 			} catch (ParseException e1) {
 				JOptionPane.showMessageDialog(null, 
-						"Por favor, digite uma data v√°lida!"
-								+ "\n\n√â necess√°rio informar uma data "
-								+ "\npara verificar as partidas da rodada dispon√≠veis.", 
-								"Aten√ß√£o", 
+						"Por favor, digite uma data v·lida!"
+								+ "\n\n… necess·rio informar uma data "
+								+ "\npara verificar as partidas da rodada disponÌveis.", 
+								"AtenÁ„o", 
 								JOptionPane.PLAIN_MESSAGE,
 								new ImageIcon( "../CampeonatoPaulista2016/src/resources/error.png" ));
 				focarCampo();
@@ -257,10 +272,10 @@ public class JogoCtrl {
 				lblJogos.setText( jogos.size() + " Jogos do Campeonato nesta rodada:" );
 			} else {
 				JOptionPane.showMessageDialog(null, 
-						"N√£o foram encontradas partidas!"
-								+ "\n\nNesta data n√£o existem jogos "
+						"N„o foram encontradas partidas!"
+								+ "\n\nNesta data n„o existem jogos "
 								+ "\ndo Campeonato.", 
-								"N√£o encontrado", 
+								"N„o encontrado", 
 								JOptionPane.PLAIN_MESSAGE,
 								new ImageIcon( "../CampeonatoPaulista2016/src/resources/warning.png" ));
 				ftxtData.setValue("");
@@ -269,10 +284,10 @@ public class JogoCtrl {
 
 		} else {
 			JOptionPane.showMessageDialog(null, 
-					"Por favor, digite uma data v√°lida!"
-							+ "\n\n√â necess√°rio informar uma data "
-							+ "\npara verificar as partidas da rodada dispon√≠veis.", 
-							"Aten√ß√£o", 
+					"Por favor, digite uma data v·lida!"
+							+ "\n\n… necess·rio informar uma data "
+							+ "\npara verificar as partidas da rodada disponÌveis.", 
+							"AtenÁ„o", 
 							JOptionPane.PLAIN_MESSAGE,
 							new ImageIcon( "../CampeonatoPaulista2016/src/resources/error.png" ));
 			focarCampo();
@@ -308,13 +323,13 @@ public class JogoCtrl {
 					String[] j = {
 							sdf.format( jogos.get(i).getData() ),
 							jogos.get(i).getTimeA(),
-							"",
-							//Integer.toString( jogos.get(i).getCodigoTimeA() ),
+							//"",
+							Integer.toString( jogos.get(i).getCodigoTimeA() ),
 							Integer.toString( 0+(int)( 6*Math.random() )),
 							" X ",
 							Integer.toString( 0+(int)( 6*Math.random() )),
-							//Integer.toString( jogos.get(i).getCodigoTimeB() ),
-							"",
+							Integer.toString( jogos.get(i).getCodigoTimeB() ),
+							//"",
 							jogos.get(i).getTimeB(),
 					};
 					linhas.add(j);
@@ -419,6 +434,7 @@ public class JogoCtrl {
 		public void actionPerformed(ActionEvent e) {
 
 			validar = true;
+			consultaJogo();
 			formataTabela();
 			try {
 				try {
