@@ -155,7 +155,8 @@ ALTER TABLE `reserva` ADD CONSTRAINT `fk_chale` FOREIGN KEY ( `chale` ) REFERENC
 INSERT INTO `chale` (`id`, `categoria`, `diaria`) VALUES
 (1, 'Luxo', '299.90'),
 (2, 'Clássico', '199.90'),
-(3, 'Padrão', '99.90');
+(3, 'Padrão', '99.90'),
+(4, 'Luxo', '299.90');
 
 INSERT INTO `cliente` (`id`, `nome`, `email`, `documento`, `docTipo`, 
 `dtNasc`, `telefone`, `celular`, `endereco`, `bairro`, `cidade`, 
@@ -166,11 +167,17 @@ INSERT INTO `cliente` (`id`, `nome`, `email`, `documento`, `docTipo`,
 
 (2,'Sicrano', 'sicrano@email.com', '1112233FA', 'Passaporte', '1995-08-20', 
 '12345678901', '12345678901', 'Rua do Sicrano, 01', 'Parque Sicrano', 
-'São Paulo', 'São Paulo', 'Brasil', '01234567', '2016-10-20', 1),
+'São Paulo', 'São Paulo', 'Brasil', '01234567', '2016-10-20', 0),
 
 (3,'Beltrano da Silva', 'beltrano@email.com', '11222333', 'RG', '1995-04-23', 
 '12345678900', '12345678902', 'Rua do Beltrano, 01', 'Parque Beltrano', 
-'Salvador', 'Bahia', 'Brasil', '01234567', '2016-10-20', 1);
+'Salvador', 'Bahia', 'Brasil', '01234567', '2016-10-20', 0);
+
+INSERT INTO `reserva` (`id`, `cliente`, `chale`, `qtdAdulto`, `qtdCrianca`, 
+`dtInicio`, `dtFim`, `mensagem`, `desconto`, `dtCadastro`) VALUES
+(86, 2, 4, 1, 0, '2016-11-01', '2016-11-05', '', 0, '2016-10-30'),
+(87, 3, 1, 1, 0, '2016-11-01', '2016-11-01', 'f', 0, '2016-11-01'),
+(88, 3, 3, 1, 0, '2016-11-10', '2016-11-15', '', 0, '2016-11-01');
 
 INSERT INTO `principal` (`id`, `principalInfo`, `principalDetalhe`, `chaleInfo`, 
 `chaleDetalhe`, `lazerInfo`, `lazerDetalhe`, `servicoInfo`, `servicoDetalhe`, 
