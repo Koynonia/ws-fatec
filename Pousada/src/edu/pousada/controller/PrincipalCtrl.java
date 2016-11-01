@@ -43,6 +43,7 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
 
 import edu.pousada.boundary.PrincipalFrm;
@@ -74,6 +75,8 @@ public class PrincipalCtrl {
 	private JLabel lblLazerImg;
 	private JLabel lblServicoImg;
 	private JLabel lblReservaImg;
+	private JLabel lblReservaMsg;
+	private JLabel lblContatoMsg;
 	private JLabel lblVersao;
 	private JTextField txtPesquisa;
 	private JTextField txtReservaQtdAdulto; 
@@ -103,7 +106,7 @@ public class PrincipalCtrl {
 	private JTextArea txtaServicoInfo; 
 	private JTextArea txtaServicoDetalhe; 
 	private JTextArea txtaReservaInfo; 
-	private JTextArea txtaReservaObs; 
+	private JTextArea txtaReservaMsg; 
 	private JTextArea txtaContatoInfo; 
 	private JTextArea txtaContatoMsg; 
 	private JComboBox<String> cboReservaCategoria; 
@@ -135,8 +138,10 @@ public class PrincipalCtrl {
 			JLabel lblChaleImg, 
 			JLabel lblLazerImg, 
 			JLabel lblServicoImg, 
-			JLabel lblReservaImg, 
-			JLabel lblVersao, 
+			JLabel lblReservaImg,  
+			JLabel lblReservaMsg, 
+			JLabel lblContatoMsg,
+			JLabel lblVersao,
 			JTextField txtPesquisa, 
 			JTextField txtReservaQtdAdulto, 
 			JTextField txtReservaQtdCrianca, 
@@ -190,6 +195,8 @@ public class PrincipalCtrl {
 		this.lblLazerImg = lblLazerImg;
 		this.lblServicoImg = lblServicoImg;
 		this.lblReservaImg = lblReservaImg;
+		this.lblReservaMsg =lblReservaMsg;
+		this.lblContatoMsg = lblContatoMsg;
 		this.lblVersao = lblVersao;
 		this.txtPesquisa = txtPesquisa;
 		this.txtReservaQtdAdulto = txtReservaQtdAdulto; 
@@ -219,7 +226,7 @@ public class PrincipalCtrl {
 		this.txtaServicoInfo = txtaServicoInfo; 
 		this.txtaServicoDetalhe = txtaServico; 
 		this.txtaReservaInfo = txtaReservaInfo; 
-		this.txtaReservaObs = txtaReservaObs; 
+		this.txtaReservaMsg = txtaReservaObs; 
 		this.txtaContatoInfo = txtaContatoInfo; 
 		this.txtaContatoMsg = txtaContatoMsg;  
 		this.cboReservaCategoria = cboReservaChale; 
@@ -594,7 +601,7 @@ public class PrincipalCtrl {
 			r.setQtdCrianca( Integer.parseInt(txtReservaQtdCrianca.getText() ));
 			r.setDtInicio( sdf.parse( ftxtReservaDtInicio.getText().replace("/","") ));
 			r.setDtFim( sdf.parse( ftxtReservaDtFim.getText().replace("/","") ));
-			r.setMensagem( txtaReservaObs.getText() );
+			r.setMensagem( txtaReservaMsg.getText() );
 			r.setDesconto( 0 );
 			r.setDtCadastro( new Date() );
 			cadastraReserva( r );
@@ -617,7 +624,7 @@ public class PrincipalCtrl {
 
 		cadastraContato( c );
 		msg( "sucesso", cboContatoAssunto.getSelectedItem().toString() );
-		txtaReservaObs.setText(null);
+		txtaReservaMsg.setText(null);
 		cboReservaCategoria.setSelectedIndex(0);
 		ftxtReservaDtInicio.setText(null);
 		ftxtReservaDtFim.setText(null);
@@ -878,9 +885,9 @@ public class PrincipalCtrl {
 				Object source = e.getSource();
 
 				//desabilita a tecla TAB
-				if( source == txtaReservaObs ){
-					if(e.getModifiers() > 0) txtaReservaObs.transferFocusBackward();
-					else txtaReservaObs.transferFocus(); 
+				if( source == txtaReservaMsg ){
+					if(e.getModifiers() > 0) txtaReservaMsg.transferFocusBackward();
+					else txtaReservaMsg.transferFocus(); 
 					e.consume();
 				}
 				if( source == txtaContatoMsg ){
@@ -896,6 +903,7 @@ public class PrincipalCtrl {
 		public void keyTyped(KeyEvent e) {
 
 			String tipo = "";
+			String tam = "";
 			//verifica qual componenete esta solicitando a acao e desabilita
 			Object source = e.getSource();
 
@@ -916,6 +924,26 @@ public class PrincipalCtrl {
 			}
 			if( source == txtReservaQtdCrianca ){
 				tipo = "numero";
+			}
+			if( source == txtaReservaMsg ){
+				tam = txtaReservaMsg.getText();
+				lblReservaMsg.setText("Observações (" + (tam.length()) + " de 300):");
+				if(tam.length() > 300){
+					txtaReservaMsg.setBackground(new Color(255,240,245));
+					return;
+				} else {
+					txtaReservaMsg.setBackground(new Color(255,255,255));
+				}
+			}
+			if( source == txtaContatoMsg ){
+				tam = txtaContatoMsg.getText();
+				lblContatoMsg.setText("Sua mensagem (" + (tam.length()) + " de 300):");
+				if(tam.length() > 300){
+					txtaContatoMsg.setBackground(new Color(255,240,245));
+					return;
+				} else {
+					txtaContatoMsg.setBackground(new Color(255,255,255));
+				}
 			}
 			if( source == txtContatoNome ){
 				tipo = "alfa";
