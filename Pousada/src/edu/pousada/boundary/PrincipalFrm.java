@@ -161,7 +161,7 @@ public class PrincipalFrm extends JFrame {
 
 		btnLogin = new JButton("Login");
 		btnLogin.setBounds(914, 51, 79, 29);
-		btnLogin.setToolTipText("Clique aqui para registrar-se");
+		btnLogin.setToolTipText("Clique aqui para se logar ou registrar");
 		btnLogin.setVisible(true);
 		painel.add(btnLogin);
 
@@ -195,33 +195,36 @@ public class PrincipalFrm extends JFrame {
 			painelPrincipal.add(lblPrincipalInfo);
 
 			txtaPrincipalInfo = new JTextArea();
+			txtaPrincipalInfo.setBounds(20, 46, 914, 90);
 			txtaPrincipalInfo.setBorder(BorderFactory.createCompoundBorder(borderClean, 
 					BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+			txtaPrincipalInfo.setFocusable(false);
 			txtaPrincipalInfo.setEditable(false);
 			txtaPrincipalInfo .setLineWrap(true);
 			txtaPrincipalInfo .setWrapStyleWord(true);
-			txtaPrincipalInfo.setBounds(20, 46, 914, 90);
 			painelPrincipal.add(txtaPrincipalInfo);
 
 			JLabel lblPrincipal = new JLabel("O que oferecemos:");
 			lblPrincipal.setBounds(600, 175, 300, 16);
 			painelPrincipal.add(lblPrincipal);
-
+			
 			txtaPrincipalDetalhe = new JTextArea(10, 20);
+			txtaPrincipalDetalhe.setBounds(600, 203, 334, 312);
 			txtaPrincipalDetalhe.setBorder(BorderFactory.createCompoundBorder(borderClean, 
 					BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+			txtaPrincipalDetalhe.setFocusable(false);
 			txtaPrincipalDetalhe.setEditable(false);
 			txtaPrincipalDetalhe.setLineWrap(true);
 			txtaPrincipalDetalhe.setWrapStyleWord(true);
-			txtaPrincipalDetalhe.setBounds(600, 203, 334, 312);
 			painelPrincipal.add(txtaPrincipalDetalhe);
 
 			lblPrincipalImg = new JLabel();
+			lblPrincipalImg.setBounds(20, 178, 555, 337);
 			lblPrincipalImg.setName( "lblPrincipalImg");
+			lblPrincipalImg.setFocusable(false);
 			lblPrincipalImg.setToolTipText("Vista da pousada");
 			lblPrincipalImg.setHorizontalAlignment(SwingConstants.CENTER);
 			lblPrincipalImg.setBorder(new LineBorder(Color.LIGHT_GRAY));
-			lblPrincipalImg.setBounds(20, 178, 555, 337);
 			lblPrincipalImg.setVisible(true);
 			lblPrincipalImg.setIcon(new ImageIcon(
 					principal.getImage().getScaledInstance(
@@ -237,12 +240,13 @@ public class PrincipalFrm extends JFrame {
 			painelChale.add(lblChaleInfo);
 
 			txtaChaleInfo = new JTextArea();
+			txtaChaleInfo.setBounds(20, 46, 914, 90);
 			txtaChaleInfo.setBorder(BorderFactory.createCompoundBorder(borderClean, 
 					BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+			txtaChaleInfo.setFocusable(false);
 			txtaChaleInfo.setEditable(false);
 			txtaChaleInfo .setLineWrap(true);
 			txtaChaleInfo .setWrapStyleWord(true);
-			txtaChaleInfo.setBounds(20, 46, 914, 90);
 			painelChale.add(txtaChaleInfo);
 
 			JLabel lblChale = new JLabel("Nossos Chalés:");
@@ -250,20 +254,22 @@ public class PrincipalFrm extends JFrame {
 			painelChale.add(lblChale);
 
 			txtaChaleDetalhe = new JTextArea(10, 20);
+			txtaChaleDetalhe.setBounds(600, 203, 334, 312);
 			txtaChaleDetalhe.setBorder(BorderFactory.createCompoundBorder(borderClean, 
 					BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+			txtaChaleDetalhe.setFocusable(false);
+			txtaChaleDetalhe.setFocusable(false);
 			txtaChaleDetalhe.setEditable(false);
 			txtaChaleDetalhe.setLineWrap(true);
 			txtaChaleDetalhe.setWrapStyleWord(true);
-			txtaChaleDetalhe.setBounds(600, 203, 334, 312);
 			painelChale.add(txtaChaleDetalhe);
 
 			lblChaleImg = new JLabel();
+			lblChaleImg.setBounds(20, 178, 555, 337);
 			lblChaleImg.setName( "lblChaleImg");
 			lblChaleImg.setToolTipText("Vista de nossas acomodações");
 			lblChaleImg.setHorizontalAlignment(SwingConstants.CENTER);
 			lblChaleImg.setBorder(new LineBorder(Color.LIGHT_GRAY));
-			lblChaleImg.setBounds(20, 178, 555, 337);
 			lblChaleImg.setVisible(true);
 			lblChaleImg.setIcon(new ImageIcon(
 					chale.getImage().getScaledInstance(
@@ -279,12 +285,13 @@ public class PrincipalFrm extends JFrame {
 			painelLazer.add(lblLazerInfo);
 
 			txtaLazerInfo = new JTextArea();
+			txtaLazerInfo.setBounds(20, 46, 914, 90);
 			txtaLazerInfo.setBorder(BorderFactory.createCompoundBorder(borderClean, 
 					BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+			txtaLazerInfo.setFocusable(true);
 			txtaLazerInfo.setEditable(false);
 			txtaLazerInfo .setLineWrap(true);
 			txtaLazerInfo .setWrapStyleWord(true);
-			txtaLazerInfo.setBounds(20, 46, 914, 90);
 			painelLazer.add(txtaLazerInfo);
 
 			JLabel lblLazer = new JLabel("Seu lazer garantido:");
@@ -292,20 +299,22 @@ public class PrincipalFrm extends JFrame {
 			painelLazer.add(lblLazer);
 
 			txtaLazerDetalhe = new JTextArea(10, 20);
+			txtaLazerDetalhe.setBounds(600, 203, 334, 312);
 			txtaLazerDetalhe.setBorder(BorderFactory.createCompoundBorder(borderClean, 
 					BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+			txtaLazerDetalhe.setFocusable(false);
 			txtaLazerDetalhe.setEditable(false);
 			txtaLazerDetalhe.setLineWrap(true);
 			txtaLazerDetalhe.setWrapStyleWord(true);
-			txtaLazerDetalhe.setBounds(600, 203, 334, 312);
 			painelLazer.add(txtaLazerDetalhe);
 
 			lblLazerImg = new JLabel();
+			lblLazerImg.setBounds(20, 178, 555, 337);
 			lblLazerImg.setName( "lblLazerImg" );
 			lblLazerImg.setToolTipText("Atividades de Lazer.");
+			lblLazerImg.setFocusable(false);
 			lblLazerImg.setHorizontalAlignment(SwingConstants.CENTER);
 			lblLazerImg.setBorder(new LineBorder(Color.LIGHT_GRAY));
-			lblLazerImg.setBounds(20, 178, 555, 337);
 			lblLazerImg.setVisible(true);
 			lblLazerImg.setIcon(new ImageIcon(lazer.getImage().getScaledInstance(
 					lblLazerImg.getWidth(), 
@@ -320,12 +329,13 @@ public class PrincipalFrm extends JFrame {
 			painelServico.add(lblServicoInfo);
 
 			txtaServicoInfo = new JTextArea();
+			txtaServicoInfo.setBounds(20, 46, 914, 90);
 			txtaServicoInfo.setBorder(BorderFactory.createCompoundBorder(borderClean, 
 					BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+			txtaServicoInfo.setFocusable(false);
 			txtaServicoInfo.setEditable(false);
 			txtaServicoInfo .setLineWrap(true);
 			txtaServicoInfo .setWrapStyleWord(true);
-			txtaServicoInfo.setBounds(20, 46, 914, 90);
 			painelServico.add(txtaServicoInfo);
 
 			JLabel lblServico = new JLabel("Nossos serviços para o seu conforto:");
@@ -333,20 +343,22 @@ public class PrincipalFrm extends JFrame {
 			painelServico.add(lblServico);
 
 			txtaServicoDetalhe = new JTextArea(10, 20);
+			txtaServicoDetalhe.setBounds(600, 203, 334, 312);
 			txtaServicoDetalhe.setBorder(BorderFactory.createCompoundBorder(borderClean, 
 					BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+			txtaServicoDetalhe.setFocusable(false);
 			txtaServicoDetalhe.setEditable(false);
 			txtaServicoDetalhe.setLineWrap(true);
 			txtaServicoDetalhe.setWrapStyleWord(true);
-			txtaServicoDetalhe.setBounds(600, 203, 334, 312);
 			painelServico.add(txtaServicoDetalhe);
 
 			lblServicoImg = new JLabel();
+			lblServicoImg.setBounds(20, 178, 555, 337);
 			lblServicoImg.setName( "lblServicoImg" );
 			lblServicoImg.setToolTipText("Serviços oferecidos");
+			lblServicoImg.setFocusable(false);
 			lblServicoImg.setHorizontalAlignment(SwingConstants.CENTER);
 			lblServicoImg.setBorder(new LineBorder(Color.LIGHT_GRAY));
-			lblServicoImg.setBounds(20, 178, 555, 337);
 			lblServicoImg.setVisible(true);
 			lblServicoImg.setIcon(new ImageIcon(servico.getImage().getScaledInstance(
 					lblServicoImg.getWidth(), 
@@ -361,13 +373,14 @@ public class PrincipalFrm extends JFrame {
 			painelReserva.add(lblReservaInfo);
 
 			txtaReservaInfo = new JTextArea();
+			txtaReservaInfo.setBounds(20, 46, 914, 90);
 			txtaReservaInfo.setName("reservaInfo");
 			txtaReservaInfo.setBorder(BorderFactory.createCompoundBorder(borderClean, 
 					BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+			txtaReservaInfo.setFocusable(false);
 			txtaReservaInfo.setEditable(false);
 			txtaReservaInfo .setLineWrap(true);
 			txtaReservaInfo .setWrapStyleWord(true);
-			txtaReservaInfo.setBounds(20, 46, 914, 90);
 			painelReserva.add(txtaReservaInfo);
 			
 			JLabel lblReservaNome = new JLabel("Nome:");
@@ -375,8 +388,8 @@ public class PrincipalFrm extends JFrame {
 			painelReserva.add(lblReservaNome);
 
 			txtReservaNome = new JTextField(20);
-			txtReservaNome.setName("Nome");
 			txtReservaNome.setBounds(105, 151, 400, 28);
+			txtReservaNome.setName("Nome");
 			txtReservaNome.setToolTipText("Digite seu nome completo");
 			painelReserva.add(txtReservaNome);
 
@@ -385,8 +398,8 @@ public class PrincipalFrm extends JFrame {
 			painelReserva.add(lblReservaEmail);
 
 			txtReservaEmail = new JTextField(20);
-			txtReservaEmail.setName("Email");
 			txtReservaEmail.setBounds(105, 191, 400, 28);
+			txtReservaEmail.setName("Email");
 			txtReservaEmail.setToolTipText("Digite seu Email");
 			painelReserva.add(txtReservaEmail);
 
@@ -395,8 +408,8 @@ public class PrincipalFrm extends JFrame {
 			painelReserva.add(lblReservaDocNum);
 
 			txtReservaDocNum = new JTextField(20);
-			txtReservaDocNum.setName("Número de Documento");
 			txtReservaDocNum.setBounds(105, 231, 150, 28);
+			txtReservaDocNum.setName("Número de Documento");
 			txtReservaDocNum.setToolTipText("Digite seu Documento");
 			painelReserva.add(txtReservaDocNum);
 
@@ -406,8 +419,8 @@ public class PrincipalFrm extends JFrame {
 			painelReserva.add(lblReservaDocTipo);
 
 			cboReservaDocTipo = new JComboBox<String>();
-			cboReservaDocTipo.setName("Tipo de Documento");
 			cboReservaDocTipo.setBounds(355, 231, 150, 27);
+			cboReservaDocTipo.setName("Tipo de Documento");
 			painelReserva.add(cboReservaDocTipo);
 
 			JLabel lblReservaTelefone = new JLabel("Telefone:");
@@ -415,8 +428,8 @@ public class PrincipalFrm extends JFrame {
 			painelReserva.add(lblReservaTelefone);
 
 			txtReservaTelefone = new JTextField(20);
-			txtReservaTelefone.setName("Telefone");
 			txtReservaTelefone.setBounds(105, 271, 150, 28);
+			txtReservaTelefone.setName("Telefone");
 			txtReservaTelefone.setToolTipText("Digite seu Telefone");
 			painelReserva.add(txtReservaTelefone);
 
@@ -425,8 +438,8 @@ public class PrincipalFrm extends JFrame {
 			painelReserva.add(lblReservaCelular);
 
 			txtReservaCelular = new JTextField(20);
-			txtReservaCelular.setName("Celular");
 			txtReservaCelular.setBounds(355, 271, 150, 28);
+			txtReservaCelular.setName("Celular");
 			txtReservaCelular.setToolTipText("Digite seu Celular");
 			painelReserva.add(txtReservaCelular);
 
@@ -435,8 +448,8 @@ public class PrincipalFrm extends JFrame {
 			painelReserva.add(lblReservaCidade);
 
 			txtReservaCidade = new JTextField(20);
-			txtReservaCidade.setName("Cidade");
 			txtReservaCidade.setBounds(105, 311, 150, 28);
+			txtReservaCidade.setName("Cidade");
 			txtReservaCidade.setToolTipText("Digite sua Cidade");
 			painelReserva.add(txtReservaCidade);
 
@@ -455,8 +468,8 @@ public class PrincipalFrm extends JFrame {
 			painelReserva.add(lblReservaPais);
 
 			txtReservaPais = new JTextField(20);
-			txtReservaPais.setName("País");
 			txtReservaPais.setBounds(355, 351, 150, 28);
+			txtReservaPais.setName("País");
 			txtReservaPais.setToolTipText("Digite seu Pais");
 			painelReserva.add(txtReservaPais);
 
@@ -465,31 +478,33 @@ public class PrincipalFrm extends JFrame {
 			painelReserva.add(lblReservaObs);
 
 			txtaReservaObs = new JTextArea();
+			txtaReservaObs.setBounds(20, 401, 484, 114);
 			txtaReservaObs.setName("Observações");
 			txtaReservaObs.setBorder(BorderFactory.createCompoundBorder(borderClean, 
 					BorderFactory.createEmptyBorder(10, 10, 10, 10)));
 			txtaReservaObs.setBorder(new LineBorder(Color.LIGHT_GRAY));
 			txtaReservaObs.setLineWrap(true);
 			txtaReservaObs.setWrapStyleWord(true);
-			txtaReservaObs.setBounds(20, 401, 484, 114);
 			painelReserva.add(txtaReservaObs);
 			
 			JLabel lblReservaCategoria = new JLabel("Categoria do Chalé:");
 			lblReservaCategoria.setBounds(610, 157, 125, 16);
-			lblReservaCategoria.setToolTipText("Selecione a categoria do Chalé");
 			painelReserva.add(lblReservaCategoria);
 
 			cboReservaCategoria = new JComboBox<String>();
-			cboReservaCategoria.setName("Categoria do Chalé");
 			cboReservaCategoria.setBounds(755, 152, 185, 27);
+			cboReservaCategoria.setName("Categoria do Chalé");
+			cboReservaCategoria.setToolTipText("Selecione a categoria do Chalé");
+			cboReservaCategoria.setFocusable( false );
 			painelReserva.add(cboReservaCategoria);
 
 			lblReservaImg = new JLabel();
+			lblReservaImg.setBounds(610, 193, 324, 197);
 			lblReservaImg.setName( "lblReservaImg" );
 			lblReservaImg.setToolTipText("Acomodações do Chalé");
+			lblReservaImg.setFocusable(false);
 			lblReservaImg.setHorizontalAlignment(SwingConstants.CENTER);
 			lblReservaImg.setBorder(new LineBorder(Color.LIGHT_GRAY));
-			lblReservaImg.setBounds(610, 193, 324, 197);
 			lblReservaImg.setVisible(true);
 			lblReservaImg.setIcon(new ImageIcon(chale.getImage().getScaledInstance(
 					lblReservaImg.getWidth(), 
@@ -503,10 +518,10 @@ public class PrincipalFrm extends JFrame {
 
 			MaskFormatter mskData = new MaskFormatter("##/##/####");
 			ftxtReservaDtInicio = new JFormattedTextField(mskData);
-			ftxtReservaDtInicio.setName("Data Inícial");
-			ftxtReservaDtInicio.setHorizontalAlignment(SwingConstants.CENTER);
 			ftxtReservaDtInicio.setBounds(670, 406, 100, 28);
+			ftxtReservaDtInicio.setName("Data Inícial");
 			ftxtReservaDtInicio.setToolTipText("Digite a data inicial de sua estadia");
+			ftxtReservaDtInicio.setHorizontalAlignment(SwingConstants.CENTER);
 			painelReserva.add(ftxtReservaDtInicio);
 
 			JLabel lblReservaDtFim = new JLabel("Partida:");
@@ -515,10 +530,10 @@ public class PrincipalFrm extends JFrame {
 
 			mskData = new MaskFormatter("##/##/####");
 			ftxtReservaDtFim = new JFormattedTextField(mskData);
-			ftxtReservaDtFim.setName("Data Final");
-			ftxtReservaDtFim.setHorizontalAlignment(SwingConstants.CENTER);
 			ftxtReservaDtFim.setBounds(835, 406, 100, 28);
+			ftxtReservaDtFim.setName("Data Final");
 			ftxtReservaDtFim.setToolTipText("Digite a data final de sua estadia");
+			ftxtReservaDtFim.setHorizontalAlignment(SwingConstants.CENTER);
 			painelReserva.add(ftxtReservaDtFim);
 
 			JLabel lblReservaQtdAdulto = new JLabel("Adultos:");
@@ -526,10 +541,10 @@ public class PrincipalFrm extends JFrame {
 			painelReserva.add(lblReservaQtdAdulto);
 
 			txtReservaQtdAdulto = new JTextField(20);
-			txtReservaQtdAdulto.setName("Adultos");
 			txtReservaQtdAdulto.setBounds(670, 447, 100, 28);
-			txtReservaQtdAdulto.setHorizontalAlignment(SwingConstants.CENTER);
+			txtReservaQtdAdulto.setName("Adultos");
 			txtReservaQtdAdulto.setToolTipText("Digite a quantidade de Adultos");
+			txtReservaQtdAdulto.setHorizontalAlignment(SwingConstants.CENTER);
 			painelReserva.add(txtReservaQtdAdulto);
 
 			JLabel lblReservaQtdCrianca = new JLabel("Crianças:");
@@ -537,10 +552,10 @@ public class PrincipalFrm extends JFrame {
 			painelReserva.add(lblReservaQtdCrianca);
 
 			txtReservaQtdCrianca = new JTextField(20);
-			txtReservaQtdCrianca.setName("Crianças");
 			txtReservaQtdCrianca.setBounds(835, 447, 100, 28);
-			txtReservaQtdCrianca.setHorizontalAlignment(SwingConstants.CENTER);
+			txtReservaQtdCrianca.setName("Crianças");
 			txtReservaQtdCrianca.setToolTipText("Digite a quantidade de Crianças");
+			txtReservaQtdCrianca.setHorizontalAlignment(SwingConstants.CENTER);
 			painelReserva.add(txtReservaQtdCrianca);
 			
 			btnReservaLimpar = new JButton("Limpar");
@@ -561,13 +576,14 @@ public class PrincipalFrm extends JFrame {
 			painelContato.add(lblContatoInfo);
 
 			txtaContatoInfo = new JTextArea();
+			txtaContatoInfo.setBounds(20, 46, 914, 90);
 			txtaContatoInfo.setName("contatoInfo");
 			txtaContatoInfo.setBorder(BorderFactory.createCompoundBorder(borderClean, 
 					BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+			txtaContatoInfo.setFocusable(false);
 			txtaContatoInfo.setEditable(false);
 			txtaContatoInfo .setLineWrap(true);
 			txtaContatoInfo .setWrapStyleWord(true);
-			txtaContatoInfo.setBounds(20, 46, 914, 90);
 			painelContato.add(txtaContatoInfo);
 			
 			JLabel lblContatoLocal= new JLabel("Nossa localização:");
@@ -575,11 +591,12 @@ public class PrincipalFrm extends JFrame {
 			painelContato.add(lblContatoLocal);
 			
 			JLabel lblContatoImg = new JLabel();
+			lblContatoImg.setBounds(505, 245, 428, 269);
 			lblContatoImg.setName( "lblContatoImg" );
 			lblContatoImg.setToolTipText("Localização da pousada");
 			lblContatoImg.setHorizontalAlignment(SwingConstants.CENTER);
 			lblContatoImg.setBorder(new LineBorder(Color.GRAY));
-			lblContatoImg.setBounds(505, 245, 428, 269);
+			lblContatoImg.setFocusable(false);
 			lblContatoImg.setVisible(true);
 			lblContatoImg.setIcon(new ImageIcon(contato.getImage().getScaledInstance(
 					lblContatoImg.getWidth(), 
@@ -666,11 +683,13 @@ public class PrincipalFrm extends JFrame {
 			btnContatoLimpar = new JButton("Limpar");
 			btnContatoLimpar.setBounds(390, 331, 100, 29);
 			btnContatoLimpar.setToolTipText("Clique aqui para limpar os campos preenchidos");
+			btnContatoLimpar.setFocusable(false);
 			btnContatoLimpar.setVisible(true);
 			painelContato.add(btnContatoLimpar);
 			
 			btnContatoEnviar = new JButton("Enviar");
 			btnContatoEnviar.setBounds(390, 365, 100, 29);
+			btnContatoEnviar.setFocusable(false);
 			painelContato.add(btnContatoEnviar);
 			break;
 
@@ -697,12 +716,13 @@ public class PrincipalFrm extends JFrame {
 			painelPrincipal.add(lblChaleTab);
 
 			spChale = new JScrollPane();
-			spChale.setToolTipText("clique 2 vezes para editar");
 			spChale.setBounds(30, 50, 895, 210);
+			spChale.setToolTipText("clique 2 vezes para editar");
 			painelPrincipal.add(spChale);
 
 			tabChale = new JTable();
 			tabChale.setBorder(null);
+			tabChale.setAutoCreateRowSorter(true);
 			spChale.setViewportView(tabChale);
 
 			JLabel lblReservaTab = new JLabel("Reservas de Serviços");
@@ -710,12 +730,13 @@ public class PrincipalFrm extends JFrame {
 			painelPrincipal.add(lblReservaTab);
 
 			spReserva = new JScrollPane();
-			spReserva.setToolTipText("clique 2 vezes para editar");
 			spReserva.setBounds(30, 300, 895, 210);
+			spReserva.setToolTipText("clique 2 vezes para editar");
 			painelPrincipal.add(spReserva);
 
 			tabReserva = new JTable();
 			tabReserva.setBorder(null);
+			tabReserva.setAutoCreateRowSorter(true);
 			spReserva.setViewportView(tabReserva);
 			break;
 		}
@@ -727,8 +748,8 @@ public class PrincipalFrm extends JFrame {
 		tabContainer.add( "Contato", painelContato );
 
 		lblVersao = new JLabel( versao );
-		lblVersao.setEnabled(false);
 		lblVersao.setBounds(33, 666, 97, 16);
+		lblVersao.setEnabled(false);
 		painel.add(lblVersao);
 
 		JLabel lblFundo = new JLabel();
@@ -792,27 +813,30 @@ public class PrincipalFrm extends JFrame {
 				btnContatoLimpar
 				);
 		
-		txtLogin.addKeyListener( ctrl.teclar );
-		
 		switch ( perfil ){
 		
 		case "visitante":
+			txtLogin.addKeyListener( ctrl.teclas );
 			btnLogin.addActionListener( ctrl.acionar );
-			btnReservaEnviar.addActionListener( ctrl.acionar );
-			btnContatoEnviar.addActionListener( ctrl.acionar );
+			
+			txtReservaNome.addKeyListener( ctrl.teclas );
+			txtReservaCidade.addKeyListener( ctrl.teclas );
+			txtReservaEstado.addKeyListener( ctrl.teclas );
+			txtReservaPais.addKeyListener( ctrl.teclas );
+			txtReservaQtdAdulto.addKeyListener( ctrl.teclas );
+			txtReservaQtdCrianca.addKeyListener( ctrl.teclas );
+			txtaReservaObs.addKeyListener( ctrl.teclas );
 			btnReservaLimpar.addActionListener( ctrl.acionar );
-			btnContatoLimpar.addActionListener( ctrl.acionar );
-			txtReservaNome.addKeyListener( ctrl.alfa );
-			txtReservaCidade.addKeyListener( ctrl.alfa );
-			txtReservaEstado.addKeyListener( ctrl.alfa );
-			txtReservaPais.addKeyListener( ctrl.alfa );
-			txtContatoNome.addKeyListener( ctrl.alfa );
-			txtContatoCidade.addKeyListener( ctrl.alfa );
-			txtContatoEstado.addKeyListener( ctrl.alfa );
-			txtContatoPais.addKeyListener( ctrl.alfa );
-			txtReservaQtdAdulto.addKeyListener( ctrl.numero );
-			txtReservaQtdCrianca.addKeyListener( ctrl.numero );
+			btnReservaEnviar.addActionListener( ctrl.acionar );
+			
+			txtContatoNome.addKeyListener( ctrl.teclas );
+			txtContatoCidade.addKeyListener( ctrl.teclas );
+			txtContatoEstado.addKeyListener( ctrl.teclas );
+			txtContatoPais.addKeyListener( ctrl.teclas);
+			txtaContatoMsg.addKeyListener( ctrl.teclas );
 			cboReservaCategoria.addActionListener( ctrl.acionar );
+			btnContatoLimpar.addActionListener( ctrl.acionar );
+			btnContatoEnviar.addActionListener( ctrl.acionar );
 			break;
 
 		case "administrador":

@@ -699,7 +699,7 @@ public class PrincipalCtrl {
 			e.printStackTrace();
 		}
 	}
-	
+
 
 	// AREA DE TEXTO /////////////////////////////
 
@@ -725,7 +725,7 @@ public class PrincipalCtrl {
 	// COMBOBOX /////////////////////////////////
 
 	public void preencheCategoria(){
-		
+
 		List<Chale> c = new ArrayList<Chale>();
 		ChaleDAO dao = new ChaleDAOImpl();
 		try {
@@ -733,7 +733,7 @@ public class PrincipalCtrl {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		//Ordenar alfabeticamente
 		String[] lista = new String[c.size()];
 		for ( int i = 0; i < c.size(); i++ ){
@@ -747,12 +747,12 @@ public class PrincipalCtrl {
 		cboReservaCategoria.addItem( "Selecione…" );
 		for ( int i = 0; i < c.size(); i++ ){
 			if( !lista[i].equals(cboReservaCategoria.getItemAt(i) ))
-			cboReservaCategoria.addItem( lista[i] );
+				cboReservaCategoria.addItem( lista[i] );
 		}
 	}
 
 	public void preencheTipoDoc(){
-		
+
 		String[] tipos = {
 				"CPF",
 				"RG",
@@ -843,51 +843,11 @@ public class PrincipalCtrl {
 		}
 	};
 
+
 	// CONTROLE TECLA ///////////////////////////////
 
-	public KeyListener numero = new KeyListener() {  
 
-		@Override  
-		public void keyTyped(KeyEvent e) {
-			String caracteres="0987654321";
-			if(!caracteres.contains(e.getKeyChar()+"")){
-				e.consume();
-			}
-		}
-
-		@Override
-		public void keyPressed(KeyEvent e) {			
-		}
-
-		@Override
-		public void keyReleased(KeyEvent e) {
-		}
-	};
-
-	public KeyListener alfa = new KeyListener() {  
-
-		@Override  
-		public void keyTyped(KeyEvent e) {
-			String caracteres="0987654321";
-			if(caracteres.contains(e.getKeyChar()+"")){
-				e.consume();
-			}
-		}
-
-		@Override
-		public void keyPressed(KeyEvent e) {			
-		}
-
-		@Override
-		public void keyReleased(KeyEvent e) {
-		}
-	};
-
-	public KeyListener teclar = new KeyListener() {  
-
-		@Override  
-		public void keyTyped(KeyEvent e) {
-		}
+	public KeyListener teclas = new KeyListener() {
 
 		@Override
 		public void keyPressed(KeyEvent e) {
@@ -913,17 +873,90 @@ public class PrincipalCtrl {
 			case 8: //MAC OSX: DELETE
 				//removeLinha();
 				break;
+			case KeyEvent.VK_TAB:
+				//verifica qual componenete esta solicitando a acao e desabilita
+				Object source = e.getSource();
+
+				//desabilita a tecla TAB
+				if( source == txtaReservaObs ){
+					if(e.getModifiers() > 0) txtaReservaObs.transferFocusBackward();
+					else txtaReservaObs.transferFocus(); 
+					e.consume();
+				}
+				if( source == txtaContatoMsg ){
+					if(e.getModifiers() > 0) txtaContatoMsg.transferFocusBackward();
+					else txtaContatoMsg.transferFocus(); 
+					e.consume();
+				}
+				break;
+			}
+		}
+
+		@Override
+		public void keyTyped(KeyEvent e) {
+
+			String tipo = "";
+			//verifica qual componenete esta solicitando a acao e desabilita
+			Object source = e.getSource();
+
+			if( source == txtReservaNome ){
+				tipo = "alfa";
+			}
+			if( source == txtReservaCidade ){
+				tipo = "alfa";
+			}
+			if( source == txtReservaEstado ){
+				tipo = "alfa";
+			}
+			if( source == txtReservaPais ){
+				tipo = "alfa";
+			}
+			if( source == txtReservaQtdAdulto ){
+				tipo = "numero";
+			}
+			if( source == txtReservaQtdCrianca ){
+				tipo = "numero";
+			}
+			if( source == txtContatoNome ){
+				tipo = "alfa";
+			}
+			if( source == txtContatoCidade ){
+				tipo = "alfa";
+			}
+			if( source == txtContatoEstado ){
+				tipo = "alfa";
+			}
+			if( source == txtContatoPais ){
+				tipo = "alfa";
+			}
+
+			switch ( tipo ) {
+
+			case "numero":
+				String numeros = "0987654321";
+				if(!numeros.contains(e.getKeyChar()+"")){
+					e.consume();
+				}
+				break;
+
+			case "alfa":
+				String caracteres = "0987654321";
+				if(caracteres.contains(e.getKeyChar()+"")){
+					e.consume();
+				}
+				break;
 			}
 		}
 
 		@Override
 		public void keyReleased(KeyEvent e) {
-
 		}
 	};
 
+
 	// MOUSE //////////////////////////////////
 
+	
 	public MouseListener clicar = new MouseListener() {
 
 		@Override
