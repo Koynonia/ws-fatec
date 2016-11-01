@@ -54,6 +54,13 @@ public class QuartasCtrl {
 
 	public void inicia() throws SQLException{
 
+		try {
+			carregaGrupos();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 			formataTabJogoA();
 			formataTabJogoB();
 			formataTabJogoC();
@@ -97,7 +104,7 @@ public class QuartasCtrl {
 		direita.setHorizontalAlignment(SwingConstants.RIGHT);
 
 		//NOMES DAS COLUNAS DA TABELA
-		String[] nomesColunas = { "Time 1 do Grupo A", "Contra", "Time 1 do Grupo B"};
+		String[] nomesColunas = { "Time 1 do Grupo A", "", "Time 1 do Grupo B"};
 
 		//CRIA UM DefaulTableModel COM OS DADOS (LINHAS E COLUNAS)
 		@SuppressWarnings("serial")
@@ -159,7 +166,7 @@ public class QuartasCtrl {
 			direita.setHorizontalAlignment(SwingConstants.RIGHT);
 
 			//NOMES DAS COLUNAS DA TABELA
-			String[] nomesColunas = { "Time 2 do Grupo A", "Contra", "Time 2 do Grupo B"};
+			String[] nomesColunas = { "Time 2 do Grupo A", "", "Time 2 do Grupo B"};
 
 			//CRIA UM DefaulTableModel COM OS DADOS (LINHAS E COLUNAS)
 			@SuppressWarnings("serial")
@@ -222,7 +229,7 @@ public class QuartasCtrl {
 			direita.setHorizontalAlignment(SwingConstants.RIGHT);
 
 			//NOMES DAS COLUNAS DA TABELA
-			String[] nomesColunas = { "Time 1 do Grupo C", "Contra", "Time 1 do Grupo D"};
+			String[] nomesColunas = { "Time 1 do Grupo C", "", "Time 1 do Grupo D"};
 
 			//CRIA UM DefaulTableModel COM OS DADOS (LINHAS E COLUNAS)
 			@SuppressWarnings("serial")
@@ -284,7 +291,7 @@ public class QuartasCtrl {
 			direita.setHorizontalAlignment(SwingConstants.RIGHT);
 
 			//NOMES DAS COLUNAS DA TABELA
-			String[] nomesColunas = { "Time 2 do Grupo C", "Contra", "Time 2 do Grupo D"};
+			String[] nomesColunas = { "Time 2 do Grupo C", "", "Time 2 do Grupo D"};
 
 			//CRIA UM DefaulTableModel COM OS DADOS (LINHAS E COLUNAS)
 			@SuppressWarnings("serial")

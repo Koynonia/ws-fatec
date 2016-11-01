@@ -129,8 +129,8 @@ public class GrupoView extends JFrame {
 		btnFechar.setBounds(649, 361, 126, 29);
 		contentPane.add(btnFechar);
 		
-		JRadioButton rdbtnTrigger = new JRadioButton("Ativar Trigger");
-		rdbtnTrigger.setBounds(55, 362, 141, 23);
+		JRadioButton rdbtnTrigger = new JRadioButton("Ativar Trigger ( INSERT, DELETE, UPDATE )");
+		rdbtnTrigger.setBounds(43, 362, 302, 23);
 		contentPane.add(rdbtnTrigger);
 		
 		JLabel lblBackground = new JLabel("");

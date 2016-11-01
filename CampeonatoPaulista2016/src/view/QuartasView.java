@@ -123,9 +123,9 @@ public class QuartasView extends JFrame {
 		spGrupoD.setViewportView(tabGrupoD);
 		contentPane.add(spGrupoD);
 		
-		JButton btnGerar = new JButton("Atualizar");
-		btnGerar.setBounds(547, 365, 126, 29);
-		contentPane.add(btnGerar);
+//		JButton btnGerar = new JButton("Atualizar");
+//		btnGerar.setBounds(547, 365, 126, 29);
+//		contentPane.add(btnGerar);
 		
 		JButton btnFechar = new JButton("Voltar");
 		btnFechar.setBounds(685, 365, 117, 29);
@@ -143,7 +143,7 @@ public class QuartasView extends JFrame {
 				tabGrupoC,
 				tabGrupoD);
 
-		btnGerar.addActionListener(ctrl.preencherTabela);
+//		btnGerar.addActionListener(ctrl.preencherTabela);
 		btnFechar.addActionListener(ctrl.fechar);
 	}
 }

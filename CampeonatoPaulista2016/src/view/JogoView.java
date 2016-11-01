@@ -88,6 +88,7 @@ public class JogoView extends JFrame {
 		
 		tabJogos = new JTable();
 		tabJogos.setBorder(null);
+		tabJogos.setAutoCreateRowSorter(true);
 		
 		JScrollPane spJogos = new JScrollPane();
 		spJogos.setBounds(53, 119, 722, 194);
@@ -116,8 +117,8 @@ public class JogoView extends JFrame {
 		btnFechar.setBounds(658, 347, 117, 29);
 		contentPane.add(btnFechar);
 		
-		JRadioButton rdbtnTrigger = new JRadioButton("Ativar Trigger");
-		rdbtnTrigger.setBounds(55, 350, 141, 23);
+		JRadioButton rdbtnTrigger = new JRadioButton("Ativar Trigger ( INSERT, DELETE )");
+		rdbtnTrigger.setBounds(55, 350, 302, 23);
 		contentPane.add(rdbtnTrigger);
 		
 		JLabel lblBackground = new JLabel("");

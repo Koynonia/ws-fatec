@@ -65,7 +65,7 @@ public class ResultadoView extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel lblGrupoA = new JLabel("Resultados do Grupo A:");
+		JLabel lblGrupoA = new JLabel("Resultados do Grupo A");
 		lblGrupoA.setFont(new Font("Lucida Grande", Font.BOLD, 13));
 		lblGrupoA.setBounds(21, 21, 783, 16);
 		contentPane.add(lblGrupoA);
@@ -78,7 +78,7 @@ public class ResultadoView extends JFrame {
 		spGrupoA.setViewportView(tabGrupoA);
 		contentPane.add(spGrupoA);
 		
-		JLabel lblGrupoB = new JLabel("Resultados do Grupo B:");
+		JLabel lblGrupoB = new JLabel("Resultados do Grupo B");
 		lblGrupoB.setFont(new Font("Lucida Grande", Font.BOLD, 13));
 		lblGrupoB.setBounds(21, 154, 783, 16);
 		contentPane.add(lblGrupoB);
@@ -91,7 +91,7 @@ public class ResultadoView extends JFrame {
 		spGrupoB.setViewportView(tabGrupoB);
 		contentPane.add(spGrupoB);
 		
-		JLabel lblGrupoC = new JLabel("Resultados do Grupo C:");
+		JLabel lblGrupoC = new JLabel("Resultados do Grupo C");
 		lblGrupoC.setFont(new Font("Lucida Grande", Font.BOLD, 13));
 		lblGrupoC.setBounds(21, 287, 783, 16);
 		contentPane.add(lblGrupoC);
@@ -104,7 +104,7 @@ public class ResultadoView extends JFrame {
 		spGrupoC.setViewportView(tabGrupoC);
 		contentPane.add(spGrupoC);
 		
-		JLabel lblGrupoD = new JLabel("Resultados do Grupo D:");
+		JLabel lblGrupoD = new JLabel("Resultados do Grupo D");
 		lblGrupoD.setFont(new Font("Lucida Grande", Font.BOLD, 13));
 		lblGrupoD.setBounds(21, 420, 783, 16);
 		contentPane.add(lblGrupoD);
@@ -117,9 +117,9 @@ public class ResultadoView extends JFrame {
 		spGrupoD.setViewportView(tabGrupoD);
 		contentPane.add(spGrupoD);
 		
-		JButton btnGerar = new JButton("Atualizar");
-		btnGerar.setBounds(550, 553, 126, 29);
-		contentPane.add(btnGerar);
+//		JButton btnGerar = new JButton("Atualizar");
+//		btnGerar.setBounds(550, 553, 126, 29);
+//		contentPane.add(btnGerar);
 		
 		JButton btnFechar = new JButton("Voltar");
 		btnFechar.setBounds(688, 553, 117, 29);
@@ -137,7 +137,7 @@ public class ResultadoView extends JFrame {
 				tabGrupoC,
 				tabGrupoD);
 
-		btnGerar.addActionListener(ctrl.preencherTabela);
+//		btnGerar.addActionListener(ctrl.preencherTabela);
 		btnFechar.addActionListener(ctrl.fechar);
 	}
 }

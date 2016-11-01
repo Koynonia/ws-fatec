@@ -59,6 +59,8 @@ public class ResultadoCtrl {
 	}
 
 	public void inicia() throws SQLException{
+		
+		carregaGrupos();
 
 		if( !grupoA.isEmpty() ){
 			formataTabGrupoA();
@@ -121,7 +123,7 @@ public class ResultadoCtrl {
 
 		//NOMES DAS COLUNAS DA TABELA
 		String[] nomesColunas = {
-				"Time", 
+				"Clubes", 
 				"Disputas", 
 				"Vitórias", 
 				"Empates", 
@@ -166,9 +168,9 @@ public class ResultadoCtrl {
 
 		//CONFIGURA O TAMANHO DAS COLUNAS
 		tabGrupoA.getColumnModel().getColumn(0).setPreferredWidth(160);
-		tabGrupoA.getColumnModel().getColumn(1).setPreferredWidth(20);
-		tabGrupoA.getColumnModel().getColumn(2).setPreferredWidth(20);
-		tabGrupoA.getColumnModel().getColumn(3).setPreferredWidth(20);
+		tabGrupoA.getColumnModel().getColumn(1).setPreferredWidth(15);
+		tabGrupoA.getColumnModel().getColumn(2).setPreferredWidth(15);
+		tabGrupoA.getColumnModel().getColumn(3).setPreferredWidth(15);
 		tabGrupoA.getColumnModel().getColumn(4).setPreferredWidth(15);
 		tabGrupoA.getColumnModel().getColumn(5).setPreferredWidth(50);
 		tabGrupoA.getColumnModel().getColumn(6).setPreferredWidth(45);
@@ -215,7 +217,7 @@ public class ResultadoCtrl {
 
 		//NOMES DAS COLUNAS DA TABELA
 		String[] nomesColunas = {
-				"Time", 
+				"Clubes", 
 				"Disputas", 
 				"Vitórias", 
 				"Empates", 
@@ -309,7 +311,7 @@ public class ResultadoCtrl {
 
 		//NOMES DAS COLUNAS DA TABELA
 		String[] nomesColunas = {
-				"Time", 
+				"Clubes", 
 				"Disputas", 
 				"Vitórias", 
 				"Empates", 
@@ -403,7 +405,7 @@ public class ResultadoCtrl {
 
 		//NOMES DAS COLUNAS DA TABELA
 		String[] nomesColunas = {
-				"Time", 
+				"Clubes", 
 				"Disputas", 
 				"Vitórias", 
 				"Empates", 

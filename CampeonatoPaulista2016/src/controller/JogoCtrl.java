@@ -48,7 +48,6 @@ public class JogoCtrl {
 	private JButton btnApagar;
 	private JFormattedTextField ftxtData;
 	private JTable tabela;
-	private boolean validar;
 	private int trigger;
 	private List<Jogo>jogos;
 
@@ -83,10 +82,12 @@ public class JogoCtrl {
 
 		if( !jogos.isEmpty() ){
 			formataTabela();
+			lblJogos.setText("Jogos do Campeonato: " + jogos.size());
 		} else {
 			formataTabela();
 			btnApagar.setEnabled(false);
 			ftxtData.setText("31012016");
+			lblJogos.setText("Jogos do Campeonato: ");
 		}
 	}
 
@@ -167,8 +168,8 @@ public class JogoCtrl {
 
 		Object[] excluir = { "Confirmar", "Cancelar" };  
 		int ex = JOptionPane.showOptionDialog(null, 
-				"Voc√™ confirma a exclus„o dos Jogos do Campeonato?",
-				"Exclus„o dos Jogos", 
+				"Voc√™ confirma a exclus√£o dos Jogos do Campeonato?",
+				"Exclus√£o dos Jogos", 
 				JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
 				new ImageIcon( "../CampeonatoPaulista2016/src/resources/warning.png" ), excluir, excluir[1]);
 		if (ex == 0) { 
@@ -185,8 +186,8 @@ public class JogoCtrl {
 			}
 
 			tabela.updateUI();
-			lblData.setText("InÌcio do Campeonato:");
-			lblJogos.setText("Jogos do Campeonato:");
+			lblData.setText("In√≠cio do Campeonato:");
+			lblJogos.setText("Jogos do Campeonato: " + jogos.size());
 			btnVerificar.setVisible(false);
 			btnGerar.setVisible(true);
 			btnApagar.setEnabled(false);
@@ -218,10 +219,10 @@ public class JogoCtrl {
 			}
 		} else {
 			JOptionPane.showMessageDialog(null, 
-					"Por favor, digite uma data v·lida!"
-							+ "\n\n… necess·rio informar o inÌcio "
+					"Por favor, digite uma data v√°lida!"
+							+ "\n\n√â necess√°rio informar o in√≠cio "
 							+ "\ndo Campeonato.", 
-							"AtenÁ„o", 
+							"Aten√ß√£o", 
 							JOptionPane.PLAIN_MESSAGE,
 							new ImageIcon( "../CampeonatoPaulista2016/src/resources/error.png" ));
 			focarCampo();
@@ -258,10 +259,10 @@ public class JogoCtrl {
 				pesquisaJogo( data );
 			} catch (ParseException e1) {
 				JOptionPane.showMessageDialog(null, 
-						"Por favor, digite uma data v·lida!"
-								+ "\n\n… necess·rio informar uma data "
-								+ "\npara verificar as partidas da rodada disponÌveis.", 
-								"AtenÁ„o", 
+						"Por favor, digite uma data v√°lida!"
+								+ "\n\n√â necess√°rio informar uma data "
+								+ "\npara verificar as partidas da rodada dispon√≠veis.", 
+								"Aten√ß√£o", 
 								JOptionPane.PLAIN_MESSAGE,
 								new ImageIcon( "../CampeonatoPaulista2016/src/resources/error.png" ));
 				focarCampo();
@@ -272,10 +273,10 @@ public class JogoCtrl {
 				lblJogos.setText( jogos.size() + " Jogos do Campeonato nesta rodada:" );
 			} else {
 				JOptionPane.showMessageDialog(null, 
-						"N„o foram encontradas partidas!"
-								+ "\n\nNesta data n„o existem jogos "
+						"N√£o foram encontradas partidas!"
+								+ "\n\nNesta data n√£o existem jogos "
 								+ "\ndo Campeonato.", 
-								"N„o encontrado", 
+								"N√£o encontrado", 
 								JOptionPane.PLAIN_MESSAGE,
 								new ImageIcon( "../CampeonatoPaulista2016/src/resources/warning.png" ));
 				ftxtData.setValue("");
@@ -284,10 +285,10 @@ public class JogoCtrl {
 
 		} else {
 			JOptionPane.showMessageDialog(null, 
-					"Por favor, digite uma data v·lida!"
-							+ "\n\n… necess·rio informar uma data "
-							+ "\npara verificar as partidas da rodada disponÌveis.", 
-							"AtenÁ„o", 
+					"Por favor, digite uma data v√°lida!"
+							+ "\n\n√â necess√°rio informar uma data "
+							+ "\npara verificar as partidas da rodada dispon√≠veis.", 
+							"Aten√ß√£o", 
 							JOptionPane.PLAIN_MESSAGE,
 							new ImageIcon( "../CampeonatoPaulista2016/src/resources/error.png" ));
 			focarCampo();
@@ -300,47 +301,26 @@ public class JogoCtrl {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
 		if( !jogos.isEmpty() ){
-			if( validar != true ){
-				for (int i = 0; i < jogos.size(); i++) {
-					String[] j = {
-							sdf.format( jogos.get(i).getData() ),
-							jogos.get(i).getTimeA(),
-							"",
-							"",
-							" X ",
-							"",
-							"",
-							jogos.get(i).getTimeB(),
-					};
-					linhas.add(j);
-					lblData.setText("Digite a data da Rodada:");
-					btnVerificar.setVisible(true);
-					btnGerar.setVisible(false);
-					btnApagar.setEnabled(true);
-				}
-			} else {
-				for (int i = 0; i < jogos.size(); i++) {
-					String[] j = {
-							sdf.format( jogos.get(i).getData() ),
-							jogos.get(i).getTimeA(),
-							//"",
-							Integer.toString( jogos.get(i).getCodigoTimeA() ),
-							Integer.toString( 0+(int)( 6*Math.random() )),
-							" X ",
-							Integer.toString( 0+(int)( 6*Math.random() )),
-							Integer.toString( jogos.get(i).getCodigoTimeB() ),
-							//"",
-							jogos.get(i).getTimeB(),
-					};
-					linhas.add(j);
-					lblData.setText("Digite a data da Rodada:");
-					btnVerificar.setVisible(true);
-					btnGerar.setVisible(false);
-					btnApagar.setEnabled(true);
-				}
+			for (int i = 0; i < jogos.size(); i++) {
+				String[] j = {
+						sdf.format( jogos.get(i).getData() ),
+						jogos.get(i).getTimeA(),
+						//"",
+						Integer.toString( jogos.get(i).getCodigoTimeA() ),
+						Integer.toString( 0+(int)( 6*Math.random() )),
+						" X ",
+						Integer.toString( 0+(int)( 6*Math.random() )),
+						Integer.toString( jogos.get(i).getCodigoTimeB() ),
+						//"",
+						jogos.get(i).getTimeB(),
+				};
+				linhas.add(j);
+				lblData.setText("Digite a data da Rodada:");
+				btnVerificar.setVisible(true);
+				btnGerar.setVisible(false);
+				btnApagar.setEnabled(true);
 			}
-		} 
-
+		}
 		//CONFIGURA O ALINHAMENTO DOS TITULOS DAS COLUNAS DA TABELA
 		((DefaultTableCellRenderer) tabela.getTableHeader().getDefaultRenderer())
 		.setHorizontalAlignment(SwingConstants.CENTER);
@@ -355,7 +335,7 @@ public class JogoCtrl {
 		direita.setHorizontalAlignment(SwingConstants.RIGHT);
 
 		//NOMES DAS COLUNAS DA TABELA
-		String[] nomesColunas = {"Data","Time A", "", "Gols", "Contra", "Gols", "", "Time B"};
+		String[] nomesColunas = {"Datas","Clubes", "", "", "", "", "", "Clubes"};
 
 		//CRIA UM DefaulTableModel COM OS DADOS (LINHAS E COLUNAS)
 		@SuppressWarnings("serial")
@@ -389,7 +369,7 @@ public class JogoCtrl {
 		tabela.getColumnModel().getColumn(7).setCellRenderer(esquerda);
 
 		//CONFIGURA O TAMANHO DAS COLUNAS
-		tabela.getColumnModel().getColumn(0).setPreferredWidth(20);
+		tabela.getColumnModel().getColumn(0).setPreferredWidth(30);
 		tabela.getColumnModel().getColumn(1).setPreferredWidth(140);
 		tabela.getColumnModel().getColumn(2).setPreferredWidth(0);
 		tabela.getColumnModel().getColumn(3).setPreferredWidth(10);
@@ -433,7 +413,6 @@ public class JogoCtrl {
 	public ActionListener gerarGols = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 
-			validar = true;
 			consultaJogo();
 			formataTabela();
 			try {

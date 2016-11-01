@@ -86,7 +86,7 @@ public class MenuView extends JFrame {
 		JLabel lblQuartas = new JLabel("Quartas de Final");
 		lblQuartas.setHorizontalAlignment(SwingConstants.CENTER);
 		lblQuartas.setFont(new Font("Lucida Grande", Font.BOLD, 13));
-		lblQuartas.setBounds(589, 281, 165, 16);
+		lblQuartas.setBounds(589, 186, 165, 16);
 		contentPane.add(lblQuartas);
 		
 		JButton btnGrupo = new JButton("");
@@ -113,7 +113,7 @@ public class MenuView extends JFrame {
 		
 		JButton btnQuartas = new JButton("");
 		btnQuartas.setIcon(new ImageIcon(MenuView.class.getResource("/resources/btnJogo.png")));
-		btnQuartas.setBounds(589, 105, 165, 165);
+		btnQuartas.setBounds(589, 10, 165, 165);
 		contentPane.add(btnQuartas);
 		
 		JButton btnFechar = new JButton("Fechar");

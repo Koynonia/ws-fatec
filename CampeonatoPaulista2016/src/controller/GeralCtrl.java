@@ -39,6 +39,12 @@ public class GeralCtrl {
 		this.tabGeral = tabGeral;
 		this.geral = new ArrayList<Resultado>();
 
+		try {
+			carregaGeral();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		formataTabela();
 	}
 

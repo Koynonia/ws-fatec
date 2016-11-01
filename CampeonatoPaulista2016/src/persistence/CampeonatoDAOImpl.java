@@ -126,19 +126,6 @@ public class CampeonatoDAOImpl implements CampeonatoDAO {
 	@Override
 	public List<Jogo> consultaJogos() throws SQLException {
 
-		// String sql = "SELECT a.Data, "
-		// + "a.CodigoTimeA AS 'CodA', a.NomeTime AS 'Time A', "
-		// + "b.CodigoTimeB AS 'CodB', b.NomeTime AS 'Time B' "
-		// + "FROM("
-		// + "SELECT j.Data, j.CodigoTimeA, t.NomeTime "
-		// + "INNER JOIN Times AS t "
-		// + "ON j.CodigoTimeA = t.CodigoTime) a "
-		// + "INNER JOIN("
-		// + "SELECT j.Data, j.CodigoTimeB, t.NomeTime "
-		// + "FROM Jogos AS j "
-		// + "INNER JOIN Times AS t "
-		// + "ON j.CodigoTimeB = t.CodigoTime) b "
-		// + "ON a.Data = b.Data";
 		String sql = "SELECT j.Data, j.CodigoTimeA as CodA, a.NomeTime  as 'Time A', j.CodigoTimeB  as CodB, b.NomeTime as 'Time B' " 
 				+ "FROM Jogos j "
 				+ "INNER JOIN Times a " 
@@ -171,17 +158,20 @@ public class CampeonatoDAOImpl implements CampeonatoDAO {
 
 		String sql = "";
 		if (dtPesq != null) {
-			sql = "SELECT a.Data, a.NomeTime AS 'Time A', b.NomeTime AS 'Time B' " + "FROM("
-					+ "SELECT j.Data, t.NomeTime " + "FROM Jogos AS j " + "INNER JOIN Times AS t "
-					+ "ON j.CodigoTimeA = t.CodigoTime) a " + "INNER JOIN(" + "SELECT j.Data, t.NomeTime "
-					+ "FROM Jogos AS j " + "INNER JOIN Times AS t " + "ON j.CodigoTimeB = t.CodigoTime) b "
-					+ "ON a.Data = b.Data " + "WHERE a.Data = ?";
+			sql = "SELECT j.Data, j.CodigoTimeA as CodA, a.NomeTime  as 'Time A', j.CodigoTimeB  as CodB, b.NomeTime as 'Time B' "
+					+ "FROM Jogos j "
+					+ "INNER JOIN Times a "
+					+ "ON a.CodigoTime = j.CodigoTimeA "
+					+ "INNER JOIN Times b "
+					+ "ON b.CodigoTime = j.CodigoTimeB "
+					+ "WHERE j.Data = ?";
 		} else {
-			sql = "SELECT a.Data, a.NomeTime AS 'Time A', b.NomeTime AS 'Time B' " + "FROM("
-					+ "SELECT j.Data, t.NomeTime " + "FROM Jogos AS j " + "INNER JOIN Times AS t "
-					+ "ON j.CodigoTimeA = t.CodigoTime) a " + "INNER JOIN(" + "SELECT j.Data, t.NomeTime "
-					+ "FROM Jogos AS j " + "INNER JOIN Times AS t " + "ON j.CodigoTimeB = t.CodigoTime) b "
-					+ "ON a.Data = b.Data ";
+			sql = "SELECT j.Data, j.CodigoTimeA as CodA, a.NomeTime  as 'Time A', j.CodigoTimeB  as CodB, b.NomeTime as 'Time B' "
+					+ "FROM Jogos j "
+					+ "INNER JOIN Times a "
+					+ "ON a.CodigoTime = j.CodigoTimeA "
+					+ "INNER JOIN Times b "
+					+ "ON b.CodigoTime = j.CodigoTimeB ";
 		}
 		PreparedStatement ps = con.prepareStatement(sql);
 		if (dtPesq != null) {
@@ -194,7 +184,9 @@ public class CampeonatoDAOImpl implements CampeonatoDAO {
 		while (rs.next()) {
 			Jogo j = new Jogo();
 			j.setData(rs.getDate("Data"));
-			j.setTimeA(rs.getString("Time A"));
+			j.setCodigoTimeA(rs.getInt("CodA"));
+			j.setCodigoTimeB(rs.getInt("CodB"));
+			j.setTimeA(rs.getString("Time A")); 
 			j.setTimeB(rs.getString("Time B"));
 			lista.add(j);
 		}

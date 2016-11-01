@@ -62,15 +62,16 @@ public class GeralView extends JFrame {
 		
 		tabGeral = new JTable();
 		tabGeral.setBorder(null);
+		tabGeral.setAutoCreateRowSorter(true);
 		
 		JScrollPane spGrupoA = new JScrollPane();
 		spGrupoA.setBounds(38, 25, 752, 340);
 		spGrupoA.setViewportView(tabGeral);
 		contentPane.add(spGrupoA);
 		
-		JButton btnGerar = new JButton("Atualizar");
-		btnGerar.setBounds(511, 375, 126, 29);
-		contentPane.add(btnGerar);
+//		JButton btnGerar = new JButton("Atualizar");
+//		btnGerar.setBounds(511, 375, 126, 29);
+//		contentPane.add(btnGerar);
 		
 		JButton btnFechar = new JButton("Voltar");
 		btnFechar.setBounds(662, 375, 126, 29);
@@ -83,7 +84,7 @@ public class GeralView extends JFrame {
 		
 		GeralCtrl ctrl = new GeralCtrl(this, tabGeral);
 		
-		btnGerar.addActionListener(ctrl.preencherTabela);
+//		btnGerar.addActionListener(ctrl.preencherTabela);
 		btnFechar.addActionListener(ctrl.fechar);
 	}
 }
