@@ -607,7 +607,7 @@ public class PrincipalCtrl {
 			r.setDtCadastro( new Date() );
 			
 			
-			//-----------
+			//----------------
 			
 			int dispinivel;
 			ReservaDAOImpl reservaDao = new ReservaDAOImpl();

@@ -201,7 +201,7 @@ INSERT INTO `principal` (`id`, `principalInfo`, `principalDetalhe`, `chaleInfo`,
 );
 
 
-
+SELECT * FROM chale
 SELECT * FROM chale INNER JOIN reserva ON chale.id = reserva.chale WHERE reserva.chale
 
 
