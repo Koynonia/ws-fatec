@@ -217,4 +217,21 @@ public class ReservaDAOImpl implements ReservaDAO{
 		ps.execute();
 		ps.close();
 	}
+	
+	//Função que verifica se Chalé está disponivel naquela data
+	public int chaleDisponivelPelaData(Reserva reserva ) throws SQLException{
+		int disponivel = 0;
+		String sql = "SELECT fn_reserva2(?, ?, ?) AS disponivel";
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setInt(1, reserva.getChale().getId());
+		ps.setDate(2, new java.sql.Date (reserva.getDtInicio().getTime()));
+		ps.setDate(2, new java.sql.Date (reserva.getDtFim().getTime()));
+		ResultSet rs = ps.executeQuery();	
+		
+		if(rs.next()){
+			disponivel = rs.getInt("disponivel");
+		}	
+		return disponivel;
+		
+	}
 }

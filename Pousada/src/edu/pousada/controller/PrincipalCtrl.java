@@ -509,6 +509,7 @@ public class PrincipalCtrl {
 						validar = true;
 					}
 				}
+				
 				if( validar != false ){
 					for( int i = 0; i < chales.size(); i++ ){
 						if( chales.get(i).getCategoria().equals( cboReservaCategoria.getSelectedItem() )){
@@ -524,7 +525,7 @@ public class PrincipalCtrl {
 				} else {
 					msg("erroChale", (String) cboReservaCategoria.getSelectedItem() );
 					return;
-				}
+				} 
 			} else {
 				msg("erroChale", (String) cboReservaCategoria.getSelectedItem() );
 				return;
@@ -604,8 +605,27 @@ public class PrincipalCtrl {
 			r.setMensagem( txtaReservaMsg.getText() );
 			r.setDesconto( 0 );
 			r.setDtCadastro( new Date() );
-			cadastraReserva( r );
-			abrir( "reservas" );
+			
+			
+			//-----------
+			
+			int dispinivel;
+			ReservaDAOImpl reservaDao = new ReservaDAOImpl();
+			try {
+				dispinivel = reservaDao.chaleDisponivelPelaData(r);
+				if(dispinivel == 1){
+					cadastraReserva( r );
+					abrir( "reservas" );
+				}else {
+					JOptionPane.showMessageDialog(null, "O Chalé não está disponível para essa data!");
+				}
+				
+			} catch (SQLException e) {
+				System.out.println("Erro na verificação da disponibilidade do Chalé com as datas");
+				e.printStackTrace();
+			}
+			
+
 		}
 	}
 
@@ -1102,4 +1122,8 @@ public class PrincipalCtrl {
 					new ImageIcon( diretorio + "/icons/error.png" ));
 		}
 	}
+	
+
 }
+
+

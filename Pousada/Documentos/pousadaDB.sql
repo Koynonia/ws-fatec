@@ -1,10 +1,3 @@
-/**
- * @author JESSICA CARNEIRO BATISTA
- * Matéria Engenharia de Software 2
- * FATEC ZL 5º ADS - Tarde
- * 21/10/2016
- */
-
 DROP DATABASE IF EXISTS pousada;
 
 CREATE DATABASE pousada;
@@ -206,3 +199,38 @@ INSERT INTO `principal` (`id`, `principalInfo`, `principalDetalhe`, `chaleInfo`,
 
 '0.1.5'
 );
+
+
+
+SELECT * FROM chale INNER JOIN reserva ON chale.id = reserva.chale WHERE reserva.chale
+
+
+DELIMITER //
+CREATE FUNCTION fn_reserva2 ( idChale INT, dtInicio1 DATE, dtFim1 DATE) RETURNS INT 
+BEGIN
+	DECLARE boo INT;
+	
+
+IF EXISTS (SELECT reserva.id FROM chale INNER JOIN reserva ON chale.id = reserva.chale
+WHERE 
+(
+	(reserva.dtInicio BETWEEN dtInicio1 AND dtFim1) OR
+	(reserva.dtFim BETWEEN dtInicio1 AND dtFim1) OR
+	(dtInicio1 BETWEEN reserva.dtInicio AND reserva.dtFim) OR
+	(dtFim1 BETWEEN reserva.dtInicio AND reserva.dtFim )
+) AND reserva.chale = idChale)
+THEN
+	SET boo= 1;
+
+ELSE
+
+	SET boo = 0;
+END IF;
+
+RETURN boo;
+
+END; //
+
+
+
+SELECT fn_reserva2(4, '2016-11-07', '2016-11-09') AS disponivel

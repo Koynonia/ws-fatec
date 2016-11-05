@@ -132,4 +132,6 @@ public class ChaleDAOImpl implements ChaleDAO {
 		
 		return lista;
 	}
+	
+
 }
