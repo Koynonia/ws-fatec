@@ -25,8 +25,8 @@ public class ReservaDAOImpl implements ReservaDAO{
 	/**
 	 * CREATE TABLE reserva (
 	 * id INT AUTO_INCREMENT PRIMARY KEY,
-	 * idCliente INT NOT NULL,
-	 * idChale INT NOT NULL,
+	 * cliente INT NOT NULL,
+	 * chale INT NOT NULL,
 	 * qtdAdulto INT NOT NULL,
 	 * qtdCrianca INT NOT NULL,
 	 * dtInicio DATE NOT NULL,
@@ -34,7 +34,7 @@ public class ReservaDAOImpl implements ReservaDAO{
 	 * mensagem VARCHAR(300),
 	 * desconto INT NOT NULL,
 	 * dtCadastro DATE NOT NULL
-	 * ) ENGINE = innodb;
+	 * );
 	 */
 	
 	@Override 
@@ -43,8 +43,8 @@ public class ReservaDAOImpl implements ReservaDAO{
 		String sql = "INSERT INTO reserva VALUES (NULL,?,?,?,?,?,?,?,?,?)";
 		
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt(1, r.getIdCliente().getId());
-		ps.setInt(2, r.getIdChale().getId());
+		ps.setInt(1, r.getCliente().getId());
+		ps.setInt(2, r.getChale().getId());
 		ps.setInt(3, r.getQtdAdulto());
 		ps.setInt(4, r.getQtdCrianca());
 		ps.setDate(5, new java.sql.Date( r.getDtInicio().getTime() ));
@@ -60,8 +60,8 @@ public class ReservaDAOImpl implements ReservaDAO{
 	public void alterar(Reserva r) throws SQLException {
 		
 		String sql =  "UPDATE reserva SET "
-				+ "idCliente = ?, "
-				+ "idChale = ?, "
+				+ "cliente = ?, "
+				+ "chale = ?, "
 				+ "qtdAdulto = ?, "
 				+ "qtdCrianca = ?, "
 				+ "dtInicio = ?, "
@@ -71,8 +71,8 @@ public class ReservaDAOImpl implements ReservaDAO{
 				+ "WHERE id = ?";
 		
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt(1, r.getIdCliente().getId());
-		ps.setInt(2, r.getIdChale().getId());
+		ps.setInt(1, r.getCliente().getId());
+		ps.setInt(2, r.getChale().getId());
 		ps.setInt(3, r.getQtdAdulto());
 		ps.setInt(4, r.getQtdCrianca());
 		ps.setDate(5, new java.sql.Date( r.getDtInicio().getTime() ));
@@ -107,8 +107,8 @@ public class ReservaDAOImpl implements ReservaDAO{
 		ResultSet rs = ps.executeQuery();
 		if(rs.next()){
 			r.setId(rs.getInt("id"));
-			r.setIdCliente( cliente( rs.getInt("idCliente") ));
-			r.setIdChale( chale( rs.getInt("idChale") ));
+			r.setCliente( cliente( rs.getInt("cliente") ));
+			r.setChale( chale( rs.getInt("chale") ));
 			r.setQtdAdulto(rs.getInt("qtdAdulto"));
 			r.setQtdCrianca(rs.getInt("qtdCrianca"));
 			r.setDtInicio(rs.getDate("dtInicio"));
@@ -133,8 +133,8 @@ public class ReservaDAOImpl implements ReservaDAO{
 		while (rs.next()) {
 			Reserva r = new Reserva();
 			r.setId(rs.getInt("id"));
-			r.setIdCliente( cliente( rs.getInt("idCliente") ));
-			r.setIdChale( chale( rs.getInt("idChale") ));
+			r.setCliente( cliente( rs.getInt("cliente") ));
+			r.setChale( chale( rs.getInt("chale") ));
 			r.setQtdAdulto(rs.getInt("qtdAdulto"));
 			r.setQtdCrianca(rs.getInt("qtdCrianca"));
 			r.setDtInicio(rs.getDate("dtInicio"));
@@ -154,7 +154,7 @@ public class ReservaDAOImpl implements ReservaDAO{
 		
 		String sql = "SELECT * FROM cliente AS cl "
 				+ "INNER JOIN reserva AS rs "
-				+ "ON cl.id = rs.idCliente "
+				+ "ON cl.id = rs.cliente "
 				+ "WHERE cl.id = ?";
 		
 		PreparedStatement ps = con.prepareStatement(sql);
@@ -210,11 +210,28 @@ public class ReservaDAOImpl implements ReservaDAO{
 
 		String sql = "DELETE cliente FROM cliente "
 				+ "LEFT OUTER JOIN reserva "
-				+ "ON cliente.id = reserva.idCliente "
-				+ "WHERE reserva.idCliente IS NULL AND cliente.ativo = 0";
+				+ "ON cliente.id = reserva.cliente "
+				+ "WHERE reserva.cliente IS NULL AND cliente.ativo = 0";
 
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.execute();
 		ps.close();
+	}
+	
+	//Função que verifica se Chalé está disponivel naquela data
+	public int chaleDisponivelPelaData(Reserva reserva ) throws SQLException{
+		int disponivel = 0;
+		String sql = "SELECT fn_reserva2(?, ?, ?) AS disponivel";
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setInt(1, reserva.getChale().getId());
+		ps.setDate(2, new java.sql.Date (reserva.getDtInicio().getTime()));
+		ps.setDate(2, new java.sql.Date (reserva.getDtFim().getTime()));
+		ResultSet rs = ps.executeQuery();	
+		
+		if(rs.next()){
+			disponivel = rs.getInt("disponivel");
+		}	
+		return disponivel;
+		
 	}
 }

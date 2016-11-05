@@ -17,6 +17,7 @@ import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -30,17 +31,19 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import edu.pousada.boundary.ReservaFrm;
+import edu.pousada.dao.ClienteDAO;
+import edu.pousada.dao.ClienteDAOImpl;
 import edu.pousada.dao.ReservaDAO;
 import edu.pousada.dao.ReservaDAOImpl;
+import edu.pousada.entity.Cliente;
 import edu.pousada.entity.Reserva;
 
 public class ReservaCtrl {
 
-	private ReservaFrm janela;
+	private ReservaFrm form;
 	private JTable tabela;
 	private JFormattedTextField ftxtQtd;
 	private JFormattedTextField ftxtValor;
-	private JButton btnLimpar;
 	private JButton btnCancelar;  
 	private JButton btnConcluir; 
 	private JButton btnVoltar;
@@ -50,31 +53,26 @@ public class ReservaCtrl {
 	private List<Reserva>reservas;
 
 	public ReservaCtrl(
-			ReservaFrm janela, 
+			ReservaFrm form, 
 			JTable tabela, 
 			JFormattedTextField ftxtQtd,  
-			JFormattedTextField ftxtValor,
-			JButton btnLimpar,
+			JFormattedTextField ftxtValor,  
 			JButton btnCancelar, 
 			JButton btnConcluir, 
 			JButton btnVoltar
 			) {
 
-		this.janela = janela;
+		this.form = form;
 		this.tabela = tabela;
 		this.ftxtQtd = ftxtQtd;
 		this.ftxtValor = ftxtValor;
-		this.btnLimpar = btnLimpar;
 		this.btnCancelar = btnCancelar;
 		this.btnConcluir = btnConcluir;
 		this.btnVoltar = btnVoltar;
 		this.reservas = new ArrayList<Reserva>();
 
-		cargaReserva();
+		todos();
 		formataTabela();
-		
-		if( !logon.getLogon().isEmpty() )
-			logon.getLogon().get(0).setTela( janela.getName() );
 	}
 
 
@@ -88,10 +86,10 @@ public class ReservaCtrl {
 				total = total + ( 
 						((( reservas.get(i).getDtFim().getTime() 
 								- reservas.get(i).getDtInicio().getTime() ) + 3600000) / 86400000L)
-								* reservas.get(i).getIdChale().getDiaria()  
+								* reservas.get(i).getChale().getDiaria()  
 						);
 			} else {
-				total = total + reservas.get(i).getIdChale().getDiaria();
+				total = total + reservas.get(i).getChale().getDiaria();
 			}
 		}
 		ftxtQtd.setValue( Integer.toString ( reservas.size() ) );
@@ -113,15 +111,7 @@ public class ReservaCtrl {
 								.equals( reservas.get(i).getId().toString() )){
 							r.setId(reservas.get(i).getId());
 							excluir( r );
-							cargaReserva();
-							//atualiza o estado do botão Reserva na tela Principal
-							if ( !reservas.isEmpty()) {
-							PrincipalCtrl.btnReservas.setText( "Reservas ( " + logon.reservaQtd() + " )" );
-							PrincipalCtrl.btnReservas.setVisible(true);
-							} else {
-								PrincipalCtrl.btnReservas.setText( "Reservas");
-								PrincipalCtrl.btnReservas.setVisible(false);
-							}
+							todos();
 							msg("sucesso", tabela.getValueAt(tabela.getSelectedRow(), 0).toString() );
 						}
 					}
@@ -146,23 +136,17 @@ public class ReservaCtrl {
 		try {
 			dao.excluir( r );
 		} catch (SQLException e) {
-			msg("", "ERRO SQL " + e.getSQLState() 
-					+ "\n\nLocal:\nReservaCtrl > excluir()."  
-					+ "\n\nMensagem:\n" + e.getMessage() );
-			//e.printStackTrace();
+			e.printStackTrace();
 		}
 	}
 
-	public void cargaReserva(){
+	public void todos(){
 
 		ReservaDAO dao = new ReservaDAOImpl();
 		try {
 			reservas = dao.todos();
 		} catch (SQLException e) {
-			msg("", "ERRO SQL " + e.getSQLState() 
-					+ "\n\nLocal:\nReservaCtrl > cargaReserva()."  
-					+ "\n\nMensagem:\n" + e.getMessage() );
-			//e.printStackTrace();
+			e.printStackTrace();
 		}
 	}
 
@@ -185,13 +169,13 @@ public class ReservaCtrl {
 							String.format( "%06d",reservas.get(i).getId() ),
 							sdf.format( reservas.get(i).getDtInicio() ),
 							sdf.format( reservas.get(i).getDtFim() ),
-							reservas.get(i).getIdChale().getCategoria(),   
-							formato.format( reservas.get(i).getIdChale().getDiaria() ),
+							reservas.get(i).getChale().getCategoria(),   
+							formato.format( reservas.get(i).getChale().getDiaria() ),
 							formato.format(
 									((( reservas.get(i).getDtFim().getTime() 
 											- reservas.get(i).getDtInicio().getTime() ) + 3600000) / 86400000L)
-											* reservas.get(i).getIdChale().getDiaria() 
-									)
+											* reservas.get(i).getChale().getDiaria() 
+									),
 					};
 					linhas.add(item);
 				} else {
@@ -199,9 +183,9 @@ public class ReservaCtrl {
 							String.format( "%06d",reservas.get(i).getId() ),
 							sdf.format( reservas.get(i).getDtInicio() ),
 							sdf.format( reservas.get(i).getDtFim() ),
-							reservas.get(i).getIdChale().getCategoria(),   
-							formato.format( reservas.get(i).getIdChale().getDiaria() ),
-							formato.format(reservas.get(i).getIdChale().getDiaria() ),
+							reservas.get(i).getChale().getCategoria(),   
+							formato.format( reservas.get(i).getChale().getDiaria() ),
+							formato.format(reservas.get(i).getChale().getDiaria() ),
 					};
 					linhas.add(item);
 				}
@@ -260,24 +244,24 @@ public class ReservaCtrl {
 		switch ( nome ){
 
 		case "principal":	
-			janela.dispose();
+			form.dispose();
 			break;
 		}
 	}
 
 	public void fechar(){
-		if(janela != null)
-			janela.dispose();
+		if(form != null)
+			form.dispose();
 	}
 
 	public void mostrar(){
-		if(janela != null)
-			janela.setVisible(true);
+		if(form != null)
+			form.setVisible(true);
 	}
 
 	public void esconder(){
-		if(janela != null)
-			janela.setVisible(false);
+		if(form != null)
+			form.setVisible(false);
 	}
 
 	public void sair(){
@@ -295,27 +279,6 @@ public class ReservaCtrl {
 		public void actionPerformed(ActionEvent e) {
 			//verifica qual botao esta solicitando a acao
 			Object source = e.getSource();
-
-			if(source == btnLimpar){
-				
-				if( reservas.size() > 0 ){
-					msg("limpar","");
-					if ( validar != false ){
-						Reserva r = new Reserva();
-						for( int i = 0; i < reservas.size(); i++ ){
-							r.setId( reservas.get(i).getId() );	
-							excluir( r );
-						}
-						cargaReserva();
-						formataTabela();
-						//atualiza o estado do botão Reserva na tela Principal
-						PrincipalCtrl.btnReservas.setText( "Reservas");
-						PrincipalCtrl.btnReservas.setVisible(false);
-						msg("sucesso","");
-					}
-					validar = true;
-				}
-			}
 
 			if(source == btnCancelar){
 				cancela();
@@ -405,25 +368,17 @@ public class ReservaCtrl {
 	// MENSAGENS //////////////////////////////
 
 	public void msg( String tipo, String mensagem ) {
-		janela.setAlwaysOnTop ( false );
+		form.setAlwaysOnTop ( false );
 
 		switch ( tipo ) {
 
-		case "sucesso":
-			JOptionPane.showMessageDialog(null, 
-					"CANCELADO!\nReserva(s) " + mensagem + " cancelada(s).", 
-					"Cancelamento Efetuado", 
-					JOptionPane.PLAIN_MESSAGE,
-					new ImageIcon( diretorio + "/icons/confirm.png" ));
-			break;
-			
 		case "cancelar":
 			Object[] opt = { "Confirmar", "Cancelar" };
 			int retirar = JOptionPane.showOptionDialog(null, mensagem +
-					"ATENÇÃO!\nDeseja cancelar esta Reserva?",
+					"ATENÇÃO!\n\nDeseja cancelar esta Reserva?",
 					"Cancelar Reserva", 
 					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
-					new ImageIcon( diretorio + "/icons/alert.png" ), opt, opt[1]);
+					new ImageIcon( diretorio + "/icons/error.png" ), opt, opt[1]);
 			if (retirar == 0) {
 				validar = true;
 			} else {
@@ -431,20 +386,13 @@ public class ReservaCtrl {
 			}
 			break;
 			
-		case "limpar":
-			Object[] l = { "Confirmar", "Cancelar" };
-			int limpar = JOptionPane.showOptionDialog(null, mensagem +
-					"Deseja cancelar todas as Reservas?",
-					"Cancelar Reservas", 
-					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
-					new ImageIcon( diretorio + "/icons/alert.png" ), l, l[1]);
-			if (limpar == 0) {
-				validar = true;
-			} else {
-				validar = false;
-			}
+		case "sucesso":
+			JOptionPane.showMessageDialog(null, 
+					"CONFIRMADO!\n\nA reserva " + mensagem + " foi cancelada.", 
+					"Cancelamento Efetuado", 
+					JOptionPane.PLAIN_MESSAGE,
+					new ImageIcon( diretorio + "/icons/confirm.png" ));
 			break;
-			
 		case "erroLinha":
 			JOptionPane.showMessageDialog(null, 
 					"Por favor, selecione um Chalé para cancelar.", 
@@ -490,14 +438,11 @@ public class ReservaCtrl {
 
 		default:
 			JOptionPane.showMessageDialog(null, 
-					"ERRO! Algo não deveria ter acontecido…\n\nTermo: \n" 
-							+ mensagem + "\n" +  this
-							+ "\n\nOcorreu capturado pelo Controller.", 
-							"Erro no Controller " + this, 
-							JOptionPane.PLAIN_MESSAGE,
-							new ImageIcon( diretorio + "/icons/error.png"));;
-							return;
+					mensagem, 
+					"Erro no Sistema", 
+					JOptionPane.PLAIN_MESSAGE,
+					new ImageIcon( diretorio + "/icons/error.png" ));
 		}
-		janela.setAlwaysOnTop ( true );
+		form.setAlwaysOnTop ( true );
 	}
 }

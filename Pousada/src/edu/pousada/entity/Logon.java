@@ -2,34 +2,37 @@
  * @author FERNANDO MORAES OLIVEIRA
  * Matéria Engenharia de Software 2
  * FATEC ZL 5º ADS - Tarde
- * 01/11/2016
+ * 24/10/2016
  */
 
 package edu.pousada.entity;
 
-import java.util.Date;
-
 public class Logon {
 
-	private Integer id;
-	private Integer idUsuario;
+	private String id;
+	private String usuario;
+	private String nivel;
 	private String tela;
-	private Integer perfil;
-	private Integer logoff;
-	private Date dtLogon;
+	private String data;
 	
 	
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
-	public Integer getIdUsuario() {
-		return idUsuario;
+	public String getUsuario() {
+		return usuario;
 	}
-	public void setIdUsuario(Integer idUsuario) {
-		this.idUsuario = idUsuario;
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
+	}
+	public String getNivel() {
+		return nivel;
+	}
+	public void setNivel(String nivel) {
+		this.nivel = nivel;
 	}
 	public String getTela() {
 		return tela;
@@ -37,22 +40,10 @@ public class Logon {
 	public void setTela(String tela) {
 		this.tela = tela;
 	}
-	public Integer getPerfil() {
-		return perfil;
+	public String getData() {
+		return data;
 	}
-	public void setPerfil(Integer perfil) {
-		this.perfil = perfil;
-	}
-	public Integer getLogoff() {
-		return logoff;
-	}
-	public void setLogoff(Integer logoff) {
-		this.logoff = logoff;
-	}
-	public Date getDtLogon() {
-		return dtLogon;
-	}
-	public void setDtLogon(Date dtLogon) {
-		this.dtLogon = dtLogon;
+	public void setData(String data) {
+		this.data = data;
 	}
 }

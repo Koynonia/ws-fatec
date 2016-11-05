@@ -25,8 +25,6 @@ public class Cliente {
 	private String estado;
 	private String pais;
 	private String cep;
-	private String login;
-	private String senha;
 	private Boolean ativo;
 	private Date dtCadastro;
 	
@@ -114,18 +112,6 @@ public class Cliente {
 	}
 	public void setCep(String cep) {
 		this.cep = cep;
-	}
-	public String getLogin() {
-		return login;
-	}
-	public void setLogin(String login) {
-		this.login = login;
-	}
-	public String getSenha() {
-		return senha;
-	}
-	public void setSenha(String senha) {
-		this.senha = senha;
 	}
 	public Boolean getAtivo() {
 		return ativo;

@@ -33,20 +33,18 @@ public class ClienteDAOImpl implements ClienteDAO {
 	 * estado VARCHAR(15) NOT NULL,
 	 * pais VARCHAR(10) NOT NULL,
 	 * cep VARCHAR(8),
-	 * usuario VARCHAR(15),
-	 * senha VARCHAR(15),
 	 * ativo BOOLEAN NOT NULL,
 	 * dtCadastro DATE NOT NULL
 	 * );
 	 */
-
+	
 	private Connection con = DBUtil.getInstance().getConnection();
 
 	@Override
 	public void adicionar(Cliente c) throws SQLException {
-
-		String sql = "INSERT INTO cliente VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-
+		
+		String sql = "INSERT INTO cliente VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1, c.getNome());
 		ps.setString(2, c.getEmail());
@@ -61,17 +59,15 @@ public class ClienteDAOImpl implements ClienteDAO {
 		ps.setString(11, c.getEstado());
 		ps.setString(12, c.getPais());
 		ps.setString(13, c.getCep());
-		ps.setString(14, c.getLogin());
-		ps.setString(15, c.getSenha());
-		ps.setBoolean(16, c.getAtivo());
-		ps.setDate(17, new java.sql.Date( c.getDtCadastro().getTime() ));
+		ps.setBoolean(14, c.getAtivo());
+		ps.setDate(15, new java.sql.Date( c.getDtCadastro().getTime() ));
 		ps.execute();
 		ps.close();
 	}
-
+	
 	@Override
 	public void alterar(Cliente c) throws SQLException {
-
+		
 		String sql = "UPDATE cliente SET "
 				+ "nome = ?, "
 				+ "email = ?, "
@@ -85,12 +81,10 @@ public class ClienteDAOImpl implements ClienteDAO {
 				+ "estado = ?, "
 				+ "pais = ?, "
 				+ "cep = ?, "
-				+ "login = ? "
-				+ "senha = ? "
-				+ "ativo = ? "
 				+ "dtCadastro = ?, "
+				+ "ativo = ? "
 				+ "WHERE documento = ?";
-
+		
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1, c.getNome());
 		ps.setString(2, c.getEmail());
@@ -105,19 +99,18 @@ public class ClienteDAOImpl implements ClienteDAO {
 		ps.setString(11, c.getEstado());
 		ps.setString(12, c.getPais());
 		ps.setString(13, c.getCep());
-		ps.setString(14, c.getLogin());
-		ps.setString(15, c.getSenha());
-		ps.setBoolean(16, c.getAtivo());
-		ps.setString(17, c.getDocumento());
+		ps.setBoolean(14, c.getAtivo());
+		ps.setDate(15, new java.sql.Date( c.getDtCadastro().getTime() ));
+		ps.setString(16, c.getDocumento());
 		ps.execute();
 		ps.close();
 	}
 
 	@Override
 	public void excluir(Cliente cliente) throws SQLException {
-
+		
 		String sql = "DELETE FROM cliente WHERE documento = ?";
-
+		
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1, cliente.getDocumento());
 		ps.execute();
@@ -126,9 +119,9 @@ public class ClienteDAOImpl implements ClienteDAO {
 
 	@Override
 	public Cliente consultar(Cliente c) throws SQLException {
-
+		
 		String sql = "SELECT * FROM cliente WHERE documento =  ?";
-
+		
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1, c.getDocumento());
 		ResultSet rs = ps.executeQuery();
@@ -147,8 +140,6 @@ public class ClienteDAOImpl implements ClienteDAO {
 			c.setEstado(rs.getString("estado"));
 			c.setPais(rs.getString("pais"));
 			c.setCep(rs.getString("cep"));
-			c.setLogin(rs.getString("login"));
-			c.setSenha(rs.getString("senha"));
 			c.setAtivo(rs.getBoolean("ativo"));
 			c.setDtCadastro(rs.getDate("dtCadastro"));
 		}
@@ -157,12 +148,12 @@ public class ClienteDAOImpl implements ClienteDAO {
 
 		return c;
 	}
-
+	
 	@Override
 	public List<Cliente> todos() throws SQLException {
-
+		
 		String sql = "SELECT * FROM cliente";
-
+		
 		PreparedStatement ps = con.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
 		List<Cliente> listaCliente = new ArrayList<Cliente>();
@@ -182,8 +173,6 @@ public class ClienteDAOImpl implements ClienteDAO {
 			c.setEstado(rs.getString("estado"));
 			c.setPais(rs.getString("pais"));
 			c.setCep(rs.getString("cep"));
-			c.setLogin(rs.getString("login"));
-			c.setSenha(rs.getString("senha"));
 			c.setAtivo(rs.getBoolean("ativo"));
 			c.setDtCadastro(rs.getDate("dtCadastro"));
 			listaCliente.add(c);
