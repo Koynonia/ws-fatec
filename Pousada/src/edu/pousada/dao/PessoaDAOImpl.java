@@ -25,19 +25,21 @@ public class PessoaDAOImpl implements PessoaDAO{
 	 * id INT AUTO_INCREMENT PRIMARY KEY,
 	 * nome VARCHAR(200) NOT NULL,
 	 * dtNasc DATE NOT NULL,
-	 * responsavel VARCHAR(200) NOT NULL
-	 * );
+	 * responsavel VARCHAR(200) NOT NULL,
+	 * dtCadastro DATE NOT NULL
+	 * ) ENGINE = innodb;
 	 */
 
 	@Override
 	public void adicionar(Pessoa p) throws SQLException {
 		
-		String sql = "INSERT INTO pessoa VALUES (NULL,?,?,?)";
+		String sql = "INSERT INTO pessoa VALUES (NULL,?,?,?,?)";
 		
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1, p.getNome());
 		ps.setDate(2, new java.sql.Date( p.getDtNasc().getTime() ));
 		ps.setString(3, p.getResponsavel());
+		ps.setDate(4, new java.sql.Date( p.getDtCadastro().getTime() ));
 		ps.execute();
 		ps.close();
 	}
@@ -85,6 +87,7 @@ public class PessoaDAOImpl implements PessoaDAO{
 			p.setNome(rs.getString("nome"));
 			p.setDtNasc(rs.getDate("dtNasc"));
 			p.setResponsavel(rs.getString("responsavel"));
+			p.setDtCadastro(rs.getDate("dtCadastro"));
 		}
 		rs.close();
 		ps.close();
@@ -105,6 +108,7 @@ public class PessoaDAOImpl implements PessoaDAO{
 			p.setNome(rs.getString("nome"));
 			p.setDtNasc(rs.getDate("dtNasc"));
 			p.setResponsavel(rs.getString("responsavel"));
+			p.setDtCadastro(rs.getDate("dtCadastro"));
 			lista.add(p);
 		}
 		rs.close();

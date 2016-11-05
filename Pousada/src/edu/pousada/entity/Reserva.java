@@ -12,8 +12,8 @@ import java.util.Date;
 public class Reserva {
 	
 	private Integer id;
-	private Cliente cliente;
-	private Chale chale;
+	private Cliente idCliente;
+	private Chale idChale;
 	private Integer qtdAdulto;
 	private Integer qtdCrianca;
 	private Date dtInicio;
@@ -29,17 +29,17 @@ public class Reserva {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public Cliente getCliente() {
-		return cliente;
+	public Cliente getIdCliente() {
+		return idCliente;
 	}
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
+	public void setIdCliente(Cliente idCliente) {
+		this.idCliente = idCliente;
 	}
-	public Chale getChale() {
-		return chale;
+	public Chale getIdChale() {
+		return idChale;
 	}
-	public void setChale(Chale chale) {
-		this.chale = chale;
+	public void setIdChale(Chale idChale) {
+		this.idChale = idChale;
 	}
 	public Integer getQtdAdulto() {
 		return qtdAdulto;

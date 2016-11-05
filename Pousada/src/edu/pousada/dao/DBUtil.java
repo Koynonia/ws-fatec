@@ -38,7 +38,7 @@ public class DBUtil {
 					+ "\nou se o SGDB MySQL está funcional.", 
 					"Falha de conexão", 
 					JOptionPane.PLAIN_MESSAGE,
-					new ImageIcon( "../Pousada/resources/icons/errordb.png" ));
+					new ImageIcon( "../Pousada/resources/icons/switch.png" ));
 			;
 		}
 	}

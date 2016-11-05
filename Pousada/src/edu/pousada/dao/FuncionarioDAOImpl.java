@@ -34,18 +34,20 @@ public class FuncionarioDAOImpl implements FuncionarioDAO {
 	 * cep VARCHAR(8) NOT NULL,
 	 * cargo VARCHAR(30) NOT NULL,
 	 * setor VARCHAR(30) NOT NULL, 
+	 * login VARCHAR(15) NOT NULL,
+	 * senha VARCHAR(15) NOT NULL,
 	 * ativo BOOLEAN NOT NULL,
 	 * dtCadastro DATE NOT NULL
-	 * );
+	 * ) ENGINE = innodb;
 	 */
-	
+
 	private Connection con = DBUtil.getInstance().getConnection();
 
 	@Override
 	public void adicionar(Funcionario f) throws SQLException {
-		
-		String sql = "INSERT INTO funcionario VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-		
+
+		String sql = "INSERT INTO funcionario VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1, f.getNome());
 		ps.setString(2, f.getEmail());
@@ -61,15 +63,17 @@ public class FuncionarioDAOImpl implements FuncionarioDAO {
 		ps.setString(12, f.getCep());
 		ps.setString(13, f.getCargo());
 		ps.setString(14, f.getSetor());
-		ps.setBoolean(15, f.getAtivo());
-		ps.setDate(16, new java.sql.Date( f.getDtCadastro().getTime() ));
+		ps.setString(15, f.getLogin());
+		ps.setString(16, f.getSenha());
+		ps.setBoolean(17, f.getAtivo());
+		ps.setDate(18, new java.sql.Date( f.getDtCadastro().getTime() ));
 		ps.execute();
 		ps.close();
 	}
 
 	@Override
 	public void alterar(Funcionario f) throws SQLException {
-		
+
 		String sql = "UPDATE funcionario SET "
 				+ "nome = ?, "
 				+ "email = ?, "
@@ -85,10 +89,11 @@ public class FuncionarioDAOImpl implements FuncionarioDAO {
 				+ "cep = ?, "
 				+ "cargo = ?, "
 				+ "setor = ?, "
+				+ "login = ?, "
+				+ "senha = ?, "
 				+ "ativo = ?, "
-				+ "dtCadastro = ? "
 				+ "WHERE cpf = ?";
-		
+
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1, f.getNome());
 		ps.setString(2, f.getEmail());
@@ -104,18 +109,19 @@ public class FuncionarioDAOImpl implements FuncionarioDAO {
 		ps.setString(12, f.getCep());
 		ps.setString(13, f.getCargo());
 		ps.setString(14, f.getSetor());
-		ps.setBoolean(16, f.getAtivo());
-		ps.setDate(15, new java.sql.Date( f.getDtCadastro().getTime() ));
-		ps.setString(17, f.getCpf());
+		ps.setString(15, f.getLogin());
+		ps.setString(16, f.getSenha());
+		ps.setBoolean(17, f.getAtivo());
+		ps.setString(18, f.getCpf());
 		ps.execute();
 		ps.close();
 	}
 
 	@Override
 	public void excluir(Funcionario f) throws SQLException {
-		
+
 		String sql = "DELETE FROM funcionario WHERE cpf = ?";
-		
+
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1, f.getCpf());
 		ps.execute();
@@ -125,9 +131,9 @@ public class FuncionarioDAOImpl implements FuncionarioDAO {
 
 	@Override
 	public Funcionario consultar(Funcionario f) throws SQLException {
-		
+
 		String sql = "SELECT * FROM funcionarios WHERE cpf =  ?";
-		
+
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1, f.getCpf());
 		ResultSet rs = ps.executeQuery();
@@ -147,6 +153,8 @@ public class FuncionarioDAOImpl implements FuncionarioDAO {
 			f.setCep(rs.getString("cep"));
 			f.setCargo(rs.getString("cargo"));
 			f.setSetor(rs.getString("setor"));
+			f.setLogin(rs.getString("login"));
+			f.setSenha(rs.getString("senha"));
 			f.setAtivo(rs.getBoolean("ativo"));
 			f.setDtCadastro(rs.getDate("dtCadastro"));
 		}
@@ -158,9 +166,9 @@ public class FuncionarioDAOImpl implements FuncionarioDAO {
 
 	@Override
 	public List<Funcionario> todos() throws SQLException {
-		
+
 		String sql = "SELECT * FROM funcionario";
-		
+
 		PreparedStatement ps = con.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
 		List<Funcionario> lista = new ArrayList<Funcionario>();
@@ -181,12 +189,14 @@ public class FuncionarioDAOImpl implements FuncionarioDAO {
 			f.setCep(rs.getString("cep"));
 			f.setCargo(rs.getString("cargo"));
 			f.setSetor(rs.getString("setor"));
+			f.setLogin(rs.getString("login"));
+			f.setSenha(rs.getString("senha"));
 			f.setAtivo(rs.getBoolean("ativo"));
 			f.setDtCadastro(rs.getDate("dtCadastro"));
+			lista.add(f);
 		}
 		rs.close();
 		ps.close();
-		
 		return lista;
 	}
 }

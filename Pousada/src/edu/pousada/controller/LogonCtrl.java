@@ -7,21 +7,53 @@
 
 package edu.pousada.controller;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.imageio.IIOImage;
+import javax.imageio.ImageIO;
+import javax.imageio.ImageTypeSpecifier;
+import javax.imageio.ImageWriter;
+import javax.imageio.metadata.IIOMetadata;
+import javax.imageio.stream.ImageOutputStream;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+
+import edu.pousada.dao.LogonDAO;
+import edu.pousada.dao.LogonDAOImpl;
+import edu.pousada.dao.ReservaDAO;
+import edu.pousada.dao.ReservaDAOImpl;
+import edu.pousada.entity.Funcionario;
 import edu.pousada.entity.Logon;
+import edu.pousada.entity.Reserva;
 
 public class LogonCtrl {
-	
+
+	private String diretorio = "../Pousada/resources/";
+	private boolean validar;
 	private static LogonCtrl instance;
 	private List<Logon> logon;
+	private List<Reserva> reservas;
+
+	// Construtor privado (suprime o construtor público padrão).
+	private LogonCtrl() {
+
+		new ArrayList<Funcionario>();
+		this.setLogon( new ArrayList<Logon>() );
+		this.reservas = new ArrayList<Reserva>();
+	}
 
 	public static LogonCtrl getInstance() {
 		// Método público estático de acesso único ao objeto
@@ -29,7 +61,7 @@ public class LogonCtrl {
 			instance = new LogonCtrl();
 		return instance;
 	}
-	
+
 	public List<Logon> getLogon() {
 		return logon;
 	}
@@ -37,34 +69,313 @@ public class LogonCtrl {
 	public void setLogon(List<Logon> logon) {
 		this.logon = logon;
 	}
-	
-	
-	public void logoff(){
 
-		if ( temporizador() != false ){
-			sair();
+
+	public void autoLogoff(){
+
+		if ( temporizador( "logon" ) != false ){
+			logoff();
+		}
+	}
+
+	public void encerrar(){
+
+		excluiReservas();
+		logoff();
+	}
+
+
+	// DAO //////////////////////////////////////
+
+
+	public List<Logon> cargaLogon(){
+
+		List<Logon> log = new ArrayList<Logon>();
+
+		LogonDAO dao = new LogonDAOImpl();
+		try {
+			log = dao.todos();
+		} catch (SQLException e) {
+			msg("", "ERRO SQL " + e.getSQLState() 
+					+ "\n\nLocal:\nLogonCtrl > cargaLogon()."  
+					+ "\n\nMensagem:\n" + e.getMessage() );
+			//e.printStackTrace();
+		}
+		return log;
+	}
+
+	public void cargaReserva(){
+
+		ReservaDAO dao = new ReservaDAOImpl();
+		try {
+			reservas = dao.todos();
+		} catch (SQLException e) {
+			msg("", "ERRO SQL " + e.getSQLState() 
+					+ "\n\nLocal:\nLogonCtrl >  cargaReserva()."  
+					+ "\n\nMensagem:\n" + e.getMessage() );
+			//e.printStackTrace();
+		}
+	}
+
+	public void adicionaLogon() {
+
+		LogonDAO dao = new LogonDAOImpl();
+		try {
+			dao.adicionar( getLogon().get(0) );
+		} catch (SQLException e) {
+			msg("", "ERRO SQL " + e.getSQLState() 
+					+ "\n\nLocal:\nLogonCtrl >  adicionaLogon()."  
+					+ "\n\nMensagem:\n" + e.getMessage() );
+			e.printStackTrace();
+		}
+	}
+
+	public void alteraLogon() {
+
+		LogonDAO dao = new LogonDAOImpl();
+		try {
+			dao.alterar( getLogon().get(0) );
+		} catch (SQLException e) {
+			msg("", "ERRO SQL " + e.getSQLState() 
+					+ "\n\nLocal:\nLogonCtrl >  alteraLogon()."  
+					+ "\n\nMensagem:\n" + e.getMessage() );
+			//e.printStackTrace();
+		}
+	}
+
+	public void excluiReservas (){
+
+		if( !reservas.isEmpty() ){
+			msg("excluirReservas", "" + reservas.size() );
+			if( validar != false ){
+				ReservaDAO dao = new ReservaDAOImpl();
+				Reserva r = new Reserva();
+
+				for( int i = 0; i< reservas.size(); i++ ){
+					r.setId( reservas.get(i).getId() );
+					try {
+						dao.excluir( r );
+					} catch (SQLException e) {
+						msg("", "ERRO SQL " + e.getSQLState() 
+								+ "\n\nLocal:\nLogonCtrl >  excluiReservas()."  
+								+ "\n\nMensagem:\n" + e.getMessage() );
+						//e.printStackTrace();
+					}
+					PrincipalCtrl.btnReservas.setText( "Reservas");
+					PrincipalCtrl.btnReservas.setVisible(false);
+				}
+			}
 		}
 	}
 	
+	//verifica se um usuario fechou a janela sem se deslogar
+	public int autoLogin(){
+
+		int p = 0;
+
+		List<Logon> logons = cargaLogon();
+		List<Logon> log = new ArrayList<Logon>();
+		Logon l = new Logon();
+
+		if ( !logons.isEmpty() ){
+			for( int i = 0; i < logons.size(); i++ ){
+				if( logons.get(i).getLogoff().equals( 1 ) ){
+
+					p = logons.get(i).getPerfil();
+
+					l.setId( logons.get(i).getId() );
+					l.setIdUsuario( logons.get(i).getIdUsuario() );
+					l.setPerfil( logons.get(i).getPerfil() );
+					l.setTela( logons.get(i).getTela() );
+					l.setLogoff( logons.get(i).getLogoff() );
+					l.setDtLogon( new Date() );
+					log.add(l);
+					setLogon( log );
+					login();
+				}
+			}
+		}
+		return p;
+	}
+
 	
-	public String obterData(){
-		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-		Date date = new Date();
-		String data = (dateFormat.format(date));
-		return data;
+	public void login(){
+
+		List<Logon> logons = cargaLogon();
+		List<Logon> log = new ArrayList<Logon>();
+		Logon l = new Logon();
+
+		if ( !logons.isEmpty() ){
+			for( int i = 0; i < logons.size(); i++ ){
+
+				if( logons.get(i).getPerfil().equals( logon.get(0).getPerfil() ) 
+						&& logons.get(i).getIdUsuario().equals( logon.get(0).getIdUsuario() )){
+
+					l.setId( logons.get(i).getId() );
+					l.setIdUsuario( logon.get(0).getIdUsuario() );
+					l.setPerfil( logon.get(0).getPerfil() );
+					l.setTela( logon.get(0).getTela() );
+					l.setLogoff( 1 );
+					l.setDtLogon( new Date() );
+					log.add(l);
+					setLogon( log );
+					alteraLogon();
+					return;
+
+				} else if( i+1 == logons.size() ){
+
+					l.setIdUsuario( logon.get(0).getIdUsuario() );
+					l.setPerfil( logon.get(0).getPerfil() );
+					l.setTela( logon.get(0).getTela() );
+					l.setLogoff( 1 );
+					l.setDtLogon( new Date() );
+					log.add(l);
+					setLogon( log );
+					adicionaLogon();
+				}
+			}
+		} else {
+
+			l.setIdUsuario( logon.get(0).getIdUsuario() );
+			l.setPerfil( logon.get(0).getPerfil() );
+			l.setTela( logon.get(0).getTela() );
+			l.setLogoff( 1 );
+			l.setDtLogon( new Date() );
+			log.add(l);
+			setLogon( log );
+			adicionaLogon();
+		}
+	}
+
+
+	public void logoff(){
+
+		List<Logon> logons = cargaLogon();
+		List<Logon> log = new ArrayList<Logon>();
+		Logon l = new Logon();
+
+		if ( !logons.isEmpty() ){
+			for( int i = 0; i < logons.size(); i++ ){
+				if( logons.get(i).getPerfil().equals( logon.get(0).getPerfil() ) 
+						&& logons.get(i).getIdUsuario().equals( logon.get(0).getIdUsuario() )){
+
+					l.setId( logons.get(i).getId() );
+					l.setIdUsuario( logon.get(0).getIdUsuario() );
+					l.setPerfil( logon.get(0).getPerfil() );
+					l.setTela( logon.get(0).getTela() );
+					l.setLogoff( 0 );
+					l.setDtLogon( new Date() );
+					log.add(l);
+					setLogon( log );
+					alteraLogon();
+				}
+			}
+		}
+		excluiReservas();
+		getLogon().clear();
+	}
+
+	
+	public Integer reservaQtd() {
+
+		reservas.clear(); //limpa a lista das Reservas
+		cargaReserva(); //recarrega a lista das Reservas atualizada
+		temporizador( "reservas" ); //verifica se a Reserva já ultrapassou o tempo
+		int qtd = 0;
+
+		for ( int i = 0; i < reservas.size(); i++ ){
+			qtd =  qtd + 1;
+		}
+		return qtd;
 	}
 	
-	
+
+	// METODOS DE SUPORTE //////////////////////
+
+
+	public Boolean temporizador( String op ){
+
+		boolean dt = false;
+		Date data = null;
+
+		if ( logon.size() > 0 ){
+			int tempo = 5; //variavel que controla os minutos da sessão
+
+			switch (op){
+			case "logon":
+				data = logon.get(0).getDtLogon();
+				break;
+			case "reservas":
+				if ( !reservas.isEmpty() ){
+					data = reservas.get(0).getDtCadastro();
+				} else {
+					data = new Date();
+				}
+				break;
+			}
+			Date dtAtual = new Date();
+
+			Calendar calB = Calendar.getInstance();
+			calB.setTime( data );
+			//Adiciona o tempo configurado para a B
+			//Calendar.MINUTE pode ser alterado para qtd de tempo desejada
+			calB.add(Calendar.MINUTE, tempo);
+			data = calB.getTime();
+
+			if ( dtAtual.after( data ) ){
+				dt = true;
+			}	
+		}
+		return dt;
+	}
+
+	//Classe que reduz as imagens
+	public void reduzImagem (String orig, String thumb, int maxDim) { 
+		try { 
+
+			Image inImage = new ImageIcon(orig).getImage(); 
+			double scale = (double)maxDim/(double)inImage.getWidth(null); 
+
+			int scaledW = (int)(scale*inImage.getWidth(null)); 
+			int scaledH = (int)(scale*inImage.getHeight(null)); 
+			BufferedImage outImage = new BufferedImage(scaledW, scaledH, BufferedImage.TYPE_INT_RGB); 
+			AffineTransform tx = new AffineTransform(); 
+
+			if (scale < 1.0d) { 
+				tx.scale(scale, scale); 
+			} 
+
+			Graphics2D g2d = outImage.createGraphics(); 
+			g2d.drawImage(inImage, tx, null); 
+			g2d.dispose();
+
+			// Diretório de saída
+			OutputStream os = new FileOutputStream( diretorio + "imagens/miniaturas/" + thumb );
+
+			//formato da imagem de saída
+			ImageWriter encoder = (ImageWriter)ImageIO.getImageWritersByFormatName( "jpg" ).next();
+			ImageOutputStream ios = ImageIO.createImageOutputStream( os );
+			encoder.setOutput( ios );
+			IIOMetadata imageMetaData = encoder.getDefaultImageMetadata(new ImageTypeSpecifier( outImage ), null);
+			encoder.write(imageMetaData, new IIOImage( outImage, null, null ), null);
+			os.close(); 
+		} catch (IOException e) { 
+			System.out.println("Erro: "+e.getMessage()); 
+			e.printStackTrace(); 
+		} 
+	}
+
+
 	public boolean testarNumero(String str) {
 		Pattern p = Pattern.compile("[0-9]+");
 		Matcher m = p.matcher(str);
 		return m.find();    
 	}
-	
-	
+
+
 	public String mascaraCampo(String pMask, String pValue,
 			boolean pReturnValueEmpty){
-		
+
 		/* 
 		 * Verifica se foi configurado para nao retornar a  
 		 * mascara se a string for nula ou vazia se nao 
@@ -73,19 +384,19 @@ public class LogonCtrl {
 		if (pReturnValueEmpty == true
 				&& (pValue == null || pValue.trim().equals("")))
 			return "";
-		
+
 		if ( pValue.contains("-") || 
 				( pValue.contains(".") ) || 
 				( pValue.contains("(") ) || 
 				( pValue.contains(")") ))
 			return pValue;
-			
+
 		/* 
 		 * Substituir as mascaras passadas como  9, X, * por # para efetuar a formatcao
 		 */
-//		pMask = pMask.replaceAll("*", "#");
+		//		pMask = pMask.replaceAll("*", "#");
 		pMask = pMask.replaceAll("9", "#");
-//		pMask = pMask.toUpperCase().replaceAll("X", "#");
+		//		pMask = pMask.toUpperCase().replaceAll("X", "#");
 		/* 
 		 * Formata valor com a mascara passada  
 		 */
@@ -98,44 +409,41 @@ public class LogonCtrl {
 		 */
 		return pMask.replaceAll("#", "");
 	}
-	
-	
-	public Boolean temporizador(){
 
-		boolean dt = false;
-		
-		if ( logon.size() > 0 ){
-			int tempo = 5; //variavel que controla os minutos da sessão
-			String dtAtual = obterData();
-			String dtLogin = logon.get(0).getData();
 
-			DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+	// MENSAGENS //////////////////////////////
 
-			//Converte para Date
-			Date dateA = null;
-			Date dateB = null;
-			try {
-				dateA = df.parse(dtAtual);
-				dateB = df.parse(dtLogin);
-			} catch (ParseException e) {
-				e.printStackTrace();
+	public void msg(String tipo, String mensagem) {
+
+		switch (tipo) {
+
+		case "excluirReservas":
+			Object[] excluir = { "Confirmar", "Cancelar" };  
+			int fechar = JOptionPane.showOptionDialog( null, "ATENÇÃO!\n\nExistem reservas não finalizadas" 
+					+ " no sistema.\nSe sair, elas serão descartadas.\n\nDeseja sair com seu usuário?",
+					"Atenção", 
+					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
+					new ImageIcon( diretorio + "/icons/trash.png" ), excluir, excluir[1] );
+			if ( fechar == 0 ) {
+				validar = true;
+			} else {
+				validar = false;
 			}
+			break;
 
-			Calendar calB = Calendar.getInstance();
-			calB.setTime(dateB);
-			//Adiciona o tempo configurado para a B
-			//Calendar.MINUTE pode ser alterado para qtd de tempo desejada
-			calB.add(Calendar.MINUTE, tempo);
-			dateB = calB.getTime();
+		case "errorsession":
+			JOptionPane.showMessageDialog(null, 
+					"ACESSO NEGADO!\n\nPor favor, solicite a autorização de um administrador.", 
+					"Bloqueado", 
+					JOptionPane.PLAIN_MESSAGE,
+					new ImageIcon( diretorio + "/icons/warning.png"));
+			break;
 
-			if ( dateA.after(dateB) ){
-				dt = true;
-			}	
+		default:
+			JOptionPane.showMessageDialog(null, mensagem + "\n", 
+					"Erro", 
+					JOptionPane.PLAIN_MESSAGE,
+					new ImageIcon( diretorio + "/icons/error.png"));
 		}
-		return dt;
-	}
-	
-	public void sair(){
-		
 	}
 }
