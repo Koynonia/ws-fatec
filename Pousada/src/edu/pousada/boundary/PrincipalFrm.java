@@ -765,7 +765,7 @@ public class PrincipalFrm extends JFrame {
 		btnPesquisar.setVisible(true);
 		painelPrincipalAdm.add(btnPesquisar);
 
-		JLabel lblTabChale = new JLabel("Controle dos Chalés");
+		JLabel lblTabChale = new JLabel("Reservas de Chalés");
 		lblTabChale.setBounds(790, 30, 130, 16);
 		painelPrincipalAdm.add(lblTabChale);
 

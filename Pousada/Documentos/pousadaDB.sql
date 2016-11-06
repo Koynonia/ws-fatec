@@ -240,8 +240,9 @@ INSERT INTO `principal` (`id`, `principalInfo`, `principalDetalhe`, `chaleInfo`,
 
 -- FUNCAO PARA SELECIONAR CHALES DISPONIVEIS POR DATA
 
--- SELECT * FROM chale
--- SELECT * FROM chale INNER JOIN reserva ON chale.id = reserva.chale WHERE reserva.idChale
+/*
+SELECT * FROM chale
+SELECT * FROM chale INNER JOIN reserva ON chale.id = reserva.chale WHERE reserva.idChale
 
 
 DELIMITER //
@@ -270,4 +271,5 @@ RETURN boo;
 
 END; //
 
--- SELECT fn_reserva2(4, '2016-11-07', '2016-11-09') AS disponivel
+SELECT fn_reserva2(4, '2016-11-07', '2016-11-09') AS disponivel
+*/

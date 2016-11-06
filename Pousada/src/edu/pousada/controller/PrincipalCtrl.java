@@ -48,6 +48,8 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
 
 import edu.pousada.boundary.PrincipalFrm;
 import edu.pousada.boundary.ReservaFrm;
@@ -150,7 +152,7 @@ public class PrincipalCtrl {
 	private LogonCtrl logon = LogonCtrl.getInstance();
 	private ImageIcon imagem;
 	int count = 0;
-	private boolean validar;
+	private static boolean validar;
 	private List<Principal> infos;
 	private List<Chale> chales;
 	private List<Cliente> clientes;
@@ -314,6 +316,7 @@ public class PrincipalCtrl {
 		this.reservas = new ArrayList<Reserva>();
 
 
+		// realiza a preparação do ambiente visitante
 		cargaPrincipal();
 		preecheInfo();
 		preencheCategoria();
@@ -323,8 +326,10 @@ public class PrincipalCtrl {
 		imagensRandom();
 		alteraBtnReserva();
 
+		// realiza o login com uma sessão anterior perdida
 		logon.autoLogin();
 
+		// recupera o ambiente de uma sessão perdida 
 		if( logon.getLogon().isEmpty() ){
 			trocaPerfil(0);
 		} else {
@@ -338,12 +343,13 @@ public class PrincipalCtrl {
 			btnLogin.setText("Sair");
 		}
 
+		// aciona o relogio exibido na tela
 		relogio();
 		lblVersao.setText( "versão: " + infos.get(0).getVersao() );
 	}
 
 	public void alteraBtnReserva(){
-
+		//verifica se existem reservas e altera o botão
 		count++;
 
 		if( !reservas.isEmpty() ){
@@ -354,6 +360,7 @@ public class PrincipalCtrl {
 
 	// DAO //////////////////////////////////////
 
+	
 	public void cargaPrincipal(){
 
 		PrincipalDAO dao = new PrincipalDAOImpl();
@@ -381,22 +388,6 @@ public class PrincipalCtrl {
 			//e.printStackTrace();
 		}
 	}
-
-//	public List<Chale> chaleDisponivel(){
-//
-//		ChaleDAOImpl dao = new ChaleDAOImpl();
-//		List<Chale> ch = new ArrayList<Chale>();
-//
-//		try {
-//			ch = dao.disponivel();
-//		} catch (SQLException e) {
-//			msg("", "ERRO SQL " + e.getSQLState() 
-//					+ "\n\nLocal:\nPrincipalCtrl > cargaChaleDisponivel()."  
-//					+ "\n\nMensagem:\n" + e.getMessage() );
-//			//e.printStackTrace();
-//		}
-//		return ch;
-//	}
 	
 	
 	public int chaleDisponivel( Reserva r ){
@@ -432,7 +423,6 @@ public class PrincipalCtrl {
 		return ch;
 	}
 	
-	
 
 	public void cargaCliente(){
 
@@ -447,6 +437,7 @@ public class PrincipalCtrl {
 		}
 	}
 
+	
 	public void cargaFuncionario(){
 
 		FuncionarioDAO dao = new FuncionarioDAOImpl();
@@ -459,6 +450,7 @@ public class PrincipalCtrl {
 			//e.printStackTrace();
 		}
 	}
+	
 
 	public void cargaReserva(){
 
@@ -473,6 +465,7 @@ public class PrincipalCtrl {
 		}
 	}
 
+	
 	public void adicionaCliente( Cliente c ){
 
 		ClienteDAO dao = new ClienteDAOImpl();
@@ -486,6 +479,7 @@ public class PrincipalCtrl {
 		}
 	}
 
+	
 	public void adicionaReserva( Reserva r ){
 
 		ReservaDAO dao = new ReservaDAOImpl();
@@ -499,6 +493,7 @@ public class PrincipalCtrl {
 			//e.printStackTrace();
 		}
 	}
+	
 
 	public void adicionaContato( Contato c ){
 
@@ -514,19 +509,24 @@ public class PrincipalCtrl {
 		}
 	}
 
+	
+	// RESERVA /////////////////////////
+	
 
 	public void adicionaReserva () throws ParseException{
+		//adiciona uma reserva verificando sua data com um objeto Chale e Cliente
 
 		cargaCliente();
 		cargaChale();
 		cargaReserva();
 		validaCampo();
 
+		//verifica se a validação está desligada
 		if( validar != false  ){
 			Chale ch = new Chale();
 			validar = false;
 			if( !chales.isEmpty() ){
-
+				//seleciona o chale da categoria escolhida ou retorna erro
 					for( int i = 0; i < chales.size(); i++ ){
 						if( chales.get(i).getCategoria().equals( cboReservaCategoria.getSelectedItem() )){
 							if( chales.get(i).getId() != null ){
@@ -541,6 +541,7 @@ public class PrincipalCtrl {
 				msg("erroChale", (String) cboReservaCategoria.getSelectedItem() );
 				return;
 			}
+			//se não houver cliente na base de dados, cadastra o primeiro parcialmente e o usa na reserva
 			Cliente cl = new Cliente();
 			if( clientes.isEmpty() ){
 				cl.setNome( txtReservaNome.getText() );
@@ -556,12 +557,13 @@ public class PrincipalCtrl {
 				cl.setDtCadastro( new Date() );
 				cl.setAtivo( false );
 				adicionaCliente( cl );
-//				cargaCliente();
 			} else {
+				//se já houver clientes, busca pelo documento do cliente
 				for( int i = 0; i < clientes.size(); i++ ){
 					if( clientes.get(i).getDocumento().equals( txtReservaDocNum.getText() )){
 						validar = true;
 					}
+					//ao final da busca, se não encontrar o cliente, o cadastra parcialmente e o usa na reserva
 					if( i == clientes.size()-1 ){
 						if(	validar == false ){
 							cl.setId( clientes.size() );
@@ -578,8 +580,8 @@ public class PrincipalCtrl {
 							cl.setAtivo( false );
 							cl.setDtCadastro( new Date() );
 							adicionaCliente( cl );
-//							cargaCliente();
 						} else {
+							//caso o cliente seja encontrado, apenas recupera seus dados para a reserva
 							for( int j = 0; j < clientes.size(); j++ ){
 								if( clientes.get(j).getDocumento().equals( txtReservaDocNum.getText() )){
 									cl.setId( clientes.get(j).getId() );
@@ -605,6 +607,7 @@ public class PrincipalCtrl {
 					}
 				}
 			}
+			//monta a reserva com os objetos Chale e Cliente
 			Reserva r = new Reserva();
 			DateFormat sdf = new SimpleDateFormat("ddMMyyyy");
 			r.setIdCliente( cl );
@@ -617,6 +620,7 @@ public class PrincipalCtrl {
 			r.setDesconto( 0 );
 			r.setDtCadastro( new Date() );
 
+			//verifica se a reserva do chale esta disponivel (verifica as datas)
 			if( chaleDisponivel(r) != 0  ) {
 
 				msg("erroChale", (String) cboReservaCategoria.getSelectedItem() );
@@ -629,7 +633,11 @@ public class PrincipalCtrl {
 			}
 		}
 	}
+	
 
+	// CONTATO /////////////////////////
+	
+	
 	public void adicionaContato(){
 
 		validaCampo();
@@ -667,10 +675,13 @@ public class PrincipalCtrl {
 		cargaCliente();
 		cargaFuncionario();
 		
+		//verifica se o botao está no contexto de login ou sair
 		if ( btnLogin.getText().equals("Login") ){
 			if ( !funcionarios.isEmpty() || !clientes.isEmpty() ){
+				//verifica se os campos login e senha estão preenchidos
 				if (!txtLogin.getText().isEmpty() 
 						&& pwdSenha.getPassword().length != 0) {
+					//verifica se um funcionario está se logando
 					for (int f = 0; f < funcionarios.size(); f++) {
 						if ( txtLogin.getText().equalsIgnoreCase(funcionarios.get(f).getLogin() )
 								&& validaSenha(funcionarios.get(f).getSenha()) == true ) {
@@ -698,6 +709,7 @@ public class PrincipalCtrl {
 							btnLogin.setText("Sair");
 							//msg("autorizado", funcionarios.get(f).getNome() );
 						} else {
+							//verifica se um cliente está se logando
 							for (int c = 0; c < clientes.size(); c++) {
 								if (txtLogin.getText().equalsIgnoreCase(clientes.get(c).getLogin())
 										&& validaSenha(clientes.get(c).getSenha()) == true) {
@@ -744,6 +756,7 @@ public class PrincipalCtrl {
 				senhas();
 			}
 		} else {
+			//ao se deslogar, prepara a tela para o perfil visitante
 			trocaPerfil(0);
 			btnLogin.setText("Login");
 			lblMsg.setText(null);
@@ -759,6 +772,7 @@ public class PrincipalCtrl {
 
 
 	public void trocaPerfil( int op ){
+	//realiza a troca das guias conforme o perfil
 
 		switch ( op ){
 
@@ -776,6 +790,7 @@ public class PrincipalCtrl {
 			break;
 
 		case 1:
+			trocaPerfil(0); // teste
 			break;
 
 		case 2:
@@ -797,10 +812,11 @@ public class PrincipalCtrl {
 	}
 
 
-	// AREA DE TEXTOS ////////////////////////////
+	// INFORMACOES ////////////////////////////
 
 
 	public void preecheInfo(){
+		//preenche as informações de apresentação na tela
 
 		if(infos != null){
 			for (int i = 0; i < infos.size(); i++) {
@@ -824,18 +840,12 @@ public class PrincipalCtrl {
 
 	public void preencheCategoria(){
 
-		List<Chale> c = new ArrayList<Chale>();
-		ChaleDAO dao = new ChaleDAOImpl();
-		try {
-			c = dao.todos();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		cargaChale();
 
 		//Ordenar alfabeticamente
-		String[] lista = new String[c.size()];
-		for ( int i = 0; i < c.size(); i++ ){
-			String item = c.get(i).getCategoria();		
+		String[] lista = new String[chales.size()];
+		for ( int i = 0; i < chales.size(); i++ ){
+			String item = chales.get(i).getCategoria();		
 			lista[i] = item;	
 
 		}
@@ -843,7 +853,7 @@ public class PrincipalCtrl {
 
 		//Verificar itens repetidos e adiciona na combobox
 		cboReservaCategoria.addItem( "Selecione…" );
-		for ( int i = 0; i < c.size(); i++ ){
+		for ( int i = 0; i < chales.size(); i++ ){
 			if( !lista[i].equals(cboReservaCategoria.getItemAt(i) ))
 				cboReservaCategoria.addItem( lista[i] );
 		}
@@ -896,6 +906,7 @@ public class PrincipalCtrl {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public String[] colunasTabela( String opt ){
+		//escolhe as colunas que a tabela exibirá
 
 		String[] colunas = null;
 		List titulos = new ArrayList();
@@ -939,7 +950,9 @@ public class PrincipalCtrl {
 		return colunas;
 	}
 
+	
 	public Object[][] linhasTabela( String opt ){
+		//escolhe as linhas que a tabela exibirá
 
 		SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyy");
 		SimpleDateFormat hr = new SimpleDateFormat("HH:mm");
@@ -978,8 +991,7 @@ public class PrincipalCtrl {
 							Integer.toString( reservas.get(i).getQtdAdulto() + reservas.get(i).getQtdCrianca() ) ,   
 							vlr.format( reservas.get(i).getIdChale().getDiaria() ),
 							vlr.format( total ),
-//							Boolean.FALSE
-							reservas.get(i).getIdCliente().getAtivo()
+							reservas.get(i).getIdCliente().getAtivo() //deveria se tornar um checkbox!!!
 					};
 				}
 			}
@@ -1013,7 +1025,7 @@ public class PrincipalCtrl {
 
 
 	public void formataTabela( String opt, JTable tabela ){
-		
+		// realiza a formatação conforme o contexto e tabela	
 
 		//alinhamento de titulos das colunas
 		((DefaultTableCellRenderer) tabela.getTableHeader().getDefaultRenderer())
@@ -1033,7 +1045,7 @@ public class PrincipalCtrl {
 				linhasTabela( opt ), colunasTabela( opt )) {
 			private static final long serialVersionUID = 1L;
 
-			//Disabilita a edicao de qualquer celula
+			//Disabilita a edicao de qualquer celula, mesnos a coluna mencionada
 			public boolean isCellEditable(int rowIndex, int colIndex) {
 				return (colIndex == 8);
 			}
@@ -1126,6 +1138,7 @@ public class PrincipalCtrl {
 
 
 	public void temporizador(){
+		// configura o tempo de troca das imagens da tela principal
 
 		Timer timer = new Timer();
 
@@ -1138,6 +1151,7 @@ public class PrincipalCtrl {
 
 
 	public void imagensRandom(){
+		// verifca qual guia está sendo exibida e troca as imagens e registra a guia no logon
 
 		Integer guiaAtiva = tabContainer.getSelectedIndex();
 
@@ -1205,6 +1219,7 @@ public class PrincipalCtrl {
 
 
 	public void senhas(){
+		// limpa os campos login e senha e retorna o foco
 
 		txtLogin.setText(null);
 		pwdSenha.setText(null);
@@ -1218,6 +1233,7 @@ public class PrincipalCtrl {
 
 
 	public boolean validaSenha( String validaSenha ) {  
+		// verifica o cumprimento da senha por caracter
 
 		if (validaSenha != null){
 			char[] senha = pwdSenha.getPassword();
@@ -1237,6 +1253,7 @@ public class PrincipalCtrl {
 
 
 	public void limpaCampo(){
+		// limpa todos os campos da tela
 
 		Integer guiaAtiva = tabContainer.getSelectedIndex();
 		Component[] painelAtivo = null;
@@ -1279,6 +1296,7 @@ public class PrincipalCtrl {
 
 
 	public void validaCampo(){
+		// valida todos os campos da tela se foram preenchidos
 
 		boolean vazio = false;
 		String campo = null;
@@ -1361,6 +1379,8 @@ public class PrincipalCtrl {
 
 
 	public void validaData( JFormattedTextField dtInicio, JFormattedTextField dtFim ){
+		//valida entre as datas inicio e final da reserva
+		
 		Date inicio = null;
 		Date fim = null;
 		Date atual = null;
@@ -1381,6 +1401,7 @@ public class PrincipalCtrl {
 			//e.printStackTrace();
 		}
 
+		//verifica se a data inicial é inferior à data atual do sistema
 		if( !inicio.equals( atual ) ){
 			if ( !inicio.after( atual )){
 				msg("erroDataInicial","");
@@ -1388,6 +1409,7 @@ public class PrincipalCtrl {
 				dtInicio.requestFocus();
 				validar = false;
 				return;
+				//após corrigir data inicial, verifica se a data final é anterior à inicial
 			} else if( fim.before(inicio) ){
 				msg("erroDataFinal","");
 				dtFim.setText(null);
@@ -1396,6 +1418,7 @@ public class PrincipalCtrl {
 				return;
 			}
 		} else if( fim.before(inicio) ){
+			//verifica se a data final é anterior à inicial
 			msg("erroDataFinal","");
 			dtFim.setText(null);
 			dtFim.requestFocus();
