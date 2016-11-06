@@ -19,6 +19,7 @@ import java.awt.event.MouseListener;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -120,8 +121,8 @@ public class PrincipalCtrl {
 	private JTextField txtContatoPais; 
 	private JFormattedTextField ftxtReservaDtInicio; 
 	private JFormattedTextField ftxtReservaDtFim;
-	private JFormattedTextField ftxtQtdChale;
-	private JFormattedTextField ftxtVlrChale;
+	private JFormattedTextField ftxtQtdReservaChale;
+	private JFormattedTextField ftxtVlrReservaChale;
 	private JFormattedTextField ftxtQtdReservaServico;
 	private JFormattedTextField ftxtVlrReservaServico;
 	private JTextArea txtaPrincipalInfo; 
@@ -139,7 +140,7 @@ public class PrincipalCtrl {
 	private JComboBox<String> cboReservaCategoria; 
 	private JComboBox<String> cboReservaDocTipo; 
 	private JComboBox<String> cboContatoAssunto; 
-	private JTable tabChale; 
+	private JTable tabReserva; 
 	private JTable tabServico; 
 	private JButton btnLogin; 
 	public static JButton btnReservas;
@@ -206,8 +207,8 @@ public class PrincipalCtrl {
 			JTextField txtContatoPais, 
 			JFormattedTextField ftxtReservaDtInicio, 
 			JFormattedTextField ftxtReservaDtFim, 
-			JFormattedTextField ftxtQtdChale,
-			JFormattedTextField ftxtVlrChale,
+			JFormattedTextField ftxtQtdReservaChale,
+			JFormattedTextField ftxtVlrReservaChale,
 			JFormattedTextField ftxtQtdReservaServico,
 			JFormattedTextField ftxtVlrReservaServico,
 			JTextArea txtaPrincipalInfo, 
@@ -225,7 +226,7 @@ public class PrincipalCtrl {
 			JComboBox<String> cboReservaChale, 
 			JComboBox<String> cboReservaDocTipo, 
 			JComboBox<String> cboContatoAssunto, 
-			JTable tabChale, 
+			JTable tabReserva, 
 			JTable tabServico, 
 			JButton btnLogin, 
 			JButton btnReservas,
@@ -281,8 +282,8 @@ public class PrincipalCtrl {
 		this.txtContatoPais = txtContatoPais;  
 		this.ftxtReservaDtInicio = ftxtReservaDtInicio; 
 		this.ftxtReservaDtFim = ftxtReservaDtFim;
-		this.ftxtQtdChale = ftxtQtdChale;
-		this.ftxtVlrChale = ftxtVlrChale;
+		this.ftxtQtdReservaChale = ftxtQtdReservaChale;
+		this.ftxtVlrReservaChale = ftxtVlrReservaChale;
 		this.ftxtQtdReservaServico = ftxtQtdReservaServico;
 		this.ftxtVlrReservaServico = ftxtVlrReservaServico;
 		this.txtaPrincipalInfo = txtaPrincipalInfo; 
@@ -300,7 +301,7 @@ public class PrincipalCtrl {
 		this.cboReservaCategoria = cboReservaChale; 
 		this.cboReservaDocTipo = cboReservaDocTipo; 
 		this.cboContatoAssunto = cboContatoAssunto; 
-		this.tabChale = tabChale; 
+		this.tabReserva = tabReserva; 
 		this.tabServico = tabServico; 
 		this.btnLogin = btnLogin; 
 		this.btnReservas = btnReservas;
@@ -360,7 +361,7 @@ public class PrincipalCtrl {
 
 	// DAO //////////////////////////////////////
 
-	
+
 	public void cargaPrincipal(){
 
 		PrincipalDAO dao = new PrincipalDAOImpl();
@@ -374,10 +375,10 @@ public class PrincipalCtrl {
 		}
 	}
 
+
 	public void cargaChale(){
 
 		ChaleDAO dao = new ChaleDAOImpl();
-
 
 		try {
 			chales = dao.todos();
@@ -388,8 +389,8 @@ public class PrincipalCtrl {
 			//e.printStackTrace();
 		}
 	}
-	
-	
+
+
 	public int chaleDisponivel( Reserva r ){
 
 		ReservaDAOImpl dao = new ReservaDAOImpl();
@@ -406,9 +407,9 @@ public class PrincipalCtrl {
 		return ch;
 	}
 
-	
+
 	public int chaleDisponivelPelaData( Reserva r ){
-		
+
 		ReservaDAOImpl dao = new ReservaDAOImpl();
 		int ch = 0;
 
@@ -422,7 +423,7 @@ public class PrincipalCtrl {
 		}
 		return ch;
 	}
-	
+
 
 	public void cargaCliente(){
 
@@ -437,7 +438,21 @@ public class PrincipalCtrl {
 		}
 	}
 
-	
+
+	public void adicionaCliente( Cliente c ){
+
+		ClienteDAO dao = new ClienteDAOImpl();
+		try {
+			dao.adicionar( c );
+		} catch (SQLException e) {
+			msg("", "ERRO SQL " + e.getSQLState() 
+					+ "\n\nLocal:\nPrincipalCtrl > adicionaCliente()."  
+					+ "\n\nMensagem:\n" + e.getMessage() );
+			//e.printStackTrace();
+		}
+	}
+
+
 	public void cargaFuncionario(){
 
 		FuncionarioDAO dao = new FuncionarioDAOImpl();
@@ -450,7 +465,7 @@ public class PrincipalCtrl {
 			//e.printStackTrace();
 		}
 	}
-	
+
 
 	public void cargaReserva(){
 
@@ -465,21 +480,7 @@ public class PrincipalCtrl {
 		}
 	}
 
-	
-	public void adicionaCliente( Cliente c ){
 
-		ClienteDAO dao = new ClienteDAOImpl();
-		try {
-			dao.adicionar( c );
-		} catch (SQLException e) {
-			msg("", "ERRO SQL " + e.getSQLState() 
-					+ "\n\nLocal:\nPrincipalCtrl > adicionaCliente()."  
-					+ "\n\nMensagem:\n" + e.getMessage() );
-			//e.printStackTrace();
-		}
-	}
-
-	
 	public void adicionaReserva( Reserva r ){
 
 		ReservaDAO dao = new ReservaDAOImpl();
@@ -493,7 +494,21 @@ public class PrincipalCtrl {
 			//e.printStackTrace();
 		}
 	}
-	
+
+
+	public void excluiReserva( Reserva r ) {
+
+		ReservaDAO dao = new ReservaDAOImpl();
+		try {
+			dao.excluir( r );
+		} catch (SQLException e) {
+			msg("", "ERRO SQL " + e.getSQLState() 
+					+ "\n\nLocal:\nReservaCtrl > excluir()."  
+					+ "\n\nMensagem:\n" + e.getMessage() );
+			//e.printStackTrace();
+		}
+	}
+
 
 	public void adicionaContato( Contato c ){
 
@@ -509,9 +524,9 @@ public class PrincipalCtrl {
 		}
 	}
 
-	
+
 	// RESERVA /////////////////////////
-	
+
 
 	public void adicionaReserva () throws ParseException{
 		//adiciona uma reserva verificando sua data com um objeto Chale e Cliente
@@ -527,16 +542,16 @@ public class PrincipalCtrl {
 			validar = false;
 			if( !chales.isEmpty() ){
 				//seleciona o chale da categoria escolhida ou retorna erro
-					for( int i = 0; i < chales.size(); i++ ){
-						if( chales.get(i).getCategoria().equals( cboReservaCategoria.getSelectedItem() )){
-							if( chales.get(i).getId() != null ){
-								ch.setId( chales.get(i).getId() );
-								ch.setCategoria( chales.get(i).getCategoria() );
-								ch.setDiaria( chales.get(i).getDiaria() );
-								ch.setFrigobar( chales.get(i).getFrigobar() );
-							}
+				for( int i = 0; i < chales.size(); i++ ){
+					if( chales.get(i).getCategoria().equals( cboReservaCategoria.getSelectedItem() )){
+						if( chales.get(i).getId() != null ){
+							ch.setId( chales.get(i).getId() );
+							ch.setCategoria( chales.get(i).getCategoria() );
+							ch.setDiaria( chales.get(i).getDiaria() );
+							ch.setFrigobar( chales.get(i).getFrigobar() );
 						}
 					}
+				}
 			} else {
 				msg("erroChale", (String) cboReservaCategoria.getSelectedItem() );
 				return;
@@ -633,11 +648,45 @@ public class PrincipalCtrl {
 			}
 		}
 	}
-	
+
+
+	public void cancelaReserva( JTable tabela ){
+		// seleciona a linha da tabela a ser cancelada
+
+		if ( tabela.getSelectedRowCount() == 0 ) {
+			msg( "erroLinha", "" );
+		} else {
+			if(tabela.getRowCount() > 0){
+				msg( "cancelar", "" );
+				if (validar != false){
+					// atualiza a base de dados excluindo o registro selecionado
+					Reserva r = new Reserva();
+					for(int i = 0; i < reservas.size(); i ++){
+						// limpa a mascara no numero da reserva
+						if((tabela.getValueAt(tabela.getSelectedRow(), 0).toString().replaceFirst("0*", ""))
+								.equals( reservas.get(i).getId().toString() )){
+							r.setId(reservas.get(i).getId());
+							excluiReserva( r );
+							cargaReserva();
+							msg("cancelarOk", tabela.getValueAt(tabela.getSelectedRow(), 0).toString() );
+						}
+					}
+					validar = false;
+					// atualiza a tabela, removendo a linha
+					((DefaultTableModel) tabela.getModel()).removeRow(tabela.getSelectedRow());
+					tabela.updateUI();
+
+					// atualiza o valor total
+					atualizaValor( tabela );
+				} 
+			}
+		}
+	}
+
 
 	// CONTATO /////////////////////////
-	
-	
+
+
 	public void adicionaContato(){
 
 		validaCampo();
@@ -674,7 +723,7 @@ public class PrincipalCtrl {
 
 		cargaCliente();
 		cargaFuncionario();
-		
+
 		//verifica se o botao está no contexto de login ou sair
 		if ( btnLogin.getText().equals("Login") ){
 			if ( !funcionarios.isEmpty() || !clientes.isEmpty() ){
@@ -772,7 +821,7 @@ public class PrincipalCtrl {
 
 
 	public void trocaPerfil( int op ){
-	//realiza a troca das guias conforme o perfil
+		//realiza a troca das guias conforme o perfil
 
 		switch ( op ){
 
@@ -794,9 +843,9 @@ public class PrincipalCtrl {
 			break;
 
 		case 2:
-			formataTabela( "chale", tabChale );
+			formataTabela( "chale", tabReserva );
 			formataTabela( "servico", tabServico );
-			
+
 			tabContainer.remove( painelPrincipal );
 			tabContainer.remove( painelChale );
 			tabContainer.remove( painelLazer );
@@ -937,10 +986,10 @@ public class PrincipalCtrl {
 			titulos.add( 2, "Data" );
 			titulos.add( 3, "Hora Início" );
 			titulos.add( 4, "Hora Fim" );
-			titulos.add( 5, "Valor" );
-			titulos.add( 6, "Cliente" );
-			titulos.add( 7, "" );
-			titulos.add( 8, "" );
+			titulos.add( 5, "" );
+			titulos.add( 6, "" );
+			titulos.add( 7, "Valor" );
+			titulos.add( 8, "Cliente" );
 
 			for ( int i = 0; i< titulos.size(); i++ ) {
 				colunas = (String[]) titulos.toArray (new String[i]);
@@ -950,7 +999,7 @@ public class PrincipalCtrl {
 		return colunas;
 	}
 
-	
+
 	public Object[][] linhasTabela( String opt ){
 		//escolhe as linhas que a tabela exibirá
 
@@ -966,7 +1015,7 @@ public class PrincipalCtrl {
 		case "chale":
 
 			cargaReserva();
-			
+
 			if( !reservas.isEmpty() ){
 				linhas = new Object[reservas.size()][];
 				for (int i = 0; i < reservas.size(); i++) {
@@ -974,14 +1023,14 @@ public class PrincipalCtrl {
 					float vlrTotal = ((( reservas.get(i).getDtFim().getTime() 
 							- reservas.get(i).getDtInicio().getTime() ) + 3600000) / 86400000L) 
 							* reservas.get(i).getIdChale().getDiaria() ;
-					
+
 					float total = 0;
 					if ( vlrTotal != 0){
 						total = vlrTotal;
 					} else {
 						total = reservas.get(i).getIdChale().getDiaria();
 					}
-					
+
 					linhas[i] = new Object[]{
 							String.format( "%03d",reservas.get(i).getId() ),
 							reservas.get(i).getIdChale().getCategoria(),
@@ -1000,7 +1049,7 @@ public class PrincipalCtrl {
 		case "servico":
 
 			cargaChale();
-			
+
 			if( !chales.isEmpty() ){
 				linhas = new Object[chales.size()][];
 				for (int i = 0; i < chales.size(); i++) {
@@ -1010,11 +1059,10 @@ public class PrincipalCtrl {
 							dt.format( new Date() ),
 							hr.format( new Date() ),
 							hr.format( new Date() ),
+							"",
+							"",
 							vlr.format( 20.50 ),
-							"implementar",
-							"7",
-							"8",
-							"9",
+							" implementar",
 					};
 				}
 			}
@@ -1097,43 +1145,56 @@ public class PrincipalCtrl {
 
 			case "servico":
 				//formata e esconde coluna
-				tabela.getColumnModel().getColumn(6).setCellRenderer(esquerdo);
-				tabela.getColumnModel().getColumn(6).setPreferredWidth(150);
-				tabela.getColumnModel().getColumn(7).setMinWidth(0);
-				tabela.getColumnModel().getColumn(7).setMaxWidth(0);
-				tabela.getColumnModel().getColumn(8).setMinWidth(0);
-				tabela.getColumnModel().getColumn(8).setMaxWidth(0);
+				tabela.getColumnModel().getColumn(5).setMinWidth(0);
+				tabela.getColumnModel().getColumn(5).setMaxWidth(0);
+				tabela.getColumnModel().getColumn(6).setMinWidth(0);
+				tabela.getColumnModel().getColumn(6).setMaxWidth(0);
+				tabela.getColumnModel().getColumn(8).setCellRenderer(esquerdo);
+				tabela.getColumnModel().getColumn(8).setPreferredWidth(150);
 			}
 		}
-		atualizaValor();
+		atualizaValor( tabela );
 	}
 
 
 	// METODOS DE SUPORTE //////////////////////
 
 
-	public void atualizaValor(){
-
+	public void atualizaValor( JTable tabela ){
 		//Atualiza quantidade e valor total
+
 		float total = 0;
 
-		for( int i = 0; i < reservas.size(); i++ ){
-			if( reservas.get(i).getDtInicio().getTime() != reservas.get(i).getDtFim().getTime() ){
-				total = total + ( 
-						((( reservas.get(i).getDtFim().getTime() 
-								- reservas.get(i).getDtInicio().getTime() ) + 3600000) / 86400000L)
-								* reservas.get(i).getIdChale().getDiaria()  
-						);
-			} else {
-				total = total + reservas.get(i).getIdChale().getDiaria();
+		NumberFormat nf = NumberFormat.getInstance();
+
+		//verifica se a tabela está preenchida
+		if( tabela.getRowCount() > 0 ){
+			//precorre as linhas selecionando o valor
+			for(int i = 0; i < tabela.getRowCount(); i ++){
+
+				try {
+					//converte a String e realiza a soma
+					total+= nf.parse( tabela.getValueAt(i, 7).toString() ).doubleValue();
+				} catch (ParseException e) {
+					msg("", "ERRO " + e.getCause() 
+							+ "\n\nLocal:\nPrincipalCtrl > atualizaValor()."  
+							+ "\n\nMensagem:\n" + e.getMessage() );
+					//e.printStackTrace();
+				}
 			}
 		}
-		ftxtQtdChale.setValue( Integer.toString ( reservas.size() ) );
-		ftxtVlrChale.setValue( total );
-		
-		
-		
-		
+
+		//aplica os totais no campo correspondente
+		switch ( tabela.getName() ){
+		case "reserva":
+			ftxtQtdReservaChale.setValue( Integer.toString ( tabela.getRowCount() ) );
+			ftxtVlrReservaChale.setValue( total );
+			break;
+		case "servico":
+			ftxtQtdReservaServico.setValue( Integer.toString ( tabela.getRowCount() ) );
+			ftxtVlrReservaServico.setValue( total );
+			break;
+		}
 	}
 
 
@@ -1380,7 +1441,7 @@ public class PrincipalCtrl {
 
 	public void validaData( JFormattedTextField dtInicio, JFormattedTextField dtFim ){
 		//valida entre as datas inicio e final da reserva
-		
+
 		Date inicio = null;
 		Date fim = null;
 		Date atual = null;
@@ -1542,22 +1603,29 @@ public class PrincipalCtrl {
 				msg( "sair", "" );
 				break;
 			case KeyEvent.VK_DELETE:
-				//removeLinha();
-				break;
-			case 8: //MAC OSX: DELETE
-				//removeLinha();
-				break;
-			case KeyEvent.VK_TAB:
 				//verifica qual componenete esta solicitando a acao e desabilita
 				Object source = e.getSource();
 
+				if( source == tabReserva ){
+					cancelaReserva( tabReserva );
+				}
+				break;
+			case 8: //MAC OSX: DELETE
+				Object sourceMac = e.getSource();
+				if( sourceMac == tabReserva ){
+					cancelaReserva( tabReserva );
+				}
+				break;
+			case KeyEvent.VK_TAB:
+				Object sourceTab = e.getSource();
+
 				//desabilita a tecla TAB
-				if( source == txtaReservaMsg ){
+				if( sourceTab == txtaReservaMsg ){
 					if(e.getModifiers() > 0) txtaReservaMsg.transferFocusBackward();
 					else txtaReservaMsg.transferFocus(); 
 					e.consume();
 				}
-				if( source == txtaContatoMsg ){
+				if( sourceTab == txtaContatoMsg ){
 					if(e.getModifiers() > 0) txtaContatoMsg.transferFocusBackward();
 					else txtaContatoMsg.transferFocus(); 
 					e.consume();
@@ -1571,6 +1639,7 @@ public class PrincipalCtrl {
 
 			String tipo = "";
 			String tam = "";
+			
 			//verifica qual componenete esta solicitando a acao e desabilita
 			Object source = e.getSource();
 
@@ -1672,9 +1741,15 @@ public class PrincipalCtrl {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
+			// ao clicar 2x aciona
+			if(e.getClickCount() == 2){ 
 
-			if(e.getClickCount() == 2){  
+				//verifica qual componenete esta solicitando a acao e desabilita
+				Object source = e.getSource();
 
+				if( source == tabReserva ){
+					cancelaReserva( tabReserva );
+				}
 			}
 		}
 	};
@@ -1766,6 +1841,28 @@ public class PrincipalCtrl {
 							new ImageIcon( diretorio + "/icons/error.png" ));
 			break;
 
+		case "cancelarOk":
+			JOptionPane.showMessageDialog(null, 
+					"CANCELADO!\nReserva(s) " + mensagem + " cancelada(s).", 
+					"Cancelamento Efetuado", 
+					JOptionPane.PLAIN_MESSAGE,
+					new ImageIcon( diretorio + "/icons/confirm.png" ));
+			break;
+
+		case "cancelar":
+			Object[] opt = { "Confirmar", "Cancelar" };
+			int retirar = JOptionPane.showOptionDialog(null, mensagem +
+					"ATENÇÃO!\nDeseja cancelar esta Reserva?",
+					"Cancelar Reserva", 
+					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
+					new ImageIcon( diretorio + "/icons/alert.png" ), opt, opt[1]);
+			if (retirar == 0) {
+				validar = true;
+			} else {
+				validar = false;
+			}
+			break;
+
 		case "construir":
 			JOptionPane.showMessageDialog(null, 
 					"Em construção!\n\nEsta função ainda não foi implementada.", 
@@ -1780,7 +1877,7 @@ public class PrincipalCtrl {
 					+ " do sistema!\n\nDeseja encerrar a aplicação?",
 					"Fechamento do Programa", 
 					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
-					new ImageIcon( diretorio + "/icons/atention.png" ), exit, exit[1] );
+					new ImageIcon( diretorio + "/icons/alert.png" ), exit, exit[1] );
 			if ( fechar == 0 ) {
 				validar = true;
 			} else {

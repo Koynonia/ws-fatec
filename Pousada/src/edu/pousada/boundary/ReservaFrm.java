@@ -153,11 +153,11 @@ public class ReservaFrm extends JFrame {
 				btnVoltar
 				);
 
-		tabReserva.addMouseListener(ctrl.clicar);
-		tabReserva.addKeyListener(ctrl.teclar);
-		btnLimpar.addActionListener(ctrl.acionar);
-		btnCancelar.addActionListener(ctrl.acionar);
-		btnConcluir.addActionListener(ctrl.acionar);
-		btnVoltar.addActionListener(ctrl.acionar);
+		tabReserva.addMouseListener( ctrl.clicar );
+		tabReserva.addKeyListener( ctrl.teclar );
+		btnLimpar.addActionListener( ctrl.acionar );
+		btnCancelar.addActionListener( ctrl.acionar );
+		btnConcluir.addActionListener( ctrl.acionar );
+		btnVoltar.addActionListener( ctrl.acionar );
 	}
 }

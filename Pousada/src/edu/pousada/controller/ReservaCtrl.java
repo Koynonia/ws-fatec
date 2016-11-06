@@ -15,6 +15,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +48,7 @@ public class ReservaCtrl {
 	private JButton btnVoltar;
 	private String diretorio = "../Pousada/resources/";
 	private LogonCtrl logon = LogonCtrl.getInstance();
-	private boolean validar;
+	private static boolean validar;
 	private List<Reserva>reservas;
 
 	public ReservaCtrl(
@@ -70,71 +72,13 @@ public class ReservaCtrl {
 		this.btnVoltar = btnVoltar;
 		this.reservas = new ArrayList<Reserva>();
 
+		//prepara o ambiente
 		cargaReserva();
 		formataTabela();
 		
+		//atualiza a tela no Logon
 		if( !logon.getLogon().isEmpty() )
 			logon.getLogon().get(0).setTela( janela.getName() );
-	}
-
-
-	public void atualizaValor(){
-
-		//Atualiza total da reserva
-		float total = 0;
-
-		for( int i = 0; i < reservas.size(); i++ ){
-			if( reservas.get(i).getDtInicio().getTime() != reservas.get(i).getDtFim().getTime() ){
-				total = total + ( 
-						((( reservas.get(i).getDtFim().getTime() 
-								- reservas.get(i).getDtInicio().getTime() ) + 3600000) / 86400000L)
-								* reservas.get(i).getIdChale().getDiaria()  
-						);
-			} else {
-				total = total + reservas.get(i).getIdChale().getDiaria();
-			}
-		}
-		ftxtQtd.setValue( Integer.toString ( reservas.size() ) );
-		ftxtValor.setValue( total );
-	}
-
-	public void cancela(){
-
-		if ( tabela.getSelectedRowCount() == 0 ) {
-			msg( "erroLinha", "" );
-		} else {
-			if(tabela.getRowCount() > 0){
-				msg( "cancelar", "" );
-				if (validar != false){
-					//Atualiza a base de dados excluindo o registro selecionado
-					Reserva r = new Reserva();
-					for(int i = 0; i < reservas.size(); i ++){
-						if((tabela.getValueAt(tabela.getSelectedRow(), 0).toString().replaceFirst("0*", ""))
-								.equals( reservas.get(i).getId().toString() )){
-							r.setId(reservas.get(i).getId());
-							excluir( r );
-							cargaReserva();
-							//atualiza o estado do botão Reserva na tela Principal
-							if ( !reservas.isEmpty()) {
-							PrincipalCtrl.btnReservas.setText( "Reservas ( " + logon.reservaQtd() + " )" );
-							PrincipalCtrl.btnReservas.setVisible(true);
-							} else {
-								PrincipalCtrl.btnReservas.setText( "Reservas");
-								PrincipalCtrl.btnReservas.setVisible(false);
-							}
-							msg("sucesso", tabela.getValueAt(tabela.getSelectedRow(), 0).toString() );
-						}
-					}
-					validar = false;
-					//Atualiza a tabela, removendo a linha
-					((DefaultTableModel) tabela.getModel()).removeRow(tabela.getSelectedRow());
-					tabela.updateUI();
-
-					//Atualiza o valor total
-					atualizaValor();
-				} 
-			}
-		}
 	}
 
 
@@ -163,6 +107,77 @@ public class ReservaCtrl {
 					+ "\n\nLocal:\nReservaCtrl > cargaReserva()."  
 					+ "\n\nMensagem:\n" + e.getMessage() );
 			//e.printStackTrace();
+		}
+	}
+	
+	
+	// RESERVA /////////////////////////
+	
+	public void atualizaValor(){
+
+		//Atualiza total da reserva
+		float total = 0;
+		
+		NumberFormat nf = NumberFormat.getInstance();
+
+		//verifica se a tabela está preenchida
+				if( tabela.getRowCount() > 0 ){
+					//precorre as linhas selecionando o valor
+					for(int i = 0; i < tabela.getRowCount(); i ++){
+
+						try {
+							//converte a String e realiza a soma
+							total+= nf.parse( tabela.getValueAt(i, 5).toString() ).doubleValue();
+						} catch (ParseException e) {
+							msg("", "ERRO " + e.getCause() 
+									+ "\n\nLocal:\nReservaCtrl > atualizaValor()."  
+									+ "\n\nMensagem:\n" + e.getMessage() );
+							//e.printStackTrace();
+						}
+					}
+				}
+		ftxtQtd.setValue( Integer.toString ( tabela.getRowCount() ) );
+		ftxtValor.setValue( total );
+	}
+
+	public void cancela(){
+		// seleciona a linha da tabela a ser cancelada
+
+		if ( tabela.getSelectedRowCount() == 0 ) {
+			msg( "erroLinha", "" );
+		} else {
+			if( tabela.getRowCount() > 0 ){
+				msg( "cancelar", "" );
+				if ( validar != false ){
+					// atualiza a base de dados excluindo o registro selecionado
+					Reserva r = new Reserva();
+					for( int i = 0; i < reservas.size(); i ++ ){
+						// limpa a mascara no numero da reserva
+						if((tabela.getValueAt( tabela.getSelectedRow(), 0).toString().replaceFirst("0*", "") )
+								.equals( reservas.get(i).getId().toString() )){
+							r.setId(reservas.get(i).getId());
+							excluir( r );
+							cargaReserva();
+							// atualiza o estado do botão Reserva na tela Principal
+							if ( !reservas.isEmpty()) {
+							PrincipalCtrl.btnReservas.setText( "Reservas ( " + logon.reservaQtd() + " )" );
+							PrincipalCtrl.btnReservas.setVisible(true);
+							} else {
+								PrincipalCtrl.btnReservas.setText( "Reservas");
+								PrincipalCtrl.btnReservas.setVisible(false);
+							}
+							msg( "sucesso", tabela.getValueAt(tabela.getSelectedRow(), 0 ).toString() );
+						}
+					}
+					validar = false;
+					// atualiza a tabela, removendo a linha
+					( (DefaultTableModel) tabela.getModel()).removeRow(tabela.getSelectedRow() );
+					tabela.updateUI();
+
+					// atualiza o valor total
+					atualizaValor();
+				} 
+			}
 		}
 	}
 
@@ -290,6 +305,7 @@ public class ReservaCtrl {
 
 	// BOTAO //////////////////////////////////
 
+	
 	public ActionListener acionar = new ActionListener() {
 
 		public void actionPerformed(ActionEvent e) {
@@ -329,6 +345,7 @@ public class ReservaCtrl {
 		}
 	};
 
+	
 	// CONTROLE TECLA ///////////////////////////////
 
 
@@ -393,7 +410,7 @@ public class ReservaCtrl {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-
+			// ao clicar 2x aciona
 			if(e.getClickCount() == 2){ 
 				
 				cancela();
@@ -404,6 +421,7 @@ public class ReservaCtrl {
 
 	// MENSAGENS //////////////////////////////
 
+	
 	public void msg( String tipo, String mensagem ) {
 		janela.setAlwaysOnTop ( false );
 
@@ -451,16 +469,6 @@ public class ReservaCtrl {
 					"Chalé não selecionado", 
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon( diretorio + "/icons/error.png" ));
-			break;
-
-		case "erroDigit":
-			JOptionPane.showMessageDialog(null, 
-					"Entrada inválida:\n\n" +
-							mensagem +
-							"\n\nPor favor, entre somente com números para a quantidade.", 
-							"Entrada Inválida…", 
-							JOptionPane.PLAIN_MESSAGE,
-							new ImageIcon( diretorio + "/icons/error.png" ));
 			break;
 
 		case "construir":

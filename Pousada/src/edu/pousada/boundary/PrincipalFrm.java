@@ -79,7 +79,7 @@ public class PrincipalFrm extends JFrame {
 	private JFormattedTextField ftxtReservaDtFim;
 	private JFormattedTextField ftxtQtdReservaServico;
 	private JFormattedTextField ftxtVlrReservaServico;
-	private JFormattedTextField ftxtQtdChale;
+	private JFormattedTextField ftxtQtdReservaChale;
 	private JFormattedTextField ftxtVlrChale;
 	private JTextArea txtaPrincipalInfo;
 	private JTextArea txtaPrincipalDetalhe;
@@ -103,7 +103,7 @@ public class PrincipalFrm extends JFrame {
 	private JButton btnContatoEnviar;
 	private JButton btnReservaLimpar;
 	private JButton btnContatoLimpar;
-	private JTable tabChale;
+	private JTable tabReserva;
 	private JTable tabServico;
 	private JTabbedPane tabContainer;
 	private JScrollPane spChale;
@@ -766,34 +766,35 @@ public class PrincipalFrm extends JFrame {
 		painelPrincipalAdm.add(btnPesquisar);
 
 		JLabel lblTabChale = new JLabel("Reservas de Chalés");
-		lblTabChale.setBounds(790, 30, 130, 16);
+		lblTabChale.setBounds(800, 30, 130, 16);
 		painelPrincipalAdm.add(lblTabChale);
 
 		spChale = new JScrollPane();
 		spChale.setBounds(30, 50, 895, 180);
-		spChale.setToolTipText("clique 2 vezes para editar");
+		spChale.setToolTipText("clique 2 vezes para cancelar");
 		painelPrincipalAdm.add(spChale);
 
-		tabChale = new JTable();
-		tabChale.setBorder(null);
-		tabChale.setAutoCreateRowSorter(true);
-		spChale.setViewportView(tabChale);
+		tabReserva = new JTable();
+		tabReserva.setName("reserva");
+		tabReserva.setBorder(null);
+		tabReserva.setAutoCreateRowSorter(true);
+		spChale.setViewportView(tabReserva);
 
-		JLabel lblQtdChale = new JLabel("Quantidade");
-		lblQtdChale.setBounds(30, 240, 73, 16);
-		painelPrincipalAdm.add(lblQtdChale);
+		JLabel lblQtdReservaChale = new JLabel("Quantidade");
+		lblQtdReservaChale.setBounds(30, 240, 73, 16);
+		painelPrincipalAdm.add(lblQtdReservaChale);
 
-		ftxtQtdChale = new JFormattedTextField((Format) null);
-		ftxtQtdChale.setBackground(SystemColor.window);
-		ftxtQtdChale.setHorizontalAlignment(SwingConstants.CENTER);
-		ftxtQtdChale.setEditable(false);
-		ftxtQtdChale.setColumns(10);
-		ftxtQtdChale.setBounds(111, 235, 58, 28);
-		painelPrincipalAdm.add(ftxtQtdChale);
+		ftxtQtdReservaChale = new JFormattedTextField((Format) null);
+		ftxtQtdReservaChale.setBackground(SystemColor.window);
+		ftxtQtdReservaChale.setHorizontalAlignment(SwingConstants.CENTER);
+		ftxtQtdReservaChale.setEditable(false);
+		ftxtQtdReservaChale.setColumns(10);
+		ftxtQtdReservaChale.setBounds(111, 235, 58, 28);
+		painelPrincipalAdm.add(ftxtQtdReservaChale);
 
-		JLabel lblVlrChale = new JLabel("Total Geral");
-		lblVlrChale.setBounds(192, 240, 73, 16);
-		painelPrincipalAdm.add(lblVlrChale);
+		JLabel lblVlrReservaChale = new JLabel("Total Geral");
+		lblVlrReservaChale.setBounds(192, 240, 73, 16);
+		painelPrincipalAdm.add(lblVlrReservaChale);
 
 		maskValor = new DecimalFormat("R$ #,###,##0.00");
 		NumberFormatter totalChale = new NumberFormatter(maskValor);
@@ -813,10 +814,11 @@ public class PrincipalFrm extends JFrame {
 
 		spTabReservaServico = new JScrollPane();
 		spTabReservaServico.setBounds(30, 300, 895, 180);
-		spTabReservaServico.setToolTipText("clique 2 vezes para editar");
+		spTabReservaServico.setToolTipText("clique 2 vezes para cancelar");
 		painelPrincipalAdm.add(spTabReservaServico);
 
 		tabServico = new JTable();
+		tabServico.setName("servico");
 		tabServico.setBorder(null);
 		tabServico.setAutoCreateRowSorter(true);
 		spTabReservaServico.setViewportView(tabServico);
@@ -906,7 +908,7 @@ public class PrincipalFrm extends JFrame {
 				txtContatoPais,  
 				ftxtReservaDtInicio, 
 				ftxtReservaDtFim, 
-				ftxtQtdChale,
+				ftxtQtdReservaChale,
 				ftxtVlrChale,
 				ftxtQtdReservaServico,
 				ftxtVlrReservaServico,
@@ -925,7 +927,7 @@ public class PrincipalFrm extends JFrame {
 				cboReservaCategoria,
 				cboReservaDocTipo,
 				cboContatoAssunto,
-				tabChale,
+				tabReserva,
 				tabServico,
 				btnLogin,
 				btnReservas,
@@ -961,6 +963,8 @@ public class PrincipalFrm extends JFrame {
 		btnContatoEnviar.addActionListener( ctrl.acionar );
 
 		btnPesquisar.addActionListener( ctrl.acionar );
+		tabReserva.addMouseListener( ctrl.clicar );
+		tabReserva.addKeyListener( ctrl.teclas );
 		tabServico.addMouseListener( ctrl.clicar );
 	}
 }
