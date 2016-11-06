@@ -217,25 +217,60 @@ public class ReservaDAOImpl implements ReservaDAO{
 		ps.execute();
 		ps.close();
 	}
+	
+	public int chaleDisponivel( Reserva r ) throws SQLException{
+	
+		int count = 0;
+		
+		String sql = "SELECT reserva.id "
+				+ "FROM chale "
+				+ "INNER JOIN reserva "
+				+ "ON chale.id = reserva.idChale "
+				+ "WHERE ( "
+				+ "(reserva.dtInicio BETWEEN ? AND ?) OR "
+				+ "(reserva.dtFim BETWEEN ? AND ?) OR "
+				+ "(? BETWEEN reserva.dtInicio AND reserva.dtFim) OR "
+				+ "(? BETWEEN reserva.dtInicio AND reserva.dtFim )"
+				+ ") AND reserva.idChale = ?";
+		
+		PreparedStatement ps = con.prepareStatement(sql);
+		
+		ps.setDate( 1, new java.sql.Date ( r.getDtInicio().getTime() ));
+		ps.setDate( 2, new java.sql.Date ( r.getDtFim().getTime() ));
+		ps.setDate( 3, new java.sql.Date ( r.getDtInicio().getTime() ));
+		ps.setDate( 4, new java.sql.Date ( r.getDtFim().getTime() ));
+		ps.setDate( 5, new java.sql.Date ( r.getDtInicio().getTime() ));
+		ps.setDate( 6, new java.sql.Date ( r.getDtFim().getTime() ));
+		ps.setInt( 7, r.getIdChale().getId() );
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			count++;
+		}
+		rs.close();
+		ps.close();
+		
+		return count;	
+	}
 
 	//Função que verifica se Chalé está disponivel naquela data
-	@Override
-	public int chaleDisponivelPelaData(Reserva reserva ) throws SQLException{
+	public int chaleDisponivelPelaData( Reserva r ) throws SQLException{
 		
 		int disponivel = 0;
 		
 		String sql = "SELECT fn_reserva2(?, ?, ?) AS disponivel";
 		
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt( 1, reserva.getIdChale().getId() );
-		ps.setDate( 2, new java.sql.Date ( reserva.getDtInicio().getTime() ));
-		ps.setDate( 2, new java.sql.Date ( reserva.getDtFim().getTime() ));
+		ps.setInt( 1, r.getIdChale().getId() );
+		ps.setDate( 2, new java.sql.Date ( r.getDtInicio().getTime() ));
+		ps.setDate( 3, new java.sql.Date ( r.getDtFim().getTime() ));
 		ResultSet rs = ps.executeQuery();	
 
-		if(rs.next()){
+		if( rs.next() ){
 			disponivel = rs.getInt("disponivel");
-		}	
+		}
+		rs.close();
+		ps.close();
+		
 		return disponivel;
-
 	}
 }

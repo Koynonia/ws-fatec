@@ -109,7 +109,6 @@ public class ChaleDAOImpl implements ChaleDAO {
 		return lista;
 	}
 
-	@Override
 	public List<Chale> disponivel() throws SQLException {
 
 		String sql = "SELECT * FROM chale "

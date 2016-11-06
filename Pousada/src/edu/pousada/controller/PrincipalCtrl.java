@@ -315,10 +315,6 @@ public class PrincipalCtrl {
 
 
 		cargaPrincipal();
-		cargaChale();
-		cargaReserva();
-		cargaCliente();
-		cargaFuncionario();
 		preecheInfo();
 		preencheCategoria();
 		preencheTipoDoc();
@@ -389,25 +385,43 @@ public class PrincipalCtrl {
 		}
 	}
 
-	public List<Chale> cargaChaleDisponivel(){
+//	public List<Chale> chaleDisponivel(){
+//
+//		ChaleDAOImpl dao = new ChaleDAOImpl();
+//		List<Chale> ch = new ArrayList<Chale>();
+//
+//		try {
+//			ch = dao.disponivel();
+//		} catch (SQLException e) {
+//			msg("", "ERRO SQL " + e.getSQLState() 
+//					+ "\n\nLocal:\nPrincipalCtrl > cargaChaleDisponivel()."  
+//					+ "\n\nMensagem:\n" + e.getMessage() );
+//			//e.printStackTrace();
+//		}
+//		return ch;
+//	}
+	
+	
+	public int chaleDisponivel( Reserva r ){
 
-		ChaleDAO dao = new ChaleDAOImpl();
-		List<Chale> ch = new ArrayList<Chale>();
+		ReservaDAOImpl dao = new ReservaDAOImpl();
+		int ch = 0;
 
 		try {
-			ch = dao.disponivel();
+			ch = dao.chaleDisponivel(r);
 		} catch (SQLException e) {
 			msg("", "ERRO SQL " + e.getSQLState() 
-					+ "\n\nLocal:\nPrincipalCtrl > cargaChaleDisponivel()."  
+					+ "\n\nLocal:\nPrincipalCtrl > chaleDisponivelPelaData()."  
 					+ "\n\nMensagem:\n" + e.getMessage() );
 			//e.printStackTrace();
 		}
 		return ch;
 	}
+
 	
 	public int chaleDisponivelPelaData( Reserva r ){
 		
-		ReservaDAO dao = new ReservaDAOImpl();
+		ReservaDAOImpl dao = new ReservaDAOImpl();
 		int ch = 0;
 
 		try {
@@ -507,6 +521,7 @@ public class PrincipalCtrl {
 	public void adicionaReserva () throws ParseException{
 
 		cargaCliente();
+		cargaChale();
 		cargaReserva();
 		validaCampo();
 
@@ -514,13 +529,8 @@ public class PrincipalCtrl {
 			Chale ch = new Chale();
 			validar = false;
 			if( !chales.isEmpty() ){
-				for( int i = 0; i < cargaChaleDisponivel().size(); i++ ){
-					if( chales.get(i).getCategoria().equals( cboReservaCategoria.getSelectedItem() )){
-						validar = true;
-					}
-				}
-				if( validar != false ){
-					for( int i = 0; i < cargaChaleDisponivel().size(); i++ ){
+
+					for( int i = 0; i < chales.size(); i++ ){
 						if( chales.get(i).getCategoria().equals( cboReservaCategoria.getSelectedItem() )){
 							if( chales.get(i).getId() != null ){
 								ch.setId( chales.get(i).getId() );
@@ -530,11 +540,6 @@ public class PrincipalCtrl {
 							}
 						}
 					}
-					validar = false;
-				} else {
-					msg("erroChale", (String) cboReservaCategoria.getSelectedItem() );
-					return;
-				}
 			} else {
 				msg("erroChale", (String) cboReservaCategoria.getSelectedItem() );
 				return;
@@ -554,7 +559,7 @@ public class PrincipalCtrl {
 				cl.setDtCadastro( new Date() );
 				cl.setAtivo( false );
 				adicionaCliente( cl );
-				cargaCliente();
+//				cargaCliente();
 			} else {
 				for( int i = 0; i < clientes.size(); i++ ){
 					if( clientes.get(i).getDocumento().equals( txtReservaDocNum.getText() )){
@@ -576,7 +581,7 @@ public class PrincipalCtrl {
 							cl.setAtivo( false );
 							cl.setDtCadastro( new Date() );
 							adicionaCliente( cl );
-							cargaCliente();
+//							cargaCliente();
 						} else {
 							for( int j = 0; j < clientes.size(); j++ ){
 								if( clientes.get(j).getDocumento().equals( txtReservaDocNum.getText() )){
@@ -614,11 +619,17 @@ public class PrincipalCtrl {
 			r.setMensagem( txtaReservaMsg.getText() );
 			r.setDesconto( 0 );
 			r.setDtCadastro( new Date() );
-			adicionaReserva( r );
-			//atualiza o estado do botão Reserva na tela Principal
-			btnReservas.setText( "Reservas ( " + logon.reservaQtd() + " )" );
-			btnReservas.setVisible(true);
-			abrir( "reservas" );
+
+			if( chaleDisponivel(r) != 0  ) {
+
+				msg("erroChale", (String) cboReservaCategoria.getSelectedItem() );
+			} else {
+				adicionaReserva( r );
+				//atualiza o estado do botão Reserva na tela Principal
+				btnReservas.setText( "Reservas ( " + logon.reservaQtd() + " )" );
+				btnReservas.setVisible(true);
+				abrir( "reservas" );
+			}
 		}
 	}
 
@@ -656,6 +667,9 @@ public class PrincipalCtrl {
 
 	public void acesso() {
 
+		cargaCliente();
+		cargaFuncionario();
+		
 		if ( btnLogin.getText().equals("Login") ){
 			if ( !funcionarios.isEmpty() || !clientes.isEmpty() ){
 				if (!txtLogin.getText().isEmpty() 
@@ -685,7 +699,7 @@ public class PrincipalCtrl {
 							lblPwd.setVisible(false);
 							pwdSenha.setVisible(false);
 							btnLogin.setText("Sair");
-							msg("autorizado", funcionarios.get(f).getNome() );
+							//msg("autorizado", funcionarios.get(f).getNome() );
 						} else {
 							for (int c = 0; c < clientes.size(); c++) {
 								if (txtLogin.getText().equalsIgnoreCase(clientes.get(c).getLogin())
@@ -912,8 +926,8 @@ public class PrincipalCtrl {
 			titulos.add( 2, "Data" );
 			titulos.add( 3, "Hora Início" );
 			titulos.add( 4, "Hora Fim" );
-			titulos.add( 5, "Cliente" );
-			titulos.add( 6, "" );
+			titulos.add( 5, "Valor" );
+			titulos.add( 6, "Cliente" );
 			titulos.add( 7, "" );
 			titulos.add( 8, "" );
 
@@ -938,6 +952,8 @@ public class PrincipalCtrl {
 
 		case "chale":
 
+			cargaReserva();
+			
 			if( !reservas.isEmpty() ){
 				JCheckBox chk = new JCheckBox();
 				linhas = new Object[reservas.size()][];
@@ -973,6 +989,8 @@ public class PrincipalCtrl {
 
 		case "servico":
 
+			cargaChale();
+			
 			if( !chales.isEmpty() ){
 				linhas = new Object[chales.size()][];
 				for (int i = 0; i < chales.size(); i++) {
@@ -982,8 +1000,8 @@ public class PrincipalCtrl {
 							dt.format( new Date() ),
 							hr.format( new Date() ),
 							hr.format( new Date() ),
+							vlr.format( 20.50 ),
 							"implementar",
-							"6",
 							"7",
 							"8",
 							"9",
@@ -997,6 +1015,7 @@ public class PrincipalCtrl {
 
 
 	public void formataTabela( String opt, JTable tabela ){
+		
 
 		//alinhamento de titulos das colunas
 		((DefaultTableCellRenderer) tabela.getTableHeader().getDefaultRenderer())
@@ -1068,10 +1087,8 @@ public class PrincipalCtrl {
 
 			case "servico":
 				//formata e esconde coluna
-				tabela.getColumnModel().getColumn(5).setCellRenderer(esquerdo);
-				tabela.getColumnModel().getColumn(5).setPreferredWidth(150);
-				tabela.getColumnModel().getColumn(6).setMinWidth(0);
-				tabela.getColumnModel().getColumn(6).setMaxWidth(0);
+				tabela.getColumnModel().getColumn(6).setCellRenderer(esquerdo);
+				tabela.getColumnModel().getColumn(6).setPreferredWidth(150);
 				tabela.getColumnModel().getColumn(7).setMinWidth(0);
 				tabela.getColumnModel().getColumn(7).setMaxWidth(0);
 				tabela.getColumnModel().getColumn(8).setMinWidth(0);
@@ -1103,6 +1120,10 @@ public class PrincipalCtrl {
 		}
 		ftxtQtdChale.setValue( Integer.toString ( reservas.size() ) );
 		ftxtVlrChale.setValue( total );
+		
+		
+		
+		
 	}
 
 

@@ -20,5 +20,4 @@ public interface ReservaDAO {
 	public void excluir(Reserva r) throws SQLException;
 	public Reserva consultar(Reserva r) throws SQLException;
 	public List<Reserva> todos() throws SQLException;
-	public int chaleDisponivelPelaData(Reserva r) throws SQLException;
 }

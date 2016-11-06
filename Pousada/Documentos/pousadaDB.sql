@@ -240,8 +240,8 @@ INSERT INTO `principal` (`id`, `principalInfo`, `principalDetalhe`, `chaleInfo`,
 
 -- FUNCAO PARA SELECIONAR CHALES DISPONIVEIS POR DATA
 
-SELECT * FROM chale
-SELECT * FROM chale INNER JOIN reserva ON chale.id = reserva.chale WHERE reserva.chale
+-- SELECT * FROM chale
+-- SELECT * FROM chale INNER JOIN reserva ON chale.id = reserva.chale WHERE reserva.idChale
 
 
 DELIMITER //
@@ -250,14 +250,14 @@ BEGIN
 	DECLARE boo INT;
 	
 
-IF EXISTS (SELECT reserva.id FROM chale INNER JOIN reserva ON chale.id = reserva.chale
+IF EXISTS (SELECT reserva.id FROM chale INNER JOIN reserva ON chale.id = reserva.idChale
 WHERE 
 (
 	(reserva.dtInicio BETWEEN dtInicio1 AND dtFim1) OR
 	(reserva.dtFim BETWEEN dtInicio1 AND dtFim1) OR
 	(dtInicio1 BETWEEN reserva.dtInicio AND reserva.dtFim) OR
 	(dtFim1 BETWEEN reserva.dtInicio AND reserva.dtFim )
-) AND reserva.chale = idChale)
+) AND reserva.idChale = idChale)
 THEN
 	SET boo= 1;
 
@@ -270,6 +270,4 @@ RETURN boo;
 
 END; //
 
-
-
-SELECT fn_reserva2(4, '2016-11-07', '2016-11-09') AS disponivel
+-- SELECT fn_reserva2(4, '2016-11-07', '2016-11-09') AS disponivel
