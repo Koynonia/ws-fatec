@@ -323,9 +323,6 @@ public class PrincipalCtrl {
 		imagensRandom();
 		alteraBtnReserva();
 
-		formataTabela( "chale", tabChale );
-		formataTabela( "servico", tabServico );
-
 		logon.autoLogin();
 
 		if( logon.getLogon().isEmpty() ){
@@ -782,6 +779,9 @@ public class PrincipalCtrl {
 			break;
 
 		case 2:
+			formataTabela( "chale", tabChale );
+			formataTabela( "servico", tabServico );
+			
 			tabContainer.remove( painelPrincipal );
 			tabContainer.remove( painelChale );
 			tabContainer.remove( painelLazer );
@@ -955,11 +955,9 @@ public class PrincipalCtrl {
 			cargaReserva();
 			
 			if( !reservas.isEmpty() ){
-				JCheckBox chk = new JCheckBox();
 				linhas = new Object[reservas.size()][];
 				for (int i = 0; i < reservas.size(); i++) {
 
-					chk.setEnabled(reservas.get(i).getIdCliente().getAtivo());
 					float vlrTotal = ((( reservas.get(i).getDtFim().getTime() 
 							- reservas.get(i).getDtInicio().getTime() ) + 3600000) / 86400000L) 
 							* reservas.get(i).getIdChale().getDiaria() ;
@@ -980,7 +978,7 @@ public class PrincipalCtrl {
 							Integer.toString( reservas.get(i).getQtdAdulto() + reservas.get(i).getQtdCrianca() ) ,   
 							vlr.format( reservas.get(i).getIdChale().getDiaria() ),
 							vlr.format( total ),
-//							chk
+//							Boolean.FALSE
 							reservas.get(i).getIdCliente().getAtivo()
 					};
 				}
