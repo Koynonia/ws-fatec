@@ -114,8 +114,8 @@ public class ChaleDAOImpl implements ChaleDAO {
 
 		String sql = "SELECT * FROM chale "
 				+ "LEFT OUTER JOIN reserva "
-				+ "ON chale.id = reserva.chale "
-				+ "WHERE reserva.chale IS NULL";
+				+ "ON chale.id = reserva.idChale "
+				+ "WHERE reserva.idChale IS NULL";
 
 		PreparedStatement ps = con.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
@@ -132,6 +132,4 @@ public class ChaleDAOImpl implements ChaleDAO {
 		
 		return lista;
 	}
-	
-
 }

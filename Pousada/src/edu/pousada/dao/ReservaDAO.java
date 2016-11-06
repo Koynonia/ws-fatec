@@ -10,6 +10,7 @@ package edu.pousada.dao;
 import java.sql.SQLException;
 import java.util.List;
 
+import edu.pousada.entity.Chale;
 import edu.pousada.entity.Reserva;
 
 public interface ReservaDAO {
@@ -19,4 +20,5 @@ public interface ReservaDAO {
 	public void excluir(Reserva r) throws SQLException;
 	public Reserva consultar(Reserva r) throws SQLException;
 	public List<Reserva> todos() throws SQLException;
+	public int chaleDisponivelPelaData(Reserva r) throws SQLException;
 }

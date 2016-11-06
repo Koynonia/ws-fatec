@@ -15,6 +15,7 @@ public class Pessoa {
 	private String nome;
 	private Date dtNasc;
 	private String responsavel;
+	private Date dtCadastro;
 	
 	
 	public Integer getId() {
@@ -40,5 +41,11 @@ public class Pessoa {
 	}
 	public void setResponsavel(String responsavel) {
 		this.responsavel = responsavel;
+	}
+	public Date getDtCadastro() {
+		return dtCadastro;
+	}
+	public void setDtCadastro(Date dtCadastro) {
+		this.dtCadastro = dtCadastro;
 	}
 }

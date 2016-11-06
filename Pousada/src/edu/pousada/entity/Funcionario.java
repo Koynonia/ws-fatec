@@ -26,6 +26,8 @@ public class Funcionario {
 	private String cep;
 	private String cargo;
 	private String setor;
+	private String login;
+	private String senha;
 	private Boolean ativo;
 	private Date dtCadastro;
 	
@@ -119,6 +121,18 @@ public class Funcionario {
 	}
 	public void setSetor(String setor) {
 		this.setor = setor;
+	}
+	public String getLogin() {
+		return login;
+	}
+	public void setLogin(String login) {
+		this.login = login;
+	}
+	public String getSenha() {
+		return senha;
+	}
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 	public Boolean getAtivo() {
 		return ativo;
