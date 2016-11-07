@@ -103,6 +103,8 @@ public class PrincipalFrm extends JFrame {
 	private JButton btnContatoEnviar;
 	private JButton btnReservaLimpar;
 	private JButton btnContatoLimpar;
+	private JButton btnReservaEditar;
+	private JButton btnServicoEditar;
 	private JTable tabReserva;
 	private JTable tabServico;
 	private JTabbedPane tabContainer;
@@ -144,7 +146,7 @@ public class PrincipalFrm extends JFrame {
 
 		setTitle("Pousada Inn Von Dix");
 		setName("Principal");
-		setBounds(100, 100, 1024, 730);
+		setBounds(100, 100, 1056, 730);
 		setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
 		setLocationRelativeTo(null);
 		setResizable(false);
@@ -207,7 +209,7 @@ public class PrincipalFrm extends JFrame {
 		painel.add(lblRelogio);
 
 		tabContainer = new JTabbedPane(JTabbedPane.TOP);
-		tabContainer.setBounds(23, 92, 976, 580);
+		tabContainer.setBounds(39, 92, 976, 580);
 		painel.add(tabContainer);
 
 		painelPrincipal = new JPanel();
@@ -771,7 +773,7 @@ public class PrincipalFrm extends JFrame {
 
 		spChale = new JScrollPane();
 		spChale.setBounds(30, 50, 895, 180);
-		spChale.setToolTipText("clique 2 vezes para cancelar");
+		spChale.setToolTipText("clique para editar ou excluir");
 		painelPrincipalAdm.add(spChale);
 
 		tabReserva = new JTable();
@@ -807,6 +809,10 @@ public class PrincipalFrm extends JFrame {
 		ftxtVlrChale.setBounds(264, 235, 98, 28);
 		ftxtVlrChale.setColumns(10);
 		painelPrincipalAdm.add(ftxtVlrChale);
+		
+		btnReservaEditar = new JButton("Editar ou Excluir");
+		btnReservaEditar.setBounds(790, 235, 140, 29);
+		painelPrincipalAdm.add(btnReservaEditar);
 
 		JLabel lblTabReservaServico = new JLabel("Reservas de Serviços");
 		lblTabReservaServico.setBounds(790, 280, 130, 16);
@@ -814,7 +820,7 @@ public class PrincipalFrm extends JFrame {
 
 		spTabReservaServico = new JScrollPane();
 		spTabReservaServico.setBounds(30, 300, 895, 180);
-		spTabReservaServico.setToolTipText("clique 2 vezes para cancelar");
+		spTabReservaServico.setToolTipText("clique para editar ou excluir");
 		painelPrincipalAdm.add(spTabReservaServico);
 
 		tabServico = new JTable();
@@ -850,17 +856,24 @@ public class PrincipalFrm extends JFrame {
 		ftxtVlrReservaServico.setBounds(264, 485, 98, 28);
 		ftxtVlrReservaServico.setColumns(10);
 		painelPrincipalAdm.add(ftxtVlrReservaServico);
-
+		
+		btnServicoEditar = new JButton("Editar ou Excluir");
+		btnServicoEditar.setBounds(790, 485, 140, 29);
+		painelPrincipalAdm.add(btnServicoEditar);
+		
 		lblVersao = new JLabel( versao );
 		lblVersao.setBounds(33, 680, 97, 16);
 		lblVersao.setEnabled(false);
 		painel.add(lblVersao);
 
 		JLabel lblFundo = new JLabel();
-		lblFundo.setBounds(0, 0, 1024, 710);
+		lblFundo.setBounds(0, 0, 1056, 710);
 		lblFundo.setIcon(new ImageIcon(fundo.getImage().getScaledInstance(lblFundo.getWidth(), 
 				lblFundo.getHeight(), Image.SCALE_DEFAULT)));
 		painel.add(lblFundo);
+
+
+		/////// COMPONENTES PARA O CONTROLLER ///////
 
 		PrincipalCtrl ctrl = new PrincipalCtrl(
 				this,
@@ -935,8 +948,12 @@ public class PrincipalFrm extends JFrame {
 				btnContatoEnviar,
 				btnPesquisar,
 				btnReservaLimpar,
-				btnContatoLimpar
+				btnContatoLimpar,
+				btnReservaEditar,
+				btnServicoEditar
 				);
+
+		/////// ACAO PARA O CONTROLLER ///////
 
 		txtLogin.addKeyListener( ctrl.teclas );
 		pwdSenha.addActionListener( ctrl.acionar );
@@ -962,7 +979,10 @@ public class PrincipalFrm extends JFrame {
 		btnContatoLimpar.addActionListener( ctrl.acionar );
 		btnContatoEnviar.addActionListener( ctrl.acionar );
 
+		txtPesquisa.addActionListener( ctrl.acionar );
 		btnPesquisar.addActionListener( ctrl.acionar );
+		btnReservaEditar.addActionListener( ctrl.acionar );
+		btnServicoEditar.addActionListener( ctrl.acionar );
 		tabReserva.addMouseListener( ctrl.clicar );
 		tabReserva.addKeyListener( ctrl.teclas );
 		tabServico.addMouseListener( ctrl.clicar );

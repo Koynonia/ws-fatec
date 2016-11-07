@@ -149,6 +149,8 @@ public class PrincipalCtrl {
 	private JButton btnPesquisar;
 	private JButton btnReservaLimpar;
 	private JButton btnContatoLimpar;
+	private JButton btnReservaEditar;
+	private JButton btnServicoEditar;
 	private String diretorio = "../Pousada/resources/";
 	private LogonCtrl logon = LogonCtrl.getInstance();
 	private ImageIcon imagem;
@@ -234,7 +236,9 @@ public class PrincipalCtrl {
 			JButton btnContatoEnviar,
 			JButton btnPesquisar, 
 			JButton btnReservaLimpar, 
-			JButton btnContatoLimpar
+			JButton btnContatoLimpar,
+			JButton btnReservaEditar, 
+			JButton btnServicoEditar
 			){
 
 		this.janela = janela; 
@@ -310,6 +314,8 @@ public class PrincipalCtrl {
 		this.btnPesquisar = btnPesquisar;
 		this.btnReservaLimpar = btnReservaLimpar;
 		this.btnContatoLimpar = btnContatoLimpar;
+		this.btnReservaEditar = btnReservaEditar;
+		this.btnServicoEditar = btnServicoEditar;
 		this.infos = new ArrayList<Principal>();
 		this.chales = new ArrayList<Chale>();
 		this.clientes = new ArrayList<Cliente>();
@@ -541,14 +547,22 @@ public class PrincipalCtrl {
 			Chale ch = new Chale();
 			validar = false;
 			if( !chales.isEmpty() ){
-				//seleciona o chale da categoria escolhida ou retorna erro
-				for( int i = 0; i < chales.size(); i++ ){
-					if( chales.get(i).getCategoria().equals( cboReservaCategoria.getSelectedItem() )){
-						if( chales.get(i).getId() != null ){
-							ch.setId( chales.get(i).getId() );
-							ch.setCategoria( chales.get(i).getCategoria() );
-							ch.setDiaria( chales.get(i).getDiaria() );
-							ch.setFrigobar( chales.get(i).getFrigobar() );
+
+				for( int r = 0; r < reservas.size(); r++ ){
+
+					//seleciona o chale da categoria escolhida ou retorna erro
+					for( int i = 0; i < chales.size(); i++ ){
+						if( chales.get(i).getCategoria().equals( cboReservaCategoria.getSelectedItem() )){
+
+							//verifica se o chale já foi reservado
+							if ( !reservas.get(r).getIdChale().getId().equals( chales.get(i).getId() )){
+
+								ch.setId( chales.get(i).getId() );
+								ch.setCategoria( chales.get(i).getCategoria() );
+								ch.setDiaria( chales.get(i).getDiaria() );
+								ch.setFrigobar( chales.get(i).getFrigobar() );
+
+							} 
 						}
 					}
 				}
@@ -572,6 +586,7 @@ public class PrincipalCtrl {
 				cl.setDtCadastro( new Date() );
 				cl.setAtivo( false );
 				adicionaCliente( cl );
+				cargaCliente(); //atualiza com o novo cliente
 			} else {
 				//se já houver clientes, busca pelo documento do cliente
 				for( int i = 0; i < clientes.size(); i++ ){
@@ -595,6 +610,7 @@ public class PrincipalCtrl {
 							cl.setAtivo( false );
 							cl.setDtCadastro( new Date() );
 							adicionaCliente( cl );
+							cargaCliente();//atualiza com o novo cliente
 						} else {
 							//caso o cliente seja encontrado, apenas recupera seus dados para a reserva
 							for( int j = 0; j < clientes.size(); j++ ){
@@ -637,49 +653,53 @@ public class PrincipalCtrl {
 
 			//verifica se a reserva do chale esta disponivel (verifica as datas)
 			if( chaleDisponivel(r) != 0  ) {
-
+				System.out.println("passou fim - " + r.getIdChale().getId());
 				msg("erroChale", (String) cboReservaCategoria.getSelectedItem() );
 			} else {
 				adicionaReserva( r );
+				if( logon.getLogon().get(0).getPerfil() != 2 ){
 				//atualiza o estado do botão Reserva na tela Principal
 				btnReservas.setText( "Reservas ( " + logon.reservaQtd() + " )" );
 				btnReservas.setVisible(true);
 				abrir( "reservas" );
+				} else {
+					trocaPerfil(2);
+				}
 			}
 		}
 	}
 
 
 	public void cancelaReserva( JTable tabela ){
-		// seleciona a linha da tabela a ser cancelada
 
+		// seleciona a linha da tabela a ser cancelada
 		if ( tabela.getSelectedRowCount() == 0 ) {
 			msg( "erroLinha", "" );
 		} else {
-			if(tabela.getRowCount() > 0){
-				msg( "cancelar", "" );
-				if (validar != false){
-					// atualiza a base de dados excluindo o registro selecionado
-					Reserva r = new Reserva();
-					for(int i = 0; i < reservas.size(); i ++){
-						// limpa a mascara no numero da reserva
-						if((tabela.getValueAt(tabela.getSelectedRow(), 0).toString().replaceFirst("0*", ""))
-								.equals( reservas.get(i).getId().toString() )){
-							r.setId(reservas.get(i).getId());
-							excluiReserva( r );
-							cargaReserva();
-							msg("cancelarOk", tabela.getValueAt(tabela.getSelectedRow(), 0).toString() );
-						}
-					}
-					validar = false;
-					// atualiza a tabela, removendo a linha
-					((DefaultTableModel) tabela.getModel()).removeRow(tabela.getSelectedRow());
-					tabela.updateUI();
 
-					// atualiza o valor total
-					atualizaValor( tabela );
-				} 
+			// atualiza a base de dados excluindo o registro selecionado
+			Reserva r = new Reserva();
+			for(int i = 0; i < reservas.size(); i ++){
+
+				// limpa a mascara no numero da reserva
+				if((tabela.getValueAt(tabela.getSelectedRow(), 0).toString().replaceFirst("0*", ""))
+						.equals( reservas.get(i).getId().toString() )){		
+					msg( "cancelarReserva", "nº " + String.format( "%06d", reservas.get(i).getId()) );
+					if (validar != false){
+						r.setId(reservas.get(i).getId());
+						excluiReserva( r );
+						cargaReserva();
+
+						// atualiza a tabela, removendo a linha
+						((DefaultTableModel) tabela.getModel()).removeRow(tabela.getSelectedRow());
+						tabela.updateUI();
+
+						// atualiza o valor total
+						atualizaValor( tabela );
+					} 
+				}
 			}
+			validar = false;	
 		}
 	}
 
@@ -843,7 +863,8 @@ public class PrincipalCtrl {
 			break;
 
 		case 2:
-			formataTabela( "chale", tabReserva );
+			PrincipalCtrl.btnReservas.setVisible(false);
+			formataTabela( "reserva", tabReserva );
 			formataTabela( "servico", tabServico );
 
 			tabContainer.remove( painelPrincipal );
@@ -853,7 +874,8 @@ public class PrincipalCtrl {
 			tabContainer.remove( painelReserva );
 			tabContainer.remove( painelContato );
 			tabContainer.add( "Principal", painelPrincipalAdm );
-			tabContainer.add( "Reservas", painelReservaAdm );
+			//tabContainer.add( "Reservas", painelReservaAdm );
+			tabContainer.add( "Reservas", painelReserva );
 			tabContainer.add( "Chalés", painelChaleAdm );
 			tabContainer.add( "Serviço", painelServicoAdm );
 			break;
@@ -962,17 +984,18 @@ public class PrincipalCtrl {
 
 		switch ( opt ){
 
-		case "chale":
+		case "reserva":
 			titulos.clear();
-			titulos.add( 0, "Chalé nº" );
-			titulos.add( 1, "Categoria" );
-			titulos.add( 2, "Reserva Início" );
-			titulos.add( 3, "Reserva Fim" );
-			titulos.add( 4, "Frigobar" );
-			titulos.add( 5, "Qtd. Pessoas" );
-			titulos.add( 6, "Vlr. Diária" );
-			titulos.add( 7, "Vlr. Total" );
-			titulos.add( 8, "Confimado" );
+			titulos.add( 0, "Reserva nº" );
+			titulos.add( 1, "Chalé nº" );
+			titulos.add( 2, "Categoria" );
+			titulos.add( 3, "Reserva Início" );
+			titulos.add( 4, "Reserva Fim" );
+			titulos.add( 5, "Cliente" );
+			titulos.add( 6, "Qtd. Pessoas" );
+			titulos.add( 7, "Vlr. Diária" );
+			titulos.add( 8, "Vlr. Total" );
+			titulos.add( 9, "Confimado" );
 
 			for ( int i = 0; i< titulos.size(); i++ ) {
 				colunas = (String[]) titulos.toArray (new String[i]);
@@ -982,14 +1005,17 @@ public class PrincipalCtrl {
 		case "servico":
 			titulos.clear();
 			titulos.add( 0, "Chalé nº" );
-			titulos.add( 1, "Serviço" );
-			titulos.add( 2, "Data" );
-			titulos.add( 3, "Hora Início" );
-			titulos.add( 4, "Hora Fim" );
-			titulos.add( 5, "" );
+			titulos.add( 1, "" );
+			titulos.add( 2, "Serviço" );
+			titulos.add( 3, "Data" );
+			titulos.add( 4, "Hora Início" );
+			titulos.add( 5, "Hora Fim" );
 			titulos.add( 6, "" );
-			titulos.add( 7, "Valor" );
-			titulos.add( 8, "Cliente" );
+			titulos.add( 7, "Cliente" );
+			titulos.add( 8, "Valor" );
+			titulos.add( 9, "" );
+
+
 
 			for ( int i = 0; i< titulos.size(); i++ ) {
 				colunas = (String[]) titulos.toArray (new String[i]);
@@ -1012,10 +1038,11 @@ public class PrincipalCtrl {
 
 		switch ( opt ){
 
-		case "chale":
+		case "reserva":
 
 			cargaReserva();
 
+			//calcula o valor total das reservas em cada linha
 			if( !reservas.isEmpty() ){
 				linhas = new Object[reservas.size()][];
 				for (int i = 0; i < reservas.size(); i++) {
@@ -1031,12 +1058,14 @@ public class PrincipalCtrl {
 						total = reservas.get(i).getIdChale().getDiaria();
 					}
 
+					//carrega as linhas na tabela
 					linhas[i] = new Object[]{
-							String.format( "%03d",reservas.get(i).getId() ),
+							String.format( "%06d",reservas.get(i).getId() ),
+							String.format( "%03d",reservas.get(i).getIdChale().getId() ),
 							reservas.get(i).getIdChale().getCategoria(),
 							dt.format( reservas.get(i).getDtInicio() ),
 							dt.format( reservas.get(i).getDtFim() ),
-							"implementar",
+							"  " + reservas.get(i).getIdCliente().getNome(),
 							Integer.toString( reservas.get(i).getQtdAdulto() + reservas.get(i).getQtdCrianca() ) ,   
 							vlr.format( reservas.get(i).getIdChale().getDiaria() ),
 							vlr.format( total ),
@@ -1055,14 +1084,15 @@ public class PrincipalCtrl {
 				for (int i = 0; i < chales.size(); i++) {
 					linhas[i] = new Object[]{
 							String.format( "%03d", chales.get(i).getId() ),
+							"escondido",
 							"implementar",
 							dt.format( new Date() ),
 							hr.format( new Date() ),
 							hr.format( new Date() ),
-							"",
-							"",
+							"escondido",
+							"implementar",
 							vlr.format( 20.50 ),
-							" implementar",
+							"escondido"				
 					};
 				}
 			}
@@ -1095,7 +1125,7 @@ public class PrincipalCtrl {
 
 			//Disabilita a edicao de qualquer celula, mesnos a coluna mencionada
 			public boolean isCellEditable(int rowIndex, int colIndex) {
-				return (colIndex == 8);
+				return (colIndex == 9);
 			}
 
 			@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -1103,7 +1133,7 @@ public class PrincipalCtrl {
 			public Class getColumnClass(int column) {
 				switch (column) {
 
-				case 8:
+				case 9:
 					return Boolean.class;
 				default:
 					return String.class;
@@ -1121,36 +1151,47 @@ public class PrincipalCtrl {
 
 			//aplica o alinhamento
 			tabela.getColumnModel().getColumn(0).setCellRenderer(centro);
-			tabela.getColumnModel().getColumn(1).setCellRenderer(esquerdo);
-			tabela.getColumnModel().getColumn(2).setCellRenderer(centro);
+			tabela.getColumnModel().getColumn(1).setCellRenderer(centro);
+			tabela.getColumnModel().getColumn(2).setCellRenderer(esquerdo);
 			tabela.getColumnModel().getColumn(3).setCellRenderer(centro);
 			tabela.getColumnModel().getColumn(4).setCellRenderer(centro);
 			tabela.getColumnModel().getColumn(5).setCellRenderer(centro);
-			tabela.getColumnModel().getColumn(6).setCellRenderer(direito);
+			tabela.getColumnModel().getColumn(6).setCellRenderer(centro);
 			tabela.getColumnModel().getColumn(7).setCellRenderer(direito);
-			tabela.getColumnModel().getColumn(8).setCellRenderer(centro);
+			tabela.getColumnModel().getColumn(8).setCellRenderer(direito);
+			tabela.getColumnModel().getColumn(9).setCellRenderer(centro);
 
 			//tamanho das colunas
-			tabela.getColumnModel().getColumn(0).setPreferredWidth(20);
-			tabela.getColumnModel().getColumn(1).setPreferredWidth(20);
+			tabela.getColumnModel().getColumn(0).setPreferredWidth(15);
+			tabela.getColumnModel().getColumn(1).setPreferredWidth(15);
 			tabela.getColumnModel().getColumn(2).setPreferredWidth(20);
-			tabela.getColumnModel().getColumn(3).setPreferredWidth(20);
-			tabela.getColumnModel().getColumn(4).setPreferredWidth(20);
+			tabela.getColumnModel().getColumn(3).setPreferredWidth(30);
+			tabela.getColumnModel().getColumn(4).setPreferredWidth(30);
 			tabela.getColumnModel().getColumn(5).setPreferredWidth(20);
 			tabela.getColumnModel().getColumn(6).setPreferredWidth(20);
 			tabela.getColumnModel().getColumn(7).setPreferredWidth(20);
 			tabela.getColumnModel().getColumn(8).setPreferredWidth(20);
+			tabela.getColumnModel().getColumn(9).setPreferredWidth(20);
 
+			
+			//formata e esconde coluna por tabela
 			switch ( opt){
-
+			
+			case "reserva":
+				tabela.getColumnModel().getColumn(5).setCellRenderer(esquerdo);
+				tabela.getColumnModel().getColumn(5).setPreferredWidth(120);
+				break;
+				
 			case "servico":
-				//formata e esconde coluna
-				tabela.getColumnModel().getColumn(5).setMinWidth(0);
-				tabela.getColumnModel().getColumn(5).setMaxWidth(0);
+				tabela.getColumnModel().getColumn(1).setMinWidth(0);
+				tabela.getColumnModel().getColumn(1).setMaxWidth(0);
 				tabela.getColumnModel().getColumn(6).setMinWidth(0);
 				tabela.getColumnModel().getColumn(6).setMaxWidth(0);
-				tabela.getColumnModel().getColumn(8).setCellRenderer(esquerdo);
-				tabela.getColumnModel().getColumn(8).setPreferredWidth(150);
+				tabela.getColumnModel().getColumn(7).setCellRenderer(esquerdo);
+				tabela.getColumnModel().getColumn(7).setPreferredWidth(150);
+				tabela.getColumnModel().getColumn(9).setMinWidth(0);
+				tabela.getColumnModel().getColumn(9).setMaxWidth(0);
+				break;
 			}
 		}
 		atualizaValor( tabela );
@@ -1174,7 +1215,7 @@ public class PrincipalCtrl {
 
 				try {
 					//converte a String e realiza a soma
-					total+= nf.parse( tabela.getValueAt(i, 7).toString() ).doubleValue();
+					total+= nf.parse( tabela.getValueAt(i, 8).toString() ).doubleValue();
 				} catch (ParseException e) {
 					msg("", "ERRO " + e.getCause() 
 							+ "\n\nLocal:\nPrincipalCtrl > atualizaValor()."  
@@ -1365,6 +1406,11 @@ public class PrincipalCtrl {
 		Component[] painelAtivo = null;
 
 		switch ( guiaAtiva){
+		
+		case 1: //perfil funcionario
+			painelAtivo = painelReserva.getComponents();
+			break;
+			
 		case 4:
 			painelAtivo = painelReserva.getComponents();
 			break;
@@ -1547,6 +1593,9 @@ public class PrincipalCtrl {
 			if( source == pwdSenha ){
 				acesso();
 			}
+			if( source == txtPesquisa ){
+				msg( "construir", "" );
+			}
 			if( source == btnReservas ){
 				abrir("reservas");
 			}
@@ -1574,6 +1623,12 @@ public class PrincipalCtrl {
 			}
 			if( source == cboReservaCategoria ){
 				imagensCombo();
+			}
+			if( source == btnReservaEditar ){
+				cancelaReserva( tabReserva );
+			}
+			if( source == btnServicoEditar ){
+				msg( "construir", "" );
 			}
 		}
 	};
@@ -1639,8 +1694,8 @@ public class PrincipalCtrl {
 
 			String tipo = "";
 			String tam = "";
-			
-			//verifica qual componenete esta solicitando a acao e desabilita
+
+			//verifica qual componenete e configura o tipo de entrada (alfa ou numero)
 			Object source = e.getSource();
 
 			if( source == txtReservaNome ){
@@ -1750,6 +1805,9 @@ public class PrincipalCtrl {
 				if( source == tabReserva ){
 					cancelaReserva( tabReserva );
 				}
+				if( source == tabServico ){
+					msg( "construir", "" );
+				}
 			}
 		}
 	};
@@ -1841,26 +1899,31 @@ public class PrincipalCtrl {
 							new ImageIcon( diretorio + "/icons/error.png" ));
 			break;
 
-		case "cancelarOk":
-			JOptionPane.showMessageDialog(null, 
-					"CANCELADO!\nReserva(s) " + mensagem + " cancelada(s).", 
-					"Cancelamento Efetuado", 
-					JOptionPane.PLAIN_MESSAGE,
-					new ImageIcon( diretorio + "/icons/confirm.png" ));
-			break;
 
-		case "cancelar":
-			Object[] opt = { "Confirmar", "Cancelar" };
-			int retirar = JOptionPane.showOptionDialog(null, mensagem +
-					"ATENÇÃO!\nDeseja cancelar esta Reserva?",
-					"Cancelar Reserva", 
-					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
-					new ImageIcon( diretorio + "/icons/alert.png" ), opt, opt[1]);
-			if (retirar == 0) {
+		case "cancelarReserva":
+			int retirar = JOptionPane.showOptionDialog(null, 
+					"Deseja editar ou excluir a Reserva " + mensagem + "?",
+					"Editar ou Excluir Reserva", 
+					JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, 
+					new ImageIcon( diretorio + "/icons/alert.png" ), 
+					new String[]{"Excluir", "Editar","Cancelar"}, "Cancelar");
+			if(retirar == JOptionPane.YES_OPTION) {
 				validar = true;
-			} else {
+			}
+			else if(retirar == JOptionPane.NO_OPTION) {
+				msg( "construir", "" );
+			}
+			else if(retirar == JOptionPane.CANCEL_OPTION) {
 				validar = false;
 			}
+			break;
+
+		case "erroLinha":
+			JOptionPane.showMessageDialog(null, 
+					"Por favor, selecione uma Reserva para cancelar.", 
+					"Reserva não selecionada", 
+					JOptionPane.PLAIN_MESSAGE,
+					new ImageIcon( diretorio + "/icons/error.png" ));
 			break;
 
 		case "construir":

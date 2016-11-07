@@ -190,11 +190,11 @@ INSERT INTO `cliente` (`id`, `nome`, `email`, `documento`, `docTipo`,
 
 (NULL,'Sicrano', 'sicrano@email.com', '1112233FA', 'Passaporte', '1995-08-20', 
 '12345678901', '12345678901', 'Rua do Sicrano, 01', 'Parque Sicrano', 
-'São Paulo', 'São Paulo', 'Brasil', '01234567','' ,'' , '0', '2016-10-20'),
+'São Paulo', 'São Paulo', 'Brasil', '01234567','' ,'' , '1', '2016-10-20'),
 
 (NULL,'Beltrano da Silva', 'beltrano@email.com', '11222333', 'RG', '1995-04-23', 
 '12345678900', '12345678902', 'Rua do Beltrano, 01', 'Parque Beltrano', 
-'Salvador', 'Bahia', 'Brasil', '01235467','' ,'' , '0', '2016-10-20'), 
+'Salvador', 'Bahia', 'Brasil', '01235467','' ,'' , '1', '2016-10-20'), 
 
 (NULL,'Roberto Silva', 'roberto@email.com', '222.333.444-55', 'RG', '1970-08-20', 
 '13345678900', '13345678902', 'Rua do Fernando, 01', 'Parque', 

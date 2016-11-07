@@ -142,6 +142,9 @@ public class ReservaFrm extends JFrame {
 		btnVoltar.setBounds(612, 408, 117, 29);
 		painel.add(btnVoltar);
 
+		
+	/////// COMPONENTES PARA O CONTROLLER ///////
+		
 		ReservaCtrl ctrl = new ReservaCtrl(
 				this, 
 				tabReserva, 
@@ -153,6 +156,9 @@ public class ReservaFrm extends JFrame {
 				btnVoltar
 				);
 
+		
+	/////// ACAO PARA O CONTROLLER ///////
+		
 		tabReserva.addMouseListener( ctrl.clicar );
 		tabReserva.addKeyListener( ctrl.teclar );
 		btnLimpar.addActionListener( ctrl.acionar );

@@ -141,43 +141,44 @@ public class ReservaCtrl {
 	}
 
 	public void cancela(){
-		// seleciona a linha da tabela a ser cancelada
 
+		// seleciona a linha da tabela a ser cancelada
 		if ( tabela.getSelectedRowCount() == 0 ) {
 			msg( "erroLinha", "" );
 		} else {
-			if( tabela.getRowCount() > 0 ){
-				msg( "cancelar", "" );
-				if ( validar != false ){
-					// atualiza a base de dados excluindo o registro selecionado
-					Reserva r = new Reserva();
-					for( int i = 0; i < reservas.size(); i ++ ){
-						// limpa a mascara no numero da reserva
-						if((tabela.getValueAt( tabela.getSelectedRow(), 0).toString().replaceFirst("0*", "") )
-								.equals( reservas.get(i).getId().toString() )){
-							r.setId(reservas.get(i).getId());
-							excluir( r );
-							cargaReserva();
-							// atualiza o estado do botão Reserva na tela Principal
-							if ( !reservas.isEmpty()) {
+
+			// atualiza a base de dados excluindo o registro selecionado
+			Reserva r = new Reserva();
+			for(int i = 0; i < reservas.size(); i ++){
+
+				// limpa a mascara no numero da reserva
+				if((tabela.getValueAt(tabela.getSelectedRow(), 0).toString().replaceFirst("0*", ""))
+						.equals( reservas.get(i).getId().toString() )){		
+					msg( "cancelar", "nº " + String.format( "%06d", reservas.get(i).getId()) );
+					if (validar != false){
+						r.setId(reservas.get(i).getId());
+						excluir( r );
+						cargaReserva();
+
+						// atualiza o estado do botão Reserva na tela Principal
+						if ( !reservas.isEmpty()) {
 							PrincipalCtrl.btnReservas.setText( "Reservas ( " + logon.reservaQtd() + " )" );
 							PrincipalCtrl.btnReservas.setVisible(true);
-							} else {
-								PrincipalCtrl.btnReservas.setText( "Reservas");
-								PrincipalCtrl.btnReservas.setVisible(false);
-							}
-							msg( "sucesso", tabela.getValueAt(tabela.getSelectedRow(), 0 ).toString() );
+						} else {
+							PrincipalCtrl.btnReservas.setText( "Reservas");
+							PrincipalCtrl.btnReservas.setVisible(false);
 						}
-					}
-					validar = false;
-					// atualiza a tabela, removendo a linha
-					( (DefaultTableModel) tabela.getModel()).removeRow(tabela.getSelectedRow() );
-					tabela.updateUI();
 
-					// atualiza o valor total
-					atualizaValor();
-				} 
+						// atualiza a tabela, removendo a linha
+						((DefaultTableModel) tabela.getModel()).removeRow(tabela.getSelectedRow());
+						tabela.updateUI();
+
+						// atualiza o valor total
+						atualizaValor();
+					} 
+				}
 			}
+			validar = false;	
 		}
 	}
 
@@ -437,8 +438,8 @@ public class ReservaCtrl {
 			
 		case "cancelar":
 			Object[] opt = { "Confirmar", "Cancelar" };
-			int retirar = JOptionPane.showOptionDialog(null, mensagem +
-					"ATENÇÃO!\nDeseja cancelar esta Reserva?",
+			int retirar = JOptionPane.showOptionDialog(null, 
+					"ATENÇÃO!\nDeseja cancelar a Reserva " + mensagem + "?",
 					"Cancelar Reserva", 
 					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
 					new ImageIcon( diretorio + "/icons/alert.png" ), opt, opt[1]);
@@ -465,8 +466,8 @@ public class ReservaCtrl {
 			
 		case "erroLinha":
 			JOptionPane.showMessageDialog(null, 
-					"Por favor, selecione um Chalé para cancelar.", 
-					"Chalé não selecionado", 
+					"Por favor, selecione uma Reserva para cancelar.", 
+					"Reserva não selecionada", 
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon( diretorio + "/icons/error.png" ));
 			break;
