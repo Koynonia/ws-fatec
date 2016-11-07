@@ -145,24 +145,30 @@ public class LogonCtrl {
 
 	public void excluiReservas (){
 
+		cargaReserva();
+		
 		if( !reservas.isEmpty() ){
-			msg("excluirReservas", "" + reservas.size() );
-			if( validar != false ){
-				ReservaDAO dao = new ReservaDAOImpl();
-				Reserva r = new Reserva();
+			
+			// se for um funcionario não exclui as reservas não confirmadas
+			if ( logon.get(0).getPerfil() != 2 ){
+				msg("excluirReservas", "" + reservas.size() );
+				if( validar != false ){
+					ReservaDAO dao = new ReservaDAOImpl();
+					Reserva r = new Reserva();
 
-				for( int i = 0; i< reservas.size(); i++ ){
-					r.setId( reservas.get(i).getId() );
-					try {
-						dao.excluir( r );
-					} catch (SQLException e) {
-						msg("", "ERRO SQL " + e.getSQLState() 
-								+ "\n\nLocal:\nLogonCtrl >  excluiReservas()."  
-								+ "\n\nMensagem:\n" + e.getMessage() );
-						//e.printStackTrace();
+					for( int i = 0; i< reservas.size(); i++ ){
+						r.setId( reservas.get(i).getId() );
+						try {
+							dao.excluir( r );
+						} catch (SQLException e) {
+							msg("", "ERRO SQL " + e.getSQLState() 
+									+ "\n\nLocal:\nLogonCtrl >  excluiReservas()."  
+									+ "\n\nMensagem:\n" + e.getMessage() );
+							//e.printStackTrace();
+						}
+						PrincipalCtrl.btnReservas.setText( "Reservas");
+						PrincipalCtrl.btnReservas.setVisible(false);
 					}
-					PrincipalCtrl.btnReservas.setText( "Reservas");
-					PrincipalCtrl.btnReservas.setVisible(false);
 				}
 			}
 		}
@@ -299,7 +305,7 @@ public class LogonCtrl {
 		Date data = null;
 
 		if ( logon.size() > 0 ){
-			int tempo = 5; //variavel que controla os minutos da sessão
+			int tempo = 1; //variavel que controla os minutos da sessão
 
 			switch (op){
 			case "logon":
@@ -308,6 +314,7 @@ public class LogonCtrl {
 			case "reservas":
 				if ( !reservas.isEmpty() ){
 					data = reservas.get(0).getDtCadastro();
+					System.out.println("passou");
 				} else {
 					data = new Date();
 				}

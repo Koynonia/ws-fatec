@@ -24,7 +24,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -33,7 +32,6 @@ import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
@@ -49,9 +47,6 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
-
 import edu.pousada.boundary.PrincipalFrm;
 import edu.pousada.boundary.ReservaFrm;
 import edu.pousada.dao.ChaleDAO;
@@ -547,22 +542,35 @@ public class PrincipalCtrl {
 			Chale ch = new Chale();
 			validar = false;
 			if( !chales.isEmpty() ){
+				if( !reservas.isEmpty() ){
 
-				for( int r = 0; r < reservas.size(); r++ ){
+					for( int r = 0; r < reservas.size(); r++ ){
 
-					//seleciona o chale da categoria escolhida ou retorna erro
+						//seleciona o chale da categoria escolhida ou retorna erro
+						for( int i = 0; i < chales.size(); i++ ){
+							if( chales.get(i).getCategoria().equals( cboReservaCategoria.getSelectedItem() )){
+
+								//verifica se o chale já foi reservado
+								if ( !reservas.get(r).getIdChale().getId().equals( chales.get(i).getId() )){
+
+									ch.setId( chales.get(i).getId() );
+									ch.setCategoria( chales.get(i).getCategoria() );
+									ch.setDiaria( chales.get(i).getDiaria() );
+									ch.setFrigobar( chales.get(i).getFrigobar() );
+
+								} 
+							}
+						}
+					}
+				} else {
+					//seleciona o chale da categoria escolhida ou retorna erro se não houver reservas
 					for( int i = 0; i < chales.size(); i++ ){
 						if( chales.get(i).getCategoria().equals( cboReservaCategoria.getSelectedItem() )){
 
-							//verifica se o chale já foi reservado
-							if ( !reservas.get(r).getIdChale().getId().equals( chales.get(i).getId() )){
-
-								ch.setId( chales.get(i).getId() );
-								ch.setCategoria( chales.get(i).getCategoria() );
-								ch.setDiaria( chales.get(i).getDiaria() );
-								ch.setFrigobar( chales.get(i).getFrigobar() );
-
-							} 
+							ch.setId( chales.get(i).getId() );
+							ch.setCategoria( chales.get(i).getCategoria() );
+							ch.setDiaria( chales.get(i).getDiaria() );
+							ch.setFrigobar( chales.get(i).getFrigobar() );
 						}
 					}
 				}
@@ -573,6 +581,7 @@ public class PrincipalCtrl {
 			//se não houver cliente na base de dados, cadastra o primeiro parcialmente e o usa na reserva
 			Cliente cl = new Cliente();
 			if( clientes.isEmpty() ){
+				
 				cl.setNome( txtReservaNome.getText() );
 				cl.setEmail( txtReservaEmail.getText() );
 				cl.setDocumento( txtReservaDocNum.getText() );
@@ -586,7 +595,21 @@ public class PrincipalCtrl {
 				cl.setDtCadastro( new Date() );
 				cl.setAtivo( false );
 				adicionaCliente( cl );
-				cargaCliente(); //atualiza com o novo cliente
+				
+				//atualiza com o novo cliente
+				cargaCliente();
+				
+				//atualiza o logon para um perfil visitante
+				List<Logon> log = new ArrayList<Logon>();
+				Logon l = new Logon();
+				l.setIdUsuario( clientes.get(0).getId() );
+				l.setTela( janela.getName() );
+				l.setPerfil( 0 );
+				l.setLogoff( 0 );
+				l.setDtLogon( new Date() );
+				log.add(l);
+				logon.setLogon( log );
+				
 			} else {
 				//se já houver clientes, busca pelo documento do cliente
 				for( int i = 0; i < clientes.size(); i++ ){
@@ -596,6 +619,7 @@ public class PrincipalCtrl {
 					//ao final da busca, se não encontrar o cliente, o cadastra parcialmente e o usa na reserva
 					if( i == clientes.size()-1 ){
 						if(	validar == false ){
+							
 							cl.setId( clientes.size() );
 							cl.setNome( txtReservaNome.getText() );
 							cl.setEmail( txtReservaEmail.getText() );
@@ -610,7 +634,21 @@ public class PrincipalCtrl {
 							cl.setAtivo( false );
 							cl.setDtCadastro( new Date() );
 							adicionaCliente( cl );
-							cargaCliente();//atualiza com o novo cliente
+							
+							//atualiza com o cliente
+							cargaCliente();
+							
+							//atualiza o logon para um perfil visitante
+							List<Logon> log = new ArrayList<Logon>();
+							Logon l = new Logon();
+							l.setIdUsuario( clientes.get( clientes.size()-1 ).getId() );
+							l.setTela( janela.getName() );
+							l.setPerfil( 0 );
+							l.setLogoff( 0 );
+							l.setDtLogon( new Date() );
+							log.add(l);
+							logon.setLogon( log );
+							
 						} else {
 							//caso o cliente seja encontrado, apenas recupera seus dados para a reserva
 							for( int j = 0; j < clientes.size(); j++ ){
@@ -631,6 +669,17 @@ public class PrincipalCtrl {
 									cl.setCep( clientes.get(j).getCep() );
 									cl.setDtCadastro( clientes.get(j).getDtCadastro() );
 									cl.setAtivo( clientes.get(j).getAtivo() );
+									
+									//atualiza o logon para um perfil visitante
+									List<Logon> log = new ArrayList<Logon>();
+									Logon l = new Logon();
+									l.setIdUsuario( clientes.get( j ).getId() );
+									l.setTela( janela.getName() );
+									l.setPerfil( 0 );
+									l.setLogoff( 0 );
+									l.setDtLogon( new Date() );
+									log.add(l);
+									logon.setLogon( log );
 								}
 							}
 							validar = false;
@@ -653,11 +702,14 @@ public class PrincipalCtrl {
 
 			//verifica se a reserva do chale esta disponivel (verifica as datas)
 			if( chaleDisponivel(r) != 0  ) {
-				System.out.println("passou fim - " + r.getIdChale().getId());
+				
 				msg("erroChale", (String) cboReservaCategoria.getSelectedItem() );
 			} else {
+				
 				adicionaReserva( r );
+				
 				if( logon.getLogon().get(0).getPerfil() != 2 ){
+					
 				//atualiza o estado do botão Reserva na tela Principal
 				btnReservas.setText( "Reservas ( " + logon.reservaQtd() + " )" );
 				btnReservas.setVisible(true);
