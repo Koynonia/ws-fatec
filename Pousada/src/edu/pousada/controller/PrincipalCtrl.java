@@ -80,10 +80,14 @@ public class PrincipalCtrl {
 	private JPanel painelServico;
 	private JPanel painelReserva;
 	private JPanel painelContato;
-	private JPanel painelPrincipalAdm;
+	private JPanel painelServicoCliente;
+	private JPanel painelReservaCliente;
+	private JPanel painelCadastroCliente;
+	private JPanel painelPrincipalAdm; 
 	private JPanel painelReservaAdm; 
 	private JPanel painelChaleAdm; 
-	private JPanel painelServicoAdm; 
+	private JPanel painelServicoAdm;  
+	private JPanel painelCadastroAdm; 
 	private JPasswordField pwdSenha;
 	private JLabel lblLogin;
 	private JLabel lblPwd;
@@ -166,10 +170,14 @@ public class PrincipalCtrl {
 			JPanel painelServico,
 			JPanel painelReserva,
 			JPanel painelContato, 
-			JPanel painelPrincipalAdm,
+			JPanel painelServicoCliente,
+			JPanel painelReservaCliente,
+			JPanel painelCadastroCliente,
+			JPanel painelPrincipalAdm, 
 			JPanel painelReservaAdm, 
 			JPanel painelChaleAdm, 
 			JPanel painelServicoAdm, 
+			JPanel painelCadastroAdm,
 			JPasswordField pwdSenha,
 			JLabel lblLogin,
 			JLabel lblPwd,
@@ -243,10 +251,14 @@ public class PrincipalCtrl {
 		this.painelServico = painelServico;
 		this.painelReserva = painelReserva;
 		this.painelContato = painelContato;
+		this.painelServicoCliente = painelServicoCliente;
+		this.painelReservaCliente = painelReservaCliente;
+		this.painelCadastroCliente = painelCadastroCliente;
 		this.painelPrincipalAdm = painelPrincipalAdm;
 		this.painelReservaAdm = painelReservaAdm;
 		this.painelChaleAdm = painelChaleAdm;
 		this.painelServicoAdm = painelServicoAdm;
+		this.painelCadastroAdm = painelCadastroAdm;
 		this.pwdSenha = pwdSenha;
 		this.lblLogin = lblLogin;
 		this.lblPwd = lblPwd;
@@ -872,6 +884,7 @@ public class PrincipalCtrl {
 									btnLogin.setText("Sair");
 									alteraBtnReserva();
 									preencheReserva();
+									preencheContato();
 									msg("autorizado", clientes.get(c).getNome() );
 								} 
 							}
@@ -905,6 +918,7 @@ public class PrincipalCtrl {
 			pwdSenha.setVisible(true);
 			pwdSenha.setText(null);
 			ativaCampo("reserva");
+			ativaCampo("contato");
 			logon.logoff();
 		}
 	}
@@ -934,6 +948,29 @@ public class PrincipalCtrl {
 			}
 		}
 	}
+	
+	
+	public void preencheContato(){
+		//Preenche o contato com os dados do cliente logado
+
+		cargaCliente();
+		
+		for (int i = 0; i < clientes.size(); i++) {
+
+			if( clientes.get(i).getId()
+					.equals( logon.getSession().get(0).getIdUsuario() )){
+			
+				txtContatoNome.setText( clientes.get(i).getNome() );;
+				txtContatoEmail.setText( clientes.get(i).getEmail() );
+				txtContatoTelefone.setText( clientes.get(i).getTelefone() );
+				txtContatoCidade.setText( clientes.get(i).getCidade() );
+				txtContatoEstado.setText( clientes.get(i).getEstado() );
+				txtContatoPais.setText( clientes.get(i).getPais() ); 
+				
+				desativaCampo("contato");
+			}
+		}
+	}
 
 
 	public void trocaPerfil( int op ){
@@ -942,20 +979,42 @@ public class PrincipalCtrl {
 		switch ( op ){
 
 		case 0:
+			tabContainer.remove( painelServicoCliente );
+			tabContainer.remove( painelReservaCliente );
+			tabContainer.remove( painelCadastroCliente );
+			tabContainer.remove( painelPrincipalAdm );
+			tabContainer.remove( painelReservaAdm );
+			tabContainer.remove( painelChaleAdm );
+			tabContainer.remove( painelServicoAdm );
+			tabContainer.remove( painelCadastroAdm );
+			
 			tabContainer.add( "Principal", painelPrincipal );
 			tabContainer.add( "Chalés", painelChale );
 			tabContainer.add( "Lazer", painelLazer );
 			tabContainer.add( "Serviços", painelServico );
 			tabContainer.add( "Reservas", painelReserva );
 			tabContainer.add( "Contato", painelContato );
+			break;
+
+		case 1:
+			tabContainer.remove( painelPrincipal );
+			tabContainer.remove( painelChale );
+			tabContainer.remove( painelLazer );
+			tabContainer.remove( painelServico );
+			tabContainer.remove( painelReserva );
+			tabContainer.remove( painelContato );
 			tabContainer.remove( painelPrincipalAdm );
 			tabContainer.remove( painelReservaAdm );
 			tabContainer.remove( painelChaleAdm );
 			tabContainer.remove( painelServicoAdm );
-			break;
-
-		case 1:
-			trocaPerfil(0); // teste
+			tabContainer.remove( painelCadastroAdm );
+			
+			tabContainer.add( "Principal", painelPrincipal );
+			tabContainer.add( "Reservas", painelReserva );
+			tabContainer.add( "Serviços", painelServicoCliente );
+			tabContainer.add( "Histórico", painelReservaCliente );
+			tabContainer.add( "Cadastro", painelCadastroCliente );
+			tabContainer.add( "Contato", painelContato );
 			break;
 
 		case 2:
@@ -969,11 +1028,16 @@ public class PrincipalCtrl {
 			tabContainer.remove( painelServico );
 			tabContainer.remove( painelReserva );
 			tabContainer.remove( painelContato );
+			tabContainer.remove( painelServicoCliente );
+			tabContainer.remove( painelReservaCliente );
+			tabContainer.remove( painelCadastroCliente );
+			
 			tabContainer.add( "Principal", painelPrincipalAdm );
 			//tabContainer.add( "Reservas", painelReservaAdm );
 			tabContainer.add( "Reservas", painelReserva );
 			tabContainer.add( "Chalés", painelChaleAdm );
 			tabContainer.add( "Serviço", painelServicoAdm );
+			tabContainer.add( "Cadastro de Funcionário", painelCadastroAdm );
 			break;
 		}
 	}
@@ -1493,7 +1557,7 @@ public class PrincipalCtrl {
 	}
 	
 	public void ativaCampo( String guia ){
-		// desativa os campos para edição
+		// ativa os campos para edição
 
 		Component[] painel = null;
 
@@ -1501,6 +1565,10 @@ public class PrincipalCtrl {
 
 		case "reserva":
 			painel = painelReserva.getComponents();
+			break;
+			
+		case "contato":
+			painel = painelContato.getComponents();
 			break;
 		}
 
@@ -1545,6 +1613,10 @@ public class PrincipalCtrl {
 			case "reserva":
 				painel = painelReserva.getComponents();
 				break;
+				
+			case "contato":
+				painel = painelContato.getComponents();
+				break;
 			}
 
 			for ( Component c : painel ) {
@@ -1571,7 +1643,9 @@ public class PrincipalCtrl {
 				if (c instanceof JComboBox ) {
 					@SuppressWarnings("unchecked")
 					JComboBox<String> l = ( JComboBox<String> )c;
-					if ( l.isEnabled() && l.getName() != "Categoria" ){
+					if ( l.isEnabled() 
+							&& l.getName() != "categoria"
+							&& l.getName() != "assunto"){
 
 						l.setEnabled(false);
 					}

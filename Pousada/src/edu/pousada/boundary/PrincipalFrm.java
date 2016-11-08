@@ -56,6 +56,7 @@ public class PrincipalFrm extends JFrame {
 	private JLabel lblLazerImg;
 	private JLabel lblServicoImg;
 	private JLabel lblReservaImg;
+	private JLabel lblServicoInfo;
 	private JTextField txtLogin;
 	private JTextField txtPesquisa;
 	private JTextField txtReservaQtdAdulto;
@@ -116,10 +117,14 @@ public class PrincipalFrm extends JFrame {
 	private JPanel painelServico;
 	private JPanel painelReserva;
 	private JPanel painelContato;
+	private JPanel painelServicoCliente;
+	private JPanel painelReservaCliente;
+	private JPanel painelCadastroCliente;
 	private JPanel painelPrincipalAdm;
 	private JPanel painelReservaAdm;
 	private JPanel painelChaleAdm;
 	private JPanel painelServicoAdm;
+	private JPanel painelCadastroAdm;
 	private DecimalFormat maskValor;
 	private ImageIcon fundo = new ImageIcon( "../Pousada/resources/backstage/img4.jpg" );
 	private ImageIcon principal = new ImageIcon( "../Pousada/resources/imagens/externa0.jpg" );
@@ -212,6 +217,7 @@ public class PrincipalFrm extends JFrame {
 		tabContainer.setBounds(39, 92, 976, 580);
 		painel.add(tabContainer);
 
+		//Visitante
 		painelPrincipal = new JPanel();
 		painelChale = new JPanel();
 		painelLazer = new JPanel();
@@ -225,16 +231,28 @@ public class PrincipalFrm extends JFrame {
 		painelServico.setLayout(null);
 		painelReserva.setLayout(null);
 		painelContato.setLayout(null);
+		
+		// Cliente
+		painelServicoCliente = new JPanel();
+		painelReservaCliente = new JPanel();
+		painelCadastroCliente = new JPanel();
+		
+		painelServicoCliente.setLayout(null);
+		painelReservaCliente.setLayout(null);
+		painelCadastroCliente.setLayout(null);
 
+		// Funcionario
 		painelPrincipalAdm = new JPanel();
 		painelReservaAdm = new JPanel();
 		painelChaleAdm = new JPanel();
 		painelServicoAdm = new JPanel();
+		painelCadastroAdm = new JPanel();
 
 		painelPrincipalAdm.setLayout(null);
 		painelReservaAdm.setLayout(null);
 		painelChaleAdm.setLayout(null);
 		painelServicoAdm.setLayout(null);
+		painelCadastroAdm.setLayout(null);
 
 
 		// PRINCIPAL //////////////////////////
@@ -373,7 +391,7 @@ public class PrincipalFrm extends JFrame {
 
 		// SERVICO //////////////////////////
 
-		JLabel lblServicoInfo = new JLabel("Serviços que oferecemos.");
+		lblServicoInfo = new JLabel("Serviços que oferecemos.");
 		lblServicoInfo.setBounds(20, 22, 500, 16);		
 		painelServico.add(lblServicoInfo);
 
@@ -542,7 +560,7 @@ public class PrincipalFrm extends JFrame {
 
 		cboReservaCategoria = new JComboBox<String>();
 		cboReservaCategoria.setBounds(755, 152, 185, 27);
-		cboReservaCategoria.setName("Categoria");
+		cboReservaCategoria.setName("categoria");
 		cboReservaCategoria.setToolTipText("Selecione a categoria do Chalé");
 		cboReservaCategoria.setFocusable( false );
 		painelReserva.add(cboReservaCategoria);
@@ -720,7 +738,7 @@ public class PrincipalFrm extends JFrame {
 
 		cboContatoAssunto = new JComboBox<String>();
 		cboContatoAssunto.setBounds(85, 331, 285, 27);
-		cboContatoAssunto.setName("Assunto");
+		cboContatoAssunto.setName("assunto");
 		painelContato.add(cboContatoAssunto);
 
 		lblContatoMsg = new JLabel("Sua mensagem (0 de 300):");
@@ -748,6 +766,11 @@ public class PrincipalFrm extends JFrame {
 		btnContatoEnviar.setBounds(390, 365, 100, 29);
 		btnContatoEnviar.setFocusable(false);
 		painelContato.add(btnContatoEnviar);
+
+		
+		// PRINCIPAL CLIENTE ////////////////////////
+		
+		// SERVICO //////////////////////////
 
 
 		// PRINCIPAL ADM //////////////////////////
@@ -884,10 +907,14 @@ public class PrincipalFrm extends JFrame {
 				painelServico,
 				painelReserva,
 				painelContato,
+				painelServicoCliente,
+				painelReservaCliente,
+				painelCadastroCliente,
 				painelPrincipalAdm, 
 				painelReservaAdm, 
 				painelChaleAdm, 
 				painelServicoAdm, 
+				painelCadastroAdm,
 				pwdSenha,
 				lblLogin,
 				lblPwd,
