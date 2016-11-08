@@ -740,14 +740,14 @@ public class PrincipalCtrl {
 			Reserva r = new Reserva();
 			for(int i = 0; i < reservas.size(); i ++){
 
-
-
 				// limpa a mascara no numero da reserva
 				if((tabela.getValueAt(tabela.getSelectedRow(), 0).toString().replaceFirst("0*", ""))
 						.equals( reservas.get(i).getId().toString() )){
-					if( reservas.get(i).getAtiva() != true ){
-						msg( "reservaCancelar", "nº " + String.format( "%06d", reservas.get(i).getId()) );
-						if (validar != false){
+
+					msg( "reservaCancelar", "nº " + String.format( "%06d", reservas.get(i).getId()) );
+					if (validar != false){
+						// verifica se a reserva é ativa (paga)
+						if( reservas.get(i).getAtiva() != true ){
 							r.setId(reservas.get(i).getId());
 							excluiReserva( r );
 							cargaReserva();
@@ -758,11 +758,11 @@ public class PrincipalCtrl {
 
 							// atualiza o valor total
 							atualizaValor( tabela );
-						} 
-					} else {
-						msg("reservaAtiva","nº " + String.format( "%06d", reservas.get(i).getId()) );
-						return;
-					}
+						} else {
+							msg("reservaAtiva","nº " + String.format( "%06d", reservas.get(i).getId()) );
+							return;
+						}
+					} 
 				}
 			}
 			validar = false;	
@@ -2114,6 +2114,7 @@ public class PrincipalCtrl {
 			}
 			else if(retirar == JOptionPane.NO_OPTION) {
 				msg( "construir", "" );
+				validar = false;
 			}
 			else if(retirar == JOptionPane.CANCEL_OPTION) {
 				validar = false;
@@ -2123,7 +2124,8 @@ public class PrincipalCtrl {
 		case "reservaAtiva":
 			JOptionPane.showMessageDialog(null, 
 					"A Reserva " + mensagem 
-					+ " não pode ser cancelada pois está ativa.", 
+					+ " não pode ser cancelada pois está ativa.\n"
+					+ "É necessário a sua desativação para efetivar seu cancelamento", 
 					"Reserva Ativa", 
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon( diretorio + "/icons/alert.png" ));
