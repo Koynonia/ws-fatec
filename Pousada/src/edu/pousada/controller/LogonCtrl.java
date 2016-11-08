@@ -62,7 +62,7 @@ public class LogonCtrl {
 		return instance;
 	}
 
-	public List<Logon> getLogon() {
+	public List<Logon> getSession() {
 		return logon;
 	}
 
@@ -75,6 +75,9 @@ public class LogonCtrl {
 
 		if ( temporizador( "logon" ) != false ){
 			logoff();
+		}
+		if ( temporizador( "reserva" ) != false ){
+			excluiReservas();
 		}
 	}
 
@@ -121,7 +124,7 @@ public class LogonCtrl {
 
 		LogonDAO dao = new LogonDAOImpl();
 		try {
-			dao.adicionar( getLogon().get(0) );
+			dao.adicionar( getSession().get(0) );
 		} catch (SQLException e) {
 			msg("", "ERRO SQL " + e.getSQLState() 
 					+ "\n\nLocal:\nLogonCtrl >  adicionaLogon()."  
@@ -134,7 +137,7 @@ public class LogonCtrl {
 
 		LogonDAO dao = new LogonDAOImpl();
 		try {
-			dao.alterar( getLogon().get(0) );
+			dao.alterar( getSession().get(0) );
 		} catch (SQLException e) {
 			msg("", "ERRO SQL " + e.getSQLState() 
 					+ "\n\nLocal:\nLogonCtrl >  alteraLogon()."  
@@ -142,42 +145,11 @@ public class LogonCtrl {
 			//e.printStackTrace();
 		}
 	}
-
-	public void excluiReservas (){
-
-		cargaReserva();
-		
-		if( !reservas.isEmpty() ){
-			
-			// se for um funcionario não exclui as reservas não confirmadas
-			if ( logon.get(0).getPerfil() != 2 ){
-				msg("excluirReservas", "" + reservas.size() );
-				if( validar != false ){
-					ReservaDAO dao = new ReservaDAOImpl();
-					Reserva r = new Reserva();
-
-					for( int i = 0; i< reservas.size(); i++ ){
-						r.setId( reservas.get(i).getId() );
-						try {
-							dao.excluir( r );
-						} catch (SQLException e) {
-							msg("", "ERRO SQL " + e.getSQLState() 
-									+ "\n\nLocal:\nLogonCtrl >  excluiReservas()."  
-									+ "\n\nMensagem:\n" + e.getMessage() );
-							//e.printStackTrace();
-						}
-						PrincipalCtrl.btnReservas.setText( "Reservas");
-						PrincipalCtrl.btnReservas.setVisible(false);
-					}
-				}
-			}
-		}
-	}
 	
-	//verifica se um usuario fechou a janela sem se deslogar
-	public int autoLogin(){
 
-		int p = 0;
+	// verifica se um usuario fechou a janela sem se deslogar
+	// pode recuperar a sessão ou não
+	public void autoLogin( boolean ativar ){
 
 		List<Logon> logons = cargaLogon();
 		List<Logon> log = new ArrayList<Logon>();
@@ -187,24 +159,33 @@ public class LogonCtrl {
 			for( int i = 0; i < logons.size(); i++ ){
 				if( logons.get(i).getLogoff().equals( 1 ) ){
 
-					p = logons.get(i).getPerfil();
-
 					l.setId( logons.get(i).getId() );
 					l.setIdUsuario( logons.get(i).getIdUsuario() );
 					l.setPerfil( logons.get(i).getPerfil() );
 					l.setTela( logons.get(i).getTela() );
 					l.setLogoff( logons.get(i).getLogoff() );
 					l.setDtLogon( new Date() );
-					log.add(l);
-					setLogon( log );
-					login();
+
+					if( ativar != false ){
+
+						log.add(l);
+						setLogon( log );	
+						login();
+
+					} else {
+
+						l.setLogoff( 0 );
+						log.add(l);
+						setLogon( log );
+						alteraLogon();
+						getSession().clear();
+					}
 				}
 			}
 		}
-		return p;
 	}
 
-	
+
 	public void login(){
 
 		List<Logon> logons = cargaLogon();
@@ -216,7 +197,7 @@ public class LogonCtrl {
 
 				if( logons.get(i).getPerfil().equals( logon.get(0).getPerfil() ) 
 						&& logons.get(i).getIdUsuario().equals( logon.get(0).getIdUsuario() )){
-
+					
 					l.setId( logons.get(i).getId() );
 					l.setIdUsuario( logon.get(0).getIdUsuario() );
 					l.setPerfil( logon.get(0).getPerfil() );
@@ -229,7 +210,7 @@ public class LogonCtrl {
 					return;
 
 				} else if( i+1 == logons.size() ){
-
+					
 					l.setIdUsuario( logon.get(0).getIdUsuario() );
 					l.setPerfil( logon.get(0).getPerfil() );
 					l.setTela( logon.get(0).getTela() );
@@ -278,7 +259,7 @@ public class LogonCtrl {
 			}
 		}
 		excluiReservas();
-		getLogon().clear();
+		getSession().clear();
 	}
 
 	
@@ -290,9 +271,48 @@ public class LogonCtrl {
 		int qtd = 0;
 
 		for ( int i = 0; i < reservas.size(); i++ ){
-			qtd =  qtd + 1;
+			if( reservas.get(i).getCliente().getId()
+					.equals( logon.get(0).getIdUsuario() ) 
+					&& reservas.get(i).getAtiva() != true ){
+				qtd =  qtd + 1;
+			}
 		}
 		return qtd;
+	}
+	
+	
+	public void excluiReservas (){
+
+		cargaReserva();
+
+		if( !reservas.isEmpty() ){
+
+			// se for um funcionario não exclui as reservas não confirmadas
+			if ( logon.get(0).getPerfil() != 2 ){
+				for( int i = 0; i< reservas.size(); i++ ){
+					if( reservas.get(i).getCliente().getId()
+							.equals( logon.get(0).getIdUsuario() ) 
+							&& reservas.get(i).getAtiva() != true ){
+						msg("excluirReservas", "" + reservas.size() );
+						if( validar != false ){
+							ReservaDAO dao = new ReservaDAOImpl();
+							Reserva r = new Reserva();
+							r.setId( reservas.get(i).getId() );
+							try {
+								dao.excluir( r );
+							} catch (SQLException e) {
+								msg("", "ERRO SQL " + e.getSQLState() 
+										+ "\n\nLocal:\nLogonCtrl >  excluiReservas()."  
+										+ "\n\nMensagem:\n" + e.getMessage() );
+								//e.printStackTrace();
+							}
+							PrincipalCtrl.btnReservas.setText( "Reservas");
+							PrincipalCtrl.btnReservas.setVisible(false);
+						}
+					}
+				}
+			}
+		}
 	}
 	
 
@@ -314,7 +334,6 @@ public class LogonCtrl {
 			case "reservas":
 				if ( !reservas.isEmpty() ){
 					data = reservas.get(0).getDtCadastro();
-					System.out.println("passou");
 				} else {
 					data = new Date();
 				}
@@ -425,9 +444,9 @@ public class LogonCtrl {
 		switch (tipo) {
 
 		case "excluirReservas":
-			Object[] excluir = { "Confirmar", "Cancelar" };  
+			Object[] excluir = { "Cancelar Reservas", "Apenas Sair" };  
 			int fechar = JOptionPane.showOptionDialog( null, "ATENÇÃO!\n\nExistem reservas não finalizadas" 
-					+ " no sistema.\nSe sair, elas serão descartadas.\n\nDeseja sair com seu usuário?",
+					+ " no sistema.\nDeseja cancelar a Reserva(s)?",
 					"Atenção", 
 					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
 					new ImageIcon( diretorio + "/icons/trash.png" ), excluir, excluir[1] );

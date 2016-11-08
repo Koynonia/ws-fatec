@@ -28,14 +28,15 @@ versao VARCHAR(10) NOT NULL
 
 CREATE TABLE reserva (
 id INT AUTO_INCREMENT PRIMARY KEY,
-idCliente INT NOT NULL,
-idChale INT NOT NULL,
+cliente INT NOT NULL,
+chale INT NOT NULL,
 qtdAdulto INT NOT NULL,
 qtdCrianca INT NOT NULL,
 dtInicio DATE NOT NULL,
 dtFim DATE NOT NULL, 
 mensagem VARCHAR (300),
 desconto INT NOT NULL,
+ativa BOOLEAN NOT NULL, 
 dtCadastro DATE NOT NULL
 ) ENGINE = innodb;
 
@@ -162,8 +163,8 @@ dtLogon TIMESTAMP NOT NULL
 
 -- INSERE AS FK's NAS TABELAS
 
-ALTER TABLE `reserva` ADD CONSTRAINT `fk_cliente` FOREIGN KEY ( `idCliente` ) REFERENCES `cliente` ( `id` );
-ALTER TABLE `reserva` ADD CONSTRAINT `fk_chale` FOREIGN KEY ( `idChale` ) REFERENCES `chale` ( `id` );
+ALTER TABLE `reserva` ADD CONSTRAINT `fk_cliente` FOREIGN KEY ( `cliente` ) REFERENCES `cliente` ( `id` );
+ALTER TABLE `reserva` ADD CONSTRAINT `fk_chale` FOREIGN KEY ( `chale` ) REFERENCES `chale` ( `id` );
 
 
 -- DADOS PARA TESTE:
@@ -184,28 +185,28 @@ INSERT INTO `funcionario` (`id`, `nome`, `cpf`, `dtNasc`, `telefone`, `celular`,
 INSERT INTO `cliente` (`id`, `nome`, `email`, `documento`, `docTipo`, 
 `dtNasc`, `telefone`, `celular`, `endereco`, `bairro`, `cidade`, 
 `estado`, `pais`, `cep`, `login`, `senha`, `ativo`, `dtCadastro`) VALUES 
-(NULL,'Fulano', 'fulano@email.com', '111.222.333-44', 'CPF', '1990-01-01', 
-'1122223333', '1144445555', 'Rua do Fulano, 01', 'Jardim do Fulano', 
-'São Paulo', 'São Paulo', 'Brasil', '01233444','' ,'' , '1', '2016-10-23'),
-
-(NULL,'Sicrano', 'sicrano@email.com', '1112233FA', 'Passaporte', '1995-08-20', 
-'12345678901', '12345678901', 'Rua do Sicrano, 01', 'Parque Sicrano', 
-'São Paulo', 'São Paulo', 'Brasil', '01234567','' ,'' , '1', '2016-10-20'),
-
 (NULL,'Beltrano da Silva', 'beltrano@email.com', '11222333', 'RG', '1995-04-23', 
 '12345678900', '12345678902', 'Rua do Beltrano, 01', 'Parque Beltrano', 
-'Salvador', 'Bahia', 'Brasil', '01235467','' ,'' , '1', '2016-10-20'), 
+'Salvador', 'Bahia', 'Brasil', '01235467','beltrano' ,'beltrano' , '1', '2016-10-20'),
 
-(NULL,'Roberto Silva', 'roberto@email.com', '222.333.444-55', 'RG', '1970-08-20', 
+(NULL,'Fulano da Silva', 'fulano@email.com', '111.222.333-44', 'CPF', '1990-01-01', 
+'1122223333', '1144445555', 'Rua do Fulano, 01', 'Jardim do Fulano', 
+'São Paulo', 'São Paulo', 'Brasil', '01233444','fulano' ,'fulano' , '1', '2016-10-23'),
+
+(NULL,'Sicrano da Silva', 'sicrano@email.com', '1112233FA', 'Passaporte', '1995-08-20', 
+'12345678901', '12345678901', 'Rua do Sicrano, 01', 'Parque Sicrano', 
+'São Paulo', 'São Paulo', 'Brasil', '01234567','sicrano' ,'sicrano' , '1', '2016-10-20'), 
+
+(NULL,'Roberto da Silva', 'roberto@email.com', '222.333.444-55', 'RG', '1970-08-20', 
 '13345678900', '13345678902', 'Rua do Fernando, 01', 'Parque', 
 'São Paulo', 'São Paulo', 'Brasil', '01234576', 'cliente', 'cliente', '1', '2016-10-20');
 
 
-INSERT INTO `reserva` (`id`, `idCliente`, `idChale`, `qtdAdulto`, `qtdCrianca`, 
-`dtInicio`, `dtFim`, `mensagem`, `desconto`, `dtCadastro`) VALUES
-(NULL, 2, 4, 1, 0, '2016-11-01', '2016-11-05', '', 0, '2016-10-30'),
-(NULL, 3, 1, 1, 0, '2016-11-01', '2016-11-01', 'f', 0, '2016-11-01'),
-(NULL, 3, 3, 1, 0, '2016-11-10', '2016-11-15', '', 0, '2016-11-01');
+INSERT INTO `reserva` (`id`, `cliente`, `chale`, `qtdAdulto`, `qtdCrianca`, 
+`dtInicio`, `dtFim`, `mensagem`, `desconto`, `ativa`, `dtCadastro`) VALUES
+(NULL, 2, 4, 2, 0, '2016-11-01', '2016-11-05', '', '0', '1', '2016-10-30'),
+(NULL, 2, 1, 1, 0, '2016-11-01', '2016-11-01', 'Testando…', '0', '1', '2016-11-01'),
+(NULL, 3, 3, 1, 1, '2016-11-10', '2016-11-15', '', '0', '1', '2016-11-01');
 
 
 -- DADOS NECESSARIOS
@@ -242,23 +243,23 @@ INSERT INTO `principal` (`id`, `principalInfo`, `principalDetalhe`, `chaleInfo`,
 
 /*
 SELECT * FROM chale
-SELECT * FROM chale INNER JOIN reserva ON chale.id = reserva.chale WHERE reserva.idChale
+SELECT * FROM chale INNER JOIN reserva ON chale.id = reserva.chale WHERE reserva.chale
 
 
 DELIMITER //
-CREATE FUNCTION fn_reserva2 ( idChale INT, dtInicio1 DATE, dtFim1 DATE) RETURNS INT 
+CREATE FUNCTION fn_reserva2 ( chale INT, dtInicio1 DATE, dtFim1 DATE) RETURNS INT 
 BEGIN
 	DECLARE boo INT;
 	
 
-IF EXISTS (SELECT reserva.id FROM chale INNER JOIN reserva ON chale.id = reserva.idChale
+IF EXISTS (SELECT reserva.id FROM chale INNER JOIN reserva ON chale.id = reserva.chale
 WHERE 
 (
 	(reserva.dtInicio BETWEEN dtInicio1 AND dtFim1) OR
 	(reserva.dtFim BETWEEN dtInicio1 AND dtFim1) OR
 	(dtInicio1 BETWEEN reserva.dtInicio AND reserva.dtFim) OR
 	(dtFim1 BETWEEN reserva.dtInicio AND reserva.dtFim )
-) AND reserva.idChale = idChale)
+) AND reserva.chale = chale)
 THEN
 	SET boo= 1;
 

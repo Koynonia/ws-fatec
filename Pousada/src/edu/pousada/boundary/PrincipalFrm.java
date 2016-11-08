@@ -50,7 +50,7 @@ public class PrincipalFrm extends JFrame {
 	private JLabel lblRelogio;
 	private JLabel lblReservaMsg;
 	private JLabel lblContatoMsg;
-	private JLabel lblVersao;
+	private static JLabel lblVersao;
 	private JLabel lblPrincipalImg;
 	private JLabel lblChaleImg;
 	private JLabel lblLazerImg;
@@ -542,7 +542,7 @@ public class PrincipalFrm extends JFrame {
 
 		cboReservaCategoria = new JComboBox<String>();
 		cboReservaCategoria.setBounds(755, 152, 185, 27);
-		cboReservaCategoria.setName("Categoria do Chalé");
+		cboReservaCategoria.setName("Categoria");
 		cboReservaCategoria.setToolTipText("Selecione a categoria do Chalé");
 		cboReservaCategoria.setFocusable( false );
 		painelReserva.add(cboReservaCategoria);
@@ -568,7 +568,7 @@ public class PrincipalFrm extends JFrame {
 		MaskFormatter mskData = new MaskFormatter("##/##/####");
 		ftxtReservaDtInicio = new JFormattedTextField(mskData);
 		ftxtReservaDtInicio.setBounds(670, 406, 100, 28);
-		ftxtReservaDtInicio.setName("Data Inícial");
+		ftxtReservaDtInicio.setName("inicio");
 		ftxtReservaDtInicio.setToolTipText("Digite a data inicial de sua estadia");
 		ftxtReservaDtInicio.setHorizontalAlignment(SwingConstants.CENTER);
 		painelReserva.add(ftxtReservaDtInicio);
@@ -580,7 +580,7 @@ public class PrincipalFrm extends JFrame {
 		mskData = new MaskFormatter("##/##/####");
 		ftxtReservaDtFim = new JFormattedTextField(mskData);
 		ftxtReservaDtFim.setBounds(835, 406, 100, 28);
-		ftxtReservaDtFim.setName("Data Final");
+		ftxtReservaDtFim.setName("fim");
 		ftxtReservaDtFim.setToolTipText("Digite a data final de sua estadia");
 		ftxtReservaDtFim.setHorizontalAlignment(SwingConstants.CENTER);
 		painelReserva.add(ftxtReservaDtFim);
@@ -591,7 +591,7 @@ public class PrincipalFrm extends JFrame {
 
 		txtReservaQtdAdulto = new JTextField(20);
 		txtReservaQtdAdulto.setBounds(670, 447, 100, 28);
-		txtReservaQtdAdulto.setName("Adultos");
+		txtReservaQtdAdulto.setName("adultos");
 		txtReservaQtdAdulto.setToolTipText("Digite a quantidade de Adultos");
 		txtReservaQtdAdulto.setHorizontalAlignment(SwingConstants.CENTER);
 		painelReserva.add(txtReservaQtdAdulto);
@@ -602,7 +602,7 @@ public class PrincipalFrm extends JFrame {
 
 		txtReservaQtdCrianca = new JTextField(20);
 		txtReservaQtdCrianca.setBounds(835, 447, 100, 28);
-		txtReservaQtdCrianca.setName("Crianças");
+		txtReservaQtdCrianca.setName("criancas");
 		txtReservaQtdCrianca.setToolTipText("Digite a quantidade de Crianças");
 		txtReservaQtdCrianca.setHorizontalAlignment(SwingConstants.CENTER);
 		painelReserva.add(txtReservaQtdCrianca);

@@ -25,14 +25,15 @@ public class ReservaDAOImpl implements ReservaDAO{
 	/**
 	 * CREATE TABLE reserva (
 	 * id INT AUTO_INCREMENT PRIMARY KEY,
-	 * idCliente INT NOT NULL,
-	 * idChale INT NOT NULL,
+	 * cliente INT NOT NULL,
+	 * chale INT NOT NULL,
 	 * qtdAdulto INT NOT NULL,
 	 * qtdCrianca INT NOT NULL,
 	 * dtInicio DATE NOT NULL,
 	 * dtFim DATE NOT NULL, 
 	 * mensagem VARCHAR(300),
 	 * desconto INT NOT NULL,
+	 * ativa BOOLEAN NOT NULL,
 	 * dtCadastro DATE NOT NULL
 	 * ) ENGINE = innodb;
 	 */
@@ -40,18 +41,19 @@ public class ReservaDAOImpl implements ReservaDAO{
 	@Override 
 	public void adicionar(Reserva r) throws SQLException {
 
-		String sql = "INSERT INTO reserva VALUES (NULL,?,?,?,?,?,?,?,?,?)";
+		String sql = "INSERT INTO reserva VALUES (NULL,?,?,?,?,?,?,?,?,?,?)";
 
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt(1, r.getIdCliente().getId());
-		ps.setInt(2, r.getIdChale().getId());
+		ps.setInt(1, r.getCliente().getId());
+		ps.setInt(2, r.getChale().getId());
 		ps.setInt(3, r.getQtdAdulto());
 		ps.setInt(4, r.getQtdCrianca());
 		ps.setDate(5, new java.sql.Date( r.getDtInicio().getTime() ));
 		ps.setDate(6, new java.sql.Date( r.getDtFim().getTime() ));
 		ps.setString(7, r.getMensagem());
 		ps.setInt(8, r.getDesconto());
-		ps.setDate(9, new java.sql.Date( r.getDtCadastro().getTime() ));
+		ps.setBoolean(9, r.getAtiva() );
+		ps.setDate(10, new java.sql.Date( r.getDtCadastro().getTime() ));
 		ps.execute();
 		ps.close();
 	}
@@ -60,26 +62,28 @@ public class ReservaDAOImpl implements ReservaDAO{
 	public void alterar(Reserva r) throws SQLException {
 
 		String sql =  "UPDATE reserva SET "
-				+ "idCliente = ?, "
-				+ "idChale = ?, "
+				+ "cliente = ?, "
+				+ "chale = ?, "
 				+ "qtdAdulto = ?, "
 				+ "qtdCrianca = ?, "
 				+ "dtInicio = ?, "
 				+ "dtFim = ?, "
-				+ "mensagem = ?"
-				+ "desconto = ? "
+				+ "mensagem = ?, "
+				+ "desconto = ?,  "
+				+ "ativa = ? "
 				+ "WHERE id = ?";
 
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt(1, r.getIdCliente().getId());
-		ps.setInt(2, r.getIdChale().getId());
+		ps.setInt(1, r.getCliente().getId());
+		ps.setInt(2, r.getChale().getId());
 		ps.setInt(3, r.getQtdAdulto());
 		ps.setInt(4, r.getQtdCrianca());
 		ps.setDate(5, new java.sql.Date( r.getDtInicio().getTime() ));
 		ps.setDate(6, new java.sql.Date( r.getDtFim().getTime() ));
 		ps.setString(7, r.getMensagem());
 		ps.setInt(8, r.getDesconto());
-		ps.setInt(9, r.getId());
+		ps.setBoolean(9, r.getAtiva() );
+		ps.setInt(10, r.getId());
 		ps.execute();
 		ps.close();
 	}
@@ -107,14 +111,15 @@ public class ReservaDAOImpl implements ReservaDAO{
 		ResultSet rs = ps.executeQuery();
 		if(rs.next()){
 			r.setId(rs.getInt("id"));
-			r.setIdCliente( cliente( rs.getInt("idCliente") ));
-			r.setIdChale( chale( rs.getInt("idChale") ));
+			r.setCliente( cliente( rs.getInt("cliente") ));
+			r.setChale( chale( rs.getInt("chale") ));
 			r.setQtdAdulto(rs.getInt("qtdAdulto"));
 			r.setQtdCrianca(rs.getInt("qtdCrianca"));
 			r.setDtInicio(rs.getDate("dtInicio"));
 			r.setDtFim(rs.getDate("dtFim"));
 			r.setMensagem(rs.getString("mensagem"));
 			r.setDesconto(rs.getInt("desconto"));
+			r.setAtiva(rs.getBoolean("ativa"));
 			r.setDtCadastro(rs.getDate("dtCadastro"));
 		}
 		rs.close();
@@ -133,14 +138,15 @@ public class ReservaDAOImpl implements ReservaDAO{
 		while (rs.next()) {
 			Reserva r = new Reserva();
 			r.setId(rs.getInt("id"));
-			r.setIdCliente( cliente( rs.getInt("idCliente") ));
-			r.setIdChale( chale( rs.getInt("idChale") ));
+			r.setCliente( cliente( rs.getInt("cliente") ));
+			r.setChale( chale( rs.getInt("chale") ));
 			r.setQtdAdulto(rs.getInt("qtdAdulto"));
 			r.setQtdCrianca(rs.getInt("qtdCrianca"));
 			r.setDtInicio(rs.getDate("dtInicio"));
 			r.setDtFim(rs.getDate("dtFim"));
 			r.setMensagem(rs.getString("mensagem"));
 			r.setDesconto(rs.getInt("desconto"));
+			r.setAtiva(rs.getBoolean("ativa"));
 			r.setDtCadastro(rs.getDate("dtCadastro"));
 			lista.add( r );
 		}
@@ -154,7 +160,7 @@ public class ReservaDAOImpl implements ReservaDAO{
 
 		String sql = "SELECT * FROM cliente AS cl "
 				+ "INNER JOIN reserva AS rs "
-				+ "ON cl.id = rs.idCliente "
+				+ "ON cl.id = rs.cliente "
 				+ "WHERE cl.id = ?";
 
 		PreparedStatement ps = con.prepareStatement(sql);
@@ -210,8 +216,8 @@ public class ReservaDAOImpl implements ReservaDAO{
 
 		String sql = "DELETE cliente FROM cliente "
 				+ "LEFT OUTER JOIN reserva "
-				+ "ON cliente.id = reserva.idCliente "
-				+ "WHERE reserva.idCliente IS NULL AND cliente.ativo = 0";
+				+ "ON cliente.id = reserva.cliente "
+				+ "WHERE reserva.cliente IS NULL AND cliente.ativo = 0";
 
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.execute();
@@ -225,13 +231,13 @@ public class ReservaDAOImpl implements ReservaDAO{
 		String sql = "SELECT reserva.id "
 				+ "FROM chale "
 				+ "INNER JOIN reserva "
-				+ "ON chale.id = reserva.idChale "
+				+ "ON chale.id = reserva.chale "
 				+ "WHERE ( "
 				+ "(reserva.dtInicio BETWEEN ? AND ?) OR "
 				+ "(reserva.dtFim BETWEEN ? AND ?) OR "
 				+ "(? BETWEEN reserva.dtInicio AND reserva.dtFim) OR "
 				+ "(? BETWEEN reserva.dtInicio AND reserva.dtFim )"
-				+ ") AND reserva.idChale = ?";
+				+ ") AND reserva.chale = ?";
 		
 		PreparedStatement ps = con.prepareStatement(sql);
 		
@@ -241,7 +247,7 @@ public class ReservaDAOImpl implements ReservaDAO{
 		ps.setDate( 4, new java.sql.Date ( r.getDtFim().getTime() ));
 		ps.setDate( 5, new java.sql.Date ( r.getDtInicio().getTime() ));
 		ps.setDate( 6, new java.sql.Date ( r.getDtFim().getTime() ));
-		ps.setInt( 7, r.getIdChale().getId() );
+		ps.setInt( 7, r.getChale().getId() );
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			count++;
@@ -260,7 +266,7 @@ public class ReservaDAOImpl implements ReservaDAO{
 		String sql = "SELECT fn_reserva2(?, ?, ?) AS disponivel";
 		
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt( 1, r.getIdChale().getId() );
+		ps.setInt( 1, r.getChale().getId() );
 		ps.setDate( 2, new java.sql.Date ( r.getDtInicio().getTime() ));
 		ps.setDate( 3, new java.sql.Date ( r.getDtFim().getTime() ));
 		ResultSet rs = ps.executeQuery();	

@@ -75,15 +75,12 @@ public class ReservaCtrl {
 		
 		//prepara o ambiente
 		cargaReserva();
-				
-		// realiza o login com uma sessão anterior perdida
-		logon.autoLogin();
 
 		//atualiza o Logon com o perfil
-		if( !logon.getLogon().isEmpty() ){
-			logon.getLogon().get(0).setTela( janela.getName() );
+		if( !logon.getSession().isEmpty() ){
+			logon.getSession().get(0).setTela( janela.getName() );
 		}
-
+		
 		formataTabela();
 	}
 
@@ -203,27 +200,28 @@ public class ReservaCtrl {
 			DecimalFormat formato = new DecimalFormat("#,##0.00");
 			
 			for (int i = 0; i < reservas.size(); i++) {
-
-				if( reservas.get(i).getIdCliente().getId().equals( logon.getLogon().get(0).getIdUsuario() )){
+				if( reservas.get(i).getCliente().getId()
+						.equals( logon.getSession().get(0).getIdUsuario() )
+						&& reservas.get(i).getAtiva() != true ){
 					
 					//calcula o valor total das reservas em cada linha
 					float vlrTotal = ((( reservas.get(i).getDtFim().getTime() 
 							- reservas.get(i).getDtInicio().getTime() ) + 3600000) / 86400000L) 
-							* reservas.get(i).getIdChale().getDiaria() ;
+							* reservas.get(i).getChale().getDiaria() ;
 
 					float total = 0;
 					if ( vlrTotal != 0){
 						total = vlrTotal;
 					} else {
-						total = reservas.get(i).getIdChale().getDiaria();
+						total = reservas.get(i).getChale().getDiaria();
 					}
 
 					String[] item = { 
 							String.format( "%06d",reservas.get(i).getId() ),
 							sdf.format( reservas.get(i).getDtInicio() ),
 							sdf.format( reservas.get(i).getDtFim() ),
-							reservas.get(i).getIdChale().getCategoria(),   
-							formato.format( reservas.get(i).getIdChale().getDiaria() ),
+							reservas.get(i).getChale().getCategoria(),   
+							formato.format( reservas.get(i).getChale().getDiaria() ),
 							formato.format( total )
 					};
 					linhas.add(item);
@@ -327,8 +325,12 @@ public class ReservaCtrl {
 					if ( validar != false ){
 						Reserva r = new Reserva();
 						for( int i = 0; i < reservas.size(); i++ ){
-							r.setId( reservas.get(i).getId() );	
-							excluir( r );
+							if( reservas.get(i).getCliente().getId()
+									.equals( logon.getSession().get(0).getIdUsuario() )
+									&& reservas.get(i).getAtiva() != true ){
+								r.setId( reservas.get(i).getId() );	
+								excluir( r );
+							}
 						}
 						cargaReserva();
 						formataTabela();

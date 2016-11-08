@@ -47,6 +47,7 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+
 import edu.pousada.boundary.PrincipalFrm;
 import edu.pousada.boundary.ReservaFrm;
 import edu.pousada.dao.ChaleDAO;
@@ -95,7 +96,6 @@ public class PrincipalCtrl {
 	private JLabel lblReservaImg;
 	private JLabel lblReservaMsg;
 	private JLabel lblContatoMsg;
-	private JLabel lblVersao;
 	private JTextField txtLogin;
 	private JTextField txtPesquisa;
 	private JTextField txtReservaQtdAdulto; 
@@ -149,7 +149,6 @@ public class PrincipalCtrl {
 	private String diretorio = "../Pousada/resources/";
 	private LogonCtrl logon = LogonCtrl.getInstance();
 	private ImageIcon imagem;
-	int count = 0;
 	private static boolean validar;
 	private List<Principal> infos;
 	private List<Chale> chales;
@@ -260,7 +259,6 @@ public class PrincipalCtrl {
 		this.lblReservaImg = lblReservaImg;
 		this.lblReservaMsg =lblReservaMsg;
 		this.lblContatoMsg = lblContatoMsg;
-		this.lblVersao = lblVersao;
 		this.txtLogin = txtLogin;
 		this.txtPesquisa = txtPesquisa;
 		this.txtReservaQtdAdulto = txtReservaQtdAdulto; 
@@ -326,17 +324,16 @@ public class PrincipalCtrl {
 		preencheAssunto();
 		temporizador();
 		imagensRandom();
-		alteraBtnReserva();
 
 		// realiza o login com uma sessão anterior perdida
-		logon.autoLogin();
+		logon.autoLogin( false );
 
 		// recupera o ambiente de uma sessão perdida 
-		if( logon.getLogon().isEmpty() ){
+		if( logon.getSession().isEmpty() ){
 			trocaPerfil(0);
 		} else {
 
-			trocaPerfil( logon.getLogon().get(0).getPerfil() );
+			trocaPerfil( logon.getSession().get(0).getPerfil() );
 			lblMsg.setText( "- Sessão recuperada!" );
 			lblLogin.setVisible(false);
 			txtLogin.setVisible(false);
@@ -350,13 +347,22 @@ public class PrincipalCtrl {
 		lblVersao.setText( "versão: " + infos.get(0).getVersao() );
 	}
 
+
 	public void alteraBtnReserva(){
-		//verifica se existem reservas e altera o botão
-		count++;
+		// verifica se existem reservas e altera o botão
+
+		cargaReserva();
 
 		if( !reservas.isEmpty() ){
-			btnReservas.setText( "Reservas ( " + logon.reservaQtd() + " )" );
-			btnReservas.setVisible(true);}
+			for (int i = 0; i < reservas.size(); i++) {
+				if( reservas.get(i).getCliente().getId()
+						.equals( logon.getSession().get(0).getIdUsuario() )
+						&& reservas.get(i).getAtiva() != true ){
+
+					btnReservas.setText( "Reservas ( " + logon.reservaQtd() + " )" );
+					btnReservas.setVisible(true);}
+			}
+		}
 	}
 
 
@@ -551,7 +557,7 @@ public class PrincipalCtrl {
 							if( chales.get(i).getCategoria().equals( cboReservaCategoria.getSelectedItem() )){
 
 								//verifica se o chale já foi reservado
-								if ( !reservas.get(r).getIdChale().getId().equals( chales.get(i).getId() )){
+								if ( !reservas.get(r).getChale().getId().equals( chales.get(i).getId() )){
 
 									ch.setId( chales.get(i).getId() );
 									ch.setCategoria( chales.get(i).getCategoria() );
@@ -690,14 +696,15 @@ public class PrincipalCtrl {
 			//monta a reserva com os objetos Chale e Cliente
 			Reserva r = new Reserva();
 			DateFormat sdf = new SimpleDateFormat("ddMMyyyy");
-			r.setIdCliente( cl );
-			r.setIdChale( ch );
+			r.setCliente( cl );
+			r.setChale( ch );
 			r.setQtdAdulto( Integer.parseInt( txtReservaQtdAdulto.getText() ));
 			r.setQtdCrianca( Integer.parseInt(txtReservaQtdCrianca.getText() ));
 			r.setDtInicio( sdf.parse( ftxtReservaDtInicio.getText().replace("/","") ));
 			r.setDtFim( sdf.parse( ftxtReservaDtFim.getText().replace("/","") ));
 			r.setMensagem( txtaReservaMsg.getText() );
 			r.setDesconto( 0 );
+			r.setAtiva(false);
 			r.setDtCadastro( new Date() );
 
 			//verifica se a reserva do chale esta disponivel (verifica as datas)
@@ -708,7 +715,7 @@ public class PrincipalCtrl {
 				
 				adicionaReserva( r );
 				
-				if( logon.getLogon().get(0).getPerfil() != 2 ){
+				if( logon.getSession().get(0).getPerfil() != 2 ){
 					
 				//atualiza o estado do botão Reserva na tela Principal
 				btnReservas.setText( "Reservas ( " + logon.reservaQtd() + " )" );
@@ -733,22 +740,29 @@ public class PrincipalCtrl {
 			Reserva r = new Reserva();
 			for(int i = 0; i < reservas.size(); i ++){
 
+
+
 				// limpa a mascara no numero da reserva
 				if((tabela.getValueAt(tabela.getSelectedRow(), 0).toString().replaceFirst("0*", ""))
-						.equals( reservas.get(i).getId().toString() )){		
-					msg( "cancelarReserva", "nº " + String.format( "%06d", reservas.get(i).getId()) );
-					if (validar != false){
-						r.setId(reservas.get(i).getId());
-						excluiReserva( r );
-						cargaReserva();
+						.equals( reservas.get(i).getId().toString() )){
+					if( reservas.get(i).getAtiva() != true ){
+						msg( "reservaCancelar", "nº " + String.format( "%06d", reservas.get(i).getId()) );
+						if (validar != false){
+							r.setId(reservas.get(i).getId());
+							excluiReserva( r );
+							cargaReserva();
 
-						// atualiza a tabela, removendo a linha
-						((DefaultTableModel) tabela.getModel()).removeRow(tabela.getSelectedRow());
-						tabela.updateUI();
+							// atualiza a tabela, removendo a linha
+							((DefaultTableModel) tabela.getModel()).removeRow(tabela.getSelectedRow());
+							tabela.updateUI();
 
-						// atualiza o valor total
-						atualizaValor( tabela );
-					} 
+							// atualiza o valor total
+							atualizaValor( tabela );
+						} 
+					} else {
+						msg("reservaAtiva","nº " + String.format( "%06d", reservas.get(i).getId()) );
+						return;
+					}
 				}
 			}
 			validar = false;	
@@ -840,7 +854,7 @@ public class PrincipalCtrl {
 									List<Logon> log = new ArrayList<Logon>();
 									Logon l = new Logon();
 
-									l.setIdUsuario( clientes.get(f).getId() );
+									l.setIdUsuario( clientes.get(c).getId() );
 									l.setTela( janela.getName() );
 									l.setPerfil( 1 );
 									l.setLogoff( 1 );
@@ -856,6 +870,8 @@ public class PrincipalCtrl {
 									lblPwd.setVisible(false);
 									pwdSenha.setVisible(false);
 									btnLogin.setText("Sair");
+									alteraBtnReserva();
+									preencheReserva();
 									msg("autorizado", clientes.get(c).getNome() );
 								} 
 							}
@@ -879,15 +895,43 @@ public class PrincipalCtrl {
 		} else {
 			//ao se deslogar, prepara a tela para o perfil visitante
 			trocaPerfil(0);
-			btnLogin.setText("Login");
+			btnReservas.setVisible(false);
 			lblMsg.setText(null);
-			txtLogin.setText(null);
-			pwdSenha.setText(null);
+			btnLogin.setText("Login");
 			lblLogin.setVisible(true);
 			txtLogin.setVisible(true);
+			txtLogin.setText(null);
 			lblPwd.setVisible(true);
 			pwdSenha.setVisible(true);
+			pwdSenha.setText(null);
+			ativaCampo("reserva");
 			logon.logoff();
+		}
+	}
+	
+	
+	public void preencheReserva(){
+		//Preenche a reserva com os dados do cliente logado
+
+		cargaCliente();
+		
+		for (int i = 0; i < clientes.size(); i++) {
+
+			if( clientes.get(i).getId()
+					.equals( logon.getSession().get(0).getIdUsuario() )){
+			
+				txtReservaNome.setText( clientes.get(i).getNome() );
+				txtReservaDocNum.setText( clientes.get(i).getDocumento() );
+				cboReservaDocTipo.setSelectedItem( clientes.get(i).getDocTipo() );
+				txtReservaEmail.setText( clientes.get(i).getEmail() );
+				txtReservaTelefone.setText( clientes.get(i).getTelefone() );
+				txtReservaCelular.setText( clientes.get(i).getCelular() );
+				txtReservaCidade.setText( clientes.get(i).getCidade() );
+				txtReservaEstado.setText( clientes.get(i).getEstado() );
+				txtReservaPais.setText( clientes.get(i).getPais() ); 
+				
+				desativaCampo("reserva");
+			}
 		}
 	}
 
@@ -1047,7 +1091,7 @@ public class PrincipalCtrl {
 			titulos.add( 6, "Qtd. Pessoas" );
 			titulos.add( 7, "Vlr. Diária" );
 			titulos.add( 8, "Vlr. Total" );
-			titulos.add( 9, "Confimado" );
+			titulos.add( 9, "Ativa" );
 
 			for ( int i = 0; i< titulos.size(); i++ ) {
 				colunas = (String[]) titulos.toArray (new String[i]);
@@ -1101,27 +1145,27 @@ public class PrincipalCtrl {
 
 					float vlrTotal = ((( reservas.get(i).getDtFim().getTime() 
 							- reservas.get(i).getDtInicio().getTime() ) + 3600000) / 86400000L) 
-							* reservas.get(i).getIdChale().getDiaria() ;
+							* reservas.get(i).getChale().getDiaria() ;
 
 					float total = 0;
 					if ( vlrTotal != 0){
 						total = vlrTotal;
 					} else {
-						total = reservas.get(i).getIdChale().getDiaria();
+						total = reservas.get(i).getChale().getDiaria();
 					}
 
 					//carrega as linhas na tabela
 					linhas[i] = new Object[]{
 							String.format( "%06d",reservas.get(i).getId() ),
-							String.format( "%03d",reservas.get(i).getIdChale().getId() ),
-							reservas.get(i).getIdChale().getCategoria(),
+							String.format( "%03d",reservas.get(i).getChale().getId() ),
+							reservas.get(i).getChale().getCategoria(),
 							dt.format( reservas.get(i).getDtInicio() ),
 							dt.format( reservas.get(i).getDtFim() ),
-							"  " + reservas.get(i).getIdCliente().getNome(),
+							"  " + reservas.get(i).getCliente().getNome(),
 							Integer.toString( reservas.get(i).getQtdAdulto() + reservas.get(i).getQtdCrianca() ) ,   
-							vlr.format( reservas.get(i).getIdChale().getDiaria() ),
+							vlr.format( reservas.get(i).getChale().getDiaria() ),
 							vlr.format( total ),
-							reservas.get(i).getIdCliente().getAtivo() //deveria se tornar um checkbox!!!
+							reservas.get(i).getAtiva() //deveria se tornar um checkbox!!!
 					};
 				}
 			}
@@ -1321,8 +1365,8 @@ public class PrincipalCtrl {
 							lblPrincipalImg.getHeight(), 
 							Image.SCALE_DEFAULT )));
 
-			if( !logon.getLogon().isEmpty() )
-				logon.getLogon().get(0).setTela( janela.getName() + " : " + tabContainer.getTitleAt(0) );
+			if( !logon.getSession().isEmpty() )
+				logon.getSession().get(0).setTela( janela.getName() + " : " + tabContainer.getTitleAt(0) );
 
 			break;
 		case 1:
@@ -1333,8 +1377,8 @@ public class PrincipalCtrl {
 							lblChaleImg.getHeight(), 
 							Image.SCALE_DEFAULT )));
 
-			if( !logon.getLogon().isEmpty() )
-				logon.getLogon().get(0).setTela( janela.getName() + " : " + tabContainer.getTitleAt(1) );
+			if( !logon.getSession().isEmpty() )
+				logon.getSession().get(0).setTela( janela.getName() + " : " + tabContainer.getTitleAt(1) );
 
 			break;
 		case 2:
@@ -1345,8 +1389,8 @@ public class PrincipalCtrl {
 							lblLazerImg.getHeight(), 
 							Image.SCALE_DEFAULT )));
 
-			if( !logon.getLogon().isEmpty() )
-				logon.getLogon().get(0).setTela( janela.getName() + " : " + tabContainer.getTitleAt(2) );
+			if( !logon.getSession().isEmpty() )
+				logon.getSession().get(0).setTela( janela.getName() + " : " + tabContainer.getTitleAt(2) );
 
 			break;
 		case 3:
@@ -1357,16 +1401,16 @@ public class PrincipalCtrl {
 							lblServicoImg.getHeight(), 
 							Image.SCALE_DEFAULT )));
 
-			if( !logon.getLogon().isEmpty() )
-				logon.getLogon().get(0).setTela( janela.getName() + " : " + tabContainer.getTitleAt(3) );
+			if( !logon.getSession().isEmpty() )
+				logon.getSession().get(0).setTela( janela.getName() + " : " + tabContainer.getTitleAt(3) );
 			break;
 		case 4:
-			if( !logon.getLogon().isEmpty() )
-				logon.getLogon().get(0).setTela( janela.getName() + " : " + tabContainer.getTitleAt(4) );
+			if( !logon.getSession().isEmpty() )
+				logon.getSession().get(0).setTela( janela.getName() + " : " + tabContainer.getTitleAt(4) );
 			break;
 		case 5:
-			if( !logon.getLogon().isEmpty() )
-				logon.getLogon().get(0).setTela( janela.getName() + " : " + tabContainer.getTitleAt(5) );
+			if( !logon.getSession().isEmpty() )
+				logon.getSession().get(0).setTela( janela.getName() + " : " + tabContainer.getTitleAt(5) );
 			break;
 		}
 	}
@@ -1447,6 +1491,104 @@ public class PrincipalCtrl {
 			}
 		}
 	}
+	
+	public void ativaCampo( String guia ){
+		// desativa os campos para edição
+
+		Component[] painel = null;
+
+		switch ( guia ){
+
+		case "reserva":
+			painel = painelReserva.getComponents();
+			break;
+		}
+
+		for ( Component c : painel ) {
+
+			if ( c instanceof JTextField ) {
+				JTextField l = ( JTextField )c;
+					l.setEnabled(true);
+					l.setText(null);
+			}
+			if ( c instanceof JFormattedTextField ) {
+				JFormattedTextField  l = ( JFormattedTextField )c;
+				l.setEnabled(true);
+				l.setText(null);
+			}
+			if (c instanceof JComboBox ) {
+				@SuppressWarnings("unchecked")
+				JComboBox<String> l = ( JComboBox<String> )c;
+				l.setEnabled(true);
+				l.setSelectedIndex(0);
+			}
+			if ( c instanceof JTextArea ) {
+				JTextArea  l = ( JTextArea )c;
+				if( !l.getName().contains( "Info") ){
+					l.setText(null);
+				l.setEnabled(true);
+				}
+			}
+		}
+	}
+
+
+	public void desativaCampo( String guia ){
+		// desativa os campos para edição
+
+		if ( logon.getSession().get(0).getPerfil() != 2 ){
+
+			Component[] painel = null;
+
+			switch ( guia ){
+
+			case "reserva":
+				painel = painelReserva.getComponents();
+				break;
+			}
+
+			for ( Component c : painel ) {
+
+				if ( c instanceof JTextField ) {
+					JTextField l = ( JTextField )c;
+					if ( l.isEnabled() 
+							&& !l.getName().equalsIgnoreCase("adultos")
+							&& !l.getName().equalsIgnoreCase("criancas") 
+							&& !l.getName().equalsIgnoreCase("inicio")
+							&& !l.getName().equalsIgnoreCase("fim")){
+
+						l.setEnabled(false);
+					}
+				}
+				if ( c instanceof JFormattedTextField ) {
+					JFormattedTextField  l = ( JFormattedTextField )c;
+					if ( l.isEnabled() 
+							&& !l.getName().equalsIgnoreCase("inicio")
+							&& !l.getName().equalsIgnoreCase("fim") ){
+						l.setEnabled(false);
+					}
+				}
+				if (c instanceof JComboBox ) {
+					@SuppressWarnings("unchecked")
+					JComboBox<String> l = ( JComboBox<String> )c;
+					if ( l.isEnabled() && l.getName() != "Categoria" ){
+
+						l.setEnabled(false);
+					}
+				}
+				if ( c instanceof JTextArea ) {
+					JTextArea  l = ( JTextArea )c;
+					if ( !l.getName().equalsIgnoreCase( "Observações" )
+							&& !l.getName().contains( "Info") ){
+						if ( l.isEnabled() ){
+
+							l.setEnabled(false);
+						}
+					}
+				}
+			}
+		}
+	}
 
 
 	public void validaCampo(){
@@ -1457,7 +1599,7 @@ public class PrincipalCtrl {
 		Integer guiaAtiva = tabContainer.getSelectedIndex();
 		Component[] painelAtivo = null;
 
-		switch ( guiaAtiva){
+		switch ( guiaAtiva ){
 		
 		case 1: //perfil funcionario
 			painelAtivo = painelReserva.getComponents();
@@ -1649,6 +1791,7 @@ public class PrincipalCtrl {
 				msg( "construir", "" );
 			}
 			if( source == btnReservas ){
+				
 				abrir("reservas");
 			}
 			if( source == btnReservaEnviar ){
@@ -1950,9 +2093,16 @@ public class PrincipalCtrl {
 							JOptionPane.PLAIN_MESSAGE, 
 							new ImageIcon( diretorio + "/icons/error.png" ));
 			break;
+			
+		case "erroLinha":
+			JOptionPane.showMessageDialog(null, 
+					"Por favor, selecione uma Reserva para cancelar.", 
+					"Reserva não selecionada", 
+					JOptionPane.PLAIN_MESSAGE,
+					new ImageIcon( diretorio + "/icons/error.png" ));
+			break;
 
-
-		case "cancelarReserva":
+		case "reservaCancelar":
 			int retirar = JOptionPane.showOptionDialog(null, 
 					"Deseja editar ou excluir a Reserva " + mensagem + "?",
 					"Editar ou Excluir Reserva", 
@@ -1969,13 +2119,14 @@ public class PrincipalCtrl {
 				validar = false;
 			}
 			break;
-
-		case "erroLinha":
+			
+		case "reservaAtiva":
 			JOptionPane.showMessageDialog(null, 
-					"Por favor, selecione uma Reserva para cancelar.", 
-					"Reserva não selecionada", 
+					"A Reserva " + mensagem 
+					+ " não pode ser cancelada pois está ativa.", 
+					"Reserva Ativa", 
 					JOptionPane.PLAIN_MESSAGE,
-					new ImageIcon( diretorio + "/icons/error.png" ));
+					new ImageIcon( diretorio + "/icons/alert.png" ));
 			break;
 
 		case "construir":
