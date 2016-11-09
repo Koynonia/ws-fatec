@@ -86,8 +86,7 @@ public class PrincipalCtrl {
 	private JPanel painelCadastro;
 	private JPanel painelAdmPrincipal; 
 	private JPanel painelAdmChale; 
-	private JPanel painelAdmServico;  
-	private JPanel painelAdmCadastro; 
+	private JPanel painelAdmServico; 
 	private JPasswordField pwdSenha;
 	private JLabel lblLogin;
 	private JLabel lblPwd;
