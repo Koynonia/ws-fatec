@@ -58,8 +58,8 @@ import edu.pousada.dao.ContatoDAO;
 import edu.pousada.dao.ContatoDAOImpl;
 import edu.pousada.dao.FuncionarioDAO;
 import edu.pousada.dao.FuncionarioDAOImpl;
-import edu.pousada.dao.PrincipalDAO;
-import edu.pousada.dao.PrincipalDAOImpl;
+import edu.pousada.dao.InfoDAO;
+import edu.pousada.dao.InfoDAOImpl;
 import edu.pousada.dao.ReservaDAO;
 import edu.pousada.dao.ReservaDAOImpl;
 import edu.pousada.entity.Chale;
@@ -67,7 +67,7 @@ import edu.pousada.entity.Cliente;
 import edu.pousada.entity.Contato;
 import edu.pousada.entity.Funcionario;
 import edu.pousada.entity.Logon;
-import edu.pousada.entity.Principal;
+import edu.pousada.entity.Info;
 import edu.pousada.entity.Reserva;
 
 public class PrincipalCtrl {
@@ -80,14 +80,14 @@ public class PrincipalCtrl {
 	private JPanel painelServico;
 	private JPanel painelReserva;
 	private JPanel painelContato;
-	private JPanel painelServicoCliente;
-	private JPanel painelReservaCliente;
-	private JPanel painelCadastroCliente;
-	private JPanel painelPrincipalAdm; 
-	private JPanel painelReservaAdm; 
-	private JPanel painelChaleAdm; 
-	private JPanel painelServicoAdm;  
-	private JPanel painelCadastroAdm; 
+	private JPanel painelClientePrincipal;
+	private JPanel painelClienteServico;
+	private JPanel painelClienteHistorico;
+	private JPanel painelCadastro;
+	private JPanel painelAdmPrincipal; 
+	private JPanel painelAdmChale; 
+	private JPanel painelAdmServico;  
+	private JPanel painelAdmCadastro; 
 	private JPasswordField pwdSenha;
 	private JLabel lblLogin;
 	private JLabel lblPwd;
@@ -118,12 +118,24 @@ public class PrincipalCtrl {
 	private JTextField txtContatoCidade; 
 	private JTextField txtContatoEstado; 
 	private JTextField txtContatoPais; 
+	private JTextField txtCadastroNome;
+	private JTextField txtCadastroDocNum;
+	private JTextField txtCadastroEmail;
+	private JTextField txtCadastroTelefone;
+	private JTextField txtCadastroCelular;
+	private JTextField txtCadastroEndereco;
+	private JTextField txtCadastroBairro;
+	private JTextField txtCadastroCidade;
+	private JTextField txtCadastroEstado;
+	private JTextField txtCadastroCep;
+	private JTextField txtCadastroPais;
 	private JFormattedTextField ftxtReservaDtInicio; 
 	private JFormattedTextField ftxtReservaDtFim;
 	private JFormattedTextField ftxtQtdReservaChale;
 	private JFormattedTextField ftxtVlrReservaChale;
 	private JFormattedTextField ftxtQtdReservaServico;
 	private JFormattedTextField ftxtVlrReservaServico;
+	private JFormattedTextField ftxtCadastroDtNasc;
 	private JTextArea txtaPrincipalInfo; 
 	private JTextArea txtaPrincipalDetalhe; 
 	private JTextArea txtaChaleInfo; 
@@ -136,9 +148,13 @@ public class PrincipalCtrl {
 	private JTextArea txtaReservaMsg; 
 	private JTextArea txtaContatoInfo; 
 	private JTextArea txtaContatoMsg; 
+	private JTextArea txtaClienteInfo;
+	private JTextArea txtaClienteDetalhe;
+	private JTextArea txtaCadastroInfo;
 	private JComboBox<String> cboReservaCategoria; 
 	private JComboBox<String> cboReservaDocTipo; 
 	private JComboBox<String> cboContatoAssunto; 
+	private JComboBox<String> cboCadastroDocTipo;
 	private JTable tabReserva; 
 	private JTable tabServico; 
 	private JButton btnLogin; 
@@ -150,11 +166,15 @@ public class PrincipalCtrl {
 	private JButton btnContatoLimpar;
 	private JButton btnReservaEditar;
 	private JButton btnServicoEditar;
+	private JButton btnCadastroLimpar;
+	private JButton btnCadastroEditar;
+	private JButton btnCadastroSalvar;
+	private JButton btnCadastroExcluir;
 	private String diretorio = "../Pousada/resources/";
 	private LogonCtrl logon = LogonCtrl.getInstance();
 	private ImageIcon imagem;
 	private static boolean validar;
-	private List<Principal> infos;
+	private List<Info> infos;
 	private List<Chale> chales;
 	private List<Cliente> clientes;
 	private List<Funcionario> funcionarios;
@@ -170,14 +190,13 @@ public class PrincipalCtrl {
 			JPanel painelServico,
 			JPanel painelReserva,
 			JPanel painelContato, 
-			JPanel painelServicoCliente,
-			JPanel painelReservaCliente,
-			JPanel painelCadastroCliente,
-			JPanel painelPrincipalAdm, 
-			JPanel painelReservaAdm, 
-			JPanel painelChaleAdm, 
-			JPanel painelServicoAdm, 
-			JPanel painelCadastroAdm,
+			JPanel painelClientePrincipal, 
+			JPanel painelClienteServico,
+			JPanel painelClienteHistorico,
+			JPanel painelCadastro,
+			JPanel painelAdmPrincipal, 
+			JPanel painelAdmChale, 
+			JPanel painelAdmServico, 
 			JPasswordField pwdSenha,
 			JLabel lblLogin,
 			JLabel lblPwd,
@@ -209,12 +228,24 @@ public class PrincipalCtrl {
 			JTextField txtContatoCidade, 
 			JTextField txtContatoEstado, 
 			JTextField txtContatoPais, 
+			JTextField txtCadastroNome,
+			JTextField txtCadastroDocNum,
+			JTextField txtCadastroEmail,
+			JTextField txtCadastroTelefone,
+			JTextField txtCadastroCelular,
+			JTextField txtCadastroEndereco,
+			JTextField txtCadastroBairro,
+			JTextField txtCadastroCidade,
+			JTextField txtCadastroEstado,
+			JTextField txtCadastroCep,
+			JTextField txtCadastroPais,
 			JFormattedTextField ftxtReservaDtInicio, 
 			JFormattedTextField ftxtReservaDtFim, 
 			JFormattedTextField ftxtQtdReservaChale,
 			JFormattedTextField ftxtVlrReservaChale,
 			JFormattedTextField ftxtQtdReservaServico,
 			JFormattedTextField ftxtVlrReservaServico,
+			JFormattedTextField ftxtClienteDtNasc,
 			JTextArea txtaPrincipalInfo, 
 			JTextArea txtaPrincipal, 
 			JTextArea txtaChaleInfo, 
@@ -226,10 +257,14 @@ public class PrincipalCtrl {
 			JTextArea txtaReservaInfo, 
 			JTextArea txtaReservaObs, 
 			JTextArea txtaContatoInfo, 
-			JTextArea txtaContatoMsg,  
+			JTextArea txtaContatoMsg, 
+			JTextArea txtaClienteInfo, 
+			JTextArea txtaClienteDetalhe, 
+			JTextArea txtaCadastroInfo, 
 			JComboBox<String> cboReservaChale, 
 			JComboBox<String> cboReservaDocTipo, 
 			JComboBox<String> cboContatoAssunto, 
+			JComboBox<String> cboCadastroDocTipo,
 			JTable tabReserva, 
 			JTable tabServico, 
 			JButton btnLogin, 
@@ -240,7 +275,11 @@ public class PrincipalCtrl {
 			JButton btnReservaLimpar, 
 			JButton btnContatoLimpar,
 			JButton btnReservaEditar, 
-			JButton btnServicoEditar
+			JButton btnServicoEditar,
+			JButton btnCadastroLimpar,
+			JButton btnCadastroEditar,
+			JButton btnCadastroSalvar,
+			JButton btnCadastroExcluir
 			){
 
 		this.janela = janela; 
@@ -251,14 +290,13 @@ public class PrincipalCtrl {
 		this.painelServico = painelServico;
 		this.painelReserva = painelReserva;
 		this.painelContato = painelContato;
-		this.painelServicoCliente = painelServicoCliente;
-		this.painelReservaCliente = painelReservaCliente;
-		this.painelCadastroCliente = painelCadastroCliente;
-		this.painelPrincipalAdm = painelPrincipalAdm;
-		this.painelReservaAdm = painelReservaAdm;
-		this.painelChaleAdm = painelChaleAdm;
-		this.painelServicoAdm = painelServicoAdm;
-		this.painelCadastroAdm = painelCadastroAdm;
+		this.painelClientePrincipal = painelClientePrincipal;
+		this.painelClienteServico = painelClienteServico;
+		this.painelClienteHistorico = painelClienteHistorico;
+		this.painelCadastro = painelCadastro;
+		this.painelAdmPrincipal = painelAdmPrincipal;
+		this.painelAdmChale = painelAdmChale;
+		this.painelAdmServico = painelAdmServico;
 		this.pwdSenha = pwdSenha;
 		this.lblLogin = lblLogin;
 		this.lblPwd = lblPwd;
@@ -288,13 +326,25 @@ public class PrincipalCtrl {
 		this.txtContatoTelefone = txtContatoTelefone; 
 		this.txtContatoCidade = txtContatoCidade; 
 		this.txtContatoEstado = txtContatoEstado; 
-		this.txtContatoPais = txtContatoPais;  
+		this.txtContatoPais = txtContatoPais; 
+		this.txtCadastroNome = txtCadastroNome;
+		this.txtCadastroDocNum = txtCadastroDocNum;
+		this.txtCadastroEmail = txtCadastroEmail;
+		this.txtCadastroTelefone = txtCadastroTelefone;
+		this.txtCadastroCelular = txtCadastroCelular;
+		this.txtCadastroEndereco = txtCadastroEndereco;
+		this.txtCadastroBairro = txtCadastroBairro;
+		this.txtCadastroCidade = txtCadastroCidade;
+		this.txtCadastroEstado = txtCadastroEstado;
+		this.txtCadastroCep = txtCadastroCep;
+		this.txtCadastroPais = txtCadastroPais;
 		this.ftxtReservaDtInicio = ftxtReservaDtInicio; 
 		this.ftxtReservaDtFim = ftxtReservaDtFim;
 		this.ftxtQtdReservaChale = ftxtQtdReservaChale;
 		this.ftxtVlrReservaChale = ftxtVlrReservaChale;
 		this.ftxtQtdReservaServico = ftxtQtdReservaServico;
 		this.ftxtVlrReservaServico = ftxtVlrReservaServico;
+		this.ftxtCadastroDtNasc = ftxtClienteDtNasc;
 		this.txtaPrincipalInfo = txtaPrincipalInfo; 
 		this.txtaPrincipalDetalhe = txtaPrincipal; 
 		this.txtaChaleInfo = txtaChaleInfo; 
@@ -306,10 +356,14 @@ public class PrincipalCtrl {
 		this.txtaReservaInfo = txtaReservaInfo; 
 		this.txtaReservaMsg = txtaReservaObs; 
 		this.txtaContatoInfo = txtaContatoInfo; 
-		this.txtaContatoMsg = txtaContatoMsg;  
+		this.txtaContatoMsg = txtaContatoMsg; 
+		this.txtaClienteInfo = txtaClienteInfo; 
+		this.txtaClienteDetalhe = txtaClienteDetalhe; 
+		this.txtaCadastroInfo = txtaCadastroInfo;
 		this.cboReservaCategoria = cboReservaChale; 
 		this.cboReservaDocTipo = cboReservaDocTipo; 
 		this.cboContatoAssunto = cboContatoAssunto; 
+		this.cboCadastroDocTipo = cboCadastroDocTipo; 
 		this.tabReserva = tabReserva; 
 		this.tabServico = tabServico; 
 		this.btnLogin = btnLogin; 
@@ -321,7 +375,11 @@ public class PrincipalCtrl {
 		this.btnContatoLimpar = btnContatoLimpar;
 		this.btnReservaEditar = btnReservaEditar;
 		this.btnServicoEditar = btnServicoEditar;
-		this.infos = new ArrayList<Principal>();
+		this.btnCadastroLimpar = btnCadastroLimpar;
+		this.btnCadastroEditar = btnCadastroEditar;
+		this.btnCadastroSalvar = btnCadastroSalvar;
+		this.btnCadastroExcluir = btnCadastroExcluir;
+		this.infos = new ArrayList<Info>();
 		this.chales = new ArrayList<Chale>();
 		this.clientes = new ArrayList<Cliente>();
 		this.funcionarios = new ArrayList<Funcionario>();
@@ -329,7 +387,7 @@ public class PrincipalCtrl {
 
 
 		// realiza a preparação do ambiente visitante
-		cargaPrincipal();
+		cargaInfo();
 		preecheInfo();
 		preencheCategoria();
 		preencheTipoDoc();
@@ -381,14 +439,14 @@ public class PrincipalCtrl {
 	// DAO //////////////////////////////////////
 
 
-	public void cargaPrincipal(){
+	public void cargaInfo(){
 
-		PrincipalDAO dao = new PrincipalDAOImpl();
+		InfoDAO dao = new InfoDAOImpl();
 		try {
 			infos = dao.todos();
 		} catch (SQLException e) {
 			msg("", "ERRO SQL " + e.getSQLState() 
-					+ "\n\nLocal:\nPrincipalCtrl > cargaPrincipal()."  
+					+ "\n\nLocal:\nPrincipalCtrl > cargaInfo()."  
 					+ "\n\nMensagem:\n" + e.getMessage() );
 			//e.printStackTrace();
 		}
@@ -885,6 +943,7 @@ public class PrincipalCtrl {
 									alteraBtnReserva();
 									preencheReserva();
 									preencheContato();
+									preencheCadastro();
 									msg("autorizado", clientes.get(c).getNome() );
 								} 
 							}
@@ -919,13 +978,14 @@ public class PrincipalCtrl {
 			pwdSenha.setText(null);
 			ativaCampo("reserva");
 			ativaCampo("contato");
+			ativaCampo("cadastro");
 			logon.logoff();
 		}
 	}
 	
 	
 	public void preencheReserva(){
-		//Preenche a reserva com os dados do cliente logado
+		//Preenche a reserva com os dados do cliente logado e trava os campos
 
 		cargaCliente();
 		
@@ -951,7 +1011,7 @@ public class PrincipalCtrl {
 	
 	
 	public void preencheContato(){
-		//Preenche o contato com os dados do cliente logado
+		//Preenche o contato com os dados do cliente logado e trava os campos
 
 		cargaCliente();
 		
@@ -971,6 +1031,38 @@ public class PrincipalCtrl {
 			}
 		}
 	}
+	
+	
+	public void preencheCadastro(){
+		//Preenche o cadastro com os dados do cliente logado e trava os campos
+
+		cargaCliente();
+		
+		for (int i = 0; i < clientes.size(); i++) {
+
+			if( clientes.get(i).getId()
+					.equals( logon.getSession().get(0).getIdUsuario() )){
+				
+                SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyy");
+                
+				txtCadastroNome.setText( clientes.get(i).getNome() );
+				txtCadastroDocNum.setText( clientes.get(i).getDocumento() );
+				cboCadastroDocTipo.setSelectedItem( clientes.get(i).getDocTipo() );
+				txtCadastroEmail.setText( clientes.get(i).getEmail() );
+				ftxtCadastroDtNasc.setText( dt.format( clientes.get(i).getDtNasc() ));
+				txtCadastroTelefone.setText( clientes.get(i).getTelefone() );
+				txtCadastroCelular.setText( clientes.get(i).getCelular() );
+				txtCadastroEndereco.setText( clientes.get(i).getEndereco() );
+				txtCadastroBairro.setText( clientes.get(i).getBairro() );
+				txtCadastroCidade.setText( clientes.get(i).getCidade() );
+				txtCadastroEstado.setText( clientes.get(i).getEstado() );
+				txtCadastroCep.setText( clientes.get(i).getCep() );
+				txtCadastroPais.setText( clientes.get(i).getPais() ); 
+				
+				desativaCampo("cadastro");
+			}
+		}
+	}
 
 
 	public void trocaPerfil( int op ){
@@ -979,14 +1071,13 @@ public class PrincipalCtrl {
 		switch ( op ){
 
 		case 0:
-			tabContainer.remove( painelServicoCliente );
-			tabContainer.remove( painelReservaCliente );
-			tabContainer.remove( painelCadastroCliente );
-			tabContainer.remove( painelPrincipalAdm );
-			tabContainer.remove( painelReservaAdm );
-			tabContainer.remove( painelChaleAdm );
-			tabContainer.remove( painelServicoAdm );
-			tabContainer.remove( painelCadastroAdm );
+			tabContainer.remove( painelClientePrincipal );
+			tabContainer.remove( painelClienteServico );
+			tabContainer.remove( painelClienteHistorico );
+			tabContainer.remove( painelCadastro );
+			tabContainer.remove( painelAdmPrincipal );
+			tabContainer.remove( painelAdmChale );
+			tabContainer.remove( painelAdmServico );
 			
 			tabContainer.add( "Principal", painelPrincipal );
 			tabContainer.add( "Chalés", painelChale );
@@ -1003,17 +1094,16 @@ public class PrincipalCtrl {
 			tabContainer.remove( painelServico );
 			tabContainer.remove( painelReserva );
 			tabContainer.remove( painelContato );
-			tabContainer.remove( painelPrincipalAdm );
-			tabContainer.remove( painelReservaAdm );
-			tabContainer.remove( painelChaleAdm );
-			tabContainer.remove( painelServicoAdm );
-			tabContainer.remove( painelCadastroAdm );
+			tabContainer.remove( painelCadastro );
+			tabContainer.remove( painelAdmPrincipal );
+			tabContainer.remove( painelAdmChale );
+			tabContainer.remove( painelAdmServico );
 			
-			tabContainer.add( "Principal", painelPrincipal );
+			tabContainer.add( "Principal", painelClientePrincipal );
 			tabContainer.add( "Reservas", painelReserva );
-			tabContainer.add( "Serviços", painelServicoCliente );
-			tabContainer.add( "Histórico", painelReservaCliente );
-			tabContainer.add( "Cadastro", painelCadastroCliente );
+			tabContainer.add( "Serviços", painelClienteServico );
+			tabContainer.add( "Histórico", painelClienteHistorico );
+			tabContainer.add( "Cadastro", painelCadastro );
 			tabContainer.add( "Contato", painelContato );
 			break;
 
@@ -1028,16 +1118,16 @@ public class PrincipalCtrl {
 			tabContainer.remove( painelServico );
 			tabContainer.remove( painelReserva );
 			tabContainer.remove( painelContato );
-			tabContainer.remove( painelServicoCliente );
-			tabContainer.remove( painelReservaCliente );
-			tabContainer.remove( painelCadastroCliente );
+			tabContainer.remove( painelCadastro );
+			tabContainer.remove( painelClientePrincipal );
+			tabContainer.remove( painelClienteServico );
+			tabContainer.remove( painelClienteHistorico );
 			
-			tabContainer.add( "Principal", painelPrincipalAdm );
-			//tabContainer.add( "Reservas", painelReservaAdm );
+			tabContainer.add( "Principal", painelAdmPrincipal );
 			tabContainer.add( "Reservas", painelReserva );
-			tabContainer.add( "Chalés", painelChaleAdm );
-			tabContainer.add( "Serviço", painelServicoAdm );
-			tabContainer.add( "Cadastro de Funcionário", painelCadastroAdm );
+			tabContainer.add( "Chalés", painelAdmChale );
+			tabContainer.add( "Serviço", painelAdmServico );
+			tabContainer.add( "Cadastro", painelCadastro );
 			break;
 		}
 	}
@@ -1061,6 +1151,9 @@ public class PrincipalCtrl {
 				txtaServicoDetalhe.setText( infos.get(i).getServicoDetalhe() ); 
 				txtaReservaInfo.setText( infos.get(i).getReservaInfo() ); 
 				txtaContatoInfo.setText( infos.get(i).getContatoInfo() ); 
+				txtaClienteInfo.setText( infos.get(i).getClienteInfo() );
+				txtaClienteDetalhe.setText( infos.get(i).getClienteDetalhe() );
+				txtaCadastroInfo.setText( infos.get(i).getCadastroInfo() );
 			}
 		}
 	}
@@ -1095,12 +1188,18 @@ public class PrincipalCtrl {
 		String[] tipos = {
 				"CPF",
 				"RG",
+				"CNH",
 				"Passaporte"
 		};
-		//Adicionar na combobox
+		//Adicionar na combobox reserva
 		cboReservaDocTipo.addItem( "Selecione…" );
 		for ( int i = 0; i < tipos.length; i++ ){
 			cboReservaDocTipo.addItem( tipos[i] );
+		}
+		//Adicionar na combobox cadastro
+		cboCadastroDocTipo.addItem( "Selecione…" );
+		for ( int i = 0; i < tipos.length; i++ ){
+			cboCadastroDocTipo.addItem( tipos[i] );
 		}
 	}
 
@@ -1570,31 +1669,39 @@ public class PrincipalCtrl {
 		case "contato":
 			painel = painelContato.getComponents();
 			break;
+		
+		case "cadastro":
+			painel = painelCadastro.getComponents();
+			break;
 		}
 
 		for ( Component c : painel ) {
 
 			if ( c instanceof JTextField ) {
 				JTextField l = ( JTextField )c;
-					l.setEnabled(true);
+				l.setEnabled(true);
+				if( guia != "cadastro" )
 					l.setText(null);
 			}
 			if ( c instanceof JFormattedTextField ) {
 				JFormattedTextField  l = ( JFormattedTextField )c;
 				l.setEnabled(true);
-				l.setText(null);
+				if( guia != "cadastro" )
+					l.setText(null);
 			}
 			if (c instanceof JComboBox ) {
 				@SuppressWarnings("unchecked")
 				JComboBox<String> l = ( JComboBox<String> )c;
 				l.setEnabled(true);
-				l.setSelectedIndex(0);
+				if( guia != "cadastro" )
+					l.setSelectedIndex(0);
 			}
 			if ( c instanceof JTextArea ) {
 				JTextArea  l = ( JTextArea )c;
 				if( !l.getName().contains( "Info") ){
 					l.setText(null);
-				l.setEnabled(true);
+					if( guia != "cadastro" )
+						l.setEnabled(true);
 				}
 			}
 		}
@@ -1616,6 +1723,10 @@ public class PrincipalCtrl {
 				
 			case "contato":
 				painel = painelContato.getComponents();
+				break;
+				
+			case "cadastro":
+				painel = painelCadastro.getComponents();
 				break;
 			}
 
@@ -1897,6 +2008,20 @@ public class PrincipalCtrl {
 				cancelaReserva( tabReserva );
 			}
 			if( source == btnServicoEditar ){
+				msg( "construir", "" );
+			}
+			if( source == btnCadastroLimpar ){
+				limpaCampo();
+			}
+			if( source == btnCadastroExcluir ){
+				msg( "construir", "" );
+			}
+			if( source == btnCadastroEditar ){
+				ativaCampo("cadastro");
+				msg( "construir", "" );
+			}
+			if( source == btnCadastroSalvar ){
+				desativaCampo("cadastro");
 				msg( "construir", "" );
 			}
 		}

@@ -75,6 +75,17 @@ public class PrincipalFrm extends JFrame {
 	private JTextField txtContatoCidade;
 	private JTextField txtContatoEstado;
 	private JTextField txtContatoPais;
+	private JTextField txtCadastroNome;
+	private JTextField txtCadastroDocNum;
+	private JTextField txtCadastroEmail;
+	private JTextField txtCadastroTelefone;
+	private JTextField txtCadastroCelular;
+	private JTextField txtCadastroEndereco;
+	private JTextField txtCadastroBairro;
+	private JTextField txtCadastroCidade;
+	private JTextField txtCadastroEstado;
+	private JTextField txtCadastroCep;
+	private JTextField txtCadastroPais;
 	private JPasswordField pwdSenha;
 	private JFormattedTextField ftxtReservaDtInicio;
 	private JFormattedTextField ftxtReservaDtFim;
@@ -82,6 +93,7 @@ public class PrincipalFrm extends JFrame {
 	private JFormattedTextField ftxtVlrReservaServico;
 	private JFormattedTextField ftxtQtdReservaChale;
 	private JFormattedTextField ftxtVlrChale;
+	private JFormattedTextField ftxtCadastroDtNasc;
 	private JTextArea txtaPrincipalInfo;
 	private JTextArea txtaPrincipalDetalhe;
 	private JTextArea txtaChaleInfo;
@@ -94,9 +106,13 @@ public class PrincipalFrm extends JFrame {
 	private JTextArea txtaReservaMsg;
 	private JTextArea txtaContatoInfo;
 	private JTextArea txtaContatoMsg;
+	private JTextArea txtaClienteInfo;
+	private JTextArea txtaClienteDetalhe;
+	private JTextArea txtaCadastroInfo;
 	private JComboBox<String> cboReservaCategoria;
 	private JComboBox<String> cboReservaDocTipo;
 	private JComboBox<String> cboContatoAssunto;
+	private JComboBox<String> cboCadastroDocTipo;
 	private JButton btnLogin;
 	private JButton btnReservas;
 	private JButton btnPesquisar;
@@ -106,6 +122,10 @@ public class PrincipalFrm extends JFrame {
 	private JButton btnContatoLimpar;
 	private JButton btnReservaEditar;
 	private JButton btnServicoEditar;
+	private JButton btnCadastroLimpar;
+	private JButton btnCadastroEditar;
+	private JButton btnCadastroSalvar;
+	private JButton btnCadastroExcluir;
 	private JTable tabReserva;
 	private JTable tabServico;
 	private JTabbedPane tabContainer;
@@ -117,15 +137,15 @@ public class PrincipalFrm extends JFrame {
 	private JPanel painelServico;
 	private JPanel painelReserva;
 	private JPanel painelContato;
-	private JPanel painelServicoCliente;
-	private JPanel painelReservaCliente;
-	private JPanel painelCadastroCliente;
-	private JPanel painelPrincipalAdm;
-	private JPanel painelReservaAdm;
-	private JPanel painelChaleAdm;
-	private JPanel painelServicoAdm;
-	private JPanel painelCadastroAdm;
-	private DecimalFormat maskValor;
+	private JPanel painelClientePrincipal;
+	private JPanel painelClienteServico;
+	private JPanel painelClienteHistorico;
+	private JPanel painelCadastro;
+	private JPanel painelAdmPrincipal;
+	private JPanel painelAdmChale;
+	private JPanel painelAdmServico;
+	private MaskFormatter mskData = new MaskFormatter("##/##/####");
+	private DecimalFormat mskValor = new DecimalFormat("R$ #,###,##0.00");
 	private ImageIcon fundo = new ImageIcon( "../Pousada/resources/backstage/img4.jpg" );
 	private ImageIcon principal = new ImageIcon( "../Pousada/resources/imagens/externa0.jpg" );
 	private ImageIcon chale = new ImageIcon( "../Pousada/resources/imagens/chale0.jpg" );
@@ -167,6 +187,16 @@ public class PrincipalFrm extends JFrame {
 		lblLogo.setFont(new Font("Bauhaus 93", Font.PLAIN, 40));
 		lblLogo.setBounds(31, 16, 407, 45);
 		painel.add(lblLogo);
+		
+		lblRelogio = new JLabel("");
+		lblRelogio.setEnabled(false);
+		lblRelogio.setBounds(35, 57, 100, 16);
+		painel.add(lblRelogio);
+		
+		lblMsg = new JLabel("");
+		lblMsg.setEnabled(false);
+		lblMsg.setBounds(115, 57, 407, 16);
+		painel.add(lblMsg);
 
 		lblLogin = new JLabel("Usuário:");
 		lblLogin.setBounds(696, 22, 62, 16);
@@ -192,26 +222,17 @@ public class PrincipalFrm extends JFrame {
 
 		btnLogin = new JButton("Login");
 		btnLogin.setBounds(872, 51, 116, 29);
-		//		btnLogin.setToolTipText("Clique aqui para se logar ou registrar");
+		//btnLogin.setToolTipText("Clique aqui para se logar ou registrar");
 		btnLogin.setVisible(true);
 		painel.add(btnLogin);
 
 		btnReservas = new JButton("Reservas");
 		btnReservas.setBounds(872, 16, 116, 29);
-		//		btnReservas.setToolTipText("Clique aqui para se acessar a tela de Reservas");
+		//btnReservas.setToolTipText("Clique aqui para se acessar a tela de Reservas");
 		btnReservas.setVisible(false);
 		btnReservas.setFocusable(false);
 		painel.add(btnReservas);
 
-		lblMsg = new JLabel("");
-		lblMsg.setEnabled(false);
-		lblMsg.setBounds(115, 57, 407, 16);
-		painel.add(lblMsg);
-
-		lblRelogio = new JLabel("");
-		lblRelogio.setEnabled(false);
-		lblRelogio.setBounds(35, 57, 100, 16);
-		painel.add(lblRelogio);
 
 		tabContainer = new JTabbedPane(JTabbedPane.TOP);
 		tabContainer.setBounds(39, 92, 976, 580);
@@ -231,30 +252,30 @@ public class PrincipalFrm extends JFrame {
 		painelServico.setLayout(null);
 		painelReserva.setLayout(null);
 		painelContato.setLayout(null);
-		
+
 		// Cliente
-		painelServicoCliente = new JPanel();
-		painelReservaCliente = new JPanel();
-		painelCadastroCliente = new JPanel();
+		painelClientePrincipal = new JPanel();
+		painelClienteServico = new JPanel();
+		painelClienteHistorico = new JPanel();
 		
-		painelServicoCliente.setLayout(null);
-		painelReservaCliente.setLayout(null);
-		painelCadastroCliente.setLayout(null);
+		painelClientePrincipal.setLayout(null);
+		painelClienteServico.setLayout(null);
+		painelClienteHistorico.setLayout(null);
 
-		// Funcionario
-		painelPrincipalAdm = new JPanel();
-		painelReservaAdm = new JPanel();
-		painelChaleAdm = new JPanel();
-		painelServicoAdm = new JPanel();
-		painelCadastroAdm = new JPanel();
+		// Adm
+		painelAdmPrincipal = new JPanel();
+		painelAdmChale = new JPanel();
+		painelAdmServico = new JPanel();
 
-		painelPrincipalAdm.setLayout(null);
-		painelReservaAdm.setLayout(null);
-		painelChaleAdm.setLayout(null);
-		painelServicoAdm.setLayout(null);
-		painelCadastroAdm.setLayout(null);
+		painelAdmPrincipal.setLayout(null);
+		painelAdmChale.setLayout(null);
+		painelAdmServico.setLayout(null);
+		
+		// Cadastro
+		painelCadastro = new JPanel();
+		painelCadastro.setLayout(null);
 
-
+		
 		// PRINCIPAL //////////////////////////
 
 		JLabel lblPrincipalInfo = new JLabel("SEJA BEM VINDO, visitante!");
@@ -583,7 +604,6 @@ public class PrincipalFrm extends JFrame {
 		lblReservaDtInicio.setBounds(610, 413, 100, 16);
 		painelReserva.add(lblReservaDtInicio);
 
-		MaskFormatter mskData = new MaskFormatter("##/##/####");
 		ftxtReservaDtInicio = new JFormattedTextField(mskData);
 		ftxtReservaDtInicio.setBounds(670, 406, 100, 28);
 		ftxtReservaDtInicio.setName("inicio");
@@ -628,7 +648,6 @@ public class PrincipalFrm extends JFrame {
 		btnReservaLimpar = new JButton("Limpar");
 		btnReservaLimpar.setBounds(715, 485, 110, 29);
 		btnReservaLimpar.setToolTipText("Clique aqui para limpar os campos preenchidos");
-		btnReservaLimpar.setVisible(true);
 		painelReserva.add(btnReservaLimpar);
 
 		btnReservaEnviar = new JButton("Reservar");
@@ -767,37 +786,66 @@ public class PrincipalFrm extends JFrame {
 		btnContatoEnviar.setFocusable(false);
 		painelContato.add(btnContatoEnviar);
 
-		
+
 		// PRINCIPAL CLIENTE ////////////////////////
-		
-		// SERVICO //////////////////////////
+
+		JLabel lblClienteInfo = new JLabel("Este é sua área particular!");
+		lblClienteInfo.setBounds(20, 22, 500, 16);		
+		painelClientePrincipal.add(lblClienteInfo);
+
+		txtaClienteInfo = new JTextArea();
+		txtaClienteInfo.setBounds(20, 46, 914, 90);
+		txtaClienteInfo.setBorder(BorderFactory.createCompoundBorder(borderClean, 
+				BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+		txtaClienteInfo.setFocusable(false);
+		txtaClienteInfo.setEditable(false);
+		txtaClienteInfo .setLineWrap(true);
+		txtaClienteInfo .setWrapStyleWord(true);
+		painelClientePrincipal.add(txtaClienteInfo);
+
+		JLabel lblCliente = new JLabel("O que você pode fazer:");
+		lblCliente.setBounds(20, 175, 300, 16);
+		painelClientePrincipal.add(lblCliente);
+
+		txtaClienteDetalhe = new JTextArea(10, 20);
+		txtaClienteDetalhe.setBounds(20, 203, 334, 312);
+		txtaClienteDetalhe.setBorder(BorderFactory.createCompoundBorder(borderClean, 
+				BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+		txtaClienteDetalhe.setFocusable(false);
+		txtaClienteDetalhe.setEditable(false);
+		txtaClienteDetalhe.setLineWrap(true);
+		txtaClienteDetalhe.setWrapStyleWord(true);
+		painelClientePrincipal.add(txtaClienteDetalhe);
+
+
+
 
 
 		// PRINCIPAL ADM //////////////////////////
 
 		JLabel lblPesquisa = new JLabel("Pesquisar cliente:");
 		lblPesquisa.setBounds(37, 17, 117, 16);
-		painelPrincipalAdm.add(lblPesquisa);
+		painelAdmPrincipal.add(lblPesquisa);
 
 		txtPesquisa = new JTextField(20);
 		txtPesquisa.setBounds(161, 11, 239, 28);
 		txtPesquisa.setToolTipText("Digite o nome ou código como critério");
-		painelPrincipalAdm.add(txtPesquisa);
+		painelAdmPrincipal.add(txtPesquisa);
 
 		btnPesquisar = new JButton("");
 		btnPesquisar.setBounds(410, 11, 28, 28);
 		btnPesquisar.setIcon(new ImageIcon("../Pousada/resources/icons/btn_search.png"));
 		btnPesquisar.setVisible(true);
-		painelPrincipalAdm.add(btnPesquisar);
+		painelAdmPrincipal.add(btnPesquisar);
 
 		JLabel lblTabChale = new JLabel("Reservas de Chalés");
 		lblTabChale.setBounds(800, 30, 130, 16);
-		painelPrincipalAdm.add(lblTabChale);
+		painelAdmPrincipal.add(lblTabChale);
 
 		spChale = new JScrollPane();
 		spChale.setBounds(30, 50, 895, 180);
 		spChale.setToolTipText("clique para editar ou excluir");
-		painelPrincipalAdm.add(spChale);
+		painelAdmPrincipal.add(spChale);
 
 		tabReserva = new JTable();
 		tabReserva.setName("reserva");
@@ -807,7 +855,7 @@ public class PrincipalFrm extends JFrame {
 
 		JLabel lblQtdReservaChale = new JLabel("Quantidade");
 		lblQtdReservaChale.setBounds(30, 240, 73, 16);
-		painelPrincipalAdm.add(lblQtdReservaChale);
+		painelAdmPrincipal.add(lblQtdReservaChale);
 
 		ftxtQtdReservaChale = new JFormattedTextField((Format) null);
 		ftxtQtdReservaChale.setBackground(SystemColor.window);
@@ -815,36 +863,35 @@ public class PrincipalFrm extends JFrame {
 		ftxtQtdReservaChale.setEditable(false);
 		ftxtQtdReservaChale.setColumns(10);
 		ftxtQtdReservaChale.setBounds(111, 235, 58, 28);
-		painelPrincipalAdm.add(ftxtQtdReservaChale);
+		painelAdmPrincipal.add(ftxtQtdReservaChale);
 
 		JLabel lblVlrReservaChale = new JLabel("Total Geral");
 		lblVlrReservaChale.setBounds(192, 240, 73, 16);
-		painelPrincipalAdm.add(lblVlrReservaChale);
+		painelAdmPrincipal.add(lblVlrReservaChale);
 
-		maskValor = new DecimalFormat("R$ #,###,##0.00");
-		NumberFormatter totalChale = new NumberFormatter(maskValor);
-		totalChale.setFormat(maskValor);
+		NumberFormatter totalChale = new NumberFormatter(mskValor);
+		totalChale.setFormat(mskValor);
 		totalChale.setAllowsInvalid(false);
-		ftxtVlrChale = new JFormattedTextField(maskValor);
+		ftxtVlrChale = new JFormattedTextField(mskValor);
 		ftxtVlrChale.setBackground(SystemColor.window);
 		ftxtVlrChale.setHorizontalAlignment(SwingConstants.RIGHT);
 		ftxtVlrChale.setEditable(false);
 		ftxtVlrChale.setBounds(264, 235, 98, 28);
 		ftxtVlrChale.setColumns(10);
-		painelPrincipalAdm.add(ftxtVlrChale);
-		
+		painelAdmPrincipal.add(ftxtVlrChale);
+
 		btnReservaEditar = new JButton("Editar ou Excluir");
 		btnReservaEditar.setBounds(790, 235, 140, 29);
-		painelPrincipalAdm.add(btnReservaEditar);
+		painelAdmPrincipal.add(btnReservaEditar);
 
 		JLabel lblTabReservaServico = new JLabel("Reservas de Serviços");
 		lblTabReservaServico.setBounds(790, 280, 130, 16);
-		painelPrincipalAdm.add(lblTabReservaServico);
+		painelAdmPrincipal.add(lblTabReservaServico);
 
 		spTabReservaServico = new JScrollPane();
 		spTabReservaServico.setBounds(30, 300, 895, 180);
 		spTabReservaServico.setToolTipText("clique para editar ou excluir");
-		painelPrincipalAdm.add(spTabReservaServico);
+		painelAdmPrincipal.add(spTabReservaServico);
 
 		tabServico = new JTable();
 		tabServico.setName("servico");
@@ -854,7 +901,7 @@ public class PrincipalFrm extends JFrame {
 
 		JLabel lblQtdReservaServico = new JLabel("Quantidade");
 		lblQtdReservaServico.setBounds(30, 490, 73, 16);
-		painelPrincipalAdm.add(lblQtdReservaServico);
+		painelAdmPrincipal.add(lblQtdReservaServico);
 
 		ftxtQtdReservaServico = new JFormattedTextField((Format) null);
 		ftxtQtdReservaServico.setBackground(SystemColor.window);
@@ -862,28 +909,196 @@ public class PrincipalFrm extends JFrame {
 		ftxtQtdReservaServico.setEditable(false);
 		ftxtQtdReservaServico.setColumns(10);
 		ftxtQtdReservaServico.setBounds(111, 485, 58, 28);
-		painelPrincipalAdm.add(ftxtQtdReservaServico);
+		painelAdmPrincipal.add(ftxtQtdReservaServico);
 
 		JLabel lblVlrReservaServico = new JLabel("Total Geral");
 		lblVlrReservaServico.setBounds(192, 490, 73, 16);
-		painelPrincipalAdm.add(lblVlrReservaServico);
+		painelAdmPrincipal.add(lblVlrReservaServico);
 
-		maskValor = new DecimalFormat("R$ #,###,##0.00");
-		NumberFormatter totalServico = new NumberFormatter(maskValor);
-		totalServico.setFormat(maskValor);
+		mskValor = new DecimalFormat("R$ #,###,##0.00");
+		NumberFormatter totalServico = new NumberFormatter(mskValor);
+		totalServico.setFormat(mskValor);
 		totalServico.setAllowsInvalid(false);
-		ftxtVlrReservaServico = new JFormattedTextField(maskValor);
+		ftxtVlrReservaServico = new JFormattedTextField(mskValor);
 		ftxtVlrReservaServico.setBackground(SystemColor.window);
 		ftxtVlrReservaServico.setHorizontalAlignment(SwingConstants.RIGHT);
 		ftxtVlrReservaServico.setEditable(false);
 		ftxtVlrReservaServico.setBounds(264, 485, 98, 28);
 		ftxtVlrReservaServico.setColumns(10);
-		painelPrincipalAdm.add(ftxtVlrReservaServico);
-		
+		painelAdmPrincipal.add(ftxtVlrReservaServico);
+
 		btnServicoEditar = new JButton("Editar ou Excluir");
 		btnServicoEditar.setBounds(790, 485, 140, 29);
-		painelPrincipalAdm.add(btnServicoEditar);
+		painelAdmPrincipal.add(btnServicoEditar);
+
+
+		// CADASTRO ////////////////////////////////
+
+		JLabel lblCadastroInfo = new JLabel("Seus dados");
+		lblCadastroInfo.setBounds(20, 22, 500, 16);		
+		painelCadastro.add(lblCadastroInfo);
+
+		txtaCadastroInfo = new JTextArea();
+		txtaCadastroInfo.setBounds(20, 46, 914, 70);
+		txtaCadastroInfo.setName("contatoInfo");
+		txtaCadastroInfo.setBorder(BorderFactory.createCompoundBorder(borderClean, 
+				BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+		txtaCadastroInfo.setFocusable(false);
+		txtaCadastroInfo.setEditable(false);
+		txtaCadastroInfo .setLineWrap(true);
+		txtaCadastroInfo .setWrapStyleWord(true);
+		painelCadastro.add(txtaCadastroInfo);
+
+		JLabel lblClienteNome = new JLabel("Nome:");
+		lblClienteNome.setBounds(20, 137, 150, 16);
+		painelCadastro.add(lblClienteNome);
+
+		txtCadastroNome = new JTextField(20);
+		txtCadastroNome.setBounds(105, 131, 400, 28);
+		txtCadastroNome.setName("Nome");
+		txtCadastroNome.setToolTipText("Digite seu nome completo");
+		painelCadastro.add(txtCadastroNome);
+
+		JLabel lblCadastroEmail = new JLabel("Email:");
+		lblCadastroEmail.setBounds(20, 177, 150, 16);
+		painelCadastro.add(lblCadastroEmail);
+
+		txtCadastroEmail = new JTextField(20);
+		txtCadastroEmail.setBounds(105, 171, 400, 28);
+		txtCadastroEmail.setName("Email");
+		txtCadastroEmail.setToolTipText("Digite seu Email");
+		painelCadastro.add(txtCadastroEmail);
+
+		JLabel lblCadastroDocNum = new JLabel("Documento:");
+		lblCadastroDocNum.setBounds(20, 217, 150, 16);
+		painelCadastro.add(lblCadastroDocNum);
+
+		txtCadastroDocNum = new JTextField(20);
+		txtCadastroDocNum.setBounds(105, 211, 150, 28);
+		txtCadastroDocNum.setName("Número de Documento");
+		txtCadastroDocNum.setToolTipText("Digite seu Documento");
+		painelCadastro.add(txtCadastroDocNum);
+
+		JLabel lblCadastroDocTipo = new JLabel("Tipo:");
+		lblCadastroDocTipo.setBounds(290, 217, 100, 16);
+		lblCadastroDocTipo.setToolTipText("Selecione o tipo de documento");
+		painelCadastro.add(lblCadastroDocTipo);
+
+		cboCadastroDocTipo = new JComboBox<String>();
+		cboCadastroDocTipo.setBounds(355, 211, 150, 27);
+		cboCadastroDocTipo.setName("Tipo de Documento");
+		painelCadastro.add(cboCadastroDocTipo);
+
+		JLabel lblCadastroDtNasc = new JLabel("Data Nasc.:");
+		lblCadastroDtNasc.setBounds(20, 257, 100, 16);
+		painelCadastro.add(lblCadastroDtNasc);
+
+		ftxtCadastroDtNasc = new JFormattedTextField(mskData);
+		ftxtCadastroDtNasc.setBounds(105, 251, 150, 28);
+		ftxtCadastroDtNasc.setName("dtnasc");
+		ftxtCadastroDtNasc.setToolTipText("Digite a data de nascimento");
+		ftxtCadastroDtNasc.setHorizontalAlignment(SwingConstants.CENTER);
+		painelCadastro.add(ftxtCadastroDtNasc);
+
+		JLabel lblCadastroTelefone = new JLabel("Telefone:");
+		lblCadastroTelefone.setBounds(20, 297, 150, 16);
+		painelCadastro.add(lblCadastroTelefone);
+
+		txtCadastroTelefone = new JTextField(20);
+		txtCadastroTelefone.setBounds(105, 291, 150, 28);
+		txtCadastroTelefone.setName("telefone");
+		txtCadastroTelefone.setToolTipText("Digite seu Telefone");
+		painelCadastro.add(txtCadastroTelefone);
+
+		JLabel lblCadastroCelular = new JLabel("Celular:");
+		lblCadastroCelular.setBounds(290, 297, 150, 16);
+		painelCadastro.add(lblCadastroCelular);
+
+		txtCadastroCelular = new JTextField(20);
+		txtCadastroCelular.setBounds(355, 291, 150, 28);
+		txtCadastroCelular.setName("celular");
+		txtCadastroCelular.setToolTipText("Digite seu Celular");
+		painelCadastro.add(txtCadastroCelular);
+
+		JLabel lblCadastroEnd = new JLabel("Endereço:");
+		lblCadastroEnd.setBounds(20, 337, 150, 16);
+		painelCadastro.add(lblCadastroEnd);
+
+		txtCadastroEndereco = new JTextField(20);
+		txtCadastroEndereco.setBounds(105, 331, 400, 28);
+		txtCadastroEndereco.setName("endereco");
+		txtCadastroEndereco.setToolTipText("Digite seu Endereço");
+		painelCadastro.add(txtCadastroEndereco);
+
+		JLabel lblCadastroBairro = new JLabel("Bairro:");
+		lblCadastroBairro.setBounds(20, 377, 150, 16);
+		painelCadastro.add(lblCadastroBairro);
+
+		txtCadastroBairro = new JTextField(20);
+		txtCadastroBairro.setBounds(105, 371, 150, 28);
+		txtCadastroBairro.setName("bairro");
+		txtCadastroBairro.setToolTipText("Digite seu Bairro");
+		painelCadastro.add(txtCadastroBairro);
+
+		JLabel lblCadastroCidade = new JLabel("Cidade:");
+		lblCadastroCidade.setBounds(290, 377, 150, 16);
+		painelCadastro.add(lblCadastroCidade);
+
+		txtCadastroCidade = new JTextField(20);
+		txtCadastroCidade.setBounds(355, 371, 150, 28);
+		txtCadastroCidade.setName("cidade");
+		txtCadastroCidade.setToolTipText("Digite sua Cidade");
+		painelCadastro.add(txtCadastroCidade);
+
+		JLabel lblCadastroEstado = new JLabel("Estado:");
+		lblCadastroEstado.setBounds(20, 417, 150, 16);
+		painelCadastro.add(lblCadastroEstado);
+
+		txtCadastroEstado = new JTextField(20);
+		txtCadastroEstado.setBounds(105, 411, 150, 28);
+		txtCadastroEstado.setName("estado");
+		txtCadastroEstado.setToolTipText("Digite seu Estado");
+		painelCadastro.add(txtCadastroEstado);
+
+		JLabel lblCadastroCep = new JLabel("Cep:");
+		lblCadastroCep.setBounds(20, 457, 150, 16);
+		painelCadastro.add(lblCadastroCep);
+
+		txtCadastroCep = new JTextField(20);
+		txtCadastroCep.setBounds(105, 451, 150, 28);
+		txtCadastroCep.setName("cep");
+		txtCadastroCep.setToolTipText("Digite seu Cep");
+		painelCadastro.add(txtCadastroCep);
+
+		JLabel lblCadastroPais = new JLabel("País:");
+		lblCadastroPais.setBounds(290, 417, 150, 16);
+		painelCadastro.add(lblCadastroPais);
+
+		txtCadastroPais = new JTextField(20);
+		txtCadastroPais.setBounds(355, 411, 150, 28);
+		txtCadastroPais.setName("país");
+		txtCadastroPais.setToolTipText("Digite seu País");
+		painelCadastro.add(txtCadastroPais);
+
+		btnCadastroLimpar = new JButton("Limpar");
+		btnCadastroLimpar.setBounds(470, 485, 110, 29);
+		painelCadastro.add(btnCadastroLimpar);
 		
+		btnCadastroExcluir = new JButton("Excluir");
+		btnCadastroExcluir.setBounds(580, 485, 110, 29);
+		painelCadastro.add(btnCadastroExcluir);
+		
+		btnCadastroEditar = new JButton("Editar");
+		btnCadastroEditar.setBounds(690, 485, 110, 29);
+		painelCadastro.add(btnCadastroEditar);
+		
+		btnCadastroSalvar = new JButton("Salvar");
+		btnCadastroSalvar.setBounds(800, 485, 110, 29);
+		painelCadastro.add(btnCadastroSalvar);
+
+
+		// RODAPE ////////////////////////////////
+
 		lblVersao = new JLabel( versao );
 		lblVersao.setBounds(33, 680, 97, 16);
 		lblVersao.setEnabled(false);
@@ -907,14 +1122,13 @@ public class PrincipalFrm extends JFrame {
 				painelServico,
 				painelReserva,
 				painelContato,
-				painelServicoCliente,
-				painelReservaCliente,
-				painelCadastroCliente,
-				painelPrincipalAdm, 
-				painelReservaAdm, 
-				painelChaleAdm, 
-				painelServicoAdm, 
-				painelCadastroAdm,
+				painelClientePrincipal,
+				painelClienteServico,
+				painelClienteHistorico,
+				painelCadastro,
+				painelAdmPrincipal, 
+				painelAdmChale, 
+				painelAdmServico, 
 				pwdSenha,
 				lblLogin,
 				lblPwd,
@@ -945,13 +1159,25 @@ public class PrincipalFrm extends JFrame {
 				txtContatoTelefone, 
 				txtContatoCidade, 
 				txtContatoEstado, 
-				txtContatoPais,  
+				txtContatoPais, 
+				txtCadastroNome,
+				txtCadastroDocNum,
+				txtCadastroEmail,
+				txtCadastroTelefone,
+				txtCadastroCelular,
+				txtCadastroEndereco,
+				txtCadastroBairro,
+				txtCadastroCidade,
+				txtCadastroEstado,
+				txtCadastroCep,
+				txtCadastroPais,
 				ftxtReservaDtInicio, 
 				ftxtReservaDtFim, 
 				ftxtQtdReservaChale,
 				ftxtVlrChale,
 				ftxtQtdReservaServico,
 				ftxtVlrReservaServico,
+				ftxtCadastroDtNasc,
 				txtaPrincipalInfo,
 				txtaPrincipalDetalhe,
 				txtaChaleInfo,
@@ -964,9 +1190,13 @@ public class PrincipalFrm extends JFrame {
 				txtaReservaMsg,
 				txtaContatoInfo,
 				txtaContatoMsg,
+				txtaClienteInfo,
+				txtaClienteDetalhe,
+				txtaCadastroInfo, 
 				cboReservaCategoria,
 				cboReservaDocTipo,
 				cboContatoAssunto,
+				cboCadastroDocTipo,
 				tabReserva,
 				tabServico,
 				btnLogin,
@@ -977,7 +1207,11 @@ public class PrincipalFrm extends JFrame {
 				btnReservaLimpar,
 				btnContatoLimpar,
 				btnReservaEditar,
-				btnServicoEditar
+				btnServicoEditar,
+				btnCadastroLimpar,
+				btnCadastroEditar,
+				btnCadastroSalvar,
+				btnCadastroExcluir
 				);
 
 		/////// ACAO PARA O CONTROLLER ///////
@@ -1013,5 +1247,10 @@ public class PrincipalFrm extends JFrame {
 		tabReserva.addMouseListener( ctrl.clicar );
 		tabReserva.addKeyListener( ctrl.teclas );
 		tabServico.addMouseListener( ctrl.clicar );
+		
+		btnCadastroLimpar.addActionListener( ctrl.acionar );
+		btnCadastroEditar.addActionListener( ctrl.acionar );
+		btnCadastroSalvar.addActionListener( ctrl.acionar );
+		btnCadastroExcluir.addActionListener( ctrl.acionar );
 	}
 }

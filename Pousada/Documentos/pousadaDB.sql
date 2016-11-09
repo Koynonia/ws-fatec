@@ -11,46 +11,10 @@ CREATE DATABASE pousada;
 
 USE pousada;
 
-CREATE TABLE principal(
+CREATE TABLE chale (
 id INT AUTO_INCREMENT PRIMARY KEY,
-principalInfo VARCHAR(550) NOT NULL,
-principalDetalhe VARCHAR(850) NOT NULL,
-chaleInfo VARCHAR(550) NOT NULL,
-chaleDetalhe VARCHAR(850) NOT NULL,
-lazerInfo VARCHAR(550) NOT NULL,
-lazerDetalhe VARCHAR(850) NOT NULL,
-servicoInfo VARCHAR(550) NOT NULL,
-servicoDetalhe VARCHAR(850) NOT NULL,
-reservaInfo VARCHAR(550) NOT NULL,
-contatoInfo VARCHAR(550) NOT NULL,
-versao VARCHAR(10) NOT NULL 
-) ENGINE = innodb;
-
-CREATE TABLE reserva (
-id INT AUTO_INCREMENT PRIMARY KEY,
-cliente INT NOT NULL,
-chale INT NOT NULL,
-qtdAdulto INT NOT NULL,
-qtdCrianca INT NOT NULL,
-dtInicio DATE NOT NULL,
-dtFim DATE NOT NULL, 
-mensagem VARCHAR (300),
-desconto INT NOT NULL,
-ativa BOOLEAN NOT NULL, 
-dtCadastro DATE NOT NULL
-) ENGINE = innodb;
-
-CREATE TABLE contato(
-id INT AUTO_INCREMENT PRIMARY KEY,
-nome VARCHAR(100) NOT NULL,
-email VARCHAR(30) NOT NULL,
-telefone VARCHAR(11) NOT NULL,
-cidade VARCHAR(30),
-estado VARCHAR(15),
-pais VARCHAR(10),
-assunto INT NOT NULL,
-mensagem VARCHAR (300),
-dtCadastro DATE NOT NULL
+categoria VARCHAR(30) NOT NULL,
+diaria DECIMAL(7,2) NOT NULL
 ) ENGINE = innodb;
 
 CREATE TABLE cliente(
@@ -68,9 +32,22 @@ cidade VARCHAR(30),
 estado VARCHAR(15),
 pais VARCHAR(10),
 cep VARCHAR(8),
-login VARCHAR(15),
-senha VARCHAR(15),
+login VARCHAR(15) UNIQUE,
+senha VARCHAR(15) UNIQUE,
 ativo BOOLEAN NOT NULL,
+dtCadastro DATE NOT NULL
+) ENGINE = innodb;
+
+CREATE TABLE contato(
+id INT AUTO_INCREMENT PRIMARY KEY,
+nome VARCHAR(100) NOT NULL,
+email VARCHAR(30) NOT NULL,
+telefone VARCHAR(11) NOT NULL,
+cidade VARCHAR(30),
+estado VARCHAR(15),
+pais VARCHAR(10),
+assunto INT NOT NULL,
+mensagem VARCHAR (300),
 dtCadastro DATE NOT NULL
 ) ENGINE = innodb;
 
@@ -90,29 +67,39 @@ pais VARCHAR(10) NOT NULL,
 cep VARCHAR(8) NOT NULL,
 cargo VARCHAR(30) NOT NULL,
 setor VARCHAR(30) NOT NULL,
-login VARCHAR(15) NOT NULL,
-senha VARCHAR(15) NOT NULL,
+login VARCHAR(15) UNIQUE NOT NULL,
+senha VARCHAR(15) UNIQUE NOT NULL,
 ativo BOOLEAN NOT NULL,
 dtCadastro DATE NOT NULL
 ) ENGINE = innodb;
 
-CREATE TABLE pessoa (
+CREATE TABLE info(
 id INT AUTO_INCREMENT PRIMARY KEY,
-nome VARCHAR(200) NOT NULL,
-dtNasc DATE NOT NULL,
-responsavel VARCHAR(200) NOT NULL,
-dtCadastro DATE NOT NULL
+principalInfo TEXT NOT NULL,
+principalDetalhe TEXT NOT NULL,
+chaleInfo TEXT NOT NULL,
+chaleDetalhe TEXT NOT NULL,
+lazerInfo TEXT NOT NULL,
+lazerDetalhe TEXT NOT NULL,
+servicoInfo TEXT NOT NULL,
+servicoDetalhe TEXT NOT NULL,
+reservaInfo TEXT NOT NULL,
+contatoInfo TEXT NOT NULL,
+clienteInfo TEXT NOT NULL,
+clienteDetalhe TEXT NOT NULL,
+cadastroInfo TEXT NOT NULL,
+versao TEXT(10) NOT NULL 
 ) ENGINE = innodb;
 
-CREATE TABLE chale (
+CREATE TABLE internet(
 id INT AUTO_INCREMENT PRIMARY KEY,
-categoria VARCHAR(30) NOT NULL,
-diaria DECIMAL(7,2) NOT NULL
+dtReserva DATE NOT NULL,
+hrReserva DATE NOT NULL,
+valor DECIMAL(7,2) NOT NULL
 ) ENGINE = innodb;
 
-CREATE TABLE spa (
+CREATE TABLE jacuzzi(
 id INT AUTO_INCREMENT PRIMARY KEY,
-servico VARCHAR(50) NOT NULL,
 dtReserva DATE NOT NULL,
 hrReserva DATE NOT NULL,
 valor DECIMAL(7,2) NOT NULL
@@ -127,6 +114,45 @@ hrReserva DATE NOT NULL,
 valor DECIMAL(7,2) NOT NULL
 ) ENGINE = innodb;
 
+CREATE TABLE logon (
+id INT AUTO_INCREMENT PRIMARY KEY, 
+idUsuario INT, 
+tela VARCHAR(30) NOT NULL, 
+perfil INT NOT NULL, 
+logoff INT NOT NULL,
+dtLogon TIMESTAMP NOT NULL
+) ENGINE = innodb;
+
+CREATE TABLE pessoa (
+id INT AUTO_INCREMENT PRIMARY KEY,
+nome VARCHAR(200) NOT NULL,
+dtNasc DATE NOT NULL,
+responsavel VARCHAR(200) NOT NULL,
+dtCadastro DATE NOT NULL
+) ENGINE = innodb;
+
+CREATE TABLE reserva (
+id INT AUTO_INCREMENT PRIMARY KEY,
+cliente INT NOT NULL,
+chale INT NOT NULL,
+qtdAdulto INT NOT NULL,
+qtdCrianca INT NOT NULL,
+dtInicio DATE NOT NULL,
+dtFim DATE NOT NULL, 
+mensagem VARCHAR (300),
+desconto INT NOT NULL,
+ativa BOOLEAN NOT NULL, 
+dtCadastro DATE NOT NULL
+) ENGINE = innodb;
+
+CREATE TABLE spa (
+id INT AUTO_INCREMENT PRIMARY KEY,
+servico VARCHAR(50) NOT NULL,
+dtReserva DATE NOT NULL,
+hrReserva DATE NOT NULL,
+valor DECIMAL(7,2) NOT NULL
+) ENGINE = innodb;
+
 CREATE TABLE transporte(
 id INT AUTO_INCREMENT PRIMARY KEY,
 placa VARCHAR(100) UNIQUE NOT NULL,
@@ -135,29 +161,6 @@ destino VARCHAR(200) NOT NULL,
 dtReserva DATE NOT NULL,
 hrReserva DATE NOT NULL,
 valor DECIMAL(7,2) NOT NULL
-) ENGINE = innodb;
-
-CREATE TABLE jacuzzi(
-id INT AUTO_INCREMENT PRIMARY KEY,
-dtReserva DATE NOT NULL,
-hrReserva DATE NOT NULL,
-valor DECIMAL(7,2) NOT NULL
-) ENGINE = innodb;
-
-CREATE TABLE internet(
-id INT AUTO_INCREMENT PRIMARY KEY,
-dtReserva DATE NOT NULL,
-hrReserva DATE NOT NULL,
-valor DECIMAL(7,2) NOT NULL
-) ENGINE = innodb;
-
-CREATE TABLE logon (
-id INT AUTO_INCREMENT PRIMARY KEY, 
-idUsuario INT, 
-tela VARCHAR(30) NOT NULL, 
-perfil INT NOT NULL, 
-logoff INT NOT NULL,
-dtLogon TIMESTAMP NOT NULL
 ) ENGINE = innodb;
 
 
@@ -211,9 +214,9 @@ INSERT INTO `reserva` (`id`, `cliente`, `chale`, `qtdAdulto`, `qtdCrianca`,
 
 -- DADOS NECESSARIOS
 
-INSERT INTO `principal` (`id`, `principalInfo`, `principalDetalhe`, `chaleInfo`, 
+INSERT INTO `info` (`id`, `principalInfo`, `principalDetalhe`, `chaleInfo`, 
 `chaleDetalhe`, `lazerInfo`, `lazerDetalhe`, `servicoInfo`, `servicoDetalhe`, 
-`reservaInfo`, `contatoInfo`, `versao`) VALUES
+`reservaInfo`, `contatoInfo`, `clienteInfo`, `clienteDetalhe`, `cadastroInfo`, `versao`) VALUES
 
 (NULL,
 'INFO 1 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec efficitur erat et diam tincidunt facilisis. Aenean ut nulla ac ipsum ullamcorper porttitor. Morbi et pulvinar enim. Mauris bibendum erat neque, non interdum est consectetur non. Sed facilisis enim et sem venenatis, vel mattis felis aliquet. Nullam non dictum lacus. Duis orci nibh, scelerisque non volutpat non, dignissim id ex. Aenean blandit nunc ut arcu tincidunt semper. Phasellus bibendum leo dignissim nunc lacinia commodo. Aliquam id urna eu sapien tempus scelerisque.', 
@@ -236,41 +239,11 @@ INSERT INTO `principal` (`id`, `principalInfo`, `principalDetalhe`, `chaleInfo`,
 
 'INFO 10 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec efficitur erat et diam tincidunt facilisis. Aenean ut nulla ac ipsum ullamcorper porttitor. Morbi et pulvinar enim. Mauris bibendum erat neque, non interdum est consectetur non. Sed facilisis enim et sem venenatis, vel mattis felis aliquet. Nullam non dictum lacus. Duis orci nibh, scelerisque non volutpat non, dignissim id ex. Aenean blandit nunc ut arcu tincidunt semper. Phasellus bibendum leo dignissim nunc lacinia commodo. Aliquam id urna eu sapien tempus scelerisque.', 
 
+'INFO 11 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec efficitur erat et diam tincidunt facilisis. Aenean ut nulla ac ipsum ullamcorper porttitor. Morbi et pulvinar enim. Mauris bibendum erat neque, non interdum est consectetur non. Sed facilisis enim et sem venenatis, vel mattis felis aliquet. Nullam non dictum lacus. Duis orci nibh, scelerisque non volutpat non, dignissim id ex. Aenean blandit nunc ut arcu tincidunt semper. Phasellus bibendum leo dignissim nunc lacinia commodo. Aliquam id urna eu sapien tempus scelerisque.', 
+
+'INFO 12 - Etiam volutpat purus leo, eget vehicula magna suscipit sed. Vivamus vitae diam id mauris pulvinar fringilla eu sed mauris. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque bibendum euismod elit ut aliquet. Aliquam a luctus urna, sit amet sodales ex. Etiam finibus urna magna, sed commodo nulla efficitur in. Sed volutpat dolor eros, quis commodo nulla pellentesque ac. Pellentesque laoreet, augue ac sodales iaculis, felis mi lobortis eros, sed pharetra diam nisl at odio. Quisque malesuada urna quis ligula blandit, sit amet placerat tellus suscipit. Donec varius lorem tempor, molestie sapien eu, dictum neque. Curabitur vitae purus vitae lectus fermentum consequat iaculis vel sem. Donec sed blandit risus. Curabitur tincidunt purus sit amet tellus suscipit volutpat.', 
+
+'INFO 13 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec efficitur erat et diam tincidunt facilisis. Aenean ut nulla ac ipsum ullamcorper porttitor. Morbi et pulvinar enim. Mauris bibendum erat neque, non interdum est consectetur non.', 
+
 '0.5.0'
 );
-
--- FUNCAO PARA SELECIONAR CHALES DISPONIVEIS POR DATA
-
-/*
-SELECT * FROM chale
-SELECT * FROM chale INNER JOIN reserva ON chale.id = reserva.chale WHERE reserva.chale
-
-
-DELIMITER //
-CREATE FUNCTION fn_reserva2 ( chale INT, dtInicio1 DATE, dtFim1 DATE) RETURNS INT 
-BEGIN
-	DECLARE boo INT;
-	
-
-IF EXISTS (SELECT reserva.id FROM chale INNER JOIN reserva ON chale.id = reserva.chale
-WHERE 
-(
-	(reserva.dtInicio BETWEEN dtInicio1 AND dtFim1) OR
-	(reserva.dtFim BETWEEN dtInicio1 AND dtFim1) OR
-	(dtInicio1 BETWEEN reserva.dtInicio AND reserva.dtFim) OR
-	(dtFim1 BETWEEN reserva.dtInicio AND reserva.dtFim )
-) AND reserva.chale = chale)
-THEN
-	SET boo= 1;
-
-ELSE
-
-	SET boo = 0;
-END IF;
-
-RETURN boo;
-
-END; //
-
-SELECT fn_reserva2(4, '2016-11-07', '2016-11-09') AS disponivel
-*/

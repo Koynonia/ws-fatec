@@ -14,14 +14,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.pousada.entity.Principal;
+import edu.pousada.entity.Info;
 
-public class PrincipalDAOImpl implements PrincipalDAO {
+public class InfoDAOImpl implements InfoDAO {
 
 	private Connection con = DBUtil.getInstance().getConnection();
 	
 	/**	
-	 * CREATE TABLE principal(
+	 * CREATE TABLE info(
 	 * principalInfo VARCHAR(550) NOT NULL,
 	 * principalDetalhe VARCHAR(850) NOT NULL,
 	 * chaleInfo VARCHAR(550) NOT NULL,
@@ -32,44 +32,39 @@ public class PrincipalDAOImpl implements PrincipalDAO {
 	 * servicoDetalhe VARCHAR(850) NOT NULL,
 	 * reservaInfo VARCHAR(550) NOT NULL,
 	 * contatoInfo VARCHAR(550) NOT NULL,
+	 * clienteInfo VARCHAR(550) NOT NULL,
+	 * clienteDetalhe VARCHAR(850) NOT NULL,
+	 * cadastroInfo VARCHAR(550) NOT NULL,
 	 * versao VARCHAR(10) NOT NULL 
 	 * );
 	 */
 
 	@Override
-	public void adicionar(Principal p) throws SQLException {
-
-		
+	public void adicionar(Info p) throws SQLException {
 	}
 
 	@Override
-	public void alterar(Principal p) throws SQLException {
-		
-		
+	public void alterar(Info p) throws SQLException {	
 	}
 
 	@Override
-	public void excluir(Principal p) throws SQLException {
-		
-		
+	public void excluir(Info p) throws SQLException {
 	}
 
 	@Override
-	public Principal consultar(Principal p) throws SQLException {
-		
-		
+	public Info consultar(Info p) throws SQLException {
 		return null;
 	}
 	
 	@Override
-	public List<Principal> todos() throws SQLException {
+	public List<Info> todos() throws SQLException {
 
-		String sql = "SELECT * FROM principal";
+		String sql = "SELECT * FROM info";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
-		List<Principal>lista = new ArrayList<>();
+		List<Info>lista = new ArrayList<>();
 		while (rs.next()) {
-			Principal itens = new Principal();
+			Info itens = new Info();
 			itens.setPrincipalInfo(rs.getString( "principalInfo" ));
 			itens.setPrincipalDetalhe(rs.getString( "principalDetalhe" ));
 			itens.setChaleInfo(rs.getString( "chaleInfo" ));
@@ -80,6 +75,10 @@ public class PrincipalDAOImpl implements PrincipalDAO {
 			itens.setServicoDetalhe(rs.getString( "servicoDetalhe" ));
 			itens.setReservaInfo(rs.getString( "reservaInfo" ));
 			itens.setContatoInfo(rs.getString( "contatoInfo" ));
+			itens.setClienteInfo(rs.getString( "clienteInfo" ));
+			itens.setClienteDetalhe(rs.getString( "clienteDetalhe" ));
+			itens.setClienteInfo(rs.getString( "clienteInfo" ));
+			itens.setCadastroInfo(rs.getString( "cadastroInfo" ));
 			itens.setVersao(rs.getString( "versao" ));
 			lista.add( itens );
 		}

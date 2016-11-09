@@ -7,7 +7,7 @@
 
 package edu.pousada.entity;
 
-public class Principal {
+public class Info {
 	
 	private String principalInfo;
 	private String principalDetalhe;
@@ -19,6 +19,9 @@ public class Principal {
 	private String servicoDetalhe;
 	private String reservaInfo;
 	private String contatoInfo;
+	private String clienteInfo;
+	private String clienteDetalhe;
+	private String cadastroInfo;
 	private String versao;
 	
 	
@@ -81,6 +84,24 @@ public class Principal {
 	}
 	public void setContatoInfo(String contatoInfo) {
 		this.contatoInfo = contatoInfo;
+	}
+	public String getClienteInfo() {
+		return clienteInfo;
+	}
+	public void setClienteInfo(String clienteInfo) {
+		this.clienteInfo = clienteInfo;
+	}
+	public String getClienteDetalhe() {
+		return clienteDetalhe;
+	}
+	public void setClienteDetalhe(String clienteDetalhe) {
+		this.clienteDetalhe = clienteDetalhe;
+	}
+	public String getCadastroInfo() {
+		return cadastroInfo;
+	}
+	public void setCadastroInfo(String cadastroInfo) {
+		this.cadastroInfo = cadastroInfo;
 	}
 	public String getVersao() {
 		return versao;
