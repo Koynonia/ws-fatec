@@ -47,6 +47,8 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.MaskFormatter;
 
 import edu.pousada.boundary.PrincipalFrm;
 import edu.pousada.boundary.ReservaFrm;
@@ -73,7 +75,9 @@ import edu.pousada.entity.Reserva;
 public class PrincipalCtrl {
 
 	private PrincipalFrm janela; 
+	
 	private JTabbedPane tabContainer;
+	
 	private JPanel painelPrincipal;
 	private JPanel painelChale;
 	private JPanel painelLazer;
@@ -87,7 +91,9 @@ public class PrincipalCtrl {
 	private JPanel painelAdmPrincipal; 
 	private JPanel painelAdmChale; 
 	private JPanel painelAdmServico; 
+	
 	private JPasswordField pwdSenha;
+	
 	private JLabel lblLogin;
 	private JLabel lblPwd;
 	private JLabel lblMsg;
@@ -99,42 +105,45 @@ public class PrincipalCtrl {
 	private JLabel lblReservaImg;
 	private JLabel lblReservaMsg;
 	private JLabel lblContatoMsg;
+	
 	private JTextField txtLogin;
 	private JTextField txtPesquisa;
 	private JTextField txtReservaQtdAdulto; 
 	private JTextField txtReservaQtdCrianca; 
-	private JTextField txtReservaNome; 
-	private JTextField txtReservaDocNum; 
+	private JTextField txtReservaNome;  
 	private JTextField txtReservaEmail; 
-	private JTextField txtReservaTelefone; 
-	private JTextField txtReservaCelular; 
 	private JTextField txtReservaCidade; 
 	private JTextField txtReservaEstado; 
 	private JTextField txtReservaPais; 
 	private JTextField txtContatoNome; 
 	private JTextField txtContatoEmail; 
-	private JTextField txtContatoTelefone; 
 	private JTextField txtContatoCidade; 
 	private JTextField txtContatoEstado; 
 	private JTextField txtContatoPais; 
 	private JTextField txtCadastroNome;
-	private JTextField txtCadastroDocNum;
 	private JTextField txtCadastroEmail;
-	private JTextField txtCadastroTelefone;
-	private JTextField txtCadastroCelular;
 	private JTextField txtCadastroEndereco;
 	private JTextField txtCadastroBairro;
 	private JTextField txtCadastroCidade;
 	private JTextField txtCadastroEstado;
-	private JTextField txtCadastroCep;
 	private JTextField txtCadastroPais;
+	
+	private JFormattedTextField ftxtReservaDocNum;
+	private JFormattedTextField ftxtReservaTelefone; 
+	private JFormattedTextField ftxtReservaCelular; 
 	private JFormattedTextField ftxtReservaDtInicio; 
 	private JFormattedTextField ftxtReservaDtFim;
+	private JFormattedTextField ftxtContatoTelefone; 
+	private JFormattedTextField ftxtCadastroDocNum;
+	private JFormattedTextField ftxtCadastroTelefone;
+	private JFormattedTextField ftxtCadastroCelular;
+	private JFormattedTextField ftxtCadastroDtNasc;
+	private JFormattedTextField ftxtCadastroCep;
 	private JFormattedTextField ftxtQtdReservaChale;
 	private JFormattedTextField ftxtVlrReservaChale;
 	private JFormattedTextField ftxtQtdReservaServico;
 	private JFormattedTextField ftxtVlrReservaServico;
-	private JFormattedTextField ftxtCadastroDtNasc;
+	
 	private JTextArea txtaPrincipalInfo; 
 	private JTextArea txtaPrincipalDetalhe; 
 	private JTextArea txtaChaleInfo; 
@@ -150,14 +159,17 @@ public class PrincipalCtrl {
 	private JTextArea txtaClienteInfo;
 	private JTextArea txtaClienteDetalhe;
 	private JTextArea txtaCadastroInfo;
+	
 	private JComboBox<String> cboReservaCategoria; 
 	private JComboBox<String> cboReservaDocTipo; 
 	private JComboBox<String> cboContatoAssunto; 
 	private JComboBox<String> cboCadastroDocTipo;
+	
 	private JTable tabReserva; 
 	private JTable tabServico; 
-	private JButton btnLogin; 
+	
 	public static JButton btnReservas;
+	private JButton btnLogin; 
 	private JButton btnReservaEnviar; 
 	private JButton btnContatoEnviar;
 	private JButton btnPesquisar;
@@ -167,12 +179,13 @@ public class PrincipalCtrl {
 	private JButton btnServicoEditar;
 	private JButton btnCadastroLimpar;
 	private JButton btnCadastroEditar;
-	private JButton btnCadastroSalvar;
 	private JButton btnCadastroExcluir;
-	private String diretorio = "../Pousada/resources/";
+	
 	private LogonCtrl logon = LogonCtrl.getInstance();
 	private ImageIcon imagem;
+	private String diretorio = "../Pousada/resources/";
 	private static boolean validar;
+	
 	private List<Info> infos;
 	private List<Chale> chales;
 	private List<Cliente> clientes;
@@ -214,37 +227,37 @@ public class PrincipalCtrl {
 			JTextField txtReservaQtdAdulto, 
 			JTextField txtReservaQtdCrianca, 
 			JTextField txtReservaNome, 
-			JTextField txtReservaDocNum, 
 			JTextField txtReservaEmail, 
-			JTextField txtReservaTelefone, 
-			JTextField txtReservaCelular, 
 			JTextField txtReservaCidade, 
 			JTextField txtReservaEstado, 
 			JTextField txtReservaPais, 
 			JTextField txtContatoNome, 
-			JTextField txtContatoEmail, 
-			JTextField txtContatoTelefone, 
+			JTextField txtContatoEmail,  
 			JTextField txtContatoCidade, 
 			JTextField txtContatoEstado, 
 			JTextField txtContatoPais, 
 			JTextField txtCadastroNome,
-			JTextField txtCadastroDocNum,
 			JTextField txtCadastroEmail,
-			JTextField txtCadastroTelefone,
-			JTextField txtCadastroCelular,
 			JTextField txtCadastroEndereco,
 			JTextField txtCadastroBairro,
 			JTextField txtCadastroCidade,
 			JTextField txtCadastroEstado,
-			JTextField txtCadastroCep,
 			JTextField txtCadastroPais,
+			JFormattedTextField ftxtReservaDocNum, 
+			JFormattedTextField ftxtReservaTelefone, 
+			JFormattedTextField ftxtReservaCelular, 
 			JFormattedTextField ftxtReservaDtInicio, 
 			JFormattedTextField ftxtReservaDtFim, 
+			JFormattedTextField ftxtContatoTelefone,
+			JFormattedTextField ftxtCadastroDocNum,
+			JFormattedTextField ftxtCadastroTelefone,
+			JFormattedTextField ftxtCadastroCelular,
+			JFormattedTextField ftxtClienteDtNasc,
+			JFormattedTextField ftxtCadastroCep,
 			JFormattedTextField ftxtQtdReservaChale,
 			JFormattedTextField ftxtVlrReservaChale,
 			JFormattedTextField ftxtQtdReservaServico,
 			JFormattedTextField ftxtVlrReservaServico,
-			JFormattedTextField ftxtClienteDtNasc,
 			JTextArea txtaPrincipalInfo, 
 			JTextArea txtaPrincipal, 
 			JTextArea txtaChaleInfo, 
@@ -277,7 +290,6 @@ public class PrincipalCtrl {
 			JButton btnServicoEditar,
 			JButton btnCadastroLimpar,
 			JButton btnCadastroEditar,
-			JButton btnCadastroSalvar,
 			JButton btnCadastroExcluir
 			){
 
@@ -313,37 +325,37 @@ public class PrincipalCtrl {
 		this.txtReservaQtdAdulto = txtReservaQtdAdulto; 
 		this.txtReservaQtdCrianca = txtReservaQtdCrianca; 
 		this.txtReservaNome = txtReservaNome; 
-		this.txtReservaDocNum = txtReservaDocNum; 
 		this.txtReservaEmail = txtReservaEmail; 
-		this.txtReservaTelefone = txtReservaTelefone; 
-		this.txtReservaCelular = txtReservaCelular; 
 		this.txtReservaCidade = txtReservaCidade; 
 		this.txtReservaEstado = txtReservaEstado; 
 		this.txtReservaPais = txtReservaPais; 
 		this.txtContatoNome = txtContatoNome; 
 		this.txtContatoEmail = txtContatoEmail; 
-		this.txtContatoTelefone = txtContatoTelefone; 
 		this.txtContatoCidade = txtContatoCidade; 
 		this.txtContatoEstado = txtContatoEstado; 
 		this.txtContatoPais = txtContatoPais; 
 		this.txtCadastroNome = txtCadastroNome;
-		this.txtCadastroDocNum = txtCadastroDocNum;
 		this.txtCadastroEmail = txtCadastroEmail;
-		this.txtCadastroTelefone = txtCadastroTelefone;
-		this.txtCadastroCelular = txtCadastroCelular;
 		this.txtCadastroEndereco = txtCadastroEndereco;
 		this.txtCadastroBairro = txtCadastroBairro;
 		this.txtCadastroCidade = txtCadastroCidade;
 		this.txtCadastroEstado = txtCadastroEstado;
-		this.txtCadastroCep = txtCadastroCep;
 		this.txtCadastroPais = txtCadastroPais;
+		this.ftxtReservaDocNum = ftxtReservaDocNum; 
+		this.ftxtReservaTelefone = ftxtReservaTelefone; 
+		this.ftxtReservaCelular = ftxtReservaCelular; 
 		this.ftxtReservaDtInicio = ftxtReservaDtInicio; 
 		this.ftxtReservaDtFim = ftxtReservaDtFim;
+		this.ftxtContatoTelefone = ftxtContatoTelefone; 
+		this.ftxtCadastroDocNum = ftxtCadastroDocNum;
+		this.ftxtCadastroDtNasc = ftxtClienteDtNasc;
+		this.ftxtCadastroTelefone = ftxtCadastroTelefone;
+		this.ftxtCadastroCelular = ftxtCadastroCelular;
+		this.ftxtCadastroCep = ftxtCadastroCep;
 		this.ftxtQtdReservaChale = ftxtQtdReservaChale;
 		this.ftxtVlrReservaChale = ftxtVlrReservaChale;
 		this.ftxtQtdReservaServico = ftxtQtdReservaServico;
 		this.ftxtVlrReservaServico = ftxtVlrReservaServico;
-		this.ftxtCadastroDtNasc = ftxtClienteDtNasc;
 		this.txtaPrincipalInfo = txtaPrincipalInfo; 
 		this.txtaPrincipalDetalhe = txtaPrincipal; 
 		this.txtaChaleInfo = txtaChaleInfo; 
@@ -376,7 +388,6 @@ public class PrincipalCtrl {
 		this.btnServicoEditar = btnServicoEditar;
 		this.btnCadastroLimpar = btnCadastroLimpar;
 		this.btnCadastroEditar = btnCadastroEditar;
-		this.btnCadastroSalvar = btnCadastroSalvar;
 		this.btnCadastroExcluir = btnCadastroExcluir;
 		this.infos = new ArrayList<Info>();
 		this.chales = new ArrayList<Chale>();
@@ -659,11 +670,11 @@ public class PrincipalCtrl {
 				
 				cl.setNome( txtReservaNome.getText() );
 				cl.setEmail( txtReservaEmail.getText() );
-				cl.setDocumento( txtReservaDocNum.getText() );
+				cl.setDocumento( ftxtReservaDocNum.getText().replace(".","").replace("/","").replace("-","")  );
 				cl.setDocTipo( cboReservaDocTipo.getSelectedItem().toString() );
 				cl.setDtNasc( new Date() );
-				cl.setTelefone( txtReservaTelefone.getText() );
-				cl.setCelular( txtReservaCelular.getText() );
+				cl.setTelefone( ftxtReservaTelefone.getText().replace("(","").replace(")", "").replace(" ","").replace("-","") );
+				cl.setCelular( ftxtReservaCelular.getText().replace("(","").replace(")", "").replace(" ","").replace("-","") );
 				cl.setCidade( txtReservaCidade.getText() );
 				cl.setEstado( txtReservaEstado.getText() );
 				cl.setPais( txtReservaPais.getText() );
@@ -688,21 +699,25 @@ public class PrincipalCtrl {
 			} else {
 				//se já houver clientes, busca pelo documento do cliente
 				for( int i = 0; i < clientes.size(); i++ ){
-					if( clientes.get(i).getDocumento().equals( txtReservaDocNum.getText() )){
+					if( clientes.get(i).getDocumento().equals( ftxtReservaDocNum.getText()
+							.replace(".","").replace("/","").replace("-","")  )){
 						validar = true;
 					}
 					//ao final da busca, se não encontrar o cliente, o cadastra parcialmente e o usa na reserva
 					if( i == clientes.size()-1 ){
 						if(	validar == false ){
-							
+					
 							cl.setId( clientes.size() );
 							cl.setNome( txtReservaNome.getText() );
 							cl.setEmail( txtReservaEmail.getText() );
-							cl.setDocumento( txtReservaDocNum.getText() );
+							cl.setDocumento( ftxtReservaDocNum.getText()
+									.replace(".","").replace("/","").replace("-","") );
 							cl.setDocTipo( cboReservaDocTipo.getSelectedItem().toString() );
 							cl.setDtNasc( new Date() );
-							cl.setTelefone( txtReservaTelefone.getText() );
-							cl.setCelular( txtReservaCelular.getText() );
+							cl.setTelefone( ftxtReservaTelefone.getText()
+									.replace("(","").replace(")", "").replace(" ","").replace("-","") );
+							cl.setCelular( ftxtReservaCelular.getText()
+									.replace("(","").replace(")", "").replace(" ","").replace("-","") );
 							cl.setCidade( txtReservaCidade.getText() );
 							cl.setEstado( txtReservaEstado.getText() );
 							cl.setPais( txtReservaPais.getText() );
@@ -725,9 +740,11 @@ public class PrincipalCtrl {
 							logon.setLogon( log );
 							
 						} else {
+							
 							//caso o cliente seja encontrado, apenas recupera seus dados para a reserva
 							for( int j = 0; j < clientes.size(); j++ ){
-								if( clientes.get(j).getDocumento().equals( txtReservaDocNum.getText() )){
+								if( clientes.get(j).getDocumento().equals( ftxtReservaDocNum.getText()
+										.replace(".","").replace("/","").replace("-","")  )){
 									cl.setId( clientes.get(j).getId() );
 									cl.setNome( clientes.get(j).getNome() );
 									cl.setEmail( clientes.get(j).getEmail() );
@@ -761,7 +778,7 @@ public class PrincipalCtrl {
 						}
 					}
 				}
-			}
+			}		
 			//monta a reserva com os objetos Chale e Cliente
 			Reserva r = new Reserva();
 			DateFormat sdf = new SimpleDateFormat("ddMMyyyy");
@@ -850,7 +867,7 @@ public class PrincipalCtrl {
 			Contato c = new Contato();
 			c.setNome( txtContatoNome.getText() );
 			c.setEmail( txtContatoEmail.getText() );
-			c.setTelefone( txtContatoTelefone.getText() );
+			c.setTelefone( ftxtContatoTelefone.getText() );
 			c.setCidade( txtContatoCidade.getText() );
 			c.setEstado( txtContatoEstado.getText() );
 			c.setPais( txtContatoPais.getText() );
@@ -978,91 +995,11 @@ public class PrincipalCtrl {
 			ativaCampo("reserva");
 			ativaCampo("contato");
 			ativaCampo("cadastro");
+			limpaCampo( "cadastro" );
 			logon.logoff();
 		}
 	}
 	
-	
-	public void preencheReserva(){
-		//Preenche a reserva com os dados do cliente logado e trava os campos
-
-		cargaCliente();
-		
-		for (int i = 0; i < clientes.size(); i++) {
-
-			if( clientes.get(i).getId()
-					.equals( logon.getSession().get(0).getIdUsuario() )){
-			
-				txtReservaNome.setText( clientes.get(i).getNome() );
-				txtReservaDocNum.setText( clientes.get(i).getDocumento() );
-				cboReservaDocTipo.setSelectedItem( clientes.get(i).getDocTipo() );
-				txtReservaEmail.setText( clientes.get(i).getEmail() );
-				txtReservaTelefone.setText( clientes.get(i).getTelefone() );
-				txtReservaCelular.setText( clientes.get(i).getCelular() );
-				txtReservaCidade.setText( clientes.get(i).getCidade() );
-				txtReservaEstado.setText( clientes.get(i).getEstado() );
-				txtReservaPais.setText( clientes.get(i).getPais() ); 
-				
-				desativaCampo("reserva");
-			}
-		}
-	}
-	
-	
-	public void preencheContato(){
-		//Preenche o contato com os dados do cliente logado e trava os campos
-
-		cargaCliente();
-		
-		for (int i = 0; i < clientes.size(); i++) {
-
-			if( clientes.get(i).getId()
-					.equals( logon.getSession().get(0).getIdUsuario() )){
-			
-				txtContatoNome.setText( clientes.get(i).getNome() );;
-				txtContatoEmail.setText( clientes.get(i).getEmail() );
-				txtContatoTelefone.setText( clientes.get(i).getTelefone() );
-				txtContatoCidade.setText( clientes.get(i).getCidade() );
-				txtContatoEstado.setText( clientes.get(i).getEstado() );
-				txtContatoPais.setText( clientes.get(i).getPais() ); 
-				
-				desativaCampo("contato");
-			}
-		}
-	}
-	
-	
-	public void preencheCadastro(){
-		//Preenche o cadastro com os dados do cliente logado e trava os campos
-
-		cargaCliente();
-		
-		for (int i = 0; i < clientes.size(); i++) {
-
-			if( clientes.get(i).getId()
-					.equals( logon.getSession().get(0).getIdUsuario() )){
-				
-                SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyy");
-                
-				txtCadastroNome.setText( clientes.get(i).getNome() );
-				txtCadastroDocNum.setText( clientes.get(i).getDocumento() );
-				cboCadastroDocTipo.setSelectedItem( clientes.get(i).getDocTipo() );
-				txtCadastroEmail.setText( clientes.get(i).getEmail() );
-				ftxtCadastroDtNasc.setText( dt.format( clientes.get(i).getDtNasc() ));
-				txtCadastroTelefone.setText( clientes.get(i).getTelefone() );
-				txtCadastroCelular.setText( clientes.get(i).getCelular() );
-				txtCadastroEndereco.setText( clientes.get(i).getEndereco() );
-				txtCadastroBairro.setText( clientes.get(i).getBairro() );
-				txtCadastroCidade.setText( clientes.get(i).getCidade() );
-				txtCadastroEstado.setText( clientes.get(i).getEstado() );
-				txtCadastroCep.setText( clientes.get(i).getCep() );
-				txtCadastroPais.setText( clientes.get(i).getPais() ); 
-				
-				desativaCampo("cadastro");
-			}
-		}
-	}
-
 
 	public void trocaPerfil( int op ){
 		//realiza a troca das guias conforme o perfil
@@ -1138,7 +1075,7 @@ public class PrincipalCtrl {
 	public void preecheInfo(){
 		//preenche as informações de apresentação na tela
 
-		if(infos != null){
+		if( !infos.isEmpty() ){
 			for (int i = 0; i < infos.size(); i++) {
 				txtaPrincipalInfo.setText( infos.get(i).getPrincipalInfo() ); 
 				txtaPrincipalDetalhe.setText( infos.get(i).getPrincipalDetalhe() ); 
@@ -1153,6 +1090,95 @@ public class PrincipalCtrl {
 				txtaClienteInfo.setText( infos.get(i).getClienteInfo() );
 				txtaClienteDetalhe.setText( infos.get(i).getClienteDetalhe() );
 				txtaCadastroInfo.setText( infos.get(i).getCadastroInfo() );
+			}
+		}
+	}
+
+	
+	public void preencheReserva(){
+		//Preenche a reserva com os dados do cliente logado e trava os campos
+
+		cargaCliente();
+
+		if( !clientes.isEmpty() ){
+
+			for (int i = 0; i < clientes.size(); i++) {
+
+				if( clientes.get(i).getId()
+						.equals( logon.getSession().get(0).getIdUsuario() )){
+
+					txtReservaNome.setText( clientes.get(i).getNome() );
+					ftxtReservaDocNum.setText( clientes.get(i).getDocumento() );
+					cboReservaDocTipo.setSelectedItem( clientes.get(i).getDocTipo() );
+					txtReservaEmail.setText( clientes.get(i).getEmail() );
+					ftxtReservaTelefone.setText( clientes.get(i).getTelefone() );
+					ftxtReservaCelular.setText( clientes.get(i).getCelular() );
+					txtReservaCidade.setText( clientes.get(i).getCidade() );
+					txtReservaEstado.setText( clientes.get(i).getEstado() );
+					txtReservaPais.setText( clientes.get(i).getPais() ); 
+
+					desativaCampo("reserva");
+				}
+			}
+		}
+	}
+	
+	
+	public void preencheContato(){
+		//Preenche o contato com os dados do cliente logado e trava os campos
+
+		cargaCliente();
+
+		if( !clientes.isEmpty() ){
+
+			for (int i = 0; i < clientes.size(); i++) {
+
+				if( clientes.get(i).getId()
+						.equals( logon.getSession().get(0).getIdUsuario() )){
+
+					txtContatoNome.setText( clientes.get(i).getNome() );;
+					txtContatoEmail.setText( clientes.get(i).getEmail() );
+					ftxtContatoTelefone.setText( clientes.get(i).getTelefone() );
+					txtContatoCidade.setText( clientes.get(i).getCidade() );
+					txtContatoEstado.setText( clientes.get(i).getEstado() );
+					txtContatoPais.setText( clientes.get(i).getPais() ); 
+
+					desativaCampo("contato");
+				}
+			}
+		}
+	}
+	
+
+	public void preencheCadastro(){
+		//Preenche o cadastro com os dados do cliente logado e trava os campos
+
+		cargaCliente();
+
+		if( !clientes.isEmpty() ){
+			for (int i = 0; i < clientes.size(); i++) {
+
+				if( clientes.get(i).getId()
+						.equals( logon.getSession().get(0).getIdUsuario() )){
+
+					SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyy");
+
+					txtCadastroNome.setText( clientes.get(i).getNome() );
+					ftxtCadastroDocNum.setText( clientes.get(i).getDocumento() );
+					cboCadastroDocTipo.setSelectedItem( clientes.get(i).getDocTipo() );
+					txtCadastroEmail.setText( clientes.get(i).getEmail() );
+					ftxtCadastroDtNasc.setText( dt.format( clientes.get(i).getDtNasc() ));
+					ftxtCadastroTelefone.setText( clientes.get(i).getTelefone() );
+					ftxtCadastroCelular.setText( clientes.get(i).getCelular() );
+					txtCadastroEndereco.setText( clientes.get(i).getEndereco() );
+					txtCadastroBairro.setText( clientes.get(i).getBairro() );
+					txtCadastroCidade.setText( clientes.get(i).getCidade() );
+					txtCadastroEstado.setText( clientes.get(i).getEstado() );
+					ftxtCadastroCep.setText( clientes.get(i).getCep() );
+					txtCadastroPais.setText( clientes.get(i).getPais() ); 
+
+					desativaCampo("cadastro");
+				}
 			}
 		}
 	}
@@ -1612,21 +1638,25 @@ public class PrincipalCtrl {
 	}
 
 
-	public void limpaCampo(){
+	public void limpaCampo( String guia ){
 		// limpa todos os campos da tela
 
-		Integer guiaAtiva = tabContainer.getSelectedIndex();
 		Component[] painelAtivo = null;
 
-		switch ( guiaAtiva){
-		case 4:
+		switch ( guia ){
+		case "reserva":
 			painelAtivo = painelReserva.getComponents();
 			break;
 
-		case 5:
+		case "contato":
 			painelAtivo = painelContato.getComponents();
 			break;
+			
+		case "cadastro":
+			painelAtivo = painelCadastro.getComponents();
+			break;
 		}
+		
 		for ( Component c : painelAtivo ) {
 			if ( c instanceof JTextField ) {
 				JTextField l = ( JTextField )c;
@@ -1913,6 +1943,128 @@ public class PrincipalCtrl {
 			validar = true;
 		}
 	}
+	
+	
+	public void trocaMascara( String guia ){
+		//troca a mascara usada no campo conforme a seleção na combbox
+
+		String combo = null;
+		String temp = null;
+
+		switch( guia ){
+
+		case "reserva":
+			if( ftxtReservaDocNum != null){
+				temp = ftxtReservaDocNum.getText();
+			} 
+			ftxtReservaDocNum.setFormatterFactory(null);
+			ftxtReservaDocNum.setText(null);
+			ftxtReservaDocNum.setValue(null);
+			combo = cboReservaDocTipo.getSelectedItem().toString();
+			break;
+
+		case "cadastro":
+
+			if( ftxtCadastroDocNum != null){
+				temp = ftxtCadastroDocNum.getText();
+			} 
+			ftxtCadastroDocNum.setFormatterFactory(null);
+			ftxtCadastroDocNum.setText(null);
+			ftxtCadastroDocNum.setValue(null);
+			combo = cboCadastroDocTipo.getSelectedItem().toString();
+			break;
+		}
+		
+		switch( combo ){
+
+		case "CPF":
+			try {
+				MaskFormatter cpf = new MaskFormatter("###.###.###-##");
+				cpf.setPlaceholderCharacter(' ');
+				
+				if( guia == "reserva")
+					ftxtReservaDocNum.setFormatterFactory(new DefaultFormatterFactory( cpf ));
+				
+				if( guia == "cadastro")
+				ftxtCadastroDocNum.setFormatterFactory(new DefaultFormatterFactory( cpf ));
+				
+			} catch (ParseException e1) {
+				msg("", "ERRO " + e1.getCause() 
+						+ "\n\nLocal: Principaltrl >  acionar() > mascara do CPF"  
+						+ "\n\nMensagem:\n" + e1.getMessage() );
+				//e1.printStackTrace();
+			}
+			break;
+
+		case "CNPJ":
+			try {
+				MaskFormatter cnpj = new MaskFormatter("##.###.###/####-##");
+				cnpj.setPlaceholderCharacter(' ');
+				
+				if( guia == "reserva")
+					ftxtReservaDocNum.setFormatterFactory(new DefaultFormatterFactory( cnpj ));
+				
+				if( guia == "cadastro")
+				ftxtCadastroDocNum.setFormatterFactory(new DefaultFormatterFactory( cnpj ));
+				
+			} catch (ParseException e1) {
+				msg("", "ERRO " + e1.getCause() 
+						+ "\n\nLocal: Principaltrl >  acionar() > mascara do CPF"  
+						+ "\n\nMensagem:\n" + e1.getMessage() );
+				//e1.printStackTrace();
+			}
+			break;
+
+		case "RG":
+			try {
+				MaskFormatter rg = new MaskFormatter("##.###.###-##");
+				rg.setPlaceholderCharacter(' ');
+				
+				if( guia == "reserva")
+					ftxtReservaDocNum.setFormatterFactory(new DefaultFormatterFactory( rg ));
+				
+				if( guia == "cadastro")
+				ftxtCadastroDocNum.setFormatterFactory(new DefaultFormatterFactory( rg ));
+				
+			} catch (ParseException e1) {
+				msg("", "ERRO " + e1.getCause() 
+						+ "\n\nLocal: Principaltrl >  acionar() > mascara do CPF"  
+						+ "\n\nMensagem:\n" + e1.getMessage() );
+				//e1.printStackTrace();
+			}
+			break;
+
+		case "CNH":
+			try {
+				MaskFormatter cnh = new MaskFormatter("##.###.###.###");
+				cnh.setPlaceholderCharacter(' ');
+				
+				if( guia == "reserva")
+					ftxtReservaDocNum.setFormatterFactory(new DefaultFormatterFactory( cnh ));
+				
+				if( guia == "cadastro")
+				ftxtCadastroDocNum.setFormatterFactory(new DefaultFormatterFactory( cnh ));
+				
+			} catch (ParseException e1) {
+				msg("", "ERRO " + e1.getCause() 
+						+ "\n\nLocal: Principaltrl >  acionar() > mascara do CPF"  
+						+ "\n\nMensagem:\n" + e1.getMessage() );
+				//e1.printStackTrace();
+			}
+			break;
+		}
+		
+		switch( guia ){
+
+		case "reserva":
+			ftxtReservaDocNum.setText(temp);
+			break;
+		case "cadastro":
+			ftxtCadastroDocNum.setText(temp);
+			break;
+		}
+	}
+
 
 	public void relogio(){
 
@@ -1983,7 +2135,7 @@ public class PrincipalCtrl {
 					adicionaReserva ();
 				} catch (ParseException e1) {
 					msg("", "ERRO " + e1.getCause() 
-							+ "\n\nLocal: Principaltrl >  acionar()."  
+							+ "\n\nLocal: Principaltrl >  acionar() : Botão Enviar"  
 							+ "\n\nMensagem:\n" + e1.getMessage() );
 					//e1.printStackTrace();
 				}
@@ -1995,10 +2147,10 @@ public class PrincipalCtrl {
 				msg( "construir", "" );
 			}
 			if( source == btnReservaLimpar ){
-				limpaCampo();
+				limpaCampo( "reserva" );
 			}
 			if( source == btnContatoLimpar ){
-				limpaCampo();
+				limpaCampo( "contato" );
 			}
 			if( source == cboReservaCategoria ){
 				imagensCombo();
@@ -2009,19 +2161,29 @@ public class PrincipalCtrl {
 			if( source == btnServicoEditar ){
 				msg( "construir", "" );
 			}
+			if( source == cboReservaDocTipo ){
+				trocaMascara( "reserva" );
+			}
+			if( source == cboCadastroDocTipo ){
+				trocaMascara( "cadastro" );
+			}
 			if( source == btnCadastroLimpar ){
-				limpaCampo();
+				limpaCampo( "cadastro" );
 			}
 			if( source == btnCadastroExcluir ){
 				msg( "construir", "" );
 			}
 			if( source == btnCadastroEditar ){
-				ativaCampo("cadastro");
-				msg( "construir", "" );
-			}
-			if( source == btnCadastroSalvar ){
-				desativaCampo("cadastro");
-				msg( "construir", "" );
+				if( btnCadastroEditar.getText() != "Salvar"){
+					btnCadastroEditar.setText("Salvar");
+					btnCadastroLimpar.setEnabled(true);
+					ativaCampo("cadastro");
+				} else {
+					btnCadastroEditar.setText("Editar");
+					btnCadastroLimpar.setEnabled(false);
+					desativaCampo("cadastro");
+					msg( "construir", "" );
+				}
 			}
 		}
 	};
