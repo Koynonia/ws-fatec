@@ -93,6 +93,8 @@ public class PrincipalCtrl {
 	private JPanel painelAdmServico; 
 	
 	private JPasswordField pwdSenha;
+	private JPasswordField pwdCadastroSenha;
+	private JPasswordField pwdCadastroSenhaConfirma;
 	
 	private JLabel lblLogin;
 	private JLabel lblPwd;
@@ -127,6 +129,7 @@ public class PrincipalCtrl {
 	private JTextField txtCadastroCidade;
 	private JTextField txtCadastroEstado;
 	private JTextField txtCadastroPais;
+	private JTextField txtCadastroLogin;
 	
 	private JFormattedTextField ftxtReservaDocNum;
 	private JFormattedTextField ftxtReservaTelefone; 
@@ -183,7 +186,8 @@ public class PrincipalCtrl {
 	
 	private LogonCtrl logon = LogonCtrl.getInstance();
 	private ImageIcon imagem;
-	private String diretorio = "../Pousada/resources/";
+	private static String diretorio = "../Pousada/resources/";
+	private static int id;
 	private static boolean validar;
 	
 	private List<Info> infos;
@@ -210,6 +214,8 @@ public class PrincipalCtrl {
 			JPanel painelAdmChale, 
 			JPanel painelAdmServico, 
 			JPasswordField pwdSenha,
+			JPasswordField pwdCadastroSenha,
+			JPasswordField pwdCadastroSenhaConfirma,
 			JLabel lblLogin,
 			JLabel lblPwd,
 			JLabel lblMsg,
@@ -243,6 +249,7 @@ public class PrincipalCtrl {
 			JTextField txtCadastroCidade,
 			JTextField txtCadastroEstado,
 			JTextField txtCadastroPais,
+			JTextField txtCadastroLogin,
 			JFormattedTextField ftxtReservaDocNum, 
 			JFormattedTextField ftxtReservaTelefone, 
 			JFormattedTextField ftxtReservaCelular, 
@@ -309,6 +316,8 @@ public class PrincipalCtrl {
 		this.painelAdmChale = painelAdmChale;
 		this.painelAdmServico = painelAdmServico;
 		this.pwdSenha = pwdSenha;
+		this.pwdCadastroSenha = pwdCadastroSenha;
+		this.pwdCadastroSenhaConfirma = pwdCadastroSenhaConfirma;
 		this.lblLogin = lblLogin;
 		this.lblPwd = lblPwd;
 		this.lblMsg = lblMsg;
@@ -341,6 +350,7 @@ public class PrincipalCtrl {
 		this.txtCadastroCidade = txtCadastroCidade;
 		this.txtCadastroEstado = txtCadastroEstado;
 		this.txtCadastroPais = txtCadastroPais;
+		this.txtCadastroLogin = txtCadastroLogin;
 		this.ftxtReservaDocNum = ftxtReservaDocNum; 
 		this.ftxtReservaTelefone = ftxtReservaTelefone; 
 		this.ftxtReservaCelular = ftxtReservaCelular; 
@@ -538,6 +548,20 @@ public class PrincipalCtrl {
 			//e.printStackTrace();
 		}
 	}
+	
+	
+	public void alteraCliente( Cliente c ){
+
+		ClienteDAO dao = new ClienteDAOImpl();
+		try {
+			dao.alterar( c );
+		} catch (SQLException e) {
+			msg("", "ERRO SQL " + e.getSQLState() 
+					+ "\n\nLocal:\nPrincipalCtrl > alteraCliente()."  
+					+ "\n\nMensagem:\n" + e.getMessage() );
+			//e.printStackTrace();
+		}
+	}
 
 
 	public void cargaFuncionario(){
@@ -610,21 +634,76 @@ public class PrincipalCtrl {
 			//e.printStackTrace();
 		}
 	}
+	
+	
+	// CLIENTE /////////////////////////
+	
+	
+	public void alteraCliente() throws ParseException{
+		// adiciona ou edita um novo cliente
+
+		validaCampo();
+		
+		// verifica se os campos foram preenchidos
+		if( validar != false  ){
+			
+			Cliente c = new Cliente();
+			DateFormat sdf = new SimpleDateFormat("ddMMyyyy");
+
+			cargaCliente();
+			
+			//se não houver cliente na base de dados
+			if( !clientes.isEmpty() ){
+
+
+				if( new String( pwdCadastroSenha.getPassword() )
+				.equals( new String( pwdCadastroSenhaConfirma.getPassword() ))){
+
+					c.setId( id );
+					c.setNome( txtCadastroNome.getText() );
+					c.setEmail( txtCadastroEmail.getText() );
+					c.setDocumento( ftxtCadastroDocNum.getText().replace(".","").replace("/","").replace("-","")  );
+					c.setDocTipo( cboCadastroDocTipo.getSelectedItem().toString() );
+					c.setDtNasc( sdf.parse( ftxtCadastroDtNasc.getText().replace("/","") ));
+					c.setTelefone( ftxtCadastroTelefone.getText().replace("(","").replace(")", "").replace(" ","").replace("-","") );
+					c.setCelular( ftxtCadastroCelular.getText().replace("(","").replace(")", "").replace(" ","").replace("-","") );
+					c.setBairro( txtCadastroBairro.getText() );
+					c.setCidade( txtCadastroCidade.getText() );
+					c.setEstado( txtCadastroEstado.getText() );
+					c.setPais( txtCadastroPais.getText() );
+					c.setCep( ftxtCadastroCep.getText().replace("-","") );
+					c.setLogin( txtCadastroLogin.getText() );
+					c.setSenha( new String( pwdCadastroSenha.getPassword() ));
+					c.setAtivo( true );
+
+					alteraCliente( c );
+
+					msg("clienteAtualizar", c.getNome() );
+				} else {
+					msg("erroSenhaDifere", "" );
+					validar = true;
+				}
+			} 
+		}
+		validar = false;
+	}
 
 
 	// RESERVA /////////////////////////
 
 
 	public void adicionaReserva () throws ParseException{
-		//adiciona uma reserva verificando sua data com um objeto Chale e Cliente
+		// adiciona uma reserva verificando sua data com um objeto Chale e Cliente
 
-		cargaCliente();
-		cargaChale();
-		cargaReserva();
 		validaCampo();
 
-		//verifica se a validação está desligada
+		// verifica se os campos foram preenchidos
 		if( validar != false  ){
+			
+			cargaCliente();
+			cargaChale();
+			cargaReserva();
+			
 			Chale ch = new Chale();
 			validar = false;
 			if( !chales.isEmpty() ){
@@ -922,6 +1001,7 @@ public class PrincipalCtrl {
 							logon.login();
 
 							validar = true;
+							//prepara as guias
 							lblMsg.setText( "- Bem vindo, " + funcionarios.get(f).getNome() );
 							lblLogin.setVisible(false);
 							txtLogin.setVisible(false);
@@ -950,6 +1030,7 @@ public class PrincipalCtrl {
 									logon.login();
 
 									validar = true;
+									//prepara as guias
 									lblMsg.setText( "- Bem vindo, " + clientes.get(c).getNome() );
 									lblLogin.setVisible(false);
 									txtLogin.setVisible(false);
@@ -957,9 +1038,13 @@ public class PrincipalCtrl {
 									pwdSenha.setVisible(false);
 									btnLogin.setText("Sair");
 									alteraBtnReserva();
+									
 									preencheReserva();
 									preencheContato();
 									preencheCadastro();
+									btnCadastroEditar.setText("Editar");
+									btnCadastroLimpar.setEnabled(false);
+									btnCadastroExcluir.setEnabled(false);
 									msg("autorizado", clientes.get(c).getNome() );
 								} 
 							}
@@ -1162,7 +1247,8 @@ public class PrincipalCtrl {
 						.equals( logon.getSession().get(0).getIdUsuario() )){
 
 					SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyy");
-
+					
+					id = logon.getSession().get(0).getIdUsuario();
 					txtCadastroNome.setText( clientes.get(i).getNome() );
 					ftxtCadastroDocNum.setText( clientes.get(i).getDocumento() );
 					cboCadastroDocTipo.setSelectedItem( clientes.get(i).getDocTipo() );
@@ -1176,6 +1262,9 @@ public class PrincipalCtrl {
 					txtCadastroEstado.setText( clientes.get(i).getEstado() );
 					ftxtCadastroCep.setText( clientes.get(i).getCep() );
 					txtCadastroPais.setText( clientes.get(i).getPais() ); 
+					txtCadastroLogin.setText( clientes.get(i).getLogin() );
+					pwdCadastroSenha.setText( clientes.get(i).getSenha() );
+					pwdCadastroSenhaConfirma.setText( clientes.get(i).getSenha() );
 
 					desativaCampo("cadastro");
 				}
@@ -1718,6 +1807,12 @@ public class PrincipalCtrl {
 				if( guia != "cadastro" )
 					l.setText(null);
 			}
+			if (c instanceof JPasswordField ) {
+				JPasswordField l = ( JPasswordField )c;
+				l.setEnabled(true);
+				if( guia != "cadastro" )
+					l.setText(null);
+			}
 			if (c instanceof JComboBox ) {
 				@SuppressWarnings("unchecked")
 				JComboBox<String> l = ( JComboBox<String> )c;
@@ -1779,6 +1874,10 @@ public class PrincipalCtrl {
 							&& !l.getName().equalsIgnoreCase("fim") ){
 						l.setEnabled(false);
 					}
+				}
+				if (c instanceof JPasswordField ) {
+					JPasswordField l = ( JPasswordField )c;
+					l.setEnabled(false);
 				}
 				if (c instanceof JComboBox ) {
 					@SuppressWarnings("unchecked")
@@ -1981,13 +2080,13 @@ public class PrincipalCtrl {
 			try {
 				MaskFormatter cpf = new MaskFormatter("###.###.###-##");
 				cpf.setPlaceholderCharacter(' ');
-				
+
 				if( guia == "reserva")
 					ftxtReservaDocNum.setFormatterFactory(new DefaultFormatterFactory( cpf ));
-				
+
 				if( guia == "cadastro")
-				ftxtCadastroDocNum.setFormatterFactory(new DefaultFormatterFactory( cpf ));
-				
+					ftxtCadastroDocNum.setFormatterFactory(new DefaultFormatterFactory( cpf ));
+
 			} catch (ParseException e1) {
 				msg("", "ERRO " + e1.getCause() 
 						+ "\n\nLocal: Principaltrl >  acionar() > mascara do CPF"  
@@ -2000,12 +2099,12 @@ public class PrincipalCtrl {
 			try {
 				MaskFormatter cnpj = new MaskFormatter("##.###.###/####-##");
 				cnpj.setPlaceholderCharacter(' ');
-				
+
 				if( guia == "reserva")
 					ftxtReservaDocNum.setFormatterFactory(new DefaultFormatterFactory( cnpj ));
-				
+
 				if( guia == "cadastro")
-				ftxtCadastroDocNum.setFormatterFactory(new DefaultFormatterFactory( cnpj ));
+					ftxtCadastroDocNum.setFormatterFactory(new DefaultFormatterFactory( cnpj ));
 				
 			} catch (ParseException e1) {
 				msg("", "ERRO " + e1.getCause() 
@@ -2135,7 +2234,7 @@ public class PrincipalCtrl {
 					adicionaReserva ();
 				} catch (ParseException e1) {
 					msg("", "ERRO " + e1.getCause() 
-							+ "\n\nLocal: Principaltrl >  acionar() : Botão Enviar"  
+							+ "\n\nLocal: Principaltrl >  acionar() : adicionaReserva()"  
 							+ "\n\nMensagem:\n" + e1.getMessage() );
 					//e1.printStackTrace();
 				}
@@ -2174,15 +2273,28 @@ public class PrincipalCtrl {
 				msg( "construir", "" );
 			}
 			if( source == btnCadastroEditar ){
+
 				if( btnCadastroEditar.getText() != "Salvar"){
 					btnCadastroEditar.setText("Salvar");
 					btnCadastroLimpar.setEnabled(true);
+					btnCadastroExcluir.setEnabled(true);
 					ativaCampo("cadastro");
 				} else {
-					btnCadastroEditar.setText("Editar");
-					btnCadastroLimpar.setEnabled(false);
-					desativaCampo("cadastro");
-					msg( "construir", "" );
+					try {
+						alteraCliente();
+					} catch (ParseException e1) {
+						msg("", "ERRO " + e1.getCause() 
+								+ "\n\nLocal: Principaltrl >  acionar() : alteraCliente()"  
+								+ "\n\nMensagem:\n" + e1.getMessage() );
+						//e1.printStackTrace();
+					}
+					if( validar != true ){
+						btnCadastroEditar.setText("Editar");
+						btnCadastroLimpar.setEnabled(false);
+						btnCadastroExcluir.setEnabled(false);
+						desativaCampo("cadastro");
+					}
+					validar = false;
 				}
 			}
 		}
@@ -2302,6 +2414,24 @@ public class PrincipalCtrl {
 			}
 			if( source == txtContatoPais ){
 				tipo = "alfa";
+			}
+			if( source == txtCadastroNome ){
+				tipo = "alfa";
+			}
+			if( source == txtCadastroBairro ){
+				tipo = "alfa";
+			}
+			if( source == txtCadastroCidade ){
+				tipo = "alfa";
+			}
+			if( source == txtCadastroEstado ){
+				tipo = "alfa";
+			}
+			if( source == txtCadastroPais ){
+				tipo = "alfa";
+			}
+			if( source == ftxtCadastroCep ){
+				tipo = "numero";
 			}
 
 			switch ( tipo ) {
@@ -2454,12 +2584,31 @@ public class PrincipalCtrl {
 							new ImageIcon( diretorio + "/icons/error.png" ));
 			break;
 			
+		case "erroSenhaDifere":
+			JOptionPane.showMessageDialog(null, 
+					"CAMPOS SENHA DIFEREM.\n\nA senha e a sua confirmação estão diferentes!\n"
+							+ "Verifique sua digitação e tente novamente.",
+							"Erro", 
+							JOptionPane.PLAIN_MESSAGE, 
+							new ImageIcon( diretorio + "/icons/error.png" ));
+			break;
+			
 		case "erroLinha":
 			JOptionPane.showMessageDialog(null, 
 					"Por favor, selecione uma Reserva para cancelar.", 
 					"Reserva não selecionada", 
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon( diretorio + "/icons/error.png" ));
+			break;
+			
+		case "clienteAtualizar":
+			JOptionPane.showMessageDialog(null, 
+					"Feito! A atualização do cadastro de " + mensagem 
+					+ " foi realizado com sucesso.\n\nDúvidas, elogios e sugestões "
+					+ "\npodem ser enviadas através da guia Contato.", 
+					"Cadastro Atualizado", 
+					JOptionPane.PLAIN_MESSAGE, 
+					new ImageIcon( diretorio + "/icons/user.png" ));
 			break;
 
 		case "reservaCancelar":

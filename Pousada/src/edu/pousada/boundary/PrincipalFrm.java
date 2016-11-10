@@ -79,8 +79,11 @@ public class PrincipalFrm extends JFrame {
 	private JTextField txtCadastroCidade;
 	private JTextField txtCadastroEstado;
 	private JTextField txtCadastroPais;
+	private JTextField txtCadastroLogin;
 	
 	private JPasswordField pwdSenha;
+	private JPasswordField pwdCadastroSenha;
+	private JPasswordField pwdCdastroSenhaConfirma;
 	
 	private JFormattedTextField ftxtReservaDocNum;
 	private JFormattedTextField ftxtReservaTelefone;
@@ -1002,7 +1005,7 @@ public class PrincipalFrm extends JFrame {
 		lblCadastroDtNasc.setBounds(20, 257, 100, 16);
 		painelCadastro.add(lblCadastroDtNasc);
 
-		ftxtCadastroDtNasc = new JFormattedTextField(dt);
+		ftxtCadastroDtNasc = new JFormattedTextField( dt );
 		ftxtCadastroDtNasc.setBounds(105, 251, 150, 28);
 		ftxtCadastroDtNasc.setName("dtnasc");
 		ftxtCadastroDtNasc.setToolTipText("Digite a data de nascimento");
@@ -1013,7 +1016,7 @@ public class PrincipalFrm extends JFrame {
 		lblCadastroTelefone.setBounds(20, 297, 150, 16);
 		painelCadastro.add(lblCadastroTelefone);
 
-		ftxtCadastroTelefone = new JFormattedTextField( tel );;
+		ftxtCadastroTelefone = new JFormattedTextField( tel );
 		ftxtCadastroTelefone.setBounds(105, 291, 150, 28);
 		ftxtCadastroTelefone.setHorizontalAlignment(SwingConstants.CENTER);
 		ftxtCadastroTelefone.setName("telefone");
@@ -1071,18 +1074,6 @@ public class PrincipalFrm extends JFrame {
 		txtCadastroEstado.setToolTipText("Digite seu Estado");
 		painelCadastro.add(txtCadastroEstado);
 
-		JLabel lblCadastroCep = new JLabel("Cep:");
-		lblCadastroCep.setBounds(20, 457, 150, 16);
-		painelCadastro.add(lblCadastroCep);
-		
-		ftxtCadastroCep = new JFormattedTextField(cep);
-		ftxtCadastroCep.setBackground(SystemColor.window);
-		ftxtCadastroCep.setHorizontalAlignment(SwingConstants.CENTER);
-		ftxtCadastroCep.setBounds(105, 451, 150, 28);
-		ftxtCadastroCep.setName("cep");
-		ftxtCadastroCep.setToolTipText("Digite seu Cep");
-		painelCadastro.add(ftxtCadastroCep);
-
 		JLabel lblCadastroPais = new JLabel("País:");
 		lblCadastroPais.setBounds(290, 417, 150, 16);
 		painelCadastro.add(lblCadastroPais);
@@ -1092,7 +1083,52 @@ public class PrincipalFrm extends JFrame {
 		txtCadastroPais.setName("país");
 		txtCadastroPais.setToolTipText("Digite seu País");
 		painelCadastro.add(txtCadastroPais);
+		
+		JLabel lblCadastroCep = new JLabel("Cep:");
+		lblCadastroCep.setBounds(20, 457, 150, 16);
+		painelCadastro.add(lblCadastroCep);
+		
+		ftxtCadastroCep = new JFormattedTextField( cep );
+		ftxtCadastroCep.setHorizontalAlignment(SwingConstants.CENTER);
+		ftxtCadastroCep.setBounds(105, 451, 150, 28);
+		ftxtCadastroCep.setName("cep");
+		ftxtCadastroCep.setToolTipText("Digite seu Cep");
+		painelCadastro.add(ftxtCadastroCep);
+		
+		JLabel lblCadastroLogin = new JLabel("Usuário:");
+		lblCadastroLogin.setBounds(740, 137, 80, 16);
+		lblCadastroLogin.setVisible(true);
+		painelCadastro.add(lblCadastroLogin);
 
+		txtCadastroLogin = new JTextField(20);
+		txtCadastroLogin.setToolTipText("Digite seu usuário");
+		txtCadastroLogin.setBounds(829, 131, 105, 28);
+		//txtCadastroLogin.setFocusable(false);
+		txtCadastroLogin.setName("cadlogin");
+		painelCadastro.add(txtCadastroLogin);
+
+		JLabel lblCadastroSenha = new JLabel("Nova senha:");
+		lblCadastroSenha.setBounds(740, 177, 80, 16);
+		painelCadastro.add(lblCadastroSenha);
+
+		pwdCadastroSenha = new JPasswordField(20);
+		pwdCadastroSenha.setToolTipText("Digite sua nova senha");
+		pwdCadastroSenha.setBounds(829, 171, 105, 28);
+		//pwdCadastroSenha.setFocusable(false);
+		pwdCadastroSenha.setName("cadsenha");
+		painelCadastro.add(pwdCadastroSenha);
+		
+		JLabel lblCadastroSenhaConfirma = new JLabel("Confirma:");
+		lblCadastroSenhaConfirma.setBounds(740, 217, 80, 16);
+		painelCadastro.add(lblCadastroSenhaConfirma);
+		
+		pwdCdastroSenhaConfirma = new JPasswordField(20);
+		pwdCdastroSenhaConfirma.setToolTipText("Confirme sua senha");
+		pwdCdastroSenhaConfirma.setBounds(829, 211, 105, 28);
+		//pwdCdastroSenhaConfirma.setFocusable(false);
+		pwdCdastroSenhaConfirma.setName("cadsenhaconfirma");
+		painelCadastro.add(pwdCdastroSenhaConfirma);
+		
 		btnCadastroLimpar = new JButton("Limpar");
 		btnCadastroLimpar.setBounds(580, 485, 110, 29);
 		btnCadastroLimpar.setEnabled(false);
@@ -1100,6 +1136,7 @@ public class PrincipalFrm extends JFrame {
 		
 		btnCadastroExcluir = new JButton("Excluir");
 		btnCadastroExcluir.setBounds(690, 485, 110, 29);
+		btnCadastroExcluir.setEnabled(false);
 		painelCadastro.add(btnCadastroExcluir);
 		
 		btnCadastroEditar = new JButton("Editar");
@@ -1140,6 +1177,8 @@ public class PrincipalFrm extends JFrame {
 				painelAdmChale, 
 				painelAdmServico, 
 				pwdSenha,
+				pwdCadastroSenha,
+				pwdCdastroSenhaConfirma,
 				lblLogin,
 				lblPwd,
 				lblMsg,
@@ -1173,6 +1212,7 @@ public class PrincipalFrm extends JFrame {
 				txtCadastroCidade,
 				txtCadastroEstado,
 				txtCadastroPais,
+				txtCadastroLogin,
 				ftxtReservaDocNum,
 				ftxtReservaTelefone, 
 				ftxtReservaCelular,
@@ -1259,6 +1299,12 @@ public class PrincipalFrm extends JFrame {
 		tabReserva.addKeyListener( ctrl.teclas );
 		tabServico.addMouseListener( ctrl.clicar );
 		
+		txtCadastroNome.addKeyListener( ctrl.teclas );
+		txtCadastroBairro.addKeyListener( ctrl.teclas );
+		txtCadastroCidade.addKeyListener( ctrl.teclas );
+		txtCadastroEstado.addKeyListener( ctrl.teclas );
+		txtCadastroPais.addKeyListener( ctrl.teclas );
+		ftxtCadastroCep.addKeyListener( ctrl.teclas );
 		cboCadastroDocTipo.addActionListener( ctrl.acionar );
 		btnCadastroLimpar.addActionListener( ctrl.acionar );
 		btnCadastroEditar.addActionListener( ctrl.acionar );

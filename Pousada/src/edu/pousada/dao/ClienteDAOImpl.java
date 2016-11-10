@@ -75,6 +75,7 @@ public class ClienteDAOImpl implements ClienteDAO {
 		String sql = "UPDATE cliente SET "
 				+ "nome = ?, "
 				+ "email = ?, "
+				+ "documento = ?, "
 				+ "docTipo = ?, "
 				+ "dtNasc = ?, "
 				+ "telefone = ?, "
@@ -85,11 +86,10 @@ public class ClienteDAOImpl implements ClienteDAO {
 				+ "estado = ?, "
 				+ "pais = ?, "
 				+ "cep = ?, "
-				+ "login = ? "
-				+ "senha = ? "
+				+ "login = ?, "
+				+ "senha = ?, "
 				+ "ativo = ? "
-				+ "dtCadastro = ?, "
-				+ "WHERE documento = ?";
+				+ "WHERE id = ?";
 
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1, c.getNome());
@@ -108,7 +108,7 @@ public class ClienteDAOImpl implements ClienteDAO {
 		ps.setString(14, c.getLogin());
 		ps.setString(15, c.getSenha());
 		ps.setBoolean(16, c.getAtivo());
-		ps.setString(17, c.getDocumento());
+		ps.setInt(17, c.getId());
 		ps.execute();
 		ps.close();
 	}
@@ -116,10 +116,10 @@ public class ClienteDAOImpl implements ClienteDAO {
 	@Override
 	public void excluir(Cliente cliente) throws SQLException {
 
-		String sql = "DELETE FROM cliente WHERE documento = ?";
+		String sql = "DELETE FROM cliente WHERE id = ?";
 
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setString(1, cliente.getDocumento());
+		ps.setInt(1, cliente.getId());
 		ps.execute();
 		ps.close();
 	}
