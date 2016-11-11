@@ -511,26 +511,26 @@ public class PrincipalFrm extends JFrame {
 		txtReservaEmail.setToolTipText("Digite seu Email");
 		painelReserva.add(txtReservaEmail);
 
-		JLabel lblReservaDocNum = new JLabel("Documento:");
-		lblReservaDocNum.setBounds(20, 237, 150, 16);
-		painelReserva.add(lblReservaDocNum);
-
-		ftxtReservaDocNum = new JFormattedTextField();
-		ftxtReservaDocNum.setBounds(105, 231, 150, 28);
-		ftxtReservaDocNum.setHorizontalAlignment(SwingConstants.CENTER);
-		ftxtReservaDocNum.setName("Número de Documento");
-		ftxtReservaDocNum.setToolTipText("Digite seu Documento");
-		painelReserva.add(ftxtReservaDocNum);
-		
 		JLabel lblReservaDocTipo = new JLabel("Tipo:");
-		lblReservaDocTipo.setBounds(290, 237, 100, 16);
+		lblReservaDocTipo.setBounds(20, 237, 100, 16);
 		lblReservaDocTipo.setToolTipText("Selecione o tipo de documento");
 		painelReserva.add(lblReservaDocTipo);
 
 		cboReservaDocTipo = new JComboBox<String>();
-		cboReservaDocTipo.setBounds(355, 231, 150, 27);
+		cboReservaDocTipo.setBounds(105, 231, 150, 27);
 		cboReservaDocTipo.setName("Tipo de Documento");
 		painelReserva.add(cboReservaDocTipo);
+		
+		JLabel lblReservaDocNum = new JLabel("Documento:");
+		lblReservaDocNum.setBounds(275, 237, 150, 16);
+		painelReserva.add(lblReservaDocNum);
+
+		ftxtReservaDocNum = new JFormattedTextField();
+		ftxtReservaDocNum.setBounds(355, 231, 150, 28);
+		ftxtReservaDocNum.setHorizontalAlignment(SwingConstants.CENTER);
+		ftxtReservaDocNum.setName("Número de Documento");
+		ftxtReservaDocNum.setToolTipText("Digite seu Documento");
+		painelReserva.add(ftxtReservaDocNum);
 
 		JLabel lblReservaTelefone = new JLabel("Telefone:");
 		lblReservaTelefone.setBounds(20, 277, 150, 16);
@@ -544,7 +544,7 @@ public class PrincipalFrm extends JFrame {
 		painelReserva.add(ftxtReservaTelefone);
 
 		JLabel lblReservaCelular = new JLabel("Celular:");
-		lblReservaCelular.setBounds(290, 277, 150, 16);
+		lblReservaCelular.setBounds(275, 277, 150, 16);
 		painelReserva.add(lblReservaCelular);
 
 		ftxtReservaCelular = new JFormattedTextField( cel );
@@ -565,7 +565,7 @@ public class PrincipalFrm extends JFrame {
 		painelReserva.add(txtReservaCidade);
 
 		JLabel lblReservaEstado = new JLabel("Estado:");
-		lblReservaEstado.setBounds(290, 317, 150, 16);
+		lblReservaEstado.setBounds(275, 317, 150, 16);
 		painelReserva.add(lblReservaEstado);
 
 		txtReservaEstado = new JTextField(20);
@@ -575,7 +575,7 @@ public class PrincipalFrm extends JFrame {
 		painelReserva.add(txtReservaEstado);
 
 		JLabel lblReservaPais = new JLabel("País:");
-		lblReservaPais.setBounds(290, 357, 150, 16);
+		lblReservaPais.setBounds(275, 357, 150, 16);
 		painelReserva.add(lblReservaPais);
 
 		txtReservaPais = new JTextField(20);
@@ -980,26 +980,26 @@ public class PrincipalFrm extends JFrame {
 		txtCadastroEmail.setToolTipText("Digite seu Email");
 		painelCadastro.add(txtCadastroEmail);
 
-		JLabel lblCadastroDocNum = new JLabel("Documento:");
-		lblCadastroDocNum.setBounds(20, 217, 150, 16);
-		painelCadastro.add(lblCadastroDocNum);
-
-		ftxtCadastroDocNum = new JFormattedTextField();
-		ftxtCadastroDocNum.setBounds(105, 211, 150, 28);
-		ftxtCadastroDocNum.setHorizontalAlignment(SwingConstants.CENTER);
-		ftxtCadastroDocNum.setName("Número de Documento");
-		ftxtCadastroDocNum.setToolTipText("Digite seu Documento");
-		painelCadastro.add(ftxtCadastroDocNum);
-
 		JLabel lblCadastroDocTipo = new JLabel("Tipo:");
-		lblCadastroDocTipo.setBounds(290, 217, 100, 16);
+		lblCadastroDocTipo.setBounds(20, 217, 100, 16);
 		lblCadastroDocTipo.setToolTipText("Selecione o tipo de documento");
 		painelCadastro.add(lblCadastroDocTipo);
 
 		cboCadastroDocTipo = new JComboBox<String>();
-		cboCadastroDocTipo.setBounds(355, 211, 150, 27);
+		cboCadastroDocTipo.setBounds(105, 211, 150, 27);
 		cboCadastroDocTipo.setName("Tipo de Documento");
 		painelCadastro.add(cboCadastroDocTipo);
+		
+		JLabel lblCadastroDocNum = new JLabel("Documento:");
+		lblCadastroDocNum.setBounds(275, 217, 150, 16);
+		painelCadastro.add(lblCadastroDocNum);
+
+		ftxtCadastroDocNum = new JFormattedTextField();
+		ftxtCadastroDocNum.setBounds(355, 211, 150, 28);
+		ftxtCadastroDocNum.setHorizontalAlignment(SwingConstants.CENTER);
+		ftxtCadastroDocNum.setName("Número de Documento");
+		ftxtCadastroDocNum.setToolTipText("Digite seu Documento");
+		painelCadastro.add(ftxtCadastroDocNum);
 
 		JLabel lblCadastroDtNasc = new JLabel("Data Nasc.:");
 		lblCadastroDtNasc.setBounds(20, 257, 100, 16);
@@ -1024,7 +1024,7 @@ public class PrincipalFrm extends JFrame {
 		painelCadastro.add(ftxtCadastroTelefone);
 
 		JLabel lblCadastroCelular = new JLabel("Celular:");
-		lblCadastroCelular.setBounds(290, 297, 150, 16);
+		lblCadastroCelular.setBounds(275, 297, 150, 16);
 		painelCadastro.add(lblCadastroCelular);
 
 		ftxtCadastroCelular = new JFormattedTextField( cel );
@@ -1055,7 +1055,7 @@ public class PrincipalFrm extends JFrame {
 		painelCadastro.add(txtCadastroBairro);
 
 		JLabel lblCadastroCidade = new JLabel("Cidade:");
-		lblCadastroCidade.setBounds(290, 377, 150, 16);
+		lblCadastroCidade.setBounds(275, 377, 150, 16);
 		painelCadastro.add(lblCadastroCidade);
 
 		txtCadastroCidade = new JTextField(20);
@@ -1075,7 +1075,7 @@ public class PrincipalFrm extends JFrame {
 		painelCadastro.add(txtCadastroEstado);
 
 		JLabel lblCadastroPais = new JLabel("País:");
-		lblCadastroPais.setBounds(290, 417, 150, 16);
+		lblCadastroPais.setBounds(275, 417, 150, 16);
 		painelCadastro.add(lblCadastroPais);
 
 		txtCadastroPais = new JTextField(20);

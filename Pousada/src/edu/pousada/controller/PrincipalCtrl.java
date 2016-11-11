@@ -75,9 +75,9 @@ import edu.pousada.entity.Reserva;
 public class PrincipalCtrl {
 
 	private PrincipalFrm janela; 
-	
+
 	private JTabbedPane tabContainer;
-	
+
 	private JPanel painelPrincipal;
 	private JPanel painelChale;
 	private JPanel painelLazer;
@@ -91,11 +91,11 @@ public class PrincipalCtrl {
 	private JPanel painelAdmPrincipal; 
 	private JPanel painelAdmChale; 
 	private JPanel painelAdmServico; 
-	
+
 	private JPasswordField pwdSenha;
 	private JPasswordField pwdCadastroSenha;
 	private JPasswordField pwdCadastroSenhaConfirma;
-	
+
 	private JLabel lblLogin;
 	private JLabel lblPwd;
 	private JLabel lblMsg;
@@ -107,7 +107,7 @@ public class PrincipalCtrl {
 	private JLabel lblReservaImg;
 	private JLabel lblReservaMsg;
 	private JLabel lblContatoMsg;
-	
+
 	private JTextField txtLogin;
 	private JTextField txtPesquisa;
 	private JTextField txtReservaQtdAdulto; 
@@ -130,7 +130,7 @@ public class PrincipalCtrl {
 	private JTextField txtCadastroEstado;
 	private JTextField txtCadastroPais;
 	private JTextField txtCadastroLogin;
-	
+
 	private JFormattedTextField ftxtReservaDocNum;
 	private JFormattedTextField ftxtReservaTelefone; 
 	private JFormattedTextField ftxtReservaCelular; 
@@ -146,7 +146,7 @@ public class PrincipalCtrl {
 	private JFormattedTextField ftxtVlrReservaChale;
 	private JFormattedTextField ftxtQtdReservaServico;
 	private JFormattedTextField ftxtVlrReservaServico;
-	
+
 	private JTextArea txtaPrincipalInfo; 
 	private JTextArea txtaPrincipalDetalhe; 
 	private JTextArea txtaChaleInfo; 
@@ -162,15 +162,15 @@ public class PrincipalCtrl {
 	private JTextArea txtaClienteInfo;
 	private JTextArea txtaClienteDetalhe;
 	private JTextArea txtaCadastroInfo;
-	
+
 	private JComboBox<String> cboReservaCategoria; 
 	private JComboBox<String> cboReservaDocTipo; 
 	private JComboBox<String> cboContatoAssunto; 
 	private JComboBox<String> cboCadastroDocTipo;
-	
+
 	private JTable tabReserva; 
 	private JTable tabServico; 
-	
+
 	public static JButton btnReservas;
 	private JButton btnLogin; 
 	private JButton btnReservaEnviar; 
@@ -183,13 +183,13 @@ public class PrincipalCtrl {
 	private JButton btnCadastroLimpar;
 	private JButton btnCadastroEditar;
 	private JButton btnCadastroExcluir;
-	
+
 	private LogonCtrl logon = LogonCtrl.getInstance();
 	private ImageIcon imagem;
 	private static String diretorio = "../Pousada/resources/";
 	private static int id;
 	private static boolean validar;
-	
+
 	private List<Info> infos;
 	private List<Chale> chales;
 	private List<Cliente> clientes;
@@ -548,8 +548,8 @@ public class PrincipalCtrl {
 			//e.printStackTrace();
 		}
 	}
-	
-	
+
+
 	public void alteraCliente( Cliente c ){
 
 		ClienteDAO dao = new ClienteDAOImpl();
@@ -634,24 +634,23 @@ public class PrincipalCtrl {
 			//e.printStackTrace();
 		}
 	}
-	
-	
+
+
 	// CLIENTE /////////////////////////
-	
-	
+
+
 	public void alteraCliente() throws ParseException{
 		// adiciona ou edita um novo cliente
 
-		validaCampo();
-		
-		// verifica se os campos foram preenchidos
-		if( validar != false  ){
+
+		if( validaCampo( "cadastro" ) != false ){
 			
+			// verifica se os campos foram preenchidos
 			Cliente c = new Cliente();
 			DateFormat sdf = new SimpleDateFormat("ddMMyyyy");
 
 			cargaCliente();
-			
+
 			//se não houver cliente na base de dados
 			if( !clientes.isEmpty() ){
 
@@ -662,11 +661,15 @@ public class PrincipalCtrl {
 					c.setId( id );
 					c.setNome( txtCadastroNome.getText() );
 					c.setEmail( txtCadastroEmail.getText() );
-					c.setDocumento( ftxtCadastroDocNum.getText().replace(".","").replace("/","").replace("-","")  );
+					c.setDocumento( ftxtCadastroDocNum.getText()
+							.replace(".","").replace("/","").replace("-","")  );
 					c.setDocTipo( cboCadastroDocTipo.getSelectedItem().toString() );
 					c.setDtNasc( sdf.parse( ftxtCadastroDtNasc.getText().replace("/","") ));
-					c.setTelefone( ftxtCadastroTelefone.getText().replace("(","").replace(")", "").replace(" ","").replace("-","") );
-					c.setCelular( ftxtCadastroCelular.getText().replace("(","").replace(")", "").replace(" ","").replace("-","") );
+					c.setTelefone( ftxtCadastroTelefone.getText()
+							.replace("(","").replace(")", "").replace(" ","").replace("-","") );
+					c.setCelular( ftxtCadastroCelular.getText()
+							.replace("(","").replace(")", "").replace(" ","").replace("-","") );
+					c.setEndereco( txtCadastroEndereco.getText() );
 					c.setBairro( txtCadastroBairro.getText() );
 					c.setCidade( txtCadastroCidade.getText() );
 					c.setEstado( txtCadastroEstado.getText() );
@@ -681,11 +684,9 @@ public class PrincipalCtrl {
 					msg("clienteAtualizar", c.getNome() );
 				} else {
 					msg("erroSenhaDifere", "" );
-					validar = true;
 				}
 			} 
 		}
-		validar = false;
 	}
 
 
@@ -693,19 +694,16 @@ public class PrincipalCtrl {
 
 
 	public void adicionaReserva () throws ParseException{
-		// adiciona uma reserva verificando sua data com um objeto Chale e Cliente
-
-		validaCampo();
 
 		// verifica se os campos foram preenchidos
-		if( validar != false  ){
+		if( validaCampo( "reserva" ) != false ){
 			
 			cargaCliente();
 			cargaChale();
 			cargaReserva();
-			
+
 			Chale ch = new Chale();
-			validar = false;
+			
 			if( !chales.isEmpty() ){
 				if( !reservas.isEmpty() ){
 
@@ -746,24 +744,27 @@ public class PrincipalCtrl {
 			//se não houver cliente na base de dados, cadastra o primeiro parcialmente e o usa na reserva
 			Cliente cl = new Cliente();
 			if( clientes.isEmpty() ){
-				
+
 				cl.setNome( txtReservaNome.getText() );
 				cl.setEmail( txtReservaEmail.getText() );
-				cl.setDocumento( ftxtReservaDocNum.getText().replace(".","").replace("/","").replace("-","")  );
+				cl.setDocumento( ftxtReservaDocNum.getText()
+						.replace(".","").replace("/","").replace("-","")  );
 				cl.setDocTipo( cboReservaDocTipo.getSelectedItem().toString() );
 				cl.setDtNasc( new Date() );
-				cl.setTelefone( ftxtReservaTelefone.getText().replace("(","").replace(")", "").replace(" ","").replace("-","") );
-				cl.setCelular( ftxtReservaCelular.getText().replace("(","").replace(")", "").replace(" ","").replace("-","") );
+				cl.setTelefone( ftxtReservaTelefone.getText()
+						.replace("(","").replace(")", "").replace(" ","").replace("-","") );
+				cl.setCelular( ftxtReservaCelular.getText()
+						.replace("(","").replace(")", "").replace(" ","").replace("-","") );
 				cl.setCidade( txtReservaCidade.getText() );
 				cl.setEstado( txtReservaEstado.getText() );
 				cl.setPais( txtReservaPais.getText() );
 				cl.setDtCadastro( new Date() );
 				cl.setAtivo( false );
 				adicionaCliente( cl );
-				
+
 				//atualiza com o novo cliente
 				cargaCliente();
-				
+
 				//atualiza o logon para um perfil visitante
 				List<Logon> log = new ArrayList<Logon>();
 				Logon l = new Logon();
@@ -774,7 +775,7 @@ public class PrincipalCtrl {
 				l.setDtLogon( new Date() );
 				log.add(l);
 				logon.setLogon( log );
-				
+
 			} else {
 				//se já houver clientes, busca pelo documento do cliente
 				for( int i = 0; i < clientes.size(); i++ ){
@@ -784,8 +785,8 @@ public class PrincipalCtrl {
 					}
 					//ao final da busca, se não encontrar o cliente, o cadastra parcialmente e o usa na reserva
 					if( i == clientes.size()-1 ){
-						if(	validar == false ){
-					
+						if(	validar != true ){
+
 							cl.setId( clientes.size() );
 							cl.setNome( txtReservaNome.getText() );
 							cl.setEmail( txtReservaEmail.getText() );
@@ -803,10 +804,10 @@ public class PrincipalCtrl {
 							cl.setAtivo( false );
 							cl.setDtCadastro( new Date() );
 							adicionaCliente( cl );
-							
+
 							//atualiza com o cliente
 							cargaCliente();
-							
+
 							//atualiza o logon para um perfil visitante
 							List<Logon> log = new ArrayList<Logon>();
 							Logon l = new Logon();
@@ -817,9 +818,9 @@ public class PrincipalCtrl {
 							l.setDtLogon( new Date() );
 							log.add(l);
 							logon.setLogon( log );
-							
+
 						} else {
-							
+
 							//caso o cliente seja encontrado, apenas recupera seus dados para a reserva
 							for( int j = 0; j < clientes.size(); j++ ){
 								if( clientes.get(j).getDocumento().equals( ftxtReservaDocNum.getText()
@@ -840,7 +841,7 @@ public class PrincipalCtrl {
 									cl.setCep( clientes.get(j).getCep() );
 									cl.setDtCadastro( clientes.get(j).getDtCadastro() );
 									cl.setAtivo( clientes.get(j).getAtivo() );
-									
+
 									//atualiza o logon para um perfil visitante
 									List<Logon> log = new ArrayList<Logon>();
 									Logon l = new Logon();
@@ -874,18 +875,18 @@ public class PrincipalCtrl {
 
 			//verifica se a reserva do chale esta disponivel (verifica as datas)
 			if( chaleDisponivel(r) != 0  ) {
-				
+
 				msg("erroChale", (String) cboReservaCategoria.getSelectedItem() );
 			} else {
-				
+
 				adicionaReserva( r );
-				
+
 				if( logon.getSession().get(0).getPerfil() != 2 ){
-					
-				//atualiza o estado do botão Reserva na tela Principal
-				btnReservas.setText( "Reservas ( " + logon.reservaQtd() + " )" );
-				btnReservas.setVisible(true);
-				abrir( "reservas" );
+
+					//atualiza o estado do botão Reserva na tela Principal
+					btnReservas.setText( "Reservas ( " + logon.reservaQtd() + " )" );
+					btnReservas.setVisible(true);
+					abrir( "reservas" );
 				} else {
 					trocaPerfil(2);
 				}
@@ -909,8 +910,8 @@ public class PrincipalCtrl {
 				if((tabela.getValueAt(tabela.getSelectedRow(), 0).toString().replaceFirst("0*", ""))
 						.equals( reservas.get(i).getId().toString() )){
 
-					msg( "reservaCancelar", "nº " + String.format( "%06d", reservas.get(i).getId()) );
-					if (validar != false){
+					if ( msg( "reservaCancelar", "nº " 
+							+ String.format( "%06d", reservas.get(i).getId()) ) != false ){
 						// verifica se a reserva é ativa (paga)
 						if( reservas.get(i).getAtiva() != true ){
 							r.setId(reservas.get(i).getId());
@@ -929,8 +930,7 @@ public class PrincipalCtrl {
 						}
 					} 
 				}
-			}
-			validar = false;	
+			}	
 		}
 	}
 
@@ -940,9 +940,7 @@ public class PrincipalCtrl {
 
 	public void adicionaContato(){
 
-		validaCampo();
-
-		if( validar != false  ){
+		if( validaCampo( "contato" ) != true ){
 			Contato c = new Contato();
 			c.setNome( txtContatoNome.getText() );
 			c.setEmail( txtContatoEmail.getText() );
@@ -963,7 +961,6 @@ public class PrincipalCtrl {
 			txtReservaQtdAdulto.setText(null);
 			txtReservaQtdCrianca.setText(null);
 		}
-		validar = false;
 	}
 
 
@@ -975,17 +972,17 @@ public class PrincipalCtrl {
 		cargaCliente();
 		cargaFuncionario();
 
-		//verifica se o botao está no contexto de login ou sair
+		// verifica se o botao está no contexto de login ou sair
 		if ( btnLogin.getText().equals("Login") ){
 			if ( !funcionarios.isEmpty() || !clientes.isEmpty() ){
-				//verifica se os campos login e senha estão preenchidos
+				// verifica se os campos login e senha estão preenchidos
 				if (!txtLogin.getText().isEmpty() 
 						&& pwdSenha.getPassword().length != 0) {
-					//verifica se um funcionario está se logando
+					// verifica se um funcionario está se logando
 					for (int f = 0; f < funcionarios.size(); f++) {
 						if ( txtLogin.getText().equalsIgnoreCase(funcionarios.get(f).getLogin() )
 								&& validaSenha(funcionarios.get(f).getSenha()) == true ) {
-							//realiza o logon
+							// realiza o logon
 							trocaPerfil(2);
 
 							List<Logon> log = new ArrayList<Logon>();
@@ -1010,11 +1007,11 @@ public class PrincipalCtrl {
 							btnLogin.setText("Sair");
 							//msg("autorizado", funcionarios.get(f).getNome() );
 						} else {
-							//verifica se um cliente está se logando
+							// verifica se um cliente está se logando
 							for (int c = 0; c < clientes.size(); c++) {
 								if (txtLogin.getText().equalsIgnoreCase(clientes.get(c).getLogin())
 										&& validaSenha(clientes.get(c).getSenha()) == true) {
-									//realiza o logon
+									// realiza o logon
 									trocaPerfil(1);
 
 									List<Logon> log = new ArrayList<Logon>();
@@ -1030,7 +1027,7 @@ public class PrincipalCtrl {
 									logon.login();
 
 									validar = true;
-									//prepara as guias
+									// prepara as guias
 									lblMsg.setText( "- Bem vindo, " + clientes.get(c).getNome() );
 									lblLogin.setVisible(false);
 									txtLogin.setVisible(false);
@@ -1038,7 +1035,7 @@ public class PrincipalCtrl {
 									pwdSenha.setVisible(false);
 									btnLogin.setText("Sair");
 									alteraBtnReserva();
-									
+
 									preencheReserva();
 									preencheContato();
 									preencheCadastro();
@@ -1050,7 +1047,7 @@ public class PrincipalCtrl {
 							}
 						}
 					}
-					if (validar == false){
+					if ( validar != true ){
 						msg("erroSenha", txtLogin.getText());
 						senhas();
 						return;
@@ -1060,13 +1057,13 @@ public class PrincipalCtrl {
 					msg("erroVazio", txtLogin.getText());
 					senhas();
 				}
-				validar = false;
 			} else {
 				msg("erroDados", txtLogin.getText());
 				senhas();
 			}
 		} else {
-			//ao se deslogar, prepara a tela para o perfil visitante
+			// ao se deslogar, prepara a tela para o perfil visitante
+			logon.logoff();
 			trocaPerfil(0);
 			btnReservas.setVisible(false);
 			lblMsg.setText(null);
@@ -1081,10 +1078,9 @@ public class PrincipalCtrl {
 			ativaCampo("contato");
 			ativaCampo("cadastro");
 			limpaCampo( "cadastro" );
-			logon.logoff();
 		}
 	}
-	
+
 
 	public void trocaPerfil( int op ){
 		//realiza a troca das guias conforme o perfil
@@ -1099,7 +1095,7 @@ public class PrincipalCtrl {
 			tabContainer.remove( painelAdmPrincipal );
 			tabContainer.remove( painelAdmChale );
 			tabContainer.remove( painelAdmServico );
-			
+
 			tabContainer.add( "Principal", painelPrincipal );
 			tabContainer.add( "Chalés", painelChale );
 			tabContainer.add( "Lazer", painelLazer );
@@ -1119,7 +1115,7 @@ public class PrincipalCtrl {
 			tabContainer.remove( painelAdmPrincipal );
 			tabContainer.remove( painelAdmChale );
 			tabContainer.remove( painelAdmServico );
-			
+
 			tabContainer.add( "Principal", painelClientePrincipal );
 			tabContainer.add( "Reservas", painelReserva );
 			tabContainer.add( "Serviços", painelClienteServico );
@@ -1143,7 +1139,7 @@ public class PrincipalCtrl {
 			tabContainer.remove( painelClientePrincipal );
 			tabContainer.remove( painelClienteServico );
 			tabContainer.remove( painelClienteHistorico );
-			
+
 			tabContainer.add( "Principal", painelAdmPrincipal );
 			tabContainer.add( "Reservas", painelReserva );
 			tabContainer.add( "Chalés", painelAdmChale );
@@ -1179,7 +1175,7 @@ public class PrincipalCtrl {
 		}
 	}
 
-	
+
 	public void preencheReserva(){
 		//Preenche a reserva com os dados do cliente logado e trava os campos
 
@@ -1207,8 +1203,8 @@ public class PrincipalCtrl {
 			}
 		}
 	}
-	
-	
+
+
 	public void preencheContato(){
 		//Preenche o contato com os dados do cliente logado e trava os campos
 
@@ -1233,7 +1229,7 @@ public class PrincipalCtrl {
 			}
 		}
 	}
-	
+
 
 	public void preencheCadastro(){
 		//Preenche o cadastro com os dados do cliente logado e trava os campos
@@ -1247,7 +1243,7 @@ public class PrincipalCtrl {
 						.equals( logon.getSession().get(0).getIdUsuario() )){
 
 					SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyy");
-					
+
 					id = logon.getSession().get(0).getIdUsuario();
 					txtCadastroNome.setText( clientes.get(i).getNome() );
 					ftxtCadastroDocNum.setText( clientes.get(i).getDocumento() );
@@ -1546,15 +1542,15 @@ public class PrincipalCtrl {
 			tabela.getColumnModel().getColumn(8).setPreferredWidth(20);
 			tabela.getColumnModel().getColumn(9).setPreferredWidth(20);
 
-			
+
 			//formata e esconde coluna por tabela
 			switch ( opt){
-			
+
 			case "reserva":
 				tabela.getColumnModel().getColumn(5).setCellRenderer(esquerdo);
 				tabela.getColumnModel().getColumn(5).setPreferredWidth(120);
 				break;
-				
+
 			case "servico":
 				tabela.getColumnModel().getColumn(1).setMinWidth(0);
 				tabela.getColumnModel().getColumn(1).setMaxWidth(0);
@@ -1600,10 +1596,12 @@ public class PrincipalCtrl {
 
 		//aplica os totais no campo correspondente
 		switch ( tabela.getName() ){
+		
 		case "reserva":
 			ftxtQtdReservaChale.setValue( Integer.toString ( tabela.getRowCount() ) );
 			ftxtVlrReservaChale.setValue( total );
 			break;
+			
 		case "servico":
 			ftxtQtdReservaServico.setValue( Integer.toString ( tabela.getRowCount() ) );
 			ftxtVlrReservaServico.setValue( total );
@@ -1634,6 +1632,7 @@ public class PrincipalCtrl {
 		int numero = gerador.nextInt(4);
 
 		switch ( guiaAtiva ){
+		
 		case 0:
 			imagem = new ImageIcon( diretorio + "/imagens/externa" + numero + ".jpg" );
 			lblPrincipalImg.setIcon( new ImageIcon( 
@@ -1646,6 +1645,7 @@ public class PrincipalCtrl {
 				logon.getSession().get(0).setTela( janela.getName() + " : " + tabContainer.getTitleAt(0) );
 
 			break;
+			
 		case 1:
 			imagem = new ImageIcon( diretorio + "/imagens/chale" + numero + ".jpg" );
 			lblChaleImg.setIcon( new ImageIcon( 
@@ -1658,6 +1658,7 @@ public class PrincipalCtrl {
 				logon.getSession().get(0).setTela( janela.getName() + " : " + tabContainer.getTitleAt(1) );
 
 			break;
+			
 		case 2:
 			imagem = new ImageIcon( diretorio + "/imagens/lazer" + numero + ".jpg" );
 			lblLazerImg.setIcon( new ImageIcon( 
@@ -1670,6 +1671,7 @@ public class PrincipalCtrl {
 				logon.getSession().get(0).setTela( janela.getName() + " : " + tabContainer.getTitleAt(2) );
 
 			break;
+			
 		case 3:
 			imagem = new ImageIcon( diretorio + "/imagens/servico" + numero + ".jpg" );
 			lblServicoImg.setIcon( new ImageIcon( 
@@ -1681,10 +1683,12 @@ public class PrincipalCtrl {
 			if( !logon.getSession().isEmpty() )
 				logon.getSession().get(0).setTela( janela.getName() + " : " + tabContainer.getTitleAt(3) );
 			break;
+			
 		case 4:
 			if( !logon.getSession().isEmpty() )
 				logon.getSession().get(0).setTela( janela.getName() + " : " + tabContainer.getTitleAt(4) );
 			break;
+			
 		case 5:
 			if( !logon.getSession().isEmpty() )
 				logon.getSession().get(0).setTela( janela.getName() + " : " + tabContainer.getTitleAt(5) );
@@ -1740,12 +1744,12 @@ public class PrincipalCtrl {
 		case "contato":
 			painelAtivo = painelContato.getComponents();
 			break;
-			
+
 		case "cadastro":
 			painelAtivo = painelCadastro.getComponents();
 			break;
 		}
-		
+
 		for ( Component c : painelAtivo ) {
 			if ( c instanceof JTextField ) {
 				JTextField l = ( JTextField )c;
@@ -1773,6 +1777,7 @@ public class PrincipalCtrl {
 		}
 	}
 	
+
 	public void ativaCampo( String guia ){
 		// ativa os campos para edição
 
@@ -1783,11 +1788,11 @@ public class PrincipalCtrl {
 		case "reserva":
 			painel = painelReserva.getComponents();
 			break;
-			
+
 		case "contato":
 			painel = painelContato.getComponents();
 			break;
-		
+
 		case "cadastro":
 			painel = painelCadastro.getComponents();
 			break;
@@ -1844,11 +1849,11 @@ public class PrincipalCtrl {
 			case "reserva":
 				painel = painelReserva.getComponents();
 				break;
-				
+
 			case "contato":
 				painel = painelContato.getComponents();
 				break;
-				
+
 			case "cadastro":
 				painel = painelCadastro.getComponents();
 				break;
@@ -1904,26 +1909,25 @@ public class PrincipalCtrl {
 	}
 
 
-	public void validaCampo(){
+	public boolean validaCampo( String guia ){
 		// valida todos os campos da tela se foram preenchidos
 
 		boolean vazio = false;
 		String campo = null;
-		Integer guiaAtiva = tabContainer.getSelectedIndex();
 		Component[] painelAtivo = null;
 
-		switch ( guiaAtiva ){
-		
-		case 1: //perfil funcionario
-			painelAtivo = painelReserva.getComponents();
-			break;
-			
-		case 4:
+		switch ( guia ){
+
+		case "reserva":
 			painelAtivo = painelReserva.getComponents();
 			break;
 
-		case 5:
+		case "contato":
 			painelAtivo = painelContato.getComponents();
+			break;
+
+		case "cadastro":
+			painelAtivo = painelCadastro.getComponents();
 			break;
 		}
 
@@ -1980,21 +1984,20 @@ public class PrincipalCtrl {
 			}
 		}
 		if ( vazio == true ){
-			msg( "erroCampo", campo );
-			validar = false;
-			return;
+			return msg( "erroCampo", campo );
+
 		} else {
-			validar = true;
-			if( guiaAtiva == 4 ){
-				validaData( ftxtReservaDtInicio, ftxtReservaDtFim );
+			if( guia == "reserva" ){
+				return validaData( ftxtReservaDtInicio, ftxtReservaDtFim );
 			}
 		}
+		return true;
 	}
 
 
-	public void validaData( JFormattedTextField dtInicio, JFormattedTextField dtFim ){
+	public boolean validaData( JFormattedTextField dtInicio, JFormattedTextField dtFim ){
 		//valida entre as datas inicio e final da reserva
-
+		
 		Date inicio = null;
 		Date fim = null;
 		Date atual = null;
@@ -2018,32 +2021,26 @@ public class PrincipalCtrl {
 		//verifica se a data inicial é inferior à data atual do sistema
 		if( !inicio.equals( atual ) ){
 			if ( !inicio.after( atual )){
-				msg("erroDataInicial","");
 				dtInicio.setText(null);
 				dtInicio.requestFocus();
-				validar = false;
-				return;
+				return msg("erroDataInicial","");
+
 				//após corrigir data inicial, verifica se a data final é anterior à inicial
 			} else if( fim.before(inicio) ){
-				msg("erroDataFinal","");
 				dtFim.setText(null);
 				dtFim.requestFocus();
-				validar = false;
-				return;
+				return msg("erroDataFinal","");
 			}
 		} else if( fim.before(inicio) ){
 			//verifica se a data final é anterior à inicial
-			msg("erroDataFinal","");
 			dtFim.setText(null);
 			dtFim.requestFocus();
-			validar = false;
-			return;
-		} else {
-			validar = true;
-		}
+			return msg("erroDataFinal","");
+		} 
+		return true;
 	}
-	
-	
+
+
 	public void trocaMascara( String guia ){
 		//troca a mascara usada no campo conforme a seleção na combbox
 
@@ -2073,7 +2070,7 @@ public class PrincipalCtrl {
 			combo = cboCadastroDocTipo.getSelectedItem().toString();
 			break;
 		}
-		
+
 		switch( combo ){
 
 		case "CPF":
@@ -2105,7 +2102,7 @@ public class PrincipalCtrl {
 
 				if( guia == "cadastro")
 					ftxtCadastroDocNum.setFormatterFactory(new DefaultFormatterFactory( cnpj ));
-				
+
 			} catch (ParseException e1) {
 				msg("", "ERRO " + e1.getCause() 
 						+ "\n\nLocal: Principaltrl >  acionar() > mascara do CPF"  
@@ -2118,13 +2115,13 @@ public class PrincipalCtrl {
 			try {
 				MaskFormatter rg = new MaskFormatter("##.###.###-##");
 				rg.setPlaceholderCharacter(' ');
-				
+
 				if( guia == "reserva")
 					ftxtReservaDocNum.setFormatterFactory(new DefaultFormatterFactory( rg ));
-				
+
 				if( guia == "cadastro")
-				ftxtCadastroDocNum.setFormatterFactory(new DefaultFormatterFactory( rg ));
-				
+					ftxtCadastroDocNum.setFormatterFactory(new DefaultFormatterFactory( rg ));
+
 			} catch (ParseException e1) {
 				msg("", "ERRO " + e1.getCause() 
 						+ "\n\nLocal: Principaltrl >  acionar() > mascara do CPF"  
@@ -2137,13 +2134,13 @@ public class PrincipalCtrl {
 			try {
 				MaskFormatter cnh = new MaskFormatter("##.###.###.###");
 				cnh.setPlaceholderCharacter(' ');
-				
+
 				if( guia == "reserva")
 					ftxtReservaDocNum.setFormatterFactory(new DefaultFormatterFactory( cnh ));
-				
+
 				if( guia == "cadastro")
-				ftxtCadastroDocNum.setFormatterFactory(new DefaultFormatterFactory( cnh ));
-				
+					ftxtCadastroDocNum.setFormatterFactory(new DefaultFormatterFactory( cnh ));
+
 			} catch (ParseException e1) {
 				msg("", "ERRO " + e1.getCause() 
 						+ "\n\nLocal: Principaltrl >  acionar() > mascara do CPF"  
@@ -2152,7 +2149,7 @@ public class PrincipalCtrl {
 			}
 			break;
 		}
-		
+
 		switch( guia ){
 
 		case "reserva":
@@ -2226,7 +2223,7 @@ public class PrincipalCtrl {
 				msg( "construir", "" );
 			}
 			if( source == btnReservas ){
-				
+
 				abrir("reservas");
 			}
 			if( source == btnReservaEnviar ){
@@ -2280,21 +2277,20 @@ public class PrincipalCtrl {
 					btnCadastroExcluir.setEnabled(true);
 					ativaCampo("cadastro");
 				} else {
-					try {
-						alteraCliente();
-					} catch (ParseException e1) {
-						msg("", "ERRO " + e1.getCause() 
-								+ "\n\nLocal: Principaltrl >  acionar() : alteraCliente()"  
-								+ "\n\nMensagem:\n" + e1.getMessage() );
-						//e1.printStackTrace();
-					}
-					if( validar != true ){
+					if( validaCampo( "cadastro" ) != true ){
+						try {
+							alteraCliente();
+						} catch (ParseException e1) {
+							msg("", "ERRO " + e1.getCause() 
+									+ "\n\nLocal: Principaltrl >  acionar() : alteraCliente()"  
+									+ "\n\nMensagem:\n" + e1.getMessage() );
+							//e1.printStackTrace();
+						}
 						btnCadastroEditar.setText("Editar");
 						btnCadastroLimpar.setEnabled(false);
 						btnCadastroExcluir.setEnabled(false);
 						desativaCampo("cadastro");
 					}
-					validar = false;
 				}
 			}
 		}
@@ -2501,7 +2497,7 @@ public class PrincipalCtrl {
 	// MENSAGENS //////////////////////////////
 
 
-	public void msg( String tipo, String mensagem ) {
+	public boolean msg( String tipo, String mensagem ) {
 
 		switch ( tipo ) {
 
@@ -2512,8 +2508,7 @@ public class PrincipalCtrl {
 					"Mensagem Recebida", 
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon( diretorio + "/icons/email.png" ));
-			validar = true;
-			break;
+			return true;
 
 		case "erroChale":
 			JOptionPane.showMessageDialog(null, 
@@ -2522,7 +2517,7 @@ public class PrincipalCtrl {
 					"Atenção", 
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon( diretorio + "/icons/info.png" ));
-			break;
+			return false;
 
 		case "erroCampo":
 			JOptionPane.showMessageDialog(null, 
@@ -2531,7 +2526,7 @@ public class PrincipalCtrl {
 							"Erro", 
 							JOptionPane.PLAIN_MESSAGE,
 							new ImageIcon( diretorio + "/icons/write.png" ));
-			break;
+			return false;
 
 		case "erroSelecao":
 			JOptionPane.showMessageDialog(null, 
@@ -2539,7 +2534,7 @@ public class PrincipalCtrl {
 							+ "Por favor, selecione uma categoria.", 
 							"Erro", JOptionPane.PLAIN_MESSAGE,
 							new ImageIcon( diretorio + "/icons/error.png" ));
-			break;
+			return false;
 
 		case "erroDataInicial":
 			JOptionPane.showMessageDialog(null, 
@@ -2547,7 +2542,7 @@ public class PrincipalCtrl {
 							+ "Por favor, digite uma data de Chegada\nigual ou superior à data de atual.", 
 							"Erro", JOptionPane.PLAIN_MESSAGE,
 							new ImageIcon( diretorio + "/icons/error.png" ));
-			break;
+			return false;
 
 		case "erroDataFinal":
 			JOptionPane.showMessageDialog(null, 
@@ -2555,7 +2550,7 @@ public class PrincipalCtrl {
 							+ "Por favor, digite uma data de Chegada\nanterior ou igual à data de Partida.", 
 							"Erro", JOptionPane.PLAIN_MESSAGE,
 							new ImageIcon( diretorio + "/icons/error.png" ));
-			break;
+			return false;
 
 		case "autorizado":
 			JOptionPane.showMessageDialog(null, 
@@ -2565,7 +2560,7 @@ public class PrincipalCtrl {
 					"Acesso", 
 					JOptionPane.PLAIN_MESSAGE, 
 					new ImageIcon( diretorio + "/icons/user.png" ));
-			break;
+			return true;
 
 		case "erroVazio":
 			JOptionPane.showMessageDialog(null, 
@@ -2573,7 +2568,7 @@ public class PrincipalCtrl {
 					"Erro", 
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon( diretorio + "/icons/error.png" ));
-			break;
+			return false;
 
 		case "erroSenha":
 			JOptionPane.showMessageDialog(null, 
@@ -2582,8 +2577,8 @@ public class PrincipalCtrl {
 							"Erro", 
 							JOptionPane.PLAIN_MESSAGE, 
 							new ImageIcon( diretorio + "/icons/error.png" ));
-			break;
-			
+			return false;
+
 		case "erroSenhaDifere":
 			JOptionPane.showMessageDialog(null, 
 					"CAMPOS SENHA DIFEREM.\n\nA senha e a sua confirmação estão diferentes!\n"
@@ -2591,25 +2586,25 @@ public class PrincipalCtrl {
 							"Erro", 
 							JOptionPane.PLAIN_MESSAGE, 
 							new ImageIcon( diretorio + "/icons/error.png" ));
-			break;
-			
+			return false;
+
 		case "erroLinha":
 			JOptionPane.showMessageDialog(null, 
 					"Por favor, selecione uma Reserva para cancelar.", 
 					"Reserva não selecionada", 
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon( diretorio + "/icons/error.png" ));
-			break;
-			
+			return false;
+
 		case "clienteAtualizar":
 			JOptionPane.showMessageDialog(null, 
 					"Feito! A atualização do cadastro de " + mensagem 
-					+ " foi realizado com sucesso.\n\nDúvidas, elogios e sugestões "
+					+ " \nfoi realizado com sucesso.\n\nDúvidas, elogios e sugestões "
 					+ "\npodem ser enviadas através da guia Contato.", 
 					"Cadastro Atualizado", 
 					JOptionPane.PLAIN_MESSAGE, 
 					new ImageIcon( diretorio + "/icons/user.png" ));
-			break;
+			return true;
 
 		case "reservaCancelar":
 			int retirar = JOptionPane.showOptionDialog(null, 
@@ -2619,17 +2614,17 @@ public class PrincipalCtrl {
 					new ImageIcon( diretorio + "/icons/alert.png" ), 
 					new String[]{"Excluir", "Editar","Cancelar"}, "Cancelar");
 			if(retirar == JOptionPane.YES_OPTION) {
-				validar = true;
+				return true;
 			}
 			else if(retirar == JOptionPane.NO_OPTION) {
 				msg( "construir", "" );
-				validar = false;
+				return false;
 			}
 			else if(retirar == JOptionPane.CANCEL_OPTION) {
-				validar = false;
+				return false;
 			}
 			break;
-			
+
 		case "reservaAtiva":
 			JOptionPane.showMessageDialog(null, 
 					"A Reserva " + mensagem 
@@ -2638,7 +2633,7 @@ public class PrincipalCtrl {
 					"Reserva Ativa", 
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon( diretorio + "/icons/alert.png" ));
-			break;
+			return false;
 
 		case "construir":
 			JOptionPane.showMessageDialog(null, 
@@ -2656,12 +2651,8 @@ public class PrincipalCtrl {
 					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
 					new ImageIcon( diretorio + "/icons/alert.png" ), exit, exit[1] );
 			if ( fechar == 0 ) {
-				validar = true;
-			} else {
-				validar = false;
-			}
-			if(validar == true){
 				System.exit(0);
+				return true;
 			}
 			break;
 
@@ -2673,5 +2664,7 @@ public class PrincipalCtrl {
 							JOptionPane.PLAIN_MESSAGE,
 							new ImageIcon( diretorio + "/icons/error.png"));
 		}
+
+		return false;
 	}
 }

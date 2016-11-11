@@ -48,7 +48,6 @@ public class ReservaCtrl {
 	private JButton btnVoltar;
 	private String diretorio = "../Pousada/resources/";
 	private LogonCtrl logon = LogonCtrl.getInstance();
-	private static boolean validar;
 	private List<Reserva>reservas;
 
 	public ReservaCtrl(
@@ -157,14 +156,13 @@ public class ReservaCtrl {
 				// limpa a mascara no numero da reserva
 				if((tabela.getValueAt(tabela.getSelectedRow(), 0).toString().replaceFirst("0*", ""))
 						.equals( reservas.get(i).getId().toString() )){		
-					msg( "cancelar", "nº " + String.format( "%06d", reservas.get(i).getId()) );
-					if (validar != false){
+					if ( msg( "cancelar", "nº " + String.format( "%06d", reservas.get(i).getId()) )){
 						r.setId(reservas.get(i).getId());
 						excluir( r );
 						cargaReserva();
 
 						// atualiza o estado do botão Reserva na tela Principal
-						if ( !reservas.isEmpty()) {
+						if ( logon.reservaQtd() != 0) {
 							PrincipalCtrl.btnReservas.setText( "Reservas ( " + logon.reservaQtd() + " )" );
 							PrincipalCtrl.btnReservas.setVisible(true);
 						} else {
@@ -180,8 +178,7 @@ public class ReservaCtrl {
 						atualizaValor();
 					} 
 				}
-			}
-			validar = false;	
+			}	
 		}
 	}
 
@@ -302,8 +299,8 @@ public class ReservaCtrl {
 	}
 
 	public void sair(){
-		msg("sistema","Fechamento");
-		if(validar == true){
+		
+		if( !msg("sistema","Fechamento") ){
 			System.exit(0);
 		}
 	}
@@ -321,8 +318,7 @@ public class ReservaCtrl {
 			if(source == btnLimpar){
 				
 				if( reservas.size() > 0 ){
-					msg("limpar","");
-					if ( validar != false ){
+					if ( msg("limpar","") ){
 						Reserva r = new Reserva();
 						for( int i = 0; i < reservas.size(); i++ ){
 							if( reservas.get(i).getCliente().getId()
@@ -339,7 +335,6 @@ public class ReservaCtrl {
 						PrincipalCtrl.btnReservas.setVisible(false);
 						msg("sucesso","");
 					}
-					validar = true;
 				}
 			}
 
@@ -432,14 +427,15 @@ public class ReservaCtrl {
 	// MENSAGENS //////////////////////////////
 
 	
-	public void msg( String tipo, String mensagem ) {
+	public boolean msg( String tipo, String mensagem ) {
+		
 		janela.setAlwaysOnTop ( false );
 
 		switch ( tipo ) {
 
 		case "sucesso":
 			JOptionPane.showMessageDialog(null, 
-					"CANCELADO!\nReserva(s) " + mensagem + " cancelada(s).", 
+					"Reserva(s) " + mensagem + " cancelada(s).", 
 					"Cancelamento Efetuado", 
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon( diretorio + "/icons/confirm.png" ));
@@ -448,16 +444,15 @@ public class ReservaCtrl {
 		case "cancelar":
 			Object[] opt = { "Confirmar", "Cancelar" };
 			int retirar = JOptionPane.showOptionDialog(null, 
-					"ATENÇÃO!\nDeseja cancelar a Reserva " + mensagem + "?",
+					"Deseja cancelar a Reserva " + mensagem + "?",
 					"Cancelar Reserva", 
 					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
 					new ImageIcon( diretorio + "/icons/alert.png" ), opt, opt[1]);
 			if (retirar == 0) {
-				validar = true;
+				return true;
 			} else {
-				validar = false;
+				return false;
 			}
-			break;
 			
 		case "limpar":
 			Object[] l = { "Confirmar", "Cancelar" };
@@ -467,11 +462,10 @@ public class ReservaCtrl {
 					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
 					new ImageIcon( diretorio + "/icons/alert.png" ), l, l[1]);
 			if (limpar == 0) {
-				validar = true;
+				return true;
 			} else {
-				validar = false;
+				return false;
 			}
-			break;
 			
 		case "erroLinha":
 			JOptionPane.showMessageDialog(null, 
@@ -497,14 +491,11 @@ public class ReservaCtrl {
 					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
 					new ImageIcon( diretorio + "/icons/warning.png" ), exit, exit[1] );
 			if ( fechar == 0 ) {
-				validar = true;
-			} else {
-				validar = false;
-			}
-			if(validar == true){
 				System.exit(0);
+				return true;
+			} else {
+				return false;
 			}
-			break;
 
 		default:
 			JOptionPane.showMessageDialog(null, 
@@ -514,8 +505,10 @@ public class ReservaCtrl {
 							"Erro no Controller " + this, 
 							JOptionPane.PLAIN_MESSAGE,
 							new ImageIcon( diretorio + "/icons/error.png"));;
-							return;
+							return false;
 		}
 		janela.setAlwaysOnTop ( true );
+		
+		return false;
 	}
 }

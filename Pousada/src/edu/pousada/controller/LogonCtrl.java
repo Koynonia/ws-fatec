@@ -42,7 +42,6 @@ import edu.pousada.entity.Reserva;
 public class LogonCtrl {
 
 	private String diretorio = "../Pousada/resources/";
-	private boolean validar;
 	private static LogonCtrl instance;
 	private List<Logon> logon;
 	private List<Reserva> reservas;
@@ -145,7 +144,7 @@ public class LogonCtrl {
 			//e.printStackTrace();
 		}
 	}
-	
+
 
 	// verifica se um usuario fechou a janela sem se deslogar
 	// pode recuperar a sessão ou não
@@ -197,7 +196,7 @@ public class LogonCtrl {
 
 				if( logons.get(i).getPerfil().equals( logon.get(0).getPerfil() ) 
 						&& logons.get(i).getIdUsuario().equals( logon.get(0).getIdUsuario() )){
-					
+
 					l.setId( logons.get(i).getId() );
 					l.setIdUsuario( logon.get(0).getIdUsuario() );
 					l.setPerfil( logon.get(0).getPerfil() );
@@ -210,7 +209,7 @@ public class LogonCtrl {
 					return;
 
 				} else if( i+1 == logons.size() ){
-					
+
 					l.setIdUsuario( logon.get(0).getIdUsuario() );
 					l.setPerfil( logon.get(0).getPerfil() );
 					l.setTela( logon.get(0).getTela() );
@@ -262,7 +261,7 @@ public class LogonCtrl {
 		getSession().clear();
 	}
 
-	
+
 	public Integer reservaQtd() {
 
 		reservas.clear(); //limpa a lista das Reservas
@@ -279,42 +278,54 @@ public class LogonCtrl {
 		}
 		return qtd;
 	}
-	
-	
+
+
 	public void excluiReservas (){
 
+		int count = 0;
 		cargaReserva();
 
 		if( !reservas.isEmpty() ){
 
 			// se for um funcionario não exclui as reservas não confirmadas
 			if ( logon.get(0).getPerfil() != 2 ){
-				for( int i = 0; i< reservas.size(); i++ ){
-					if( reservas.get(i).getCliente().getId()
+
+				// verifica se o cliente posssui reservas não confirmadas
+				for( int c = 0; c < reservas.size(); c++ ){
+
+					if( reservas.get(c).getCliente().getId()
 							.equals( logon.get(0).getIdUsuario() ) 
-							&& reservas.get(i).getAtiva() != true ){
-						msg("excluirReservas", "" + reservas.size() );
-						if( validar != false ){
-							ReservaDAO dao = new ReservaDAOImpl();
-							Reserva r = new Reserva();
-							r.setId( reservas.get(i).getId() );
-							try {
-								dao.excluir( r );
-							} catch (SQLException e) {
-								msg("", "ERRO SQL " + e.getSQLState() 
-										+ "\n\nLocal:\nLogonCtrl >  excluiReservas()."  
-										+ "\n\nMensagem:\n" + e.getMessage() );
-								//e.printStackTrace();
+							&& reservas.get(c).getAtiva() != true ){					
+						count++;
+					}
+				}
+				if( count > 0){
+					if( !msg( "excluirReservas", "" + reservas.size() )){
+						for( int i = 0; i < reservas.size(); i++ ){
+							if( reservas.get(i).getCliente().getId()
+									.equals( logon.get(0).getIdUsuario() ) 
+									&& reservas.get(i).getAtiva() != true ){
+								ReservaDAO dao = new ReservaDAOImpl();
+								Reserva r = new Reserva();
+								r.setId( reservas.get(i).getId() );
+								try {
+									dao.excluir( r );
+								} catch (SQLException e) {
+									msg("", "ERRO SQL " + e.getSQLState() 
+											+ "\n\nLocal:\nLogonCtrl >  excluiReservas()."  
+											+ "\n\nMensagem:\n" + e.getMessage() );
+									//e.printStackTrace();
+								}
+								PrincipalCtrl.btnReservas.setText( "Reservas");
+								PrincipalCtrl.btnReservas.setVisible(false);
 							}
-							PrincipalCtrl.btnReservas.setText( "Reservas");
-							PrincipalCtrl.btnReservas.setVisible(false);
 						}
 					}
 				}
 			}
 		}
 	}
-	
+
 
 	// METODOS DE SUPORTE //////////////////////
 
@@ -439,7 +450,7 @@ public class LogonCtrl {
 
 	// MENSAGENS //////////////////////////////
 
-	public void msg(String tipo, String mensagem) {
+	public boolean msg( String tipo, String mensagem ) {
 
 		switch (tipo) {
 
@@ -450,12 +461,11 @@ public class LogonCtrl {
 					"Atenção", 
 					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
 					new ImageIcon( diretorio + "/icons/trash.png" ), excluir, excluir[1] );
-			if ( fechar == 0 ) {
-				validar = true;
+			if ( fechar != 0 ) {
+				return true;
 			} else {
-				validar = false;
+				return false;
 			}
-			break;
 
 		case "errorsession":
 			JOptionPane.showMessageDialog(null, 
@@ -471,5 +481,6 @@ public class LogonCtrl {
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon( diretorio + "/icons/error.png"));
 		}
+		return false;
 	}
 }
