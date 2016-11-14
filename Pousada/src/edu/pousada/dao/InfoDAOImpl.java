@@ -40,19 +40,19 @@ public class InfoDAOImpl implements InfoDAO {
 	 */
 
 	@Override
-	public void adicionar(Info p) throws SQLException {
+	public void adicionar(Info i) throws SQLException {
 	}
 
 	@Override
-	public void alterar(Info p) throws SQLException {	
+	public void alterar(Info i) throws SQLException {	
 	}
 
 	@Override
-	public void excluir(Info p) throws SQLException {
+	public void excluir(Info i) throws SQLException {
 	}
 
 	@Override
-	public Info consultar(Info p) throws SQLException {
+	public Info consultar(Info i) throws SQLException {
 		return null;
 	}
 	

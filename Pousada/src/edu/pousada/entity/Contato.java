@@ -12,6 +12,7 @@ import java.util.Date;
 public class Contato {
 
 	private Integer id;
+	private Boolean lida;
 	private String nome;
 	private String email;
 	private String telefone;
@@ -28,6 +29,12 @@ public class Contato {
 	}
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	public boolean getLida() {
+		return lida;
+	}
+	public void setLida(boolean lida) {
+		this.lida = lida;
 	}
 	public String getNome() {
 		return nome;

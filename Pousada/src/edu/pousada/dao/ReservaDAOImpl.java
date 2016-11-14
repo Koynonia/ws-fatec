@@ -39,27 +39,27 @@ public class ReservaDAOImpl implements ReservaDAO{
 	 */
 
 	@Override 
-	public void adicionar(Reserva r) throws SQLException {
+	public void adicionar(Reserva obj) throws SQLException {
 
 		String sql = "INSERT INTO reserva VALUES (NULL,?,?,?,?,?,?,?,?,?,?)";
 
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt(1, r.getCliente().getId());
-		ps.setInt(2, r.getChale().getId());
-		ps.setInt(3, r.getQtdAdulto());
-		ps.setInt(4, r.getQtdCrianca());
-		ps.setDate(5, new java.sql.Date( r.getDtInicio().getTime() ));
-		ps.setDate(6, new java.sql.Date( r.getDtFim().getTime() ));
-		ps.setString(7, r.getMensagem());
-		ps.setInt(8, r.getDesconto());
-		ps.setBoolean(9, r.getAtiva() );
-		ps.setDate(10, new java.sql.Date( r.getDtCadastro().getTime() ));
+		ps.setInt(1, obj.getCliente().getId());
+		ps.setInt(2, obj.getChale().getId());
+		ps.setInt(3, obj.getQtdAdulto());
+		ps.setInt(4, obj.getQtdCrianca());
+		ps.setDate(5, new java.sql.Date( obj.getDtInicio().getTime() ));
+		ps.setDate(6, new java.sql.Date( obj.getDtFim().getTime() ));
+		ps.setString(7, obj.getMensagem());
+		ps.setInt(8, obj.getDesconto());
+		ps.setBoolean(9, obj.getAtiva() );
+		ps.setDate(10, new java.sql.Date( obj.getDtCadastro().getTime() ));
 		ps.execute();
 		ps.close();
 	}
 
 	@Override
-	public void alterar(Reserva r) throws SQLException {
+	public void alterar(Reserva obj) throws SQLException {
 
 		String sql =  "UPDATE reserva SET "
 				+ "cliente = ?, "
@@ -74,27 +74,27 @@ public class ReservaDAOImpl implements ReservaDAO{
 				+ "WHERE id = ?";
 
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt(1, r.getCliente().getId());
-		ps.setInt(2, r.getChale().getId());
-		ps.setInt(3, r.getQtdAdulto());
-		ps.setInt(4, r.getQtdCrianca());
-		ps.setDate(5, new java.sql.Date( r.getDtInicio().getTime() ));
-		ps.setDate(6, new java.sql.Date( r.getDtFim().getTime() ));
-		ps.setString(7, r.getMensagem());
-		ps.setInt(8, r.getDesconto());
-		ps.setBoolean(9, r.getAtiva() );
-		ps.setInt(10, r.getId());
+		ps.setInt(1, obj.getCliente().getId());
+		ps.setInt(2, obj.getChale().getId());
+		ps.setInt(3, obj.getQtdAdulto());
+		ps.setInt(4, obj.getQtdCrianca());
+		ps.setDate(5, new java.sql.Date( obj.getDtInicio().getTime() ));
+		ps.setDate(6, new java.sql.Date( obj.getDtFim().getTime() ));
+		ps.setString(7, obj.getMensagem());
+		ps.setInt(8, obj.getDesconto());
+		ps.setBoolean(9, obj.getAtiva() );
+		ps.setInt(10, obj.getId());
 		ps.execute();
 		ps.close();
 	}
 
 	@Override
-	public void excluir(Reserva r) throws SQLException {
+	public void excluir(Reserva obj) throws SQLException {
 
 		String sql = "DELETE FROM reserva WHERE id = ?";
 
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt( 1, r.getId() );
+		ps.setInt( 1, obj.getId() );
 		ps.execute();
 		ps.close();
 
@@ -102,29 +102,29 @@ public class ReservaDAOImpl implements ReservaDAO{
 	}
 
 	@Override
-	public Reserva consultar(Reserva r) throws SQLException {
+	public Reserva consultar(Reserva obj) throws SQLException {
 
 		String sql = "SELECT * FROM reserva WHERE id = ?";
 
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt( 1, r.getId() );
+		ps.setInt( 1, obj.getId() );
 		ResultSet rs = ps.executeQuery();
 		if(rs.next()){
-			r.setId(rs.getInt("id"));
-			r.setCliente( cliente( rs.getInt("cliente") ));
-			r.setChale( chale( rs.getInt("chale") ));
-			r.setQtdAdulto(rs.getInt("qtdAdulto"));
-			r.setQtdCrianca(rs.getInt("qtdCrianca"));
-			r.setDtInicio(rs.getDate("dtInicio"));
-			r.setDtFim(rs.getDate("dtFim"));
-			r.setMensagem(rs.getString("mensagem"));
-			r.setDesconto(rs.getInt("desconto"));
-			r.setAtiva(rs.getBoolean("ativa"));
-			r.setDtCadastro(rs.getDate("dtCadastro"));
+			obj.setId(rs.getInt("id"));
+			obj.setCliente( cliente( rs.getInt("cliente") ));
+			obj.setChale( chale( rs.getInt("chale") ));
+			obj.setQtdAdulto(rs.getInt("qtdAdulto"));
+			obj.setQtdCrianca(rs.getInt("qtdCrianca"));
+			obj.setDtInicio(rs.getDate("dtInicio"));
+			obj.setDtFim(rs.getDate("dtFim"));
+			obj.setMensagem(rs.getString("mensagem"));
+			obj.setDesconto(rs.getInt("desconto"));
+			obj.setAtiva(rs.getBoolean("ativa"));
+			obj.setDtCadastro(rs.getDate("dtCadastro"));
 		}
 		rs.close();
 		ps.close();
-		return r;
+		return obj;
 	}
 
 	@Override
@@ -156,6 +156,7 @@ public class ReservaDAOImpl implements ReservaDAO{
 		return lista;
 	}
 
+	
 	public Cliente cliente(Integer id) throws SQLException {
 
 		String sql = "SELECT * FROM cliente AS cl "
@@ -256,27 +257,5 @@ public class ReservaDAOImpl implements ReservaDAO{
 		ps.close();
 		
 		return count;	
-	}
-
-	//Função que verifica se Chalé está disponivel naquela data
-	public int chaleDisponivelPelaData( Reserva r ) throws SQLException{
-		
-		int disponivel = 0;
-		
-		String sql = "SELECT fn_reserva2(?, ?, ?) AS disponivel";
-		
-		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt( 1, r.getChale().getId() );
-		ps.setDate( 2, new java.sql.Date ( r.getDtInicio().getTime() ));
-		ps.setDate( 3, new java.sql.Date ( r.getDtFim().getTime() ));
-		ResultSet rs = ps.executeQuery();	
-
-		if( rs.next() ){
-			disponivel = rs.getInt("disponivel");
-		}
-		rs.close();
-		ps.close();
-		
-		return disponivel;
 	}
 }

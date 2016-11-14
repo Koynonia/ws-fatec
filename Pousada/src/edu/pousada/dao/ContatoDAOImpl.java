@@ -21,6 +21,7 @@ public class ContatoDAOImpl implements ContatoDAO {
 	/**
 	 * CREATE TABLE contato(
 	 * id INT AUTO_INCREMENT PRIMARY KEY,
+	 * lida BOOLEAN NOT NULL,
 	 * nome VARCHAR(100) NOT NULL,
 	 * email VARCHAR(30) NOT NULL,
 	 * telefone VARCHAR(11) NOT NULL,
@@ -37,90 +38,94 @@ public class ContatoDAOImpl implements ContatoDAO {
 	private Connection con = DBUtil.getInstance().getConnection();
 
 	@Override
-	public void adicionar(Contato c) throws SQLException {
+	public void adicionar(Contato obj) throws SQLException {
 		
-		String sql = "INSERT INTO contato VALUES (NULL,?,?,?,?,?,?,?,?,?)";
+		String sql = "INSERT INTO contato VALUES (NULL,?,?,?,?,?,?,?,?,?,?)";
 		
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setString(1, c.getNome());
-		ps.setString(2, c.getEmail());
-		ps.setString(3, c.getTelefone());
-		ps.setString(4, c.getCidade());
-		ps.setString(5, c.getEstado());
-		ps.setString(6, c.getPais());
-		ps.setInt(7, c.getAssunto());
-		ps.setString(8, c.getMensagem());
-		ps.setDate(9, new java.sql.Date( c.getDtCadastro().getTime() ));
+		ps.setBoolean(1, obj.getLida());
+		ps.setString(2, obj.getNome());
+		ps.setString(3, obj.getEmail());
+		ps.setString(4, obj.getTelefone());
+		ps.setString(5, obj.getCidade());
+		ps.setString(6, obj.getEstado());
+		ps.setString(7, obj.getPais());
+		ps.setInt(8, obj.getAssunto());
+		ps.setString(9, obj.getMensagem());
+		ps.setDate(10, new java.sql.Date( obj.getDtCadastro().getTime() ));
 		ps.execute();
 		ps.close();
 	}
 
 	@Override
-	public void alterar(Contato c) throws SQLException {
+	public void alterar(Contato obj) throws SQLException {
 		
 		String sql = "UPDATE contato SET "
+				+ "lida = ?, "
 				+ "nome = ?, "
 				+ "email = ?, "
 				+ "telefone = ?, "
 				+ "cidade = ?, "
 				+ "estado = ?, "
 				+ "pais = ?, "
-				+ "assunto = ?"
-				+ "mensagem = ?"
+				+ "assunto = ?, "
+				+ "mensagem = ?, "
 				+ "dtCadastro = ? "
 				+ "WHERE id = ?";
 		
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setString(1, c.getNome());
-		ps.setString(2, c.getEmail());
-		ps.setString(3, c.getTelefone());
-		ps.setString(4, c.getCidade());
-		ps.setString(5, c.getEstado());
-		ps.setString(6, c.getPais());
-		ps.setInt(7, c.getAssunto());
-		ps.setString(8, c.getMensagem());
-		ps.setDate(9, new java.sql.Date( c.getDtCadastro().getTime() ));
-		ps.setInt(10, c.getId());
+		ps.setBoolean(1, obj.getLida());
+		ps.setString(2, obj.getNome());
+		ps.setString(3, obj.getEmail());
+		ps.setString(4, obj.getTelefone());
+		ps.setString(5, obj.getCidade());
+		ps.setString(6, obj.getEstado());
+		ps.setString(7, obj.getPais());
+		ps.setInt(8, obj.getAssunto());
+		ps.setString(9, obj.getMensagem());
+		ps.setDate(10, new java.sql.Date( obj.getDtCadastro().getTime() ));
+		ps.setInt(11, obj.getId());
 		ps.execute();
 		ps.close();
 	}
 
 	@Override
-	public void excluir(Contato c) throws SQLException {
+	public void excluir(Contato obj) throws SQLException {
 		
 		String sql = "DELETE FROM contato WHERE id = ?";
 		
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt(1, c.getId());
+		ps.setInt(1, obj.getId());
 		ps.execute();
 		ps.close();
 
 	}
 
 	@Override
-	public Contato consultar(Contato c) throws SQLException {
+	public Contato consultar(Contato obj) throws SQLException {
 		
 		String sql = "SELECT * FROM contato WHERE id =  ?";
 		
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt(1, c.getId());
+		ps.setInt(1, obj.getId());
 		ResultSet rs = ps.executeQuery();
 		if (rs.next()) {
-			c.setId(rs.getInt("id"));
-			c.setNome(rs.getString("nome"));
-			c.setEmail(rs.getString("email"));;
-			c.setTelefone(rs.getString("telefone"));
-			c.setCidade(rs.getString("cidade"));
-			c.setEstado(rs.getString("estado"));
-			c.setPais(rs.getString("pais"));
-			c.setAssunto(rs.getInt("assunto"));
-			c.setMensagem(rs.getString("mensagem"));
-			c.setDtCadastro(rs.getDate("dtCadastro"));
+			obj.setId(rs.getInt("id"));
+			obj.setLida(rs.getBoolean("Lida"));
+			obj.setNome(rs.getString("nome"));
+			obj.setEmail(rs.getString("email"));;
+			obj.setTelefone(rs.getString("telefone"));
+			obj.setCidade(rs.getString("cidade"));
+			obj.setEstado(rs.getString("estado"));
+			obj.setPais(rs.getString("pais"));
+			obj.setAssunto(rs.getInt("assunto"));
+			obj.setMensagem(rs.getString("mensagem"));
+			obj.setDtCadastro(rs.getDate("dtCadastro"));
 		}
 		rs.close();
 		ps.close();
 
-		return c;
+		return obj;
 	}
 
 	@Override
@@ -132,6 +137,7 @@ public class ContatoDAOImpl implements ContatoDAO {
 		while (rs.next()) {
 			Contato c = new Contato();
 			c.setId(rs.getInt("id"));
+			c.setLida(rs.getBoolean("Lida"));
 			c.setNome(rs.getString("nome"));
 			c.setEmail(rs.getString("email"));;
 			c.setTelefone(rs.getString("telefone"));

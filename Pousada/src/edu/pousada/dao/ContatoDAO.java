@@ -14,10 +14,9 @@ import edu.pousada.entity.Contato;
 
 public interface ContatoDAO {
 
-	public void adicionar(Contato c) throws SQLException;
-	public void alterar(Contato c) throws SQLException;
-	public void excluir(Contato c) throws SQLException;
-	public Contato consultar(Contato c) throws SQLException;
-	public List<Contato> todos() throws SQLException;
-	
+	public void adicionar(Contato obj) throws SQLException;
+	public void alterar(Contato obj) throws SQLException;
+	public void excluir(Contato obj) throws SQLException;
+	public Contato consultar(Contato obj) throws SQLException;
+	public List<Contato> todos() throws SQLException;	
 }

@@ -40,6 +40,7 @@ dtCadastro DATE NOT NULL
 
 CREATE TABLE contato(
 id INT AUTO_INCREMENT PRIMARY KEY,
+lida BOOLEAN NOT NULL,
 nome VARCHAR(100) NOT NULL,
 email VARCHAR(30) NOT NULL,
 telefone VARCHAR(11) NOT NULL,
@@ -170,48 +171,6 @@ ALTER TABLE `reserva` ADD CONSTRAINT `fk_cliente` FOREIGN KEY ( `cliente` ) REFE
 ALTER TABLE `reserva` ADD CONSTRAINT `fk_chale` FOREIGN KEY ( `chale` ) REFERENCES `chale` ( `id` );
 
 
--- DADOS PARA TESTE:
-
-INSERT INTO `chale` (`id`, `categoria`, `diaria`) VALUES
-(NULL, 'Luxo', '299.90'),
-(NULL, 'Clássico', '199.90'),
-(NULL, 'Padrão', '99.90'),
-(NULL, 'Luxo', '299.90');
-
-INSERT INTO `funcionario` (`id`, `nome`, `cpf`, `dtNasc`, `telefone`, `celular`, `email`, `endereco`, 
-`bairro`, `cidade`, `estado`, `cep`, `cargo`, `setor`, `login`, `senha`, `ativo`, `dtCadastro`) VALUES 
-(NULL, 'Fernando M. Oliveira', '11122233344', '1990-01-01', '1122223333', '11977778888', 
-'fernando@email.com', 'Rua um, 1111', 'Vila Medeiros', 'São Paulo', 'SP', '01233000', 'Gerente', 
-'Recepção', 'admin', 'admin', '1', '2016-01-01');
-
-
-INSERT INTO `cliente` (`id`, `nome`, `email`, `documento`, `docTipo`, 
-`dtNasc`, `telefone`, `celular`, `endereco`, `bairro`, `cidade`, 
-`estado`, `pais`, `cep`, `login`, `senha`, `ativo`, `dtCadastro`) VALUES 
-(NULL,'Beltrano da Silva', 'beltrano@email.com', '11222333', 'RG', '1995-04-23', 
-'12345678900', '12345678902', 'Rua do Beltrano, 01', 'Parque Beltrano', 
-'Salvador', 'Bahia', 'Brasil', '01235467','beltrano' ,'beltrano' , '1', '2016-10-20'),
-
-(NULL,'Fulano da Silva', 'fulano@email.com', '111.222.333-44', 'CPF', '1990-01-01', 
-'1122223333', '1144445555', 'Rua do Fulano, 01', 'Jardim do Fulano', 
-'São Paulo', 'São Paulo', 'Brasil', '01233444','fulano' ,'fulano' , '1', '2016-10-23'),
-
-(NULL,'Sicrano da Silva', 'sicrano@email.com', '1112233FA', 'Passaporte', '1995-08-20', 
-'12345678901', '12345678901', 'Rua do Sicrano, 01', 'Parque Sicrano', 
-'São Paulo', 'São Paulo', 'Brasil', '01234567','sicrano' ,'sicrano' , '1', '2016-10-20'), 
-
-(NULL,'Roberto da Silva', 'roberto@email.com', '222.333.444-55', 'RG', '1970-08-20', 
-'13345678900', '13345678902', 'Rua do Fernando, 01', 'Parque', 
-'São Paulo', 'São Paulo', 'Brasil', '01234576', 'cliente', 'cliente', '1', '2016-10-20');
-
-
-INSERT INTO `reserva` (`id`, `cliente`, `chale`, `qtdAdulto`, `qtdCrianca`, 
-`dtInicio`, `dtFim`, `mensagem`, `desconto`, `ativa`, `dtCadastro`) VALUES
-(NULL, 2, 4, 2, 0, '2016-11-01', '2016-11-05', '', '0', '1', '2016-10-30'),
-(NULL, 2, 1, 1, 0, '2016-11-01', '2016-11-01', 'Testando…', '0', '1', '2016-11-01'),
-(NULL, 3, 3, 1, 1, '2016-11-10', '2016-11-15', '', '0', '1', '2016-11-01');
-
-
 -- DADOS NECESSARIOS
 
 INSERT INTO `info` (`id`, `principalInfo`, `principalDetalhe`, `chaleInfo`, 
@@ -245,5 +204,45 @@ INSERT INTO `info` (`id`, `principalInfo`, `principalDetalhe`, `chaleInfo`,
 
 'INFO 13 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec efficitur erat et diam tincidunt facilisis. Aenean ut nulla ac ipsum ullamcorper porttitor. Morbi et pulvinar enim. Mauris bibendum erat neque, non interdum est consectetur non.', 
 
-'0.5.0'
-);
+'0.5.0');
+
+-- DADOS PARA TESTE:
+
+INSERT INTO `chale` (`id`, `categoria`, `diaria`) VALUES
+(NULL, 'Luxo', '299.90'),
+(NULL, 'Clássico', '199.90'),
+(NULL, 'Padrão', '99.90'),
+(NULL, 'Luxo', '299.90');
+
+INSERT INTO `funcionario` (`id`, `nome`, `cpf`, `dtNasc`, `telefone`, `celular`, `email`, `endereco`, 
+`bairro`, `cidade`, `estado`, `cep`, `cargo`, `setor`, `login`, `senha`, `ativo`, `dtCadastro`) VALUES 
+(NULL, 'Fernando M. Oliveira', '11122233344', '1990-01-01', '1122223333', '11977778888', 
+'fernando@email.com', 'Rua um, 1111', 'Vila Medeiros', 'São Paulo', 'SP', '01233000', 'Gerente', 
+'Recepção', 'fe', 'fe', '1', '2016-01-01');
+
+
+INSERT INTO `cliente` (`id`, `nome`, `email`, `documento`, `docTipo`, 
+`dtNasc`, `telefone`, `celular`, `endereco`, `bairro`, `cidade`, 
+`estado`, `pais`, `cep`, `login`, `senha`, `ativo`, `dtCadastro`) VALUES 
+(NULL,'Beltrano da Silva', 'beltrano@email.com', '11222333', 'RG', '1995-04-23', 
+'12345678900', '12345678902', 'Rua do Beltrano, 01', 'Parque Beltrano', 
+'Salvador', 'Bahia', 'Brasil', '01235467','beltrano' ,'beltrano' , '1', '2016-10-20'),
+
+(NULL,'Fulano da Silva', 'fulano@email.com', '111.222.333-44', 'CPF', '1990-01-01', 
+'1122223333', '1144445555', 'Rua do Fulano, 01', 'Jardim do Fulano', 
+'São Paulo', 'São Paulo', 'Brasil', '01233444','fulano' ,'fulano' , '1', '2016-10-23'),
+
+(NULL,'Sicrano da Silva', 'sicrano@email.com', '1112233FA', 'Passaporte', '1995-08-20', 
+'12345678901', '12345678901', 'Rua do Sicrano, 01', 'Parque Sicrano', 
+'São Paulo', 'São Paulo', 'Brasil', '01234567','sicrano' ,'sicrano' , '1', '2016-10-20'), 
+
+(NULL,'Roberto da Silva', 'roberto@email.com', '222.333.444-55', 'RG', '1970-08-20', 
+'13345678900', '13345678902', 'Rua do Fernando, 01', 'Parque', 
+'São Paulo', 'São Paulo', 'Brasil', '01234576', 'cliente', 'cliente', '1', '2016-10-20');
+
+
+INSERT INTO `reserva` (`id`, `cliente`, `chale`, `qtdAdulto`, `qtdCrianca`, 
+`dtInicio`, `dtFim`, `mensagem`, `desconto`, `ativa`, `dtCadastro`) VALUES
+(NULL, 2, 4, 2, 0, '2016-11-01', '2016-11-05', '', '0', '1', '2016-10-30'),
+(NULL, 2, 1, 1, 0, '2016-11-01', '2016-11-01', 'Testando…', '0', '1', '2016-11-01'),
+(NULL, 3, 3, 1, 1, '2016-11-10', '2016-11-15', '', '0', '1', '2016-11-01');

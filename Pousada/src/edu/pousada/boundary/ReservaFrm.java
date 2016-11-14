@@ -160,7 +160,7 @@ public class ReservaFrm extends JFrame {
 	/////// ACAO PARA O CONTROLLER ///////
 		
 		tabReserva.addMouseListener( ctrl.clicar );
-		tabReserva.addKeyListener( ctrl.teclar );
+		tabReserva.addKeyListener( ctrl.teclas );
 		btnLimpar.addActionListener( ctrl.acionar );
 		btnCancelar.addActionListener( ctrl.acionar );
 		btnConcluir.addActionListener( ctrl.acionar );

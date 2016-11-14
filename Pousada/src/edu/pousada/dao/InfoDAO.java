@@ -14,10 +14,10 @@ import edu.pousada.entity.Info;
 
 public interface InfoDAO {
 
-	public void adicionar(Info p) throws SQLException;
-	public void alterar(Info p) throws SQLException;
-	public void excluir(Info p) throws SQLException;
-	public Info consultar(Info p) throws SQLException;
+	public void adicionar(Info i) throws SQLException;
+	public void alterar(Info i) throws SQLException;
+	public void excluir(Info i) throws SQLException;
+	public Info consultar(Info i) throws SQLException;
 	public List<Info> todos() throws SQLException;
 	
 }
