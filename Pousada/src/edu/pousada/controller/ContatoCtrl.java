@@ -150,13 +150,16 @@ public class ContatoCtrl {
 
 				if( clientes.get(i).getId()
 						.equals( ctrlLogon.getSession().get(0).getIdUsuario() )){
-
+					
+					CamposCtrl.limpa("contato");
+					
 					txtContatoNome.setText( clientes.get(i).getNome() );
 					txtContatoEmail.setText( clientes.get(i).getEmail() );
 					ftxtContatoTelefone.setText( clientes.get(i).getTelefone() );
 					txtContatoCidade.setText( clientes.get(i).getCidade() );
 					txtContatoEstado.setText( clientes.get(i).getEstado() );
-					txtContatoPais.setText( clientes.get(i).getPais() ); 
+					txtContatoPais.setText( clientes.get(i).getPais() );
+					
 
 					CamposCtrl.desativa("contato");
 				}

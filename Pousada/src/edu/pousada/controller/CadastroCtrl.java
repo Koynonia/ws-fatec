@@ -426,6 +426,8 @@ public class CadastroCtrl {
 
 					SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyy");
 
+					CamposCtrl.limpa("cadastro");
+					
 					id = ctrlLogon.getSession().get(0).getIdUsuario();
 					txtCadastroNome.setText( clientes.get(i).getNome() );
 					ftxtCadastroDocNum.setText( clientes.get(i).getDocumento() );

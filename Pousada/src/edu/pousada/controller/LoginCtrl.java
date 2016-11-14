@@ -101,6 +101,9 @@ public class LoginCtrl {
 
 	public void acesso() {
 
+		// valida se houve login
+		validar = false;
+		
 		cargaCliente();
 		cargaFuncionario();
 
@@ -112,12 +115,14 @@ public class LoginCtrl {
 				if (!txtLogin.getText().isEmpty() 
 						&& pwdSenha.getPassword().length != 0) {
 
-					// verifica se um funcionario está se logando
+					// verifica se um funcionario está se logando e valida
 					for (int f = 0; f < funcionarios.size(); f++) {
 						if ( txtLogin.getText().equalsIgnoreCase(funcionarios.get(f).getLogin() )
 								&& validaSenha(funcionarios.get(f).getSenha()) != false ) {
 
 							// realiza o logon
+							validar = true;
+
 							List<Logon> log = new ArrayList<Logon>();
 							Logon l = new Logon();
 
@@ -129,7 +134,6 @@ public class LoginCtrl {
 							log.add(l);
 							ctrlLogon.setLogon( log );
 
-							validar = true;
 							//prepara as guias
 
 							ctrlLogon.login();
@@ -141,13 +145,15 @@ public class LoginCtrl {
 							pwdSenha.setVisible(false);
 							btnLogin.setText("Sair");
 							//msg("autorizado", funcionarios.get(f).getNome() );
-						} else {
-							// verifica se um cliente está se logando
+						} else if( f == funcionarios.size()-1 ){
+
+							// ao final do funcionario, verifica se um cliente está se logando e valida
 							for (int c = 0; c < clientes.size(); c++) {
 								if (txtLogin.getText().equalsIgnoreCase(clientes.get(c).getLogin())
-										&& validaSenha(clientes.get(c).getSenha()) != false) {
+										&& validaSenha(clientes.get(c).getSenha()) != false){
 
 									// realiza o logon
+									validar = true;
 
 									List<Logon> log = new ArrayList<Logon>();
 									Logon l = new Logon();
@@ -161,7 +167,6 @@ public class LoginCtrl {
 									ctrlLogon.setLogon( log );
 									ctrlLogon.login();
 
-									validar = true;
 									// prepara as guias
 									ctrlPrincipal.trocaPerfil(1);
 									lblMsg.setText( "- Bem vindo, " + clientes.get(c).getNome() );
@@ -177,14 +182,14 @@ public class LoginCtrl {
 									CadastroCtrl.preencheCadastro();
 									CadastroCtrl.alteraBotao( true );
 									MensagensCtrl.msg("autorizado", clientes.get(c).getNome() );
-								} 
+								}
+							}
+							if ( validar != true ){
+								MensagensCtrl.msg("erroSenha", txtLogin.getText());
+								senhas();
+								return;
 							}
 						}
-					}
-					if ( validar != true ){
-						MensagensCtrl.msg("erroSenha", txtLogin.getText());
-						senhas();
-						return;
 					} 
 
 				} else {	
@@ -192,6 +197,8 @@ public class LoginCtrl {
 					senhas();
 				}
 			} else {
+				// caso não exista nenhum cadastro, pede um cadastro inicial
+				// não usado pois o sistema cria um cadastro adm padrão no início
 				if( MensagensCtrl.msg("erroCadastro", txtLogin.getText()) != false){
 					ctrlPrincipal.trocaPerfil(4);
 				} else {
@@ -221,24 +228,6 @@ public class LoginCtrl {
 
 
 	//  SUPORTE  ////////////////////////////////
-
-
-	public void inicio() {
-		// recupera o ambiente de uma sessão perdida 
-		if( ctrlLogon.getSession().isEmpty() ){
-			ctrlPrincipal.trocaPerfil(0);
-		} else {
-
-			ctrlPrincipal.trocaPerfil( ctrlLogon.getSession().get(0).getPerfil() );
-			lblMsg.setText( "- Sessão recuperada!" );
-			lblLogin.setVisible(false);
-			txtLogin.setVisible(false);
-			lblPwd.setVisible(false);
-			pwdSenha.setVisible(false);
-			btnLogin.setText("Sair");
-		}
-	}	
-
 
 	public void senhas(){
 		// limpa os campos login e senha e retorna o foco
