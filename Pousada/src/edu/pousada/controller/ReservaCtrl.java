@@ -22,7 +22,6 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -89,7 +88,7 @@ public class ReservaCtrl {
 
 	private static boolean validar;
 	private ImageIcon imagem;
-	
+
 	private static LogonCtrl ctrlLogon = LogonCtrl.getInstance();
 	private static List<Reserva>reservas;
 	private List<Chale> chales;
@@ -174,13 +173,13 @@ public class ReservaCtrl {
 
 		preencheCategoria();
 		preencheTipoDoc();
-		
+
 		ctrlPrincipal = new PrincipalCtrl();
 	}
 
 	public ReservaCtrl() {}
-	
-	
+
+
 	//  DAO  //////////////////////////////////////
 
 
@@ -215,8 +214,8 @@ public class ReservaCtrl {
 			janela.setAlwaysOnTop ( true );
 		}
 	}
-	
-	
+
+
 	public void alterar( Reserva obj ){
 
 		ReservaDAO dao = new ReservaDAOImpl();
@@ -248,8 +247,8 @@ public class ReservaCtrl {
 			janela.setAlwaysOnTop ( true );
 		}
 	}
-	
-	
+
+
 	public void cargaChale(){
 
 		ChaleDAO dao = new ChaleDAOImpl();
@@ -265,8 +264,8 @@ public class ReservaCtrl {
 			janela.setAlwaysOnTop ( true );
 		}
 	}
-	
-	
+
+
 	public Integer chaleDisponivel( Reserva obj ){
 
 		ReservaDAOImpl dao = new ReservaDAOImpl();
@@ -282,8 +281,8 @@ public class ReservaCtrl {
 		}
 		return qtd;
 	}
-	
-	
+
+
 	public static void cargaCliente(){
 
 		ClienteDAO dao = new ClienteDAOImpl();
@@ -534,6 +533,8 @@ public class ReservaCtrl {
 				if( clientes.get(i).getId()
 						.equals( ctrlLogon.getSession().get(0).getIdUsuario() )){
 
+					CamposCtrl.limpa("reserva");
+
 					txtReservaNome.setText( clientes.get(i).getNome() );
 					ftxtReservaDocNum.setText( clientes.get(i).getDocumento() );
 					cboReservaDocTipo.setSelectedItem( clientes.get(i).getDocTipo() );
@@ -553,7 +554,7 @@ public class ReservaCtrl {
 	public void excluiReserva(){
 
 		janela.setAlwaysOnTop ( false ); 
-		
+
 		// seleciona a linha da tabela a ser cancelada
 		if ( tabela.getSelectedRowCount() == 0 ) {
 			MensagensCtrl.msg( "erroLinha", "" );
@@ -642,59 +643,6 @@ public class ReservaCtrl {
 				}
 			}
 		}
-	}
-	
-
-	// COMBOBOX /////////////////////////////////
-
-
-	public void preencheCategoria(){
-
-		cargaChale();
-
-		// ordenar alfabeticamente
-		String[] lista = new String[chales.size()];
-		for ( int i = 0; i < chales.size(); i++ ){
-			String item = chales.get(i).getCategoria();		
-			lista[i] = item;	
-
-		}
-		Arrays.sort(lista);
-
-		// verificar itens repetidos e adiciona na combobox
-		cboReservaCategoria.addItem( "Selecione…" );
-		for ( int i = 0; i < chales.size(); i++ ){
-			if( !lista[i].equals(cboReservaCategoria.getItemAt(i) ))
-				cboReservaCategoria.addItem( lista[i] );
-		}
-	}
-
-
-	public void preencheTipoDoc(){
-
-		String[] tipos = {
-				"CPF",
-				"RG",
-				"CNH",
-				"Passaporte"
-		};
-		// adicionar na combobox
-		cboReservaDocTipo.addItem( "Selecione…" );
-		for ( int i = 0; i < tipos.length; i++ ){
-			cboReservaDocTipo.addItem( tipos[i] );
-		}
-	}
-
-
-	public void imagensCombo(){
-
-		imagem = new ImageIcon( LogonCtrl.getCaminho() + "/imagens/chale" 
-				+ cboReservaCategoria.getSelectedIndex() + ".jpg" );
-		lblReservaImg.setIcon( new ImageIcon( 
-				imagem.getImage().getScaledInstance( 
-						lblReservaImg.getWidth(), 
-						lblReservaImg.getHeight(), 
-						Image.SCALE_DEFAULT )));
 	}
 
 
@@ -786,6 +734,59 @@ public class ReservaCtrl {
 	}
 
 
+	// COMBOBOX  PrincipalFrm /////////////////////////////////
+
+
+	public void preencheCategoria(){
+
+		cargaChale();
+
+		// carrega um Array com as categorias
+		String[] lista = new String[chales.size()];
+		for ( int i = 0; i < chales.size(); i++ ){
+			String item = chales.get(i).getCategoria();
+			lista[i] = item;
+		}
+		
+		// remove categorias repetidas
+		String[] combo = CamposCtrl.removeRepetidos( lista );
+		
+		// adiciona na combobox
+		cboReservaCategoria.addItem( "Selecione…" );
+		for ( int i = 0; i < combo.length; i++ ){
+				cboReservaCategoria.addItem( combo[i] );
+		}
+	}
+
+
+	public void preencheTipoDoc(){
+
+		String[] tipos = {
+				"CPF",
+				"RG",
+				"CNH",
+				"Passaporte"
+		};
+		// adicionar na combobox
+		cboReservaDocTipo.addItem( "Selecione…" );
+		for ( int i = 0; i < tipos.length; i++ ){
+			cboReservaDocTipo.addItem( tipos[i] );
+		}
+	}
+
+
+	public void imagensCombo(){
+
+		imagem = new ImageIcon( LogonCtrl.getCaminho() + "/imagens/chale" 
+				+ cboReservaCategoria.getSelectedIndex() + ".jpg" );
+		lblReservaImg.setIcon( new ImageIcon( 
+				imagem.getImage().getScaledInstance( 
+						lblReservaImg.getWidth(), 
+						lblReservaImg.getHeight(), 
+						Image.SCALE_DEFAULT )));
+	}
+
+
 	// JANELA /////////////////////////////////
 
 	public void abrir ( String nome ){
@@ -795,7 +796,7 @@ public class ReservaCtrl {
 		case "principal":	
 			janela.dispose();
 			break;
-			
+
 		case "reservas":
 			ReservaFrm reserva;
 			try {

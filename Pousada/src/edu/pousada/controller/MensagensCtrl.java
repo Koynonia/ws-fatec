@@ -194,8 +194,11 @@ public class MensagensCtrl {
 
 		case "excluirReservas":
 			Object[] excluir = { "Cancelar Reservas", "Apenas Sair" };  
-			int fechar = JOptionPane.showOptionDialog( null, "ATENÇÃO!\n\nExistem reservas não finalizadas" 
-					+ " no sistema.\nDeseja cancelar a Reserva(s)?",
+			int fechar = JOptionPane.showOptionDialog( null, 
+					"Existem reservas não concluídas no sistema.\n\n"
+					+ "Você pode cancelar a atual seleção ou manter, \n"
+					+ "concluindo mais tarde.\nAs reservas inconcluidas "
+					+ "não são garantidas.",
 					"Atenção", 
 					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
 					new ImageIcon( LogonCtrl.getCaminho() + "/icons/alert.png" ), excluir, excluir[1] );

@@ -12,7 +12,9 @@ import java.awt.Component;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
@@ -438,5 +440,23 @@ public class CamposCtrl {
 					+ "\n\nMensagem:\n" + e1.getMessage() );
 			//e1.printStackTrace();
 		}
+	}
+
+
+	public static String[] removeRepetidos( String[] itens ) {
+		// retira itens repetidos de arrays
+
+		HashSet<String> hsItens = new HashSet<String>();
+		for(String n : itens) {
+			hsItens.add(n);
+		}
+		int i = 0;
+		String[] novosItens = new String[hsItens.size()];
+		for(String item : hsItens) {
+			novosItens[i++] = item;
+		}
+		Arrays.sort( novosItens );
+
+		return novosItens;
 	}
 }
