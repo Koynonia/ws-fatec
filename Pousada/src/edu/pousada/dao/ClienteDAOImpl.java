@@ -114,12 +114,12 @@ public class ClienteDAOImpl implements ClienteDAO {
 	}
 
 	@Override
-	public void excluir(Cliente cliente) throws SQLException {
+	public void excluir(Cliente obj) throws SQLException {
 
 		String sql = "DELETE FROM cliente WHERE id = ?";
 
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt(1, cliente.getId());
+		ps.setInt(1, obj.getId());
 		ps.execute();
 		ps.close();
 	}

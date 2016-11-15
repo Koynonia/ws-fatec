@@ -14,10 +14,9 @@ import edu.pousada.entity.Pessoa;
 
 public interface PessoaDAO {
 	
-	public void adicionar(Pessoa p) throws SQLException;
-	public void alterar(Pessoa p) throws SQLException;
-	public void excluir(Pessoa p) throws SQLException;
-	public Pessoa consultar(Pessoa p) throws SQLException;
+	public void adicionar(Pessoa obj) throws SQLException;
+	public void alterar(Pessoa obj) throws SQLException;
+	public void excluir(Pessoa obj) throws SQLException;
+	public Pessoa consultar(Pessoa obj) throws SQLException;
 	public List<Pessoa> todos() throws SQLException;
-	
 }

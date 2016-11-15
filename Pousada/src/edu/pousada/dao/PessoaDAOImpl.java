@@ -31,21 +31,21 @@ public class PessoaDAOImpl implements PessoaDAO{
 	 */
 
 	@Override
-	public void adicionar(Pessoa p) throws SQLException {
+	public void adicionar(Pessoa obj) throws SQLException {
 		
 		String sql = "INSERT INTO pessoa VALUES (NULL,?,?,?,?)";
 		
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setString(1, p.getNome());
-		ps.setDate(2, new java.sql.Date( p.getDtNasc().getTime() ));
-		ps.setString(3, p.getResponsavel());
-		ps.setDate(4, new java.sql.Date( p.getDtCadastro().getTime() ));
+		ps.setString(1, obj.getNome());
+		ps.setDate(2, new java.sql.Date( obj.getDtNasc().getTime() ));
+		ps.setString(3, obj.getResponsavel());
+		ps.setDate(4, new java.sql.Date( obj.getDtCadastro().getTime() ));
 		ps.execute();
 		ps.close();
 	}
 
 	@Override
-	public void alterar(Pessoa p) throws SQLException {
+	public void alterar(Pessoa obj) throws SQLException {
 		
 		String sql =  "UPDATE pessoa SET "
 				+ "nome = ?, "
@@ -54,44 +54,44 @@ public class PessoaDAOImpl implements PessoaDAO{
 				+ "WHERE id = ?";
 		
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setString(1, p.getNome());
-		ps.setDate(2, new java.sql.Date( p.getDtNasc().getTime() ));
-		ps.setString(3, p.getResponsavel());
-		ps.setInt(4, p.getId());
+		ps.setString(1, obj.getNome());
+		ps.setDate(2, new java.sql.Date( obj.getDtNasc().getTime() ));
+		ps.setString(3, obj.getResponsavel());
+		ps.setInt(4, obj.getId());
 		ps.execute();
 		ps.close();		
 	}
 
 	@Override
-	public void excluir(Pessoa p) throws SQLException {
+	public void excluir(Pessoa obj) throws SQLException {
 		
 		String sql = "DELETE FROM pessoa WHERE id = ?";
 		
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt(1, p.getId());
+		ps.setInt(1, obj.getId());
 		ps.execute();
 		ps.close();
 
 	}
 
 	@Override
-	public Pessoa consultar(Pessoa p) throws SQLException {
+	public Pessoa consultar(Pessoa obj) throws SQLException {
 		
 		String sql = "SELECT * FROM pessoa WHERE id = ?";
 		
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt(1, p.getId());
+		ps.setInt(1, obj.getId());
 		ResultSet rs = ps.executeQuery();
 		if(rs.next()){
-			p.setId(rs.getInt("id"));
-			p.setNome(rs.getString("nome"));
-			p.setDtNasc(rs.getDate("dtNasc"));
-			p.setResponsavel(rs.getString("responsavel"));
-			p.setDtCadastro(rs.getDate("dtCadastro"));
+			obj.setId(rs.getInt("id"));
+			obj.setNome(rs.getString("nome"));
+			obj.setDtNasc(rs.getDate("dtNasc"));
+			obj.setResponsavel(rs.getString("responsavel"));
+			obj.setDtCadastro(rs.getDate("dtCadastro"));
 		}
 		rs.close();
 		ps.close();
-		return p;
+		return obj;
 	}
 
 	@Override

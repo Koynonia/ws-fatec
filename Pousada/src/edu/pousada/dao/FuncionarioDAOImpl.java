@@ -44,35 +44,35 @@ public class FuncionarioDAOImpl implements FuncionarioDAO {
 	private Connection con = DBUtil.getInstance().getConnection();
 
 	@Override
-	public void adicionar(Funcionario f) throws SQLException {
+	public void adicionar(Funcionario obj) throws SQLException {
 
 		String sql = "INSERT INTO funcionario VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setString(1, f.getNome());
-		ps.setString(2, f.getEmail());
-		ps.setString(3, f.getCpf());
-		ps.setDate(4, new java.sql.Date( f.getDtNasc().getTime() ));
-		ps.setString(5, f.getTelefone());
-		ps.setString(6, f.getCelular());
-		ps.setString(7, f.getEndereco());
-		ps.setString(8, f.getBairro());
-		ps.setString(9, f.getCidade());
-		ps.setString(10, f.getEstado());
-		ps.setString(11, f.getPais());
-		ps.setString(12, f.getCep());
-		ps.setString(13, f.getCargo());
-		ps.setString(14, f.getSetor());
-		ps.setString(15, f.getLogin());
-		ps.setString(16, f.getSenha());
-		ps.setBoolean(17, f.getAtivo());
-		ps.setDate(18, new java.sql.Date( f.getDtCadastro().getTime() ));
+		ps.setString(1, obj.getNome());
+		ps.setString(2, obj.getEmail());
+		ps.setString(3, obj.getCpf());
+		ps.setDate(4, new java.sql.Date( obj.getDtNasc().getTime() ));
+		ps.setString(5, obj.getTelefone());
+		ps.setString(6, obj.getCelular());
+		ps.setString(7, obj.getEndereco());
+		ps.setString(8, obj.getBairro());
+		ps.setString(9, obj.getCidade());
+		ps.setString(10, obj.getEstado());
+		ps.setString(11, obj.getPais());
+		ps.setString(12, obj.getCep());
+		ps.setString(13, obj.getCargo());
+		ps.setString(14, obj.getSetor());
+		ps.setString(15, obj.getLogin());
+		ps.setString(16, obj.getSenha());
+		ps.setBoolean(17, obj.getAtivo());
+		ps.setDate(18, new java.sql.Date( obj.getDtCadastro().getTime() ));
 		ps.execute();
 		ps.close();
 	}
 
 	@Override
-	public void alterar(Funcionario f) throws SQLException {
+	public void alterar(Funcionario obj) throws SQLException {
 
 		String sql = "UPDATE funcionario SET "
 				+ "nome = ?, "
@@ -95,73 +95,73 @@ public class FuncionarioDAOImpl implements FuncionarioDAO {
 				+ "WHERE cpf = ?";
 
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setString(1, f.getNome());
-		ps.setString(2, f.getEmail());
-		ps.setString(3, f.getCpf());
-		ps.setDate(4, new java.sql.Date( f.getDtNasc().getTime() ));
-		ps.setString(5, f.getTelefone());
-		ps.setString(6, f.getCelular());
-		ps.setString(7, f.getEndereco());
-		ps.setString(8, f.getBairro());
-		ps.setString(9, f.getCidade());
-		ps.setString(10, f.getEstado());
-		ps.setString(11, f.getPais());
-		ps.setString(12, f.getCep());
-		ps.setString(13, f.getCargo());
-		ps.setString(14, f.getSetor());
-		ps.setString(15, f.getLogin());
-		ps.setString(16, f.getSenha());
-		ps.setBoolean(17, f.getAtivo());
-		ps.setString(18, f.getCpf());
+		ps.setString(1, obj.getNome());
+		ps.setString(2, obj.getEmail());
+		ps.setString(3, obj.getCpf());
+		ps.setDate(4, new java.sql.Date( obj.getDtNasc().getTime() ));
+		ps.setString(5, obj.getTelefone());
+		ps.setString(6, obj.getCelular());
+		ps.setString(7, obj.getEndereco());
+		ps.setString(8, obj.getBairro());
+		ps.setString(9, obj.getCidade());
+		ps.setString(10, obj.getEstado());
+		ps.setString(11, obj.getPais());
+		ps.setString(12, obj.getCep());
+		ps.setString(13, obj.getCargo());
+		ps.setString(14, obj.getSetor());
+		ps.setString(15, obj.getLogin());
+		ps.setString(16, obj.getSenha());
+		ps.setBoolean(17, obj.getAtivo());
+		ps.setString(18, obj.getCpf());
 		ps.execute();
 		ps.close();
 	}
 
 	@Override
-	public void excluir(Funcionario f) throws SQLException {
+	public void excluir(Funcionario obj) throws SQLException {
 
 		String sql = "DELETE FROM funcionario WHERE cpf = ?";
 
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setString(1, f.getCpf());
+		ps.setString(1, obj.getCpf());
 		ps.execute();
 		ps.close();
 
 	}
 
 	@Override
-	public Funcionario consultar(Funcionario f) throws SQLException {
+	public Funcionario consultar(Funcionario obj) throws SQLException {
 
 		String sql = "SELECT * FROM funcionarios WHERE cpf =  ?";
 
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setString(1, f.getCpf());
+		ps.setString(1, obj.getCpf());
 		ResultSet rs = ps.executeQuery();
 		if (rs.next()) {
-			f.setId(rs.getInt("id"));
-			f.setNome(rs.getString("nome"));
-			f.setEmail(rs.getString("email"));
-			f.setCpf(rs.getString("cpf"));
-			f.setDtNasc(rs.getDate("dtNasc"));
-			f.setTelefone(rs.getString("telefone"));
-			f.setCelular(rs.getString("celular"));
-			f.setEndereco(rs.getString("endereco"));
-			f.setBairro(rs.getString("bairro"));
-			f.setCidade(rs.getString("cidade"));
-			f.setEstado(rs.getString("estado"));
-			f.setPais(rs.getString("pais"));
-			f.setCep(rs.getString("cep"));
-			f.setCargo(rs.getString("cargo"));
-			f.setSetor(rs.getString("setor"));
-			f.setLogin(rs.getString("login"));
-			f.setSenha(rs.getString("senha"));
-			f.setAtivo(rs.getBoolean("ativo"));
-			f.setDtCadastro(rs.getDate("dtCadastro"));
+			obj.setId(rs.getInt("id"));
+			obj.setNome(rs.getString("nome"));
+			obj.setEmail(rs.getString("email"));
+			obj.setCpf(rs.getString("cpf"));
+			obj.setDtNasc(rs.getDate("dtNasc"));
+			obj.setTelefone(rs.getString("telefone"));
+			obj.setCelular(rs.getString("celular"));
+			obj.setEndereco(rs.getString("endereco"));
+			obj.setBairro(rs.getString("bairro"));
+			obj.setCidade(rs.getString("cidade"));
+			obj.setEstado(rs.getString("estado"));
+			obj.setPais(rs.getString("pais"));
+			obj.setCep(rs.getString("cep"));
+			obj.setCargo(rs.getString("cargo"));
+			obj.setSetor(rs.getString("setor"));
+			obj.setLogin(rs.getString("login"));
+			obj.setSenha(rs.getString("senha"));
+			obj.setAtivo(rs.getBoolean("ativo"));
+			obj.setDtCadastro(rs.getDate("dtCadastro"));
 		}
 		rs.close();
 		ps.close();
 
-		return f;
+		return obj;
 	}
 
 	@Override

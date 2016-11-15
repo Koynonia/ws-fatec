@@ -14,10 +14,9 @@ import edu.pousada.entity.Funcionario;
 
 public interface FuncionarioDAO {
 
-	public void adicionar(Funcionario f) throws SQLException;
-	public void alterar(Funcionario f) throws SQLException;
-	public void excluir(Funcionario f) throws SQLException;
-	public Funcionario consultar(Funcionario f) throws SQLException;
-	public List<Funcionario> todos() throws SQLException;
-	
+	public void adicionar(Funcionario obj) throws SQLException;
+	public void alterar(Funcionario obj) throws SQLException;
+	public void excluir(Funcionario obj) throws SQLException;
+	public Funcionario consultar(Funcionario obj) throws SQLException;
+	public List<Funcionario> todos() throws SQLException;	
 }

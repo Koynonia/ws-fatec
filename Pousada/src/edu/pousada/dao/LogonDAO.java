@@ -15,9 +15,9 @@ import edu.pousada.entity.Logon;
 
 public interface LogonDAO {
 
-	public void adicionar(Logon l) throws SQLException;
-	public void alterar(Logon l) throws SQLException;
-	public void excluir(Logon l) throws SQLException;
-	public Logon consultar(Logon l) throws SQLException;
+	public void adicionar(Logon obj) throws SQLException;
+	public void alterar(Logon obj) throws SQLException;
+	public void excluir(Logon obj) throws SQLException;
+	public Logon consultar(Logon obj) throws SQLException;
 	public List<Logon> todos() throws SQLException;
 }

@@ -30,7 +30,6 @@ public class CamposCtrl {
 	private static JPanel painelReserva;
 	private static JPanel painelContato;
 	private static JPanel painelCadastro; 
-	//private static LogonCtrl ctrlLogon = LogonCtrl.getInstance();
 
 	public CamposCtrl(
 			JPanel painelReserva, 
@@ -228,7 +227,7 @@ public class CamposCtrl {
 	}
 
 
-	public static boolean valida( String guia ){
+	public static Boolean valida( String guia ){
 		// valida todos os campos da tela se foram preenchidos
 
 		boolean vazio = false;
@@ -310,7 +309,7 @@ public class CamposCtrl {
 	}
 
 
-	public static boolean data( JFormattedTextField dtInicio, JFormattedTextField dtFim ){
+	public static Boolean data( JFormattedTextField dtInicio, JFormattedTextField dtFim ){
 		//valida entre as datas inicio e final da reserva
 
 		Date inicio = null;

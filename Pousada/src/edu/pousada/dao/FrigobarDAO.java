@@ -14,10 +14,9 @@ import edu.pousada.entity.Frigobar;
 
 public interface FrigobarDAO {
 	
-	public void adicionar(Frigobar f) throws SQLException;
-	public void alterar(Frigobar f) throws SQLException;
-	public void excluir(Frigobar f) throws SQLException;
-	public Frigobar consultar(Frigobar f) throws SQLException;
+	public void adicionar(Frigobar obj) throws SQLException;
+	public void alterar(Frigobar obj) throws SQLException;
+	public void excluir(Frigobar obj) throws SQLException;
+	public Frigobar consultar(Frigobar obj) throws SQLException;
 	public List<Frigobar> todos() throws SQLException;
-	
 }

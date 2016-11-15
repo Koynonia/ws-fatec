@@ -192,7 +192,7 @@ public class ReservaDAOImpl implements ReservaDAO{
 		return chale;
 	}
 
-	public int chaleDisponivel( Reserva r ) throws SQLException{
+	public Integer chaleDisponivel( Reserva obj ) throws SQLException{
 
 		int count = 0;
 
@@ -209,13 +209,13 @@ public class ReservaDAOImpl implements ReservaDAO{
 
 		PreparedStatement ps = con.prepareStatement(sql);
 
-		ps.setDate( 1, new java.sql.Date ( r.getDtInicio().getTime() ));
-		ps.setDate( 2, new java.sql.Date ( r.getDtFim().getTime() ));
-		ps.setDate( 3, new java.sql.Date ( r.getDtInicio().getTime() ));
-		ps.setDate( 4, new java.sql.Date ( r.getDtFim().getTime() ));
-		ps.setDate( 5, new java.sql.Date ( r.getDtInicio().getTime() ));
-		ps.setDate( 6, new java.sql.Date ( r.getDtFim().getTime() ));
-		ps.setInt( 7, r.getChale().getId() );
+		ps.setDate( 1, new java.sql.Date ( obj.getDtInicio().getTime() ));
+		ps.setDate( 2, new java.sql.Date ( obj.getDtFim().getTime() ));
+		ps.setDate( 3, new java.sql.Date ( obj.getDtInicio().getTime() ));
+		ps.setDate( 4, new java.sql.Date ( obj.getDtFim().getTime() ));
+		ps.setDate( 5, new java.sql.Date ( obj.getDtInicio().getTime() ));
+		ps.setDate( 6, new java.sql.Date ( obj.getDtFim().getTime() ));
+		ps.setInt( 7, obj.getChale().getId() );
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			count++;

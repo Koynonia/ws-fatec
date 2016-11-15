@@ -29,19 +29,19 @@ public class ChaleDAOImpl implements ChaleDAO {
 	 */
 
 	@Override
-	public void adicionar(Chale c) throws SQLException {
+	public void adicionar(Chale obj) throws SQLException {
 		
 		String sql = "INSERT INTO chale VALUES (NULL,?,?)";
 		
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setString(1, c.getCategoria());
-		ps.setDouble(2, c.getDiaria());
+		ps.setString(1, obj.getCategoria());
+		ps.setDouble(2, obj.getDiaria());
 		ps.execute();
 		ps.close();
 	}
 
 	@Override
-	public void alterar(Chale c) throws SQLException {
+	public void alterar(Chale obj) throws SQLException {
 
 		String sql = "UPDATE chale SET "
 				+ "categoria = ?, "
@@ -49,43 +49,43 @@ public class ChaleDAOImpl implements ChaleDAO {
 				+ "WHERE id = ?";
 		
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setString(1, c.getCategoria());
-		ps.setDouble(2, c.getDiaria());
-		ps.setInt(3, c.getId());
+		ps.setString(1, obj.getCategoria());
+		ps.setDouble(2, obj.getDiaria());
+		ps.setInt(3, obj.getId());
 		ps.execute();
 		ps.close();
 
 	}
 
 	@Override
-	public void excluir(Chale c) throws SQLException {
+	public void excluir(Chale obj) throws SQLException {
 		
 		String sql = "DELETE FROM chale WHERE id = ?";
 		
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt(1, c.getId());
+		ps.setInt(1, obj.getId());
 		ps.execute();
 		ps.close();
 
 	}
 
 	@Override
-	public Chale consultar(Chale c) throws SQLException {
+	public Chale consultar(Chale obj) throws SQLException {
 		
 		String sql = "SELECT * FROM chale WHERE id = ?";
 		
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt(1, c.getId());
+		ps.setInt(1, obj.getId());
 		ResultSet rs = ps.executeQuery();
 		if (rs.next()) {
-			c.setId(rs.getInt("id"));
-			c.setCategoria(rs.getString("categoria"));
-			c.setDiaria(rs.getFloat("diaria"));
+			obj.setId(rs.getInt("id"));
+			obj.setCategoria(rs.getString("categoria"));
+			obj.setDiaria(rs.getFloat("diaria"));
 		}
 		rs.close();
 		ps.close();
 		
-		return c;
+		return obj;
 	}
 
 	@Override

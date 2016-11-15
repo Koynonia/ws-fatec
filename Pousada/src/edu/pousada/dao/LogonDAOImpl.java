@@ -32,22 +32,22 @@ public class LogonDAOImpl implements LogonDAO {
 	 */
 
 	@Override
-	public void adicionar(Logon l) throws SQLException {
+	public void adicionar(Logon obj) throws SQLException {
 		
 		String sql = "INSERT INTO logon VALUES (NULL,?,?,?,?,?)";
 		
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt(1, l.getIdUsuario());
-		ps.setString(2, l.getTela());
-		ps.setInt(3, l.getPerfil());
-		ps.setInt(4, l.getLogoff());
-		ps.setTimestamp(5, new java.sql.Timestamp( l.getDtLogon().getTime() ));
+		ps.setInt(1, obj.getIdUsuario());
+		ps.setString(2, obj.getTela());
+		ps.setInt(3, obj.getPerfil());
+		ps.setInt(4, obj.getLogoff());
+		ps.setTimestamp(5, new java.sql.Timestamp( obj.getDtLogon().getTime() ));
 		ps.execute();
 		ps.close();
 	}
 
 	@Override
-	public void alterar(Logon l) throws SQLException {
+	public void alterar(Logon obj) throws SQLException {
 
 		String sql = "UPDATE logon SET "
 				+ "idUsuario = ?, "
@@ -58,49 +58,49 @@ public class LogonDAOImpl implements LogonDAO {
 				+ "WHERE id = ?";
 		
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt(1, l.getIdUsuario());
-		ps.setString(2, l.getTela());
-		ps.setInt(3, l.getPerfil());
-		ps.setInt(4, l.getLogoff());
-		ps.setTimestamp(5, new java.sql.Timestamp( l.getDtLogon().getTime() ));
-		ps.setInt(6, l.getId());
+		ps.setInt(1, obj.getIdUsuario());
+		ps.setString(2, obj.getTela());
+		ps.setInt(3, obj.getPerfil());
+		ps.setInt(4, obj.getLogoff());
+		ps.setTimestamp(5, new java.sql.Timestamp( obj.getDtLogon().getTime() ));
+		ps.setInt(6, obj.getId());
 		ps.execute();
 		ps.close();
 
 	}
 
 	@Override
-	public void excluir(Logon l) throws SQLException {
+	public void excluir(Logon obj) throws SQLException {
 		
 		String sql = "DELETE FROM logon WHERE id = ?";
 		
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt(1, l.getId());
+		ps.setInt(1, obj.getId());
 		ps.execute();
 		ps.close();
 
 	}
 
 	@Override
-	public Logon consultar(Logon l) throws SQLException {
+	public Logon consultar(Logon obj) throws SQLException {
 		
 		String sql = "SELECT * FROM logon WHERE id = ?";
 		
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt(1, l.getId());
+		ps.setInt(1, obj.getId());
 		ResultSet rs = ps.executeQuery();
 		if (rs.next()) {
-			l.setId(rs.getInt("id"));
-			l.setIdUsuario(rs.getInt("idUsuario"));
-			l.setTela(rs.getString("tela"));
-			l.setPerfil(rs.getInt("perfil"));
-			l.setLogoff(rs.getInt("logoff"));
-			l.setDtLogon(rs.getTimestamp("dtLogon"));
+			obj.setId(rs.getInt("id"));
+			obj.setIdUsuario(rs.getInt("idUsuario"));
+			obj.setTela(rs.getString("tela"));
+			obj.setPerfil(rs.getInt("perfil"));
+			obj.setLogoff(rs.getInt("logoff"));
+			obj.setDtLogon(rs.getTimestamp("dtLogon"));
 		}
 		rs.close();
 		ps.close();
 		
-		return l;
+		return obj;
 	}
 
 	@Override
