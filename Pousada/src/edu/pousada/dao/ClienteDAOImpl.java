@@ -43,34 +43,34 @@ public class ClienteDAOImpl implements ClienteDAO {
 	private Connection con = DBUtil.getInstance().getConnection();
 
 	@Override
-	public void adicionar(Cliente c) throws SQLException {
+	public void adicionar(Cliente obj) throws SQLException {
 
 		String sql = "INSERT INTO cliente VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setString(1, c.getNome());
-		ps.setString(2, c.getEmail());
-		ps.setString(3, c.getDocumento());
-		ps.setString(4, c.getDocTipo());
-		ps.setDate(5, new java.sql.Date( c.getDtNasc().getTime() ));
-		ps.setString(6, c.getTelefone());
-		ps.setString(7, c.getCelular());
-		ps.setString(8, c.getEndereco());
-		ps.setString(9, c.getBairro());
-		ps.setString(10, c.getCidade());
-		ps.setString(11, c.getEstado());
-		ps.setString(12, c.getPais());
-		ps.setString(13, c.getCep());
-		ps.setString(14, c.getLogin());
-		ps.setString(15, c.getSenha());
-		ps.setBoolean(16, c.getAtivo());
-		ps.setDate(17, new java.sql.Date( c.getDtCadastro().getTime() ));
+		ps.setString(1, obj.getNome());
+		ps.setString(2, obj.getEmail());
+		ps.setString(3, obj.getDocumento());
+		ps.setString(4, obj.getDocTipo());
+		ps.setDate(5, new java.sql.Date( obj.getDtNasc().getTime() ));
+		ps.setString(6, obj.getTelefone());
+		ps.setString(7, obj.getCelular());
+		ps.setString(8, obj.getEndereco());
+		ps.setString(9, obj.getBairro());
+		ps.setString(10, obj.getCidade());
+		ps.setString(11, obj.getEstado());
+		ps.setString(12, obj.getPais());
+		ps.setString(13, obj.getCep());
+		ps.setString(14, obj.getLogin());
+		ps.setString(15, obj.getSenha());
+		ps.setBoolean(16, obj.getAtivo());
+		ps.setDate(17, new java.sql.Date( obj.getDtCadastro().getTime() ));
 		ps.execute();
 		ps.close();
 	}
 
 	@Override
-	public void alterar(Cliente c) throws SQLException {
+	public void alterar(Cliente obj) throws SQLException {
 
 		String sql = "UPDATE cliente SET "
 				+ "nome = ?, "
@@ -92,23 +92,23 @@ public class ClienteDAOImpl implements ClienteDAO {
 				+ "WHERE id = ?";
 
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setString(1, c.getNome());
-		ps.setString(2, c.getEmail());
-		ps.setString(3, c.getDocumento());
-		ps.setString(4, c.getDocTipo());
-		ps.setDate(5, new java.sql.Date( c.getDtNasc().getTime() ));
-		ps.setString(6, c.getTelefone());
-		ps.setString(7, c.getCelular());
-		ps.setString(8, c.getEndereco());
-		ps.setString(9, c.getBairro());
-		ps.setString(10, c.getCidade());
-		ps.setString(11, c.getEstado());
-		ps.setString(12, c.getPais());
-		ps.setString(13, c.getCep());
-		ps.setString(14, c.getLogin());
-		ps.setString(15, c.getSenha());
-		ps.setBoolean(16, c.getAtivo());
-		ps.setInt(17, c.getId());
+		ps.setString(1, obj.getNome());
+		ps.setString(2, obj.getEmail());
+		ps.setString(3, obj.getDocumento());
+		ps.setString(4, obj.getDocTipo());
+		ps.setDate(5, new java.sql.Date( obj.getDtNasc().getTime() ));
+		ps.setString(6, obj.getTelefone());
+		ps.setString(7, obj.getCelular());
+		ps.setString(8, obj.getEndereco());
+		ps.setString(9, obj.getBairro());
+		ps.setString(10, obj.getCidade());
+		ps.setString(11, obj.getEstado());
+		ps.setString(12, obj.getPais());
+		ps.setString(13, obj.getCep());
+		ps.setString(14, obj.getLogin());
+		ps.setString(15, obj.getSenha());
+		ps.setBoolean(16, obj.getAtivo());
+		ps.setInt(17, obj.getId());
 		ps.execute();
 		ps.close();
 	}
@@ -125,37 +125,37 @@ public class ClienteDAOImpl implements ClienteDAO {
 	}
 
 	@Override
-	public Cliente consultar(Cliente c) throws SQLException {
+	public Cliente consultar(Cliente obj) throws SQLException {
 
-		String sql = "SELECT * FROM cliente WHERE documento =  ?";
+		String sql = "SELECT * FROM cliente WHERE id =  ?";
 
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setString(1, c.getDocumento());
+		ps.setInt(1, obj.getId());
 		ResultSet rs = ps.executeQuery();
 		if (rs.next()) {
-			c.setId(rs.getInt("id"));
-			c.setNome(rs.getString("nome"));
-			c.setEmail(rs.getString("email"));
-			c.setDocumento(rs.getString("documento"));
-			c.setDocTipo(rs.getString("docTipo"));
-			c.setDtNasc(rs.getDate("dtNasc"));
-			c.setTelefone(rs.getString("telefone"));
-			c.setCelular(rs.getString("celular"));
-			c.setEndereco(rs.getString("endereco"));
-			c.setBairro(rs.getString("bairro"));
-			c.setCidade(rs.getString("cidade"));
-			c.setEstado(rs.getString("estado"));
-			c.setPais(rs.getString("pais"));
-			c.setCep(rs.getString("cep"));
-			c.setLogin(rs.getString("login"));
-			c.setSenha(rs.getString("senha"));
-			c.setAtivo(rs.getBoolean("ativo"));
-			c.setDtCadastro(rs.getDate("dtCadastro"));
+			obj.setId(rs.getInt("id"));
+			obj.setNome(rs.getString("nome"));
+			obj.setEmail(rs.getString("email"));
+			obj.setDocumento(rs.getString("documento"));
+			obj.setDocTipo(rs.getString("docTipo"));
+			obj.setDtNasc(rs.getDate("dtNasc"));
+			obj.setTelefone(rs.getString("telefone"));
+			obj.setCelular(rs.getString("celular"));
+			obj.setEndereco(rs.getString("endereco"));
+			obj.setBairro(rs.getString("bairro"));
+			obj.setCidade(rs.getString("cidade"));
+			obj.setEstado(rs.getString("estado"));
+			obj.setPais(rs.getString("pais"));
+			obj.setCep(rs.getString("cep"));
+			obj.setLogin(rs.getString("login"));
+			obj.setSenha(rs.getString("senha"));
+			obj.setAtivo(rs.getBoolean("ativo"));
+			obj.setDtCadastro(rs.getDate("dtCadastro"));
 		}
 		rs.close();
 		ps.close();
 
-		return c;
+		return obj;
 	}
 
 	@Override

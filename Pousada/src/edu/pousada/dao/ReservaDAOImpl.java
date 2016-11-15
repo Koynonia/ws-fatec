@@ -156,61 +156,16 @@ public class ReservaDAOImpl implements ReservaDAO{
 		return lista;
 	}
 
-	
-	public Cliente cliente(Integer id) throws SQLException {
+	public Cliente cliente( Integer id ) throws SQLException{
 
-		String sql = "SELECT * FROM cliente AS cl "
-				+ "INNER JOIN reserva AS rs "
-				+ "ON cl.id = rs.cliente "
-				+ "WHERE cl.id = ?";
+		Cliente idCliente = new Cliente();
+		Cliente cliente = new Cliente();
+		idCliente.setId(id);
 
-		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt( 1, id );
-		ResultSet rs = ps.executeQuery();
-		Cliente cl = new Cliente();
-		while (rs.next()) {
-			cl.setId(rs.getInt("id"));
-			cl.setNome(rs.getString("nome"));
-			cl.setEmail(rs.getString("email"));
-			cl.setDocumento(rs.getString("documento"));
-			cl.setDocTipo(rs.getString("docTipo"));
-			cl.setDtNasc(rs.getDate("dtNasc"));
-			cl.setTelefone(rs.getString("telefone"));
-			cl.setCelular(rs.getString("celular"));
-			cl.setEndereco(rs.getString("endereco"));
-			cl.setBairro(rs.getString("bairro"));
-			cl.setCidade(rs.getString("cidade"));
-			cl.setEstado(rs.getString("estado"));
-			cl.setPais(rs.getString("pais"));
-			cl.setCep(rs.getString("cep"));
-			cl.setDtCadastro(rs.getDate("dtCadastro"));
-			cl.setAtivo(rs.getBoolean("ativo"));
-		}
-		rs.close();
-		ps.close();
+		ClienteDAO dao = new ClienteDAOImpl();
+		cliente = dao.consultar( idCliente );
 
-		return cl;
-	}
-
-	public Chale chale(Integer id) throws SQLException {
-
-		String sql = "SELECT * FROM chale AS ch "
-				+ "INNER JOIN reserva AS rs "
-				+ "ON ch.id = ?";	
-
-		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt( 1, id );
-		ResultSet rs = ps.executeQuery();
-		Chale ch = new Chale();
-		while (rs.next()) {
-			ch.setId(rs.getInt("id"));
-			ch.setCategoria(rs.getString("categoria"));
-			ch.setDiaria(rs.getFloat("diaria"));
-		}
-		rs.close();
-		ps.close();
-
-		return ch;
+		return cliente;
 	}
 
 	public void excluirCliente() throws SQLException{
@@ -224,11 +179,23 @@ public class ReservaDAOImpl implements ReservaDAO{
 		ps.execute();
 		ps.close();
 	}
-	
+
+	public Chale chale( Integer id ) throws SQLException{
+
+		Chale idChale = new Chale();
+		Chale chale = new Chale();
+		idChale.setId(id);
+
+		ChaleDAO dao = new ChaleDAOImpl();
+		chale = dao.consultar( idChale );
+
+		return chale;
+	}
+
 	public int chaleDisponivel( Reserva r ) throws SQLException{
-	
+
 		int count = 0;
-		
+
 		String sql = "SELECT reserva.id "
 				+ "FROM chale "
 				+ "INNER JOIN reserva "
@@ -239,9 +206,9 @@ public class ReservaDAOImpl implements ReservaDAO{
 				+ "(? BETWEEN reserva.dtInicio AND reserva.dtFim) OR "
 				+ "(? BETWEEN reserva.dtInicio AND reserva.dtFim )"
 				+ ") AND reserva.chale = ?";
-		
+
 		PreparedStatement ps = con.prepareStatement(sql);
-		
+
 		ps.setDate( 1, new java.sql.Date ( r.getDtInicio().getTime() ));
 		ps.setDate( 2, new java.sql.Date ( r.getDtFim().getTime() ));
 		ps.setDate( 3, new java.sql.Date ( r.getDtInicio().getTime() ));
@@ -255,7 +222,7 @@ public class ReservaDAOImpl implements ReservaDAO{
 		}
 		rs.close();
 		ps.close();
-		
+
 		return count;	
 	}
 }

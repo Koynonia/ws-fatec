@@ -473,23 +473,25 @@ public class ReservaCtrl {
 						r.setAtiva(false);
 						r.setDtCadastro( new Date() );	
 					}
-					// verifica se a reserva do chale esta disponivel (verifica as datas)
-					if( chaleDisponivel(r) == 0  ) {
+					if( r.getCliente() != null && r.getChale() != null ){
+						// verifica se a reserva do chale esta disponivel (verifica as datas)
+						if( chaleDisponivel(r) == 0  ) {
 
-						adicionar( r );
+							adicionar( r );
 
-						if( ctrlLogon.getSession().get(0).getPerfil() != 2 ){
+							if( ctrlLogon.getSession().get(0).getPerfil() != 2 ){
 
-							// atualiza o estado do botão Reserva na tela Principal
-							btnReservas.setText( "Reservas ( " + ctrlLogon.reservaQtd() + " )" );
-							btnReservas.setVisible(true);
-							abrir( "reservas" );
-						} else {
-							ctrlPrincipal.trocaPerfil(2);
+								// atualiza o estado do botão Reserva na tela Principal
+								btnReservas.setText( "Reservas ( " + ctrlLogon.reservaQtd() + " )" );
+								btnReservas.setVisible(true);
+								abrir( "reservas" );
+							} else {
+								ctrlPrincipal.trocaPerfil(2);
+							}
+							return;
+						} else if( i == chales.size()-1 ){
+							MensagensCtrl.msg("erroChaleIndisponivel", (String) cboReservaCategoria.getSelectedItem() );
 						}
-						return;
-					} else if( i == chales.size()-1 ){
-						MensagensCtrl.msg("erroChaleIndisponivel", (String) cboReservaCategoria.getSelectedItem() );
 					}
 				}
 			}
