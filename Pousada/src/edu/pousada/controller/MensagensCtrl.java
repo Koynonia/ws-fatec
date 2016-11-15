@@ -1,7 +1,10 @@
 package edu.pousada.controller;
 
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 
 public class MensagensCtrl {
 
@@ -187,7 +190,7 @@ public class MensagensCtrl {
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon( LogonCtrl.getCaminho() + "/icons/alert.png" ));
 			return false;
-			
+
 		case "sucesso":
 			JOptionPane.showMessageDialog(null, 
 					"Reserva(s) " + mensagem + " cancelada(s).", 
@@ -222,7 +225,7 @@ public class MensagensCtrl {
 					JOptionPane.PLAIN_MESSAGE, 
 					new ImageIcon( LogonCtrl.getCaminho() + "/icons/user.png" ));
 			return true;
-			
+
 		case "autorizado":
 			JOptionPane.showMessageDialog(null, 
 					"Seja bem-vindo, " + mensagem 
@@ -246,15 +249,6 @@ public class MensagensCtrl {
 				return false;
 			}
 
-		case "construir":
-			JOptionPane.showMessageDialog(null, 
-					mensagem + 
-					" - Em construção!\nEsta função ainda não foi implementada.", 
-					"Sem implementação", 
-					JOptionPane.PLAIN_MESSAGE,
-					new ImageIcon( LogonCtrl.getCaminho() + "/icons/builder.png" ));
-			break;
-
 		case "inicio":
 			JOptionPane.showMessageDialog(null, 
 					"Este é o primeiro acesso ao sistema "
@@ -263,6 +257,27 @@ public class MensagensCtrl {
 							JOptionPane.PLAIN_MESSAGE, 
 							new ImageIcon( LogonCtrl.getCaminho() + "/icons/adm.png" ));
 			return true;
+
+		case "senhaAdm":
+			JPasswordField password = new JPasswordField(10);
+			JLabel rotulo = new JLabel("Entre com a senha:");
+			JPanel entUsuario = new JPanel();
+			entUsuario.add(rotulo);
+			entUsuario.add(password);
+			JOptionPane.showMessageDialog(null, entUsuario, 
+					"Acesso Restrito", 
+					JOptionPane.PLAIN_MESSAGE, 
+					new ImageIcon( LogonCtrl.getCaminho() + "/icons/adm.png" ));
+			return true;
+
+		case "construir":
+			JOptionPane.showMessageDialog(null, 
+					mensagem + 
+					" - Em construção!\nEsta função ainda não foi implementada.", 
+					"Sem implementação", 
+					JOptionPane.PLAIN_MESSAGE,
+					new ImageIcon( LogonCtrl.getCaminho() + "/icons/builder.png" ));
+			break;
 
 		case "sair":
 			Object[] exit = { "Confirmar", "Cancelar" };  

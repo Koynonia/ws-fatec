@@ -317,14 +317,14 @@ public class ReservaCtrl {
 
 	public void adicionaReserva () throws ParseException{
 
-		// verifica se os campos foram preenchidos
-		if( CamposCtrl.valida( "reserva" ) != false 
-				&& CamposCtrl.data(ftxtReservaDtInicio, ftxtReservaDtFim) != false ){
-
 			cargaChale();
-			//cargaReserva();
 
 			if( !chales.isEmpty() ){
+				
+				// verifica se os campos foram preenchidos
+				if( CamposCtrl.valida( "reserva" ) != false 
+						&& CamposCtrl.data(ftxtReservaDtInicio, ftxtReservaDtFim) != false ){
+				
 				cargaCliente();
 
 				Chale ch = new Chale();
@@ -370,6 +370,7 @@ public class ReservaCtrl {
 				} else {
 					// se já houver clientes, busca pelo documento do cliente
 					for( int i = 0; i < clientes.size(); i++ ){
+						
 						if( clientes.get(i).getDocumento().equals( ftxtReservaDocNum.getText()
 								.replace(".","").replace("/","").replace("-","")  )){
 							validar = true;
@@ -469,7 +470,7 @@ public class ReservaCtrl {
 						r.setQtdCrianca( Integer.parseInt(txtReservaQtdCrianca.getText() ));
 						r.setDtInicio( sdf.parse( ftxtReservaDtInicio.getText().replace("/","") ));
 						r.setDtFim( sdf.parse( ftxtReservaDtFim.getText().replace("/","") ));
-						r.setMensagem( txtaReservaObs.getText() );
+						r.setObservacao( txtaReservaObs.getText() );
 						r.setDesconto( 0 );
 						r.setAtiva(false);
 						r.setDtCadastro( new Date() );	
@@ -498,8 +499,7 @@ public class ReservaCtrl {
 				}
 			}
 		} else if( MensagensCtrl.msg("erroChale", "" ) != false ){
-			MensagensCtrl.msg("construir", "Cadastrar Chalés" );
-			return;
+			ctrlPrincipal.trocaPerfil(5);
 		} else {
 			return;
 		}

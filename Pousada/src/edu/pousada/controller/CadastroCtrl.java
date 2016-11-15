@@ -102,6 +102,7 @@ public class CadastroCtrl {
 		CadastroCtrl.clientes = new ArrayList<Cliente>();
 
 		LogonCtrl.getInstance();
+		
 		preencheTipoDoc();
 	}
 
@@ -239,7 +240,7 @@ public class CadastroCtrl {
 
 				f.setNome( txtCadastroNome.getText() );
 				f.setEmail( txtCadastroEmail.getText() );
-				f.setCpf( ftxtCadastroDocNum.getText()
+				f.setDocumento( ftxtCadastroDocNum.getText()
 						.replace(".","").replace("/","").replace("-","").replace("_","")  );
 				f.setDtNasc( sdf.parse( ftxtCadastroDtNasc.getText().replace("/","") ));
 				f.setTelefone( ftxtCadastroTelefone.getText()
@@ -290,7 +291,7 @@ public class CadastroCtrl {
 					f.setId( id );
 					f.setNome( txtCadastroNome.getText() );
 					f.setEmail( txtCadastroEmail.getText() );
-					f.setCpf( ftxtCadastroDocNum.getText()
+					f.setDocumento( ftxtCadastroDocNum.getText()
 							.replace(".","").replace("/","").replace("-","").replace("_","")  );
 					f.setDtNasc( sdf.parse( ftxtCadastroDtNasc.getText().replace("/","") ));
 					f.setTelefone( ftxtCadastroTelefone.getText()

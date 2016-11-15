@@ -22,7 +22,7 @@ public class FuncionarioDAOImpl implements FuncionarioDAO {
 	 * id INT AUTO_INCREMENT PRIMARY KEY,
 	 * nome VARCHAR(100) NOT NULL,
 	 * email VARCHAR(30) UNIQUE NOT NULL,
-	 * cpf VARCHAR(11) UNIQUE NOT NULL,
+	 * documento VARCHAR(11) UNIQUE NOT NULL,
 	 * dtNasc DATE NOT NULL,
 	 * telefone VARCHAR(11) UNIQUE,
 	 * celular VARCHAR(12) UNIQUE,
@@ -51,7 +51,7 @@ public class FuncionarioDAOImpl implements FuncionarioDAO {
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1, obj.getNome());
 		ps.setString(2, obj.getEmail());
-		ps.setString(3, obj.getCpf());
+		ps.setString(3, obj.getDocumento());
 		ps.setDate(4, new java.sql.Date( obj.getDtNasc().getTime() ));
 		ps.setString(5, obj.getTelefone());
 		ps.setString(6, obj.getCelular());
@@ -77,7 +77,7 @@ public class FuncionarioDAOImpl implements FuncionarioDAO {
 		String sql = "UPDATE funcionario SET "
 				+ "nome = ?, "
 				+ "email = ?, "
-				+ "cpf = ?, "
+				+ "documento = ?, "
 				+ "dtNasc = ?, "
 				+ "telefone = ?, "
 				+ "celular = ?, "
@@ -97,7 +97,7 @@ public class FuncionarioDAOImpl implements FuncionarioDAO {
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1, obj.getNome());
 		ps.setString(2, obj.getEmail());
-		ps.setString(3, obj.getCpf());
+		ps.setString(3, obj.getDocumento());
 		ps.setDate(4, new java.sql.Date( obj.getDtNasc().getTime() ));
 		ps.setString(5, obj.getTelefone());
 		ps.setString(6, obj.getCelular());
@@ -112,7 +112,7 @@ public class FuncionarioDAOImpl implements FuncionarioDAO {
 		ps.setString(15, obj.getLogin());
 		ps.setString(16, obj.getSenha());
 		ps.setBoolean(17, obj.getAtivo());
-		ps.setString(18, obj.getCpf());
+		ps.setString(18, obj.getDocumento());
 		ps.execute();
 		ps.close();
 	}
@@ -123,7 +123,7 @@ public class FuncionarioDAOImpl implements FuncionarioDAO {
 		String sql = "DELETE FROM funcionario WHERE cpf = ?";
 
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setString(1, obj.getCpf());
+		ps.setString(1, obj.getDocumento());
 		ps.execute();
 		ps.close();
 
@@ -135,13 +135,13 @@ public class FuncionarioDAOImpl implements FuncionarioDAO {
 		String sql = "SELECT * FROM funcionarios WHERE cpf =  ?";
 
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setString(1, obj.getCpf());
+		ps.setString(1, obj.getDocumento());
 		ResultSet rs = ps.executeQuery();
 		if (rs.next()) {
 			obj.setId(rs.getInt("id"));
 			obj.setNome(rs.getString("nome"));
 			obj.setEmail(rs.getString("email"));
-			obj.setCpf(rs.getString("cpf"));
+			obj.setDocumento(rs.getString("documento"));
 			obj.setDtNasc(rs.getDate("dtNasc"));
 			obj.setTelefone(rs.getString("telefone"));
 			obj.setCelular(rs.getString("celular"));
@@ -177,7 +177,7 @@ public class FuncionarioDAOImpl implements FuncionarioDAO {
 			f.setId(rs.getInt("id"));
 			f.setNome(rs.getString("nome"));
 			f.setEmail(rs.getString("email"));
-			f.setCpf(rs.getString("cpf"));
+			f.setDocumento(rs.getString("documento"));
 			f.setDtNasc(rs.getDate("dtNasc"));
 			f.setTelefone(rs.getString("telefone"));
 			f.setCelular(rs.getString("celular"));

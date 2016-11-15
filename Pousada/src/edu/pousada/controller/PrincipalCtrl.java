@@ -255,6 +255,14 @@ public class PrincipalCtrl {
 			CadastroCtrl.btnCadastroEditar.setText("Salvar");
 			CadastroCtrl.btnCadastroLimpar.setEnabled(true);
 			break;
+			
+		case 5:
+			tabContainer.add( "Reservas", painelReserva );
+			tabContainer.add( "Chalés", painelAdmChale );
+			tabContainer.setSelectedIndex(1);
+			tabContainer.add( "Serviço", painelAdmServico );
+			tabContainer.add( "Cadastro", painelCadastro );
+			break;
 
 		default:
 			tabContainer.add( "Principal", painelPrincipal );

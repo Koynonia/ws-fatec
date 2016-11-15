@@ -31,7 +31,7 @@ public class ReservaDAOImpl implements ReservaDAO{
 	 * qtdCrianca INT NOT NULL,
 	 * dtInicio DATE NOT NULL,
 	 * dtFim DATE NOT NULL, 
-	 * mensagem VARCHAR(300),
+	 * observacao VARCHAR(300),
 	 * desconto INT NOT NULL,
 	 * ativa BOOLEAN NOT NULL,
 	 * dtCadastro DATE NOT NULL
@@ -50,7 +50,7 @@ public class ReservaDAOImpl implements ReservaDAO{
 		ps.setInt(4, obj.getQtdCrianca());
 		ps.setDate(5, new java.sql.Date( obj.getDtInicio().getTime() ));
 		ps.setDate(6, new java.sql.Date( obj.getDtFim().getTime() ));
-		ps.setString(7, obj.getMensagem());
+		ps.setString(7, obj.getObervacao());
 		ps.setInt(8, obj.getDesconto());
 		ps.setBoolean(9, obj.getAtiva() );
 		ps.setDate(10, new java.sql.Date( obj.getDtCadastro().getTime() ));
@@ -68,7 +68,7 @@ public class ReservaDAOImpl implements ReservaDAO{
 				+ "qtdCrianca = ?, "
 				+ "dtInicio = ?, "
 				+ "dtFim = ?, "
-				+ "mensagem = ?, "
+				+ "observacao = ?, "
 				+ "desconto = ?,  "
 				+ "ativa = ? "
 				+ "WHERE id = ?";
@@ -80,7 +80,7 @@ public class ReservaDAOImpl implements ReservaDAO{
 		ps.setInt(4, obj.getQtdCrianca());
 		ps.setDate(5, new java.sql.Date( obj.getDtInicio().getTime() ));
 		ps.setDate(6, new java.sql.Date( obj.getDtFim().getTime() ));
-		ps.setString(7, obj.getMensagem());
+		ps.setString(7, obj.getObervacao());
 		ps.setInt(8, obj.getDesconto());
 		ps.setBoolean(9, obj.getAtiva() );
 		ps.setInt(10, obj.getId());
@@ -117,7 +117,7 @@ public class ReservaDAOImpl implements ReservaDAO{
 			obj.setQtdCrianca(rs.getInt("qtdCrianca"));
 			obj.setDtInicio(rs.getDate("dtInicio"));
 			obj.setDtFim(rs.getDate("dtFim"));
-			obj.setMensagem(rs.getString("mensagem"));
+			obj.setObservacao(rs.getString("observacao"));
 			obj.setDesconto(rs.getInt("desconto"));
 			obj.setAtiva(rs.getBoolean("ativa"));
 			obj.setDtCadastro(rs.getDate("dtCadastro"));
@@ -144,7 +144,7 @@ public class ReservaDAOImpl implements ReservaDAO{
 			r.setQtdCrianca(rs.getInt("qtdCrianca"));
 			r.setDtInicio(rs.getDate("dtInicio"));
 			r.setDtFim(rs.getDate("dtFim"));
-			r.setMensagem(rs.getString("mensagem"));
+			r.setObservacao(rs.getString("observacao"));
 			r.setDesconto(rs.getInt("desconto"));
 			r.setAtiva(rs.getBoolean("ativa"));
 			r.setDtCadastro(rs.getDate("dtCadastro"));

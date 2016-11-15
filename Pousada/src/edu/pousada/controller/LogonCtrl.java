@@ -177,7 +177,7 @@ public class LogonCtrl {
 
 			f.setNome( "Administrador Teste" );
 			f.setEmail( "" );
-			f.setCpf( ""  );			
+			f.setDocumento( ""  );			
 			f.setDtNasc( new Date() );
 			f.setTelefone( "" );
 			f.setCelular( "" );
