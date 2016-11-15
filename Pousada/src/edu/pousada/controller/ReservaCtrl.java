@@ -320,201 +320,184 @@ public class ReservaCtrl {
 		if( CamposCtrl.valida( "reserva" ) != false 
 				&& CamposCtrl.data(ftxtReservaDtInicio, ftxtReservaDtFim) != false ){
 
-			cargaReserva();
-			cargaCliente();
 			cargaChale();
-
-			Chale ch = new Chale();
+			//cargaReserva();
 
 			if( !chales.isEmpty() ){
-				if( !reservas.isEmpty() ){
-
-					for( int r = 0; r < reservas.size(); r++ ){
-
-						// seleciona o chale da categoria escolhida ou retorna erro
-						for( int i = 0; i < chales.size(); i++ ){
-							if( chales.get(i).getCategoria().equals( cboReservaCategoria.getSelectedItem() )){
-
-								// verifica se o chale já foi reservado
-								if ( !reservas.get(r).getChale().getId().equals( chales.get(i).getId() )){
-
-									ch.setId( chales.get(i).getId() );
-									ch.setCategoria( chales.get(i).getCategoria() );
-									ch.setDiaria( chales.get(i).getDiaria() );
-									ch.setFrigobar( chales.get(i).getFrigobar() );
-
-								} 
-							}
-						}
-					}
-				} else {
-					// seleciona o chale da categoria escolhida ou retorna erro se não houver reservas
-					for( int i = 0; i < chales.size(); i++ ){
-						if( chales.get(i).getCategoria().equals( cboReservaCategoria.getSelectedItem() )){
-
-							ch.setId( chales.get(i).getId() );
-							ch.setCategoria( chales.get(i).getCategoria() );
-							ch.setDiaria( chales.get(i).getDiaria() );
-							ch.setFrigobar( chales.get(i).getFrigobar() );
-						}
-					}
-				}
-			} else {
-				MensagensCtrl.msg("erroChale", (String) cboReservaCategoria.getSelectedItem() );
-				return;
-			}
-			// se não houver cliente na base de dados, cadastra o primeiro parcialmente e o usa na reserva
-			Cliente cl = new Cliente();
-			if( clientes.isEmpty() ){
-
-				cl.setNome( txtReservaNome.getText() );
-				cl.setEmail( txtReservaEmail.getText() );
-				cl.setDocumento( ftxtReservaDocNum.getText()
-						.replace(".","").replace("/","").replace("-","")  );
-				cl.setDocTipo( cboReservaDocTipo.getSelectedItem().toString() );
-				cl.setDtNasc( new Date() );
-				cl.setTelefone( ftxtReservaTelefone.getText()
-						.replace("(","").replace(")", "").replace(" ","").replace("-","") );
-				cl.setCelular( ftxtReservaCelular.getText()
-						.replace("(","").replace(")", "").replace(" ","").replace("-","") );
-				cl.setCidade( txtReservaCidade.getText() );
-				cl.setEstado( txtReservaEstado.getText() );
-				cl.setPais( txtReservaPais.getText() );
-				cl.setDtCadastro( new Date() );
-				cl.setAtivo( false );
-				adicionarCliente( cl );
-
-				// atualiza com o novo cliente
 				cargaCliente();
 
-				// atualiza o logon para um perfil visitante
-				List<Logon> log = new ArrayList<Logon>();
-				Logon l = new Logon();
+				Chale ch = new Chale();
+				Cliente cl = new Cliente();
+				Reserva r = new Reserva();
 
-				l.setIdUsuario( clientes.get(0).getId() );
-				l.setTela( "Reservas" );
-				l.setPerfil( 0 );
-				l.setLogoff( 0 );
-				l.setDtLogon( new Date() );
-				log.add(l);
-				ctrlLogon.setLogon( log );
+				if( clientes.isEmpty() ){
+					// se não houver cliente na base de dados, 
+					// cadastra o primeiro parcialmente e o usa na reserva
 
-			} else {
-				// se já houver clientes, busca pelo documento do cliente
-				for( int i = 0; i < clientes.size(); i++ ){
-					if( clientes.get(i).getDocumento().equals( ftxtReservaDocNum.getText()
-							.replace(".","").replace("/","").replace("-","")  )){
-						validar = true;
-					}
-					// ao final da busca, se não encontrar o cliente, o cadastra parcialmente e o usa na reserva
-					if( i == clientes.size()-1 ){
-						if(	validar != true ){
+					cl.setNome( txtReservaNome.getText() );
+					cl.setEmail( txtReservaEmail.getText() );
+					cl.setDocumento( ftxtReservaDocNum.getText()
+							.replace(".","").replace("/","").replace("-","")  );
+					cl.setDocTipo( cboReservaDocTipo.getSelectedItem().toString() );
+					cl.setDtNasc( new Date() );
+					cl.setTelefone( ftxtReservaTelefone.getText()
+							.replace("(","").replace(")", "").replace(" ","").replace("-","") );
+					cl.setCelular( ftxtReservaCelular.getText()
+							.replace("(","").replace(")", "").replace(" ","").replace("-","") );
+					cl.setCidade( txtReservaCidade.getText() );
+					cl.setEstado( txtReservaEstado.getText() );
+					cl.setPais( txtReservaPais.getText() );
+					cl.setDtCadastro( new Date() );
+					cl.setAtivo( false );
+					adicionarCliente( cl );
 
-							cl.setId( clientes.size() );
-							cl.setNome( txtReservaNome.getText() );
-							cl.setEmail( txtReservaEmail.getText() );
-							cl.setDocumento( ftxtReservaDocNum.getText()
-									.replace(".","").replace("/","").replace("-","") );
-							cl.setDocTipo( cboReservaDocTipo.getSelectedItem().toString() );
-							cl.setDtNasc( new Date() );
-							cl.setTelefone( ftxtReservaTelefone.getText()
-									.replace("(","").replace(")", "").replace(" ","").replace("-","") );
-							cl.setCelular( ftxtReservaCelular.getText()
-									.replace("(","").replace(")", "").replace(" ","").replace("-","") );
-							cl.setCidade( txtReservaCidade.getText() );
-							cl.setEstado( txtReservaEstado.getText() );
-							cl.setPais( txtReservaPais.getText() );
-							cl.setAtivo( false );
-							cl.setDtCadastro( new Date() );
-							adicionarCliente( cl );
+					// atualiza com o novo cliente
+					cargaCliente();
 
-							// atualiza com o cliente
-							cargaCliente();
+					// atualiza o logon para um perfil visitante
+					List<Logon> log = new ArrayList<Logon>();
+					Logon l = new Logon();
 
-							// atualiza o logon para um perfil visitante
-							List<Logon> log = new ArrayList<Logon>();
-							Logon l = new Logon();
+					l.setIdUsuario( clientes.get(0).getId() );
+					l.setTela( "Reservas" );
+					l.setPerfil( 0 );
+					l.setLogoff( 0 );
+					l.setDtLogon( new Date() );
+					log.add(l);
+					ctrlLogon.setLogon( log );
 
-							l.setIdUsuario( clientes.get( clientes.size()-1 ).getId() );
-							l.setTela( "Reservas" );
-							l.setPerfil( 0 );
-							l.setLogoff( 0 );
-							l.setDtLogon( new Date() );
-							log.add(l);
-							ctrlLogon.setLogon( log );
+				} else {
+					// se já houver clientes, busca pelo documento do cliente
+					for( int i = 0; i < clientes.size(); i++ ){
+						if( clientes.get(i).getDocumento().equals( ftxtReservaDocNum.getText()
+								.replace(".","").replace("/","").replace("-","")  )){
+							validar = true;
+						}
+						// ao final da busca, se não encontrar o cliente, o cadastra parcialmente e o usa na reserva
+						if( i == clientes.size()-1 ){
+							if(	validar != true ){
 
-						} else {
+								cl.setId( clientes.size() );
+								cl.setNome( txtReservaNome.getText() );
+								cl.setEmail( txtReservaEmail.getText() );
+								cl.setDocumento( ftxtReservaDocNum.getText()
+										.replace(".","").replace("/","").replace("-","") );
+								cl.setDocTipo( cboReservaDocTipo.getSelectedItem().toString() );
+								cl.setDtNasc( new Date() );
+								cl.setTelefone( ftxtReservaTelefone.getText()
+										.replace("(","").replace(")", "").replace(" ","").replace("-","") );
+								cl.setCelular( ftxtReservaCelular.getText()
+										.replace("(","").replace(")", "").replace(" ","").replace("-","") );
+								cl.setCidade( txtReservaCidade.getText() );
+								cl.setEstado( txtReservaEstado.getText() );
+								cl.setPais( txtReservaPais.getText() );
+								cl.setAtivo( false );
+								cl.setDtCadastro( new Date() );
+								adicionarCliente( cl );
 
-							// caso o cliente seja encontrado, apenas recupera seus dados para a reserva
-							for( int j = 0; j < clientes.size(); j++ ){
-								if( clientes.get(j).getDocumento().equals( ftxtReservaDocNum.getText()
-										.replace(".","").replace("/","").replace("-","")  )){
-									cl.setId( clientes.get(j).getId() );
-									cl.setNome( clientes.get(j).getNome() );
-									cl.setEmail( clientes.get(j).getEmail() );
-									cl.setDocumento( clientes.get(j).getDocumento() );
-									cl.setDocTipo( clientes.get(j).getDocTipo() );
-									cl.setDtNasc( clientes.get(j).getDtNasc() );
-									cl.setTelefone( clientes.get(j).getTelefone() );
-									cl.setCelular( clientes.get(j).getCelular() );
-									cl.setEndereco( clientes.get(j).getEndereco() );
-									cl.setBairro( clientes.get(j).getBairro() );
-									cl.setCidade( clientes.get(j).getCidade() );
-									cl.setEstado( clientes.get(j).getEstado() );
-									cl.setPais( clientes.get(j).getPais() );
-									cl.setCep( clientes.get(j).getCep() );
-									cl.setDtCadastro( clientes.get(j).getDtCadastro() );
-									cl.setAtivo( clientes.get(j).getAtivo() );
+								// atualiza com o cliente
+								cargaCliente();
 
-									// atualiza o logon para um perfil visitante
-									List<Logon> log = new ArrayList<Logon>();
-									Logon l = new Logon();
-									l.setIdUsuario( clientes.get( j ).getId() );
-									l.setTela( "Reservas" );
-									l.setPerfil( 0 );
-									l.setLogoff( 0 );
-									l.setDtLogon( new Date() );
-									log.add(l);
-									ctrlLogon.setLogon( log );
+								// atualiza o logon para um perfil visitante
+								List<Logon> log = new ArrayList<Logon>();
+								Logon l = new Logon();
+
+								l.setIdUsuario( clientes.get( clientes.size()-1 ).getId() );
+								l.setTela( "Reservas" );
+								l.setPerfil( 0 );
+								l.setLogoff( 0 );
+								l.setDtLogon( new Date() );
+								log.add(l);
+								ctrlLogon.setLogon( log );
+
+							} else {
+
+								// caso o cliente seja encontrado, apenas recupera seus dados para a reserva
+								for( int j = 0; j < clientes.size(); j++ ){
+									if( clientes.get(j).getDocumento().equals( ftxtReservaDocNum.getText()
+											.replace(".","").replace("/","").replace("-","")  )){
+										cl.setId( clientes.get(j).getId() );
+										cl.setNome( clientes.get(j).getNome() );
+										cl.setEmail( clientes.get(j).getEmail() );
+										cl.setDocumento( clientes.get(j).getDocumento() );
+										cl.setDocTipo( clientes.get(j).getDocTipo() );
+										cl.setDtNasc( clientes.get(j).getDtNasc() );
+										cl.setTelefone( clientes.get(j).getTelefone() );
+										cl.setCelular( clientes.get(j).getCelular() );
+										cl.setEndereco( clientes.get(j).getEndereco() );
+										cl.setBairro( clientes.get(j).getBairro() );
+										cl.setCidade( clientes.get(j).getCidade() );
+										cl.setEstado( clientes.get(j).getEstado() );
+										cl.setPais( clientes.get(j).getPais() );
+										cl.setCep( clientes.get(j).getCep() );
+										cl.setDtCadastro( clientes.get(j).getDtCadastro() );
+										cl.setAtivo( clientes.get(j).getAtivo() );
+
+										// atualiza o logon para um perfil visitante
+										List<Logon> log = new ArrayList<Logon>();
+										Logon l = new Logon();
+										l.setIdUsuario( clientes.get( j ).getId() );
+										l.setTela( "Reservas" );
+										l.setPerfil( 0 );
+										l.setLogoff( 0 );
+										l.setDtLogon( new Date() );
+										log.add(l);
+										ctrlLogon.setLogon( log );
+									}
 								}
+								validar = false;
 							}
-							validar = false;
 						}
 					}
 				}
-			}		
-			// monta a reserva com os objetos Chale e Cliente
-			Reserva r = new Reserva();
-			DateFormat sdf = new SimpleDateFormat("ddMMyyyy");
-			r.setCliente( cl );
-			r.setChale( ch );
-			r.setQtdAdulto( Integer.parseInt( txtReservaQtdAdulto.getText() ));
-			r.setQtdCrianca( Integer.parseInt(txtReservaQtdCrianca.getText() ));
-			r.setDtInicio( sdf.parse( ftxtReservaDtInicio.getText().replace("/","") ));
-			r.setDtFim( sdf.parse( ftxtReservaDtFim.getText().replace("/","") ));
-			r.setMensagem( txtaReservaObs.getText() );
-			r.setDesconto( 0 );
-			r.setAtiva(false);
-			r.setDtCadastro( new Date() );
 
-			// verifica se a reserva do chale esta disponivel (verifica as datas)
-			if( chaleDisponivel(r) != 0  ) {
+				// seleciona o chale da categoria escolhida
+				for( int i = 0; i < chales.size(); i++ ){
+					if( chales.get(i).getCategoria().equals( cboReservaCategoria.getSelectedItem() )){
 
-				MensagensCtrl.msg("erroChale", (String) cboReservaCategoria.getSelectedItem() );
-			} else {
+						ch.setId( chales.get(i).getId() );
+						ch.setCategoria( chales.get(i).getCategoria() );
+						ch.setDiaria( chales.get(i).getDiaria() );
+						ch.setFrigobar( chales.get(i).getFrigobar() );
 
-				adicionar( r );
+						// monta a reserva com os objetos Chale e Cliente
+						DateFormat sdf = new SimpleDateFormat("ddMMyyyy");
+						r.setCliente( cl );
+						r.setChale( ch );
+						r.setQtdAdulto( Integer.parseInt( txtReservaQtdAdulto.getText() ));
+						r.setQtdCrianca( Integer.parseInt(txtReservaQtdCrianca.getText() ));
+						r.setDtInicio( sdf.parse( ftxtReservaDtInicio.getText().replace("/","") ));
+						r.setDtFim( sdf.parse( ftxtReservaDtFim.getText().replace("/","") ));
+						r.setMensagem( txtaReservaObs.getText() );
+						r.setDesconto( 0 );
+						r.setAtiva(false);
+						r.setDtCadastro( new Date() );	
+					}
+					// verifica se a reserva do chale esta disponivel (verifica as datas)
+					if( chaleDisponivel(r) == 0  ) {
 
-				if( ctrlLogon.getSession().get(0).getPerfil() != 2 ){
+						adicionar( r );
 
-					// atualiza o estado do botão Reserva na tela Principal
-					btnReservas.setText( "Reservas ( " + ctrlLogon.reservaQtd() + " )" );
-					btnReservas.setVisible(true);
-					abrir( "reservas" );
-				} else {
-					ctrlPrincipal.trocaPerfil(2);
+						if( ctrlLogon.getSession().get(0).getPerfil() != 2 ){
+
+							// atualiza o estado do botão Reserva na tela Principal
+							btnReservas.setText( "Reservas ( " + ctrlLogon.reservaQtd() + " )" );
+							btnReservas.setVisible(true);
+							abrir( "reservas" );
+						} else {
+							ctrlPrincipal.trocaPerfil(2);
+						}
+						return;
+					} else if( i == chales.size()-1 ){
+						MensagensCtrl.msg("erroChaleIndisponivel", (String) cboReservaCategoria.getSelectedItem() );
+					}
 				}
 			}
+		} else if( MensagensCtrl.msg("erroChale", "" ) != false ){
+			MensagensCtrl.msg("construir", "Cadastrar Chalés" );
+			return;
+		} else {
+			return;
 		}
 	}
 
@@ -747,14 +730,14 @@ public class ReservaCtrl {
 			String item = chales.get(i).getCategoria();
 			lista[i] = item;
 		}
-		
+
 		// remove categorias repetidas
 		String[] combo = CamposCtrl.removeRepetidos( lista );
-		
+
 		// adiciona na combobox
 		cboReservaCategoria.addItem( "Selecione…" );
 		for ( int i = 0; i < combo.length; i++ ){
-				cboReservaCategoria.addItem( combo[i] );
+			cboReservaCategoria.addItem( combo[i] );
 		}
 	}
 

@@ -326,7 +326,7 @@ public class LogonCtrl {
 					}
 				}
 				if( count > 0){
-					if( !MensagensCtrl.msg( "excluirReservas", "" + reservas.size() )){
+					if( !MensagensCtrl.msg( "excluirReservas", "" + reservaQtd() )){
 						for( int i = 0; i < reservas.size(); i++ ){
 							if( reservas.get(i).getCliente().getId()
 									.equals( logon.get(0).getIdUsuario() ) 

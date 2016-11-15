@@ -62,20 +62,34 @@ public class MensagensCtrl {
 							"Erro", JOptionPane.PLAIN_MESSAGE,
 							new ImageIcon( LogonCtrl.getCaminho() + "/icons/error.png" ));
 			return false;
-			
-		case "erroCadastro":
-			Object[] inicio = { "Seu Cadastro", "Sua Reserva" };
-			int iniciar = JOptionPane.showOptionDialog(null, 
-					"Seja bem-vindo " + mensagem + "\nO que você gostaria de realizar neste momento?", 
-					"Sem Cadastro",
-					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
-					new ImageIcon( LogonCtrl.getCaminho() + "/icons/quest.png" ), inicio, inicio[1]);
-			if (iniciar == 0) {
+
+		case "erroChale":
+			Object[] cha = { "Cadastrar", "Cancelar" };
+			int iniCha = JOptionPane.showOptionDialog(null, 
+					"Não existem unidades cadastradas no sistema!\n"
+							+ "Você gostaria de realizar o cadastramento?", 
+							"Sem Registros",
+							JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
+							new ImageIcon( LogonCtrl.getCaminho() + "/icons/quest.png" ), cha, cha[1]);
+			if (iniCha == 0) {
 				return true;
 			} else {
 				return false;
 			}
-			
+
+		case "erroCadastro":
+			Object[] cad = { "Seu Cadastro", "Sua Reserva" };
+			int iniCad = JOptionPane.showOptionDialog(null, 
+					"Seja bem-vindo " + mensagem + "\nO que você gostaria de realizar neste momento?", 
+					"Sem Cadastro",
+					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
+					new ImageIcon( LogonCtrl.getCaminho() + "/icons/quest.png" ), cad, cad[1]);
+			if (iniCad == 0) {
+				return true;
+			} else {
+				return false;
+			}
+
 		case "errorsession":
 			JOptionPane.showMessageDialog(null, 
 					"ACESSO NEGADO!\n\nPor favor, solicite a autorização de um administrador.", 
@@ -83,7 +97,7 @@ public class MensagensCtrl {
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon( LogonCtrl.getCaminho() + "/icons/warning.png"));
 			break;
-			
+
 		case "erroSenha":
 			JOptionPane.showMessageDialog(null, 
 					"USUÁRIO OU SENHA ERRADOS.\n\nO usuário '" + mensagem + "' ou sua senha não conferem!\n"
@@ -92,7 +106,7 @@ public class MensagensCtrl {
 							JOptionPane.PLAIN_MESSAGE, 
 							new ImageIcon( LogonCtrl.getCaminho() + "/icons/error.png" ));
 			return false;
-			
+
 		case "erroSenhaDifere":
 			JOptionPane.showMessageDialog(null, 
 					"CAMPOS SENHA DIFEREM.\n\nA senha e a sua confirmação estão diferentes!\n"
@@ -102,7 +116,8 @@ public class MensagensCtrl {
 							new ImageIcon( LogonCtrl.getCaminho() + "/icons/error.png" ));
 			return false;
 
-		case "erroChale":
+
+		case "erroChaleIndisponivel":
 			JOptionPane.showMessageDialog(null, 
 					"INDISPONÍVEL\n\nOs Chalés da categoria " + mensagem
 					+ "\nnão estão disponíveis neste período.\n\nPor favor, selecione um período ou categoria diferente.", 
@@ -130,7 +145,7 @@ public class MensagensCtrl {
 					JOptionPane.PLAIN_MESSAGE, 
 					new ImageIcon( LogonCtrl.getCaminho() + "/icons/user.png" ));
 			return true;
-			
+
 		case "sucesso":
 			JOptionPane.showMessageDialog(null, 
 					"Reserva(s) " + mensagem + " cancelada(s).", 
@@ -138,7 +153,7 @@ public class MensagensCtrl {
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon( LogonCtrl.getCaminho() + "/icons/confirm.png" ));
 			break;
-			
+
 		case "mensagemEnviada":
 
 			JOptionPane.showMessageDialog(null, 
@@ -147,7 +162,7 @@ public class MensagensCtrl {
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon( LogonCtrl.getCaminho() + "/icons/mail.png" ));
 			return true;
-			
+
 		case "adicionaCadastro":
 			JOptionPane.showMessageDialog(null, 
 					"O cadastro de " + mensagem 
@@ -156,7 +171,7 @@ public class MensagensCtrl {
 					JOptionPane.PLAIN_MESSAGE, 
 					new ImageIcon( LogonCtrl.getCaminho() + "/icons/user.png" ));
 			return true;
-			
+
 		case "atualizaCadastro":
 			JOptionPane.showMessageDialog(null, 
 					"Feito! A atualização do cadastro de " + mensagem 
@@ -193,20 +208,25 @@ public class MensagensCtrl {
 			}
 
 		case "excluirReservas":
-			Object[] excluir = { "Cancelar Reservas", "Apenas Sair" };  
-			int fechar = JOptionPane.showOptionDialog( null, 
-					"Existem reservas não concluídas no sistema.\n\n"
-					+ "Você pode cancelar a atual seleção ou manter, \n"
-					+ "concluindo mais tarde.\nAs reservas inconcluidas "
-					+ "não são garantidas.",
-					"Atenção", 
-					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
-					new ImageIcon( LogonCtrl.getCaminho() + "/icons/alert.png" ), excluir, excluir[1] );
-			if ( fechar != 0 ) {
+			int excluir = JOptionPane.showOptionDialog(null, 
+					"Existem " + mensagem + " reservas não concluídas no sistema.\n"
+							+ "Somente as reservas concluidas "
+							+ "são garantidas.",
+							"Atenção", 
+							JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, 
+							new ImageIcon( LogonCtrl.getCaminho() + "/icons/alert.png" ), 
+							new String[]{"Apenas Sair", "Concluir Reserva(s)","Cancelar Reserva(s)"}, "Apenas Sair");
+			if(excluir == JOptionPane.YES_OPTION) {
 				return true;
-			} else {
+			}
+			else if(excluir == JOptionPane.NO_OPTION) {
+				msg( "construir", "" );
+				return true;
+			}
+			else if(excluir == JOptionPane.CANCEL_OPTION) {
 				return false;
 			}
+			break;	
 
 		case "reservaCancelar":
 			int cancelar = JOptionPane.showOptionDialog(null, 
@@ -230,19 +250,19 @@ public class MensagensCtrl {
 		case "construir":
 			JOptionPane.showMessageDialog(null, 
 					mensagem + 
-					"\nEm construção!\n\nEsta função ainda não foi implementada.", 
+					" - Em construção!\nEsta função ainda não foi implementada.", 
 					"Sem implementação", 
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon( LogonCtrl.getCaminho() + "/icons/builder.png" ));
 			break;
-				
+
 		case "inicio":
 			JOptionPane.showMessageDialog(null, 
 					"Este é o primeiro acesso ao sistema "
-					+ "\ne um " + mensagem + " foi criado.\n\nUsuário: admin\nSenha: admin", 
-					"Primeiro Acesso", 
-					JOptionPane.PLAIN_MESSAGE, 
-					new ImageIcon( LogonCtrl.getCaminho() + "/icons/adm.png" ));
+							+ "\ne um " + mensagem + " foi criado.\n\nUsuário: admin\nSenha: admin", 
+							"Primeiro Acesso", 
+							JOptionPane.PLAIN_MESSAGE, 
+							new ImageIcon( LogonCtrl.getCaminho() + "/icons/adm.png" ));
 			return true;
 
 		case "sair":
