@@ -25,15 +25,15 @@ public class LogonCtrl {
 
 	private static String diretorio;
 	private static LogonCtrl instance;
-	private List<Logon> logon;
-	private List<Reserva> reservas;
+	private static List<Logon> logon;
+	private static List<Reserva> reservas;
 
 	// construtor privado (suprime o construtor público padrão).
 	private LogonCtrl() {
 
 		new ArrayList<Funcionario>();
-		this.setLogon( new ArrayList<Logon>() );
-		this.reservas = new ArrayList<Reserva>();
+		LogonCtrl.setLogon( new ArrayList<Logon>() );
+		LogonCtrl.reservas = new ArrayList<Reserva>();
 	}
 
 	public static LogonCtrl getInstance() {
@@ -50,12 +50,12 @@ public class LogonCtrl {
 		return diretorio;
 	}
 
-	public List<Logon> getSession() {
+	public static List<Logon> getSession() {
 		return logon;
 	}
 
-	public void setLogon(List<Logon> logon) {
-		this.logon = logon;
+	public static void setLogon(List<Logon> logon) {
+		LogonCtrl.logon = logon;
 	}
 
 
@@ -79,7 +79,7 @@ public class LogonCtrl {
 	// DAO //////////////////////////////////////
 
 
-	public List<Logon> cargaLogon(){
+	public static List<Logon> cargaLogon(){
 
 		List<Logon> log = new ArrayList<Logon>();
 
@@ -95,7 +95,7 @@ public class LogonCtrl {
 		return log;
 	}
 
-	public void cargaReserva(){
+	public static void cargaReserva(){
 
 		ReservaDAO dao = new ReservaDAOImpl();
 		try {
@@ -108,7 +108,7 @@ public class LogonCtrl {
 		}
 	}
 
-	public void adicionaLogon() {
+	public static void adicionaLogon() {
 
 		LogonDAO dao = new LogonDAOImpl();
 		try {
@@ -121,7 +121,7 @@ public class LogonCtrl {
 		}
 	}
 
-	public void alteraLogon() {
+	public static void alteraLogon() {
 
 		LogonDAO dao = new LogonDAOImpl();
 		try {
@@ -135,7 +135,7 @@ public class LogonCtrl {
 	}
 
 	
-	public void autoLogin( Boolean ativar ){
+	public static void autoLogin( Boolean ativar ){
 		// verifica se um usuario fechou a janela sem se deslogar
 		// pode recuperar a sessão ou não
 		
@@ -211,7 +211,7 @@ public class LogonCtrl {
 	}
 
 
-	public void login(){
+	public static void login(){
 
 		List<Logon> logons = cargaLogon();
 		List<Logon> log = new ArrayList<Logon>();
@@ -260,7 +260,7 @@ public class LogonCtrl {
 	}
 
 
-	public void logoff(){
+	public static void logoff(){
 
 		List<Logon> logons = cargaLogon();
 		List<Logon> log = new ArrayList<Logon>();
@@ -288,7 +288,7 @@ public class LogonCtrl {
 	}
 
 
-	public Integer reservaQtd() {
+	public static Integer reservaQtd() {
 
 		reservas.clear(); //limpa a lista das Reservas
 		cargaReserva(); //recarrega a lista das Reservas atualizada
@@ -306,7 +306,7 @@ public class LogonCtrl {
 	}
 
 
-	public void excluiReservas (){
+	public static void excluiReservas (){
 
 		int count = 0;
 		cargaReserva();
@@ -356,7 +356,7 @@ public class LogonCtrl {
 	// METODOS DE SUPORTE //////////////////////
 
 
-	public Boolean temporizador( String op ){
+	public static Boolean temporizador( String op ){
 
 		boolean dt = false;
 		Date data = null;

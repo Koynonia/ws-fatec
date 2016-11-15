@@ -55,7 +55,6 @@ public class CadastroCtrl {
 	static JButton btnCadastroExcluir;
 
 	private static int id;
-	private static LogonCtrl ctrlLogon = LogonCtrl.getInstance();
 	private static List<Funcionario> funcionarios;
 	private static List<Cliente> clientes;
 
@@ -422,13 +421,13 @@ public class CadastroCtrl {
 			for (int i = 0; i < clientes.size(); i++) {
 
 				if( clientes.get(i).getId()
-						.equals( ctrlLogon.getSession().get(0).getIdUsuario() )){
+						.equals( LogonCtrl.getSession().get(0).getIdUsuario() )){
 
 					SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyy");
 
 					CamposCtrl.limpa("cadastro");
 					
-					id = ctrlLogon.getSession().get(0).getIdUsuario();
+					id = LogonCtrl.getSession().get(0).getIdUsuario();
 					txtCadastroNome.setText( clientes.get(i).getNome() );
 					ftxtCadastroDocNum.setText( clientes.get(i).getDocumento() );
 					cboCadastroDocTipo.setSelectedItem( clientes.get(i).getDocTipo() );
@@ -513,7 +512,7 @@ public class CadastroCtrl {
 						CamposCtrl.ativa("cadastro");
 					} else {
 						if( CamposCtrl.valida( "cadastro" ) != false ){
-							if( ctrlLogon.getSession().isEmpty() != true ){
+							if( LogonCtrl.getSession().isEmpty() != true ){
 								alteraCliente();
 							} else {
 								adicionaCliente();

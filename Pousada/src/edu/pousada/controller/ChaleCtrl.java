@@ -16,12 +16,13 @@ import edu.pousada.entity.Chale;
 
 public class ChaleCtrl {
 
-	private LogonCtrl ctrlLogon = LogonCtrl.getInstance();
 	private List<Chale> chales;
 
 	public ChaleCtrl(
 
 			) {
+		
+		LogonCtrl.getInstance();
 	}
 	
 	// DAO //////////////////////////////////////

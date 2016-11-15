@@ -45,7 +45,6 @@ public class ContatoCtrl {
 	private JButton btnContatoLimpar;
 	private JButton btnContatoEnviar;
 
-	private static LogonCtrl ctrlLogon = LogonCtrl.getInstance();
 	private static List<Cliente> clientes;
 
 	public ContatoCtrl(
@@ -76,6 +75,7 @@ public class ContatoCtrl {
 		ContatoCtrl.clientes = new ArrayList<Cliente>();
 
 		LogonCtrl.getInstance();
+		
 		preencheAssunto();
 	}
 
@@ -149,7 +149,7 @@ public class ContatoCtrl {
 			for (int i = 0; i < clientes.size(); i++) {
 
 				if( clientes.get(i).getId()
-						.equals( ctrlLogon.getSession().get(0).getIdUsuario() )){
+						.equals( LogonCtrl.getSession().get(0).getIdUsuario() )){
 					
 					CamposCtrl.limpa("contato");
 					

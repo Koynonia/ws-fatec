@@ -30,7 +30,7 @@ public class CamposCtrl {
 	private static JPanel painelReserva;
 	private static JPanel painelContato;
 	private static JPanel painelCadastro; 
-	private static LogonCtrl ctrlLogon = LogonCtrl.getInstance();
+	//private static LogonCtrl ctrlLogon = LogonCtrl.getInstance();
 
 	public CamposCtrl(
 			JPanel painelReserva, 
@@ -42,6 +42,7 @@ public class CamposCtrl {
 		CamposCtrl.painelContato = painelContato;
 		CamposCtrl.painelCadastro = painelCadastro;
 
+		LogonCtrl.getInstance();
 	}
 
 
@@ -156,8 +157,8 @@ public class CamposCtrl {
 	public static void desativa( String guia ){
 		// desativa os campos para edição
 
-		if ( ctrlLogon.getSession().get(0).getPerfil() != 2 
-				|| ctrlLogon.getSession().isEmpty() != true ){
+		if ( LogonCtrl.getSession().get(0).getPerfil() != 2 
+				|| LogonCtrl.getSession().isEmpty() != true ){
 
 			Component[] painel = null;
 

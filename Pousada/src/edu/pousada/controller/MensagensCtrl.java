@@ -116,7 +116,6 @@ public class MensagensCtrl {
 							new ImageIcon( LogonCtrl.getCaminho() + "/icons/error.png" ));
 			return false;
 
-
 		case "erroChaleIndisponivel":
 			JOptionPane.showMessageDialog(null, 
 					"INDISPONÍVEL\n\nOs Chalés da categoria " + mensagem
@@ -125,74 +124,6 @@ public class MensagensCtrl {
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon( LogonCtrl.getCaminho() + "/icons/info.png" ));
 			return false;
-
-		case "reservaAtiva":
-			JOptionPane.showMessageDialog(null, 
-					"A Reserva " + mensagem 
-					+ " não pode ser cancelada pois está ativa.\n"
-					+ "É necessário a sua desativação para efetivar seu cancelamento", 
-					"Reserva Ativa", 
-					JOptionPane.PLAIN_MESSAGE,
-					new ImageIcon( LogonCtrl.getCaminho() + "/icons/alert.png" ));
-			return false;
-
-		case "autorizado":
-			JOptionPane.showMessageDialog(null, 
-					"Seja bem-vindo, " + mensagem 
-					+ "!\n\nDúvidas, elogios e sugestões "
-					+ "\npodem ser enviadas através da guia Contato.", 
-					"Acesso", 
-					JOptionPane.PLAIN_MESSAGE, 
-					new ImageIcon( LogonCtrl.getCaminho() + "/icons/user.png" ));
-			return true;
-
-		case "sucesso":
-			JOptionPane.showMessageDialog(null, 
-					"Reserva(s) " + mensagem + " cancelada(s).", 
-					"Cancelamento Efetuado", 
-					JOptionPane.PLAIN_MESSAGE,
-					new ImageIcon( LogonCtrl.getCaminho() + "/icons/confirm.png" ));
-			break;
-
-		case "mensagemEnviada":
-
-			JOptionPane.showMessageDialog(null, 
-					"Sua mensagem já foi recebida e logo entraremos em contato!", 
-					"Mensagem Enviada", 
-					JOptionPane.PLAIN_MESSAGE,
-					new ImageIcon( LogonCtrl.getCaminho() + "/icons/mail.png" ));
-			return true;
-
-		case "adicionaCadastro":
-			JOptionPane.showMessageDialog(null, 
-					"O cadastro de " + mensagem 
-					+ " foi realizado com sucesso.", 
-					"Cadastro Realizado", 
-					JOptionPane.PLAIN_MESSAGE, 
-					new ImageIcon( LogonCtrl.getCaminho() + "/icons/user.png" ));
-			return true;
-
-		case "atualizaCadastro":
-			JOptionPane.showMessageDialog(null, 
-					"Feito! A atualização do cadastro de " + mensagem 
-					+ " \nfoi realizado com sucesso.", 
-					"Cadastro Atualizado", 
-					JOptionPane.PLAIN_MESSAGE, 
-					new ImageIcon( LogonCtrl.getCaminho() + "/icons/user.png" ));
-			return true;
-
-		case "limpar":
-			Object[] l = { "Confirmar", "Cancelar" };
-			int limpar = JOptionPane.showOptionDialog(null, mensagem +
-					"Deseja cancelar todas as Reservas?",
-					"Cancelar Reservas", 
-					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
-					new ImageIcon( LogonCtrl.getCaminho() + "/icons/alert.png" ), l, l[1]);
-			if (limpar == 0) {
-				return true;
-			} else {
-				return false;
-			}
 
 		case "cancelar":
 			Object[] opt = { "Confirmar", "Cancelar" };
@@ -246,6 +177,74 @@ public class MensagensCtrl {
 				return false;
 			}
 			break;
+
+		case "reservaAtiva":
+			JOptionPane.showMessageDialog(null, 
+					"A Reserva " + mensagem 
+					+ " não pode ser cancelada pois está ativa.\n"
+					+ "É necessário a sua desativação para efetivar seu cancelamento", 
+					"Reserva Ativa", 
+					JOptionPane.PLAIN_MESSAGE,
+					new ImageIcon( LogonCtrl.getCaminho() + "/icons/alert.png" ));
+			return false;
+			
+		case "sucesso":
+			JOptionPane.showMessageDialog(null, 
+					"Reserva(s) " + mensagem + " cancelada(s).", 
+					"Cancelamento Efetuado", 
+					JOptionPane.PLAIN_MESSAGE,
+					new ImageIcon( LogonCtrl.getCaminho() + "/icons/confirm.png" ));
+			break;
+
+		case "mensagemEnviada":
+
+			JOptionPane.showMessageDialog(null, 
+					"Sua mensagem já foi recebida e logo entraremos em contato!", 
+					"Mensagem Enviada", 
+					JOptionPane.PLAIN_MESSAGE,
+					new ImageIcon( LogonCtrl.getCaminho() + "/icons/mail.png" ));
+			return true;
+
+		case "adicionaCadastro":
+			JOptionPane.showMessageDialog(null, 
+					"O cadastro de " + mensagem 
+					+ " foi realizado com sucesso.", 
+					"Cadastro Realizado", 
+					JOptionPane.PLAIN_MESSAGE, 
+					new ImageIcon( LogonCtrl.getCaminho() + "/icons/user.png" ));
+			return true;
+
+		case "atualizaCadastro":
+			JOptionPane.showMessageDialog(null, 
+					"Feito! A atualização do cadastro de " + mensagem 
+					+ " \nfoi realizado com sucesso.", 
+					"Cadastro Atualizado", 
+					JOptionPane.PLAIN_MESSAGE, 
+					new ImageIcon( LogonCtrl.getCaminho() + "/icons/user.png" ));
+			return true;
+			
+		case "autorizado":
+			JOptionPane.showMessageDialog(null, 
+					"Seja bem-vindo, " + mensagem 
+					+ "!\n\nDúvidas, elogios e sugestões "
+					+ "\npodem ser enviadas através da guia Contato.", 
+					"Acesso", 
+					JOptionPane.PLAIN_MESSAGE, 
+					new ImageIcon( LogonCtrl.getCaminho() + "/icons/user.png" ));
+			return true;
+
+		case "limpar":
+			Object[] l = { "Confirmar", "Cancelar" };
+			int limpar = JOptionPane.showOptionDialog(null, mensagem +
+					"Deseja cancelar todas as Reservas?",
+					"Cancelar Reservas", 
+					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
+					new ImageIcon( LogonCtrl.getCaminho() + "/icons/alert.png" ), l, l[1]);
+			if (limpar == 0) {
+				return true;
+			} else {
+				return false;
+			}
 
 		case "construir":
 			JOptionPane.showMessageDialog(null, 

@@ -70,7 +70,6 @@ public class PrincipalCtrl {
 	private JTextArea txtaClienteDetalhe;
 	private JTextArea txtaCadastroInfo;
 
-	private static LogonCtrl ctrlLogon = LogonCtrl.getInstance();
 	private ImageIcon imagem;
 	private List<Info> infos;
 
@@ -153,11 +152,13 @@ public class PrincipalCtrl {
 		temporizador();
 		imagensRandom();
 
+		LogonCtrl.getInstance();
+		
 		// realiza o login com uma sessão anterior perdida
-		ctrlLogon.autoLogin( false );
+		LogonCtrl.autoLogin( false );
 
 		// inicia o ambiente como perfil visitante
-		if( ctrlLogon.getSession().isEmpty() ){
+		if( LogonCtrl.getSession().isEmpty() ){
 			trocaPerfil(0);
 		} 
 
@@ -326,8 +327,8 @@ public class PrincipalCtrl {
 							lblPrincipalImg.getHeight(), 
 							Image.SCALE_DEFAULT )));
 
-			if( !ctrlLogon.getSession().isEmpty() )
-				ctrlLogon.getSession().get(0).setTela( janela.getName() + " : " + tabContainer.getTitleAt(0) );
+			if( !LogonCtrl.getSession().isEmpty() )
+				LogonCtrl.getSession().get(0).setTela( janela.getName() + " : " + tabContainer.getTitleAt(0) );
 
 			break;
 
@@ -339,8 +340,8 @@ public class PrincipalCtrl {
 							lblChaleImg.getHeight(), 
 							Image.SCALE_DEFAULT )));
 
-			if( !ctrlLogon.getSession().isEmpty() )
-				ctrlLogon.getSession().get(0).setTela( janela.getName() + " : " + tabContainer.getTitleAt(1) );
+			if( !LogonCtrl.getSession().isEmpty() )
+				LogonCtrl.getSession().get(0).setTela( janela.getName() + " : " + tabContainer.getTitleAt(1) );
 
 			break;
 
@@ -352,8 +353,8 @@ public class PrincipalCtrl {
 							lblLazerImg.getHeight(), 
 							Image.SCALE_DEFAULT )));
 
-			if( !ctrlLogon.getSession().isEmpty() )
-				ctrlLogon.getSession().get(0).setTela( janela.getName() + " : " + tabContainer.getTitleAt(2) );
+			if( !LogonCtrl.getSession().isEmpty() )
+				LogonCtrl.getSession().get(0).setTela( janela.getName() + " : " + tabContainer.getTitleAt(2) );
 
 			break;
 
@@ -365,18 +366,18 @@ public class PrincipalCtrl {
 							lblServicoImg.getHeight(), 
 							Image.SCALE_DEFAULT )));
 
-			if( !ctrlLogon.getSession().isEmpty() )
-				ctrlLogon.getSession().get(0).setTela( janela.getName() + " : " + tabContainer.getTitleAt(3) );
+			if( !LogonCtrl.getSession().isEmpty() )
+				LogonCtrl.getSession().get(0).setTela( janela.getName() + " : " + tabContainer.getTitleAt(3) );
 			break;
 
 		case 4:
-			if( !ctrlLogon.getSession().isEmpty() )
-				ctrlLogon.getSession().get(0).setTela( janela.getName() + " : " + tabContainer.getTitleAt(4) );
+			if( !LogonCtrl.getSession().isEmpty() )
+				LogonCtrl.getSession().get(0).setTela( janela.getName() + " : " + tabContainer.getTitleAt(4) );
 			break;
 
 		case 5:
-			if( !ctrlLogon.getSession().isEmpty() )
-				ctrlLogon.getSession().get(0).setTela( janela.getName() + " : " + tabContainer.getTitleAt(5) );
+			if( !LogonCtrl.getSession().isEmpty() )
+				LogonCtrl.getSession().get(0).setTela( janela.getName() + " : " + tabContainer.getTitleAt(5) );
 			break;
 		}
 	}

@@ -89,7 +89,6 @@ public class ReservaCtrl {
 	private static boolean validar;
 	private ImageIcon imagem;
 
-	private static LogonCtrl ctrlLogon = LogonCtrl.getInstance();
 	private static List<Reserva>reservas;
 	private List<Chale> chales;
 	private static List<Cliente> clientes;
@@ -116,9 +115,11 @@ public class ReservaCtrl {
 		this.btnVoltar = btnVoltar;
 		ReservaCtrl.reservas = new ArrayList<Reserva>();
 
+		LogonCtrl.getInstance();
+		
 		// atualiza o Logon com o perfil
-		if( !ctrlLogon.getSession().isEmpty() ){
-			ctrlLogon.getSession().get(0).setTela( janela.getName() );
+		if( !LogonCtrl.getSession().isEmpty() ){
+			LogonCtrl.getSession().get(0).setTela( janela.getName() );
 		}
 
 		// prepara o ambiente
@@ -364,7 +365,7 @@ public class ReservaCtrl {
 					l.setLogoff( 0 );
 					l.setDtLogon( new Date() );
 					log.add(l);
-					ctrlLogon.setLogon( log );
+					LogonCtrl.setLogon( log );
 
 				} else {
 					// se já houver clientes, busca pelo documento do cliente
@@ -408,7 +409,7 @@ public class ReservaCtrl {
 								l.setLogoff( 0 );
 								l.setDtLogon( new Date() );
 								log.add(l);
-								ctrlLogon.setLogon( log );
+								LogonCtrl.setLogon( log );
 
 							} else {
 
@@ -442,7 +443,7 @@ public class ReservaCtrl {
 										l.setLogoff( 0 );
 										l.setDtLogon( new Date() );
 										log.add(l);
-										ctrlLogon.setLogon( log );
+										LogonCtrl.setLogon( log );
 									}
 								}
 								validar = false;
@@ -474,15 +475,16 @@ public class ReservaCtrl {
 						r.setDtCadastro( new Date() );	
 					}
 					if( r.getCliente() != null && r.getChale() != null ){
+						
 						// verifica se a reserva do chale esta disponivel (verifica as datas)
 						if( chaleDisponivel(r) == 0  ) {
 
 							adicionar( r );
 
-							if( ctrlLogon.getSession().get(0).getPerfil() != 2 ){
+							if( LogonCtrl.getSession().get(0).getPerfil() != 2 ){
 
 								// atualiza o estado do botão Reserva na tela Principal
-								btnReservas.setText( "Reservas ( " + ctrlLogon.reservaQtd() + " )" );
+								btnReservas.setText( "Reservas ( " + LogonCtrl.reservaQtd() + " )" );
 								btnReservas.setVisible(true);
 								abrir( "reservas" );
 							} else {
@@ -516,7 +518,7 @@ public class ReservaCtrl {
 			for (int i = 0; i < clientes.size(); i++) {
 
 				if( clientes.get(i).getId()
-						.equals( ctrlLogon.getSession().get(0).getIdUsuario() )){
+						.equals( LogonCtrl.getSession().get(0).getIdUsuario() )){
 
 					CamposCtrl.limpa("reserva");
 
@@ -558,8 +560,8 @@ public class ReservaCtrl {
 						cargaReserva();
 
 						// atualiza o estado do botão Reserva na tela Principal
-						if ( ctrlLogon.reservaQtd() != 0) {
-							btnReservas.setText( "Reservas ( " + ctrlLogon.reservaQtd() + " )" );
+						if ( LogonCtrl.reservaQtd() != 0) {
+							btnReservas.setText( "Reservas ( " + LogonCtrl.reservaQtd() + " )" );
 							btnReservas.setVisible(true);
 						} else {
 							btnReservas.setText( "Reservas");
@@ -618,10 +620,10 @@ public class ReservaCtrl {
 		if( !reservas.isEmpty() ){
 			for (int i = 0; i < reservas.size(); i++) {
 				if( reservas.get(i).getCliente().getId()
-						.equals( ctrlLogon.getSession().get(0).getIdUsuario() )
+						.equals( LogonCtrl.getSession().get(0).getIdUsuario() )
 						&& reservas.get(i).getAtiva() != true ){
 
-					btnReservas.setText( "Reservas ( " + ctrlLogon.reservaQtd() + " )" );
+					btnReservas.setText( "Reservas ( " + LogonCtrl.reservaQtd() + " )" );
 					btnReservas.setVisible(true);
 				} else {
 					btnReservas.setVisible(false);
@@ -646,7 +648,7 @@ public class ReservaCtrl {
 
 			for (int i = 0; i < reservas.size(); i++) {
 				if( reservas.get(i).getCliente().getId()
-						.equals( ctrlLogon.getSession().get(0).getIdUsuario() )
+						.equals( LogonCtrl.getSession().get(0).getIdUsuario() )
 						&& reservas.get(i).getAtiva() != true ){
 
 					// calcula o valor total das reservas em cada linha
@@ -844,7 +846,7 @@ public class ReservaCtrl {
 						Reserva r = new Reserva();
 						for( int i = 0; i < reservas.size(); i++ ){
 							if( reservas.get(i).getCliente().getId()
-									.equals( ctrlLogon.getSession().get(0).getIdUsuario() )
+									.equals( LogonCtrl.getSession().get(0).getIdUsuario() )
 									&& reservas.get(i).getAtiva() != true ){
 								r.setId( reservas.get(i).getId() );	
 								excluir( r );

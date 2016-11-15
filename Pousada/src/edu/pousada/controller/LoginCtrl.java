@@ -40,7 +40,6 @@ public class LoginCtrl {
 	private JPasswordField pwdSenha;
 	private JButton btnLogin;
 
-	private LogonCtrl ctrlLogon = LogonCtrl.getInstance();
 	private static boolean validar;
 	private List<Cliente> clientes;
 	private List<Funcionario> funcionarios;
@@ -60,6 +59,8 @@ public class LoginCtrl {
 		this.lblMsg = lblMsg;
 		this.txtLogin = txtLogin;
 		this.btnLogin = btnLogin;
+		
+		LogonCtrl.getInstance();
 
 		ctrlPrincipal = new PrincipalCtrl();
 	}
@@ -132,11 +133,11 @@ public class LoginCtrl {
 							l.setLogoff( 1 );
 							l.setDtLogon( new Date() );
 							log.add(l);
-							ctrlLogon.setLogon( log );
+							LogonCtrl.setLogon( log );
 
 							//prepara as guias
 
-							ctrlLogon.login();
+							LogonCtrl.login();
 							ctrlPrincipal.trocaPerfil(2);
 							lblMsg.setText( "- Bem vindo, " + funcionarios.get(f).getNome() );
 							lblLogin.setVisible(false);
@@ -164,8 +165,8 @@ public class LoginCtrl {
 									l.setLogoff( 1 );
 									l.setDtLogon( new Date() );
 									log.add(l);
-									ctrlLogon.setLogon( log );
-									ctrlLogon.login();
+									LogonCtrl.setLogon( log );
+									LogonCtrl.login();
 
 									// prepara as guias
 									ctrlPrincipal.trocaPerfil(1);
@@ -208,7 +209,7 @@ public class LoginCtrl {
 			}
 		} else {
 			// ao se deslogar, prepara a tela para o perfil visitante
-			ctrlLogon.logoff();
+			LogonCtrl.logoff();
 			ctrlPrincipal.trocaPerfil(0);
 			ReservaCtrl.btnReservas.setVisible(false);
 			lblMsg.setText(null);
