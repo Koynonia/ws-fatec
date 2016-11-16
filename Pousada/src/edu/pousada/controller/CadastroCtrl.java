@@ -102,14 +102,14 @@ public class CadastroCtrl {
 		CadastroCtrl.clientes = new ArrayList<Cliente>();
 
 		LogonCtrl.getInstance();
-		
+
 		preencheTipoDoc();
 	}
 
 
 	//  DAO  //////////////////////////////////////////
 
-	
+
 	public static void cargaFuncionario(){
 
 		FuncionarioDAO dao = new FuncionarioDAOImpl();
@@ -150,8 +150,8 @@ public class CadastroCtrl {
 			//e.printStackTrace();
 		}
 	}
-	
-	
+
+
 	public static void excluirFuncionario( Funcionario obj ){
 
 		FuncionarioDAO dao = new FuncionarioDAOImpl();
@@ -164,8 +164,8 @@ public class CadastroCtrl {
 			//e.printStackTrace();
 		}
 	}
-	
-	
+
+
 	public static void cargaCliente(){
 
 		ClienteDAO dao = new ClienteDAOImpl();
@@ -206,8 +206,8 @@ public class CadastroCtrl {
 			//e.printStackTrace();
 		}
 	}
-	
-	
+
+
 	public static void excluirCliente( Cliente obj ){
 
 		ClienteDAO dao = new ClienteDAOImpl();
@@ -231,7 +231,7 @@ public class CadastroCtrl {
 
 		if( CamposCtrl.valida( "cadastro" ) != false ){
 			// verifica se os campos foram preenchidos
-			
+
 			Funcionario f = new Funcionario();
 			DateFormat sdf = new SimpleDateFormat("ddMMyyyy");
 
@@ -275,7 +275,7 @@ public class CadastroCtrl {
 
 		if( CamposCtrl.valida( "cadastro" ) != false ){
 			// verifica se os campos foram preenchidos
-			
+
 			Funcionario f = new Funcionario();
 			DateFormat sdf = new SimpleDateFormat("ddMMyyyy");
 
@@ -319,13 +319,13 @@ public class CadastroCtrl {
 			} 
 		}
 	}
-	
+
 	public static void adicionaCliente() throws ParseException{
 
 
 		if( CamposCtrl.valida( "cadastro" ) != false ){
 			// verifica se os campos foram preenchidos
-			
+
 			Cliente c = new Cliente();
 			DateFormat sdf = new SimpleDateFormat("ddMMyyyy");
 
@@ -368,7 +368,7 @@ public class CadastroCtrl {
 
 		if( CamposCtrl.valida( "cadastro" ) != false ){
 			// verifica se os campos foram preenchidos
-			
+
 			Cliente c = new Cliente();
 			DateFormat sdf = new SimpleDateFormat("ddMMyyyy");
 
@@ -427,7 +427,7 @@ public class CadastroCtrl {
 					SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyy");
 
 					CamposCtrl.limpa("cadastro");
-					
+
 					id = LogonCtrl.getSession().get(0).getIdUsuario();
 					txtCadastroNome.setText( clientes.get(i).getNome() );
 					ftxtCadastroDocNum.setText( clientes.get(i).getDocumento() );
@@ -506,23 +506,47 @@ public class CadastroCtrl {
 			}
 			if( source == btnCadastroEditar ){
 				try {
-					if( btnCadastroEditar.getText() != "Salvar"){
-						btnCadastroEditar.setText("Salvar");
-						btnCadastroLimpar.setEnabled(true);
-						btnCadastroExcluir.setEnabled(true);
-						CamposCtrl.ativa("cadastro");
-					} else {
-						if( CamposCtrl.valida( "cadastro" ) != false ){
-							if( LogonCtrl.getSession().isEmpty() != true ){
-								alteraCliente();
-							} else {
+
+					if( LogonCtrl.getSession().isEmpty() != false ){
+
+						switch ( LogonCtrl.getSession().get(0).getPerfil() ){
+
+						case 2:
+							if( btnCadastroEditar.getText() != "Salvar"){
+								btnCadastroEditar.setText("Salvar");
+								btnCadastroLimpar.setEnabled(true);
+								btnCadastroExcluir.setEnabled(true);
+								CamposCtrl.ativa("cadastro");
+							} else if( CamposCtrl.valida( "cadastro" ) != false ){
 								adicionaCliente();
 								btnCadastroEditar.setText("Editar");
 								btnCadastroLimpar.setEnabled(false);
 								btnCadastroExcluir.setEnabled(false);
 								CamposCtrl.desativa("cadastro");
 							}
+							break;
+
+						default:
+							if( btnCadastroEditar.getText() != "Salvar"){
+								btnCadastroEditar.setText("Salvar");
+								btnCadastroLimpar.setEnabled(true);
+								btnCadastroExcluir.setEnabled(true);
+								CamposCtrl.ativa("cadastro");
+							} else if( CamposCtrl.valida( "cadastro" ) != false ){
+								alteraCliente();
+								btnCadastroEditar.setText("Editar");
+								btnCadastroLimpar.setEnabled(false);
+								btnCadastroExcluir.setEnabled(false);
+								CamposCtrl.desativa("cadastro");
+							}
 						}
+					} if( btnCadastroEditar.getText() != "Salvar"){
+						btnCadastroEditar.setText("Salvar");
+						btnCadastroLimpar.setEnabled(true);
+						btnCadastroExcluir.setEnabled(true);
+						CamposCtrl.ativa("cadastro");
+					} else if( CamposCtrl.valida( "cadastro" ) != false ){
+						adicionaCliente();
 					}
 				} catch (ParseException e1) {
 					MensagensCtrl.msg("", "ERRO " + e1.getCause() 
