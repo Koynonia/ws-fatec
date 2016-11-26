@@ -23,4 +23,4 @@ O **script do banco de dados** deste sistema também se encontra na pasta "sql" 
 **OBS.:** Para a conexão no banco, trocar o usuário e senha do Microsoft SQL Server
 na Classe GenericDao (package "persistence").
 
-![Captura de tela 2016-10-31 21.48.26.png](https://bitbucket.org/repo/zLrx6z/images/2040844451-Captura%20de%20tela%202016-10-31%2021.48.26.png)
+![Captura de tela 2016-11-26 16.47.13.png](https://bitbucket.org/repo/zLrx6z/images/1696439213-Captura%20de%20tela%202016-11-26%2016.47.13.png)
