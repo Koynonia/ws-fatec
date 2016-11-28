@@ -1,13 +1,11 @@
 /*
 * Laboratório de Banco de Dados
 * Prof. M.Sc. Leandro Colevati dos Santos
-* 
 * AVALIAÇÃO 1: "Campeonato Paulista 2016"
 */
 
-/*
-* Criação da Base de Dados "Campeonato"
-*/
+
+-- Criação da Base de Dados "Campeonato"
 
 IF (OBJECT_ID('Campeonato') IS NOT NULL)
     DROP DATABASE Campeonato
@@ -17,9 +15,10 @@ CREATE DATABASE Campeonato
 GO
 USE Campeonato
 
-/*
-* Criação da Tabela "Times" e preenchimento com os registros de 20 times 
-*/
+
+-- Criação da Tabela "Times" 
+-- e preenchimento com os registros de 20 times 
+
 
 IF (OBJECT_ID('Times') IS NOT NULL)
   DROP TABLE Times
@@ -54,9 +53,9 @@ INSERT INTO Times VALUES
 ('São Paulo Futebol Clube', 'São Paulo', 'Morumbi'), 
 ('Esporte Clube XV de Novembro', 'Piracicaba', 'Barão de Serra Negra')
 
-/*
-* Criação da Tabela "Grupos" 
-*/
+
+-- Criação da Tabela "Grupos" 
+
 
 IF (OBJECT_ID('Grupos') IS NOT NULL)
   DROP TABLE Grupos
@@ -68,9 +67,8 @@ CodigoTime INT NOT NULL
 FOREIGN KEY (CodigoTime) 
 REFERENCES Times(CodigoTime))
 
-/*
-* Criação da Tabela "Jogos" 
-*/
+
+-- Criação da Tabela "Jogos" 
 
 IF (OBJECT_ID('Jogos') IS NOT NULL)
   DROP TABLE Jogos
@@ -90,14 +88,14 @@ REFERENCES Times(CodigoTime))
 
 /*
 * 1) Procedure que divide os times nos quatro grupos, preenchendo, aleatoriamente 
-* (exceção da regra: Coritnthians, Palmeiras, Santos e São Paulo NÃO PODEM estar no mesmo grupo).
+* (exceção da regra: Coritnthians, Palmeiras, Santos e São Paulo NÃO PODEM estar no mesmo grupo).
 */
 
 IF (OBJECT_ID('sp_grupos') IS NOT NULL)
   DROP PROCEDURE sp_grupos
 GO
 
-CREATE PROCEDURE sp_grupos 
+CREATE PROCEDURE sp_grupos (@trigger INT)
 AS DECLARE 	@numTimes INT, 
 			@numGrupos INT, 
 			@numTimesPorGrupo INT, 
@@ -105,6 +103,17 @@ AS DECLARE 	@numTimes INT,
 			@grupo CHAR,
 			@sqlTimes VARCHAR(MAX),
 			@sqlGrupo VARCHAR(MAX)
+			
+IF @trigger = 0
+BEGIN
+	PRINT 'Passou 0'
+	EXEC ('ALTER TABLE Grupos DISABLE TRIGGER ALL')
+END
+ELSE IF @trigger = 1
+BEGIN
+	PRINT 'Passou 1'
+	EXEC ('ALTER TABLE Grupos ENABLE TRIGGER ALL')
+END
 
 DELETE FROM Grupos
 SELECT @numTimes = COUNT(CodigoTime) FROM Times
@@ -222,18 +231,18 @@ BEGIN
 	SET @contador = @contador + 1
 END
 
-/*
-* TESTE
-*/
 
+-- TESTE
 IF (OBJECT_ID('sp_grupos') IS NOT NULL)
-	EXEC sp_grupos
+	EXEC sp_grupos '1'
 	SELECT * FROM Grupos
 GO
 
+
+
 /*
 * 2) Procedure que gera as rodadas dos jogos: 
-* A primeira fase ocorrerá em 15 datas seguidas, 
+* A primeira fase ocorrerá em 15 datas seguidas, 
 * sempre rodada cheia (os 10 jogos com todos os 20 times), 
 * aos domingos e quartas
 */
@@ -242,7 +251,7 @@ IF (OBJECT_ID('sp_jogos') IS NOT NULL)
   DROP PROCEDURE sp_jogos
 GO
 
-CREATE PROCEDURE sp_jogos (@dtInicio SMALLDATETIME)
+CREATE PROCEDURE sp_jogos (@dtInicio SMALLDATETIME, @trigger INT)
 AS DECLARE 	@numTimes INT,
 			@rodadas INT,
 			@timesRodada INT,
@@ -254,6 +263,17 @@ AS DECLARE 	@numTimes INT,
 			@sqlDomFaseC VARCHAR(MAX),
 			@sqlQuaFaseC VARCHAR(MAX),
 			@sqlData SMALLDATETIME
+			
+IF @trigger = 0
+BEGIN
+	PRINT 'Passou 0'
+	EXEC ('ALTER TABLE Jogos DISABLE TRIGGER ALL')
+END
+ELSE IF @trigger = 1
+BEGIN
+	PRINT 'Passou 1'
+	EXEC ('ALTER TABLE Jogos ENABLE TRIGGER ALL')
+END
 
 DELETE FROM Jogos			
 SET @rodadas = 15
@@ -264,13 +284,13 @@ SET @sqlDomFaseA = 'INSERT Jogos(CodigoTimeA, CodigoTimeB)
 							FROM (
 								SELECT TOP 1 g.CodigoTime 
 								FROM Grupos AS g 
-								LEFT JOIN Jogos AS j 
+								FULL OUTER JOIN Jogos AS j 
 								ON g.CodigoTime = j.CodigoTimeA AND j.Data IS NULL
 								WHERE j.CodigoTimeA IS NULL AND g.Grupo = ''A'') a
 							JOIN (
 								SELECT TOP 1 g.CodigoTime 
 								FROM Grupos AS g 
-								LEFT JOIN Jogos AS j 
+								FULL OUTER JOIN Jogos AS j 
 								ON g.CodigoTime = j.CodigoTimeB AND j.Data IS NULL
 								WHERE j.CodigoTimeB IS NULL AND g.Grupo = ''B''
 								ORDER BY NEWID()) b
@@ -282,14 +302,14 @@ SET @sqlQuaFaseA = 'INSERT Jogos(CodigoTimeA, CodigoTimeB)
 							FROM (
 								SELECT TOP 1 g.CodigoTime 
 								FROM Grupos AS g 
-								LEFT JOIN Jogos AS j 
+								FULL OUTER JOIN Jogos AS j 
 								ON g.CodigoTime = j.CodigoTimeA AND j.Data IS NULL
 								WHERE j.CodigoTimeA IS NULL AND g.Grupo = ''C''
 								ORDER BY NEWID()) a
 							JOIN (
 								SELECT TOP 1 g.CodigoTime 
 								FROM Grupos AS g 
-								LEFT JOIN Jogos AS j 
+								FULL OUTER JOIN Jogos AS j 
 								ON g.CodigoTime = j.CodigoTimeB AND j.Data IS NULL
 								WHERE j.CodigoTimeB IS NULL AND g.Grupo = ''D''
 								ORDER BY NEWID()) b
@@ -300,13 +320,13 @@ SET @sqlDomFaseB = 'INSERT Jogos(CodigoTimeA, CodigoTimeB)
 							FROM (
 								SELECT TOP 1 g.CodigoTime 
 								FROM Grupos AS g 
-								LEFT JOIN Jogos AS j 
+								FULL OUTER JOIN Jogos AS j 
 								ON g.CodigoTime = j.CodigoTimeA AND j.Data IS NULL
 								WHERE j.CodigoTimeA IS NULL AND g.Grupo = ''A'') a
 							JOIN (
 								SELECT TOP 1 g.CodigoTime 
 								FROM Grupos AS g 
-								LEFT JOIN Jogos AS j 
+								FULL OUTER JOIN Jogos AS j 
 								ON g.CodigoTime = j.CodigoTimeB AND j.Data IS NULL
 								WHERE j.CodigoTimeB IS NULL AND g.Grupo = ''D''
 								ORDER BY NEWID()) b
@@ -317,14 +337,14 @@ SET @sqlQuaFaseB = 'INSERT Jogos(CodigoTimeA, CodigoTimeB)
 							FROM (
 								SELECT TOP 1 g.CodigoTime 
 								FROM Grupos AS g 
-								LEFT JOIN Jogos AS j 
+								FULL OUTER JOIN Jogos AS j 
 								ON g.CodigoTime = j.CodigoTimeA AND j.Data IS NULL
 								WHERE j.CodigoTimeA IS NULL AND g.Grupo = ''B''
 								ORDER BY NEWID()) a
 							JOIN (
 								SELECT TOP 1 g.CodigoTime 
 								FROM Grupos AS g 
-								LEFT JOIN Jogos AS j 
+								FULL OUTER JOIN Jogos AS j 
 								ON g.CodigoTime = j.CodigoTimeB AND j.Data IS NULL
 								WHERE j.CodigoTimeB IS NULL AND g.Grupo = ''C''
 								ORDER BY NEWID()) b
@@ -335,13 +355,13 @@ SET @sqlDomFaseC = 'INSERT Jogos(CodigoTimeA, CodigoTimeB)
 							FROM (
 								SELECT TOP 1 g.CodigoTime 
 								FROM Grupos AS g 
-								LEFT JOIN Jogos AS j 
+								FULL OUTER JOIN Jogos AS j 
 								ON g.CodigoTime = j.CodigoTimeA AND j.Data IS NULL
 								WHERE j.CodigoTimeA IS NULL AND g.Grupo = ''A'') a
 							JOIN (
 								SELECT TOP 1 g.CodigoTime 
 								FROM Grupos AS g 
-								LEFT JOIN Jogos AS j 
+								FULL OUTER JOIN Jogos AS j 
 								ON g.CodigoTime = j.CodigoTimeB AND j.Data IS NULL
 								WHERE j.CodigoTimeB IS NULL AND g.Grupo = ''C''
 								ORDER BY NEWID()) b
@@ -352,14 +372,14 @@ SET @sqlQuaFaseC = 'INSERT Jogos(CodigoTimeA, CodigoTimeB)
 							FROM (
 								SELECT TOP 1 g.CodigoTime 
 								FROM Grupos AS g 
-								LEFT JOIN Jogos AS j 
+								FULL OUTER JOIN Jogos AS j 
 								ON g.CodigoTime = j.CodigoTimeA AND j.Data IS NULL
 								WHERE j.CodigoTimeA IS NULL AND g.Grupo = ''B''
 								ORDER BY NEWID()) a
 							JOIN (
 								SELECT TOP 1 g.CodigoTime 
 								FROM Grupos AS g 
-								LEFT JOIN Jogos AS j 
+								FULL OUTER JOIN Jogos AS j 
 								ON g.CodigoTime = j.CodigoTimeB AND j.Data IS NULL
 								WHERE j.CodigoTimeB IS NULL AND g.Grupo = ''D''
 								ORDER BY NEWID()) b
@@ -455,52 +475,15 @@ BEGIN
 	SET @dtInicio = DATEADD(Day, 1, @dtInicio)
 END
 
-/*
-* TESTE
-*/
+
+
+
+--TESTE
 
 IF (OBJECT_ID( 'sp_jogos' ) IS NOT NULL)
-	DECLARE @dtInicio SMALLDATETIME
+	DECLARE @dtInicio SMALLDATETIME, @trigger INT
 	SET @dtInicio = '2016-01-30'--CONVERT( SMALLDATETIME,'01/09/2016',103 )
-	EXEC sp_jogos @dtInicio
+	SET @trigger = 0
+	EXEC sp_jogos @trigger, @dtInicio
 	SELECT * FROM Jogos
 GO
-
-/*
-* TESTES
-*/
-
-SELECT * FROM Grupos
- 
-SELECT j.CodigoTimeA,j.CodigoTimeB, j.Data 
-FROM Jogos AS j 
-WHERE j.CodigoTimeA = 9
-
-SELECT  g.Grupo, t.NomeTime 
-FROM Times AS t
-INNER JOIN Grupos AS g
-ON g.CodigoTime = t.CodigoTime 
---WHERE g.Grupo LIKE 'A'
-GROUP BY g.Grupo, t.NomeTime
-ORDER BY g.Grupo ASC, t.NomeTime DESC
-
-SELECT a.Data, a.NomeTime AS 'Time A', b.NomeTime AS 'Time B' 
-FROM(
-SELECT j.Data, t.NomeTime
-FROM Jogos AS j
-INNER JOIN Times AS t 
-ON j.CodigoTimeA = t.CodigoTime) a 
-INNER JOIN(
-SELECT j.Data, t.NomeTime
-FROM Jogos AS j
-INNER JOIN Times AS t 
-ON j.CodigoTimeB = t.CodigoTime) b
-ON a.Data = b.Data
-
-SELECT CodigoTimeB, Count(*)AS 'Total' FROM Jogos AS j
-WHERE j.CodigoTimeA = 5
-GROUP BY CodigoTimeB
-HAVING Count(*) > 1
-
-SELECT Data, Count(*) AS 'Total' FROM Jogos AS j
-GROUP BY Data
