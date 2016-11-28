@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
+import model.DataBases;
 import model.Grupo;
 import model.Jogo;
 import model.Resultado;
@@ -31,4 +32,8 @@ public interface CampeonatoDAO {
 	public List<Resultado> resultadoGeral() throws SQLException;
 	public List<Times> quartasdeFinal() throws SQLException;
 	public Times time(int codigoTime) throws SQLException;
+	public List<DataBases> listaDatabases() throws SQLException;
+	public void backupBases(String path) throws SQLException;
+	public void backupBase(String path, String base) throws SQLException;
+	public void restauraBase(String path, String base) throws SQLException;
 }

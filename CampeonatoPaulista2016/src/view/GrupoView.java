@@ -55,7 +55,7 @@ public class GrupoView extends JFrame {
 	 */
 	public GrupoView() {
 		
-		setBounds(100, 100, 826, 432);
+		setBounds(100, 100, 826, 480);
 		setTitle("Grupos do Campeonato");
 		setName("Grupos");
 		setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
@@ -118,24 +118,24 @@ public class GrupoView extends JFrame {
 		contentPane.add(spGrupoD);
 		
 		JButton btnApagar = new JButton("Apagar Grupos");
-		btnApagar.setBounds(346, 361, 126, 29);
+		btnApagar.setBounds(346, 392, 126, 29);
 		contentPane.add(btnApagar);
 		
 		JButton btnGerar = new JButton("Gerar Grupos");
-		btnGerar.setBounds(498, 361, 126, 29);
+		btnGerar.setBounds(498, 392, 126, 29);
 		contentPane.add(btnGerar);
 		
 		JButton btnFechar = new JButton("Voltar");
-		btnFechar.setBounds(649, 361, 126, 29);
+		btnFechar.setBounds(649, 392, 126, 29);
 		contentPane.add(btnFechar);
 		
 		JRadioButton rdbtnTrigger = new JRadioButton("Ativar Trigger ( INSERT, DELETE, UPDATE )");
-		rdbtnTrigger.setBounds(43, 362, 302, 23);
+		rdbtnTrigger.setBounds(44, 393, 302, 23);
 		contentPane.add(rdbtnTrigger);
 		
 		JLabel lblBackground = new JLabel("");
 		lblBackground.setIcon(new ImageIcon(JogoView.class.getResource("/resources/back.jpg")));
-		lblBackground.setBounds(0, 0, 826, 432);
+		lblBackground.setBounds(0, 0, 826, 458);
 		contentPane.add(lblBackground);
 		
 		GrupoCtrl g = new GrupoCtrl(this, tbGrupoA, tbGrupoB, tbGrupoC, tbGrupoD, rdbtnTrigger, btnApagar);

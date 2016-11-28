@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import model.DataBases;
 import model.Grupo;
 import model.Jogo;
 import model.Resultado;
@@ -144,7 +145,6 @@ public class CampeonatoDAOImpl implements CampeonatoDAO {
 			j.setTimeA(rs.getString("Time A")); 
 			j.setTimeB(rs.getString("Time B"));
 			lista.add(j);
-			//System.out.println(lista.get(0).getCodigoTimeA());
 		}
 
 		rs.close();
@@ -269,5 +269,65 @@ public class CampeonatoDAOImpl implements CampeonatoDAO {
 			listaTimes.add(time);
 		}
 		return listaTimes;
+	}
+	
+	
+	@Override
+	public List<DataBases> listaDatabases() throws SQLException {
+
+		String sql = "SELECT * FROM fn_databases()";
+
+		PreparedStatement ps = con.prepareStatement(sql);
+		ResultSet rs = ps.executeQuery();
+		List<DataBases> listaDataBases = new ArrayList<>();
+		while (rs.next()) {
+			DataBases db = new DataBases();
+			db.setId(rs.getInt("id"));
+			db.setNome(rs.getString("nome"));
+			db.setData(rs.getTimestamp("dtCriacao"));
+			listaDataBases.add(db);
+		}
+		return listaDataBases;
+	}
+	
+	
+	@Override
+	public void backupBases(String path) throws SQLException {
+
+		String sql = "{CALL sp_backupbases(?)}";
+
+		CallableStatement cs = con.prepareCall(sql);
+		
+		cs.setString(1, path);
+		cs.execute();
+		cs.close();
+	}
+	
+	
+	@Override
+	public void backupBase(String path, String base) throws SQLException {
+
+		String sql = "{CALL sp_backupbase(?,?)}";
+
+		CallableStatement cs = con.prepareCall(sql);
+		
+		cs.setString(1, path);
+		cs.setString(2, base);
+		cs.execute();
+		cs.close();
+	}
+	
+	
+	@Override
+	public void restauraBase(String path, String base) throws SQLException {
+
+		String sql = "{CALL sp_restaurabase(?,?)}";
+
+		CallableStatement cs = con.prepareCall(sql);
+		
+		cs.setString(1, path);
+		cs.setString(2, base);
+		cs.execute();
+		cs.close();
 	}
 }

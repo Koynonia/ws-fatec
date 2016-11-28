@@ -45,7 +45,7 @@ public class GeralView extends JFrame {
 
 	public GeralView() {
 		
-		setBounds(100, 100, 826, 432);
+		setBounds(100, 100, 826, 480);
 		setTitle("Resultado Geral do Campeonato");
 		setName("Grupos");
 		setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
@@ -57,7 +57,7 @@ public class GeralView extends JFrame {
 		
 		JLabel lblGrupoA = new JLabel("Resultado Geral");
 		lblGrupoA.setFont(new Font("Lucida Grande", Font.BOLD, 13));
-		lblGrupoA.setBounds(42, 8, 746, 16);
+		lblGrupoA.setBounds(40, 30, 746, 16);
 		contentPane.add(lblGrupoA);
 		
 		tabGeral = new JTable();
@@ -65,7 +65,7 @@ public class GeralView extends JFrame {
 		tabGeral.setAutoCreateRowSorter(true);
 		
 		JScrollPane spGrupoA = new JScrollPane();
-		spGrupoA.setBounds(38, 25, 752, 340);
+		spGrupoA.setBounds(36, 47, 752, 340);
 		spGrupoA.setViewportView(tabGeral);
 		contentPane.add(spGrupoA);
 		
@@ -74,12 +74,12 @@ public class GeralView extends JFrame {
 //		contentPane.add(btnGerar);
 		
 		JButton btnFechar = new JButton("Voltar");
-		btnFechar.setBounds(662, 375, 126, 29);
+		btnFechar.setBounds(660, 405, 126, 29);
 		contentPane.add(btnFechar);
 		
 		JLabel lblBackground = new JLabel("");
 		lblBackground.setIcon(new ImageIcon(JogoView.class.getResource("/resources/back.jpg")));
-		lblBackground.setBounds(0, 0, 826, 420);
+		lblBackground.setBounds(0, 0, 826, 458);
 		contentPane.add(lblBackground);
 		
 		GeralCtrl ctrl = new GeralCtrl(this, tabGeral);

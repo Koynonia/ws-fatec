@@ -57,7 +57,7 @@ public class QuartasView extends JFrame {
 	 */
 	public QuartasView() throws SQLException {
 		
-		setBounds(100, 100, 826, 432);
+		setBounds(100, 100, 826, 480);
 		setTitle("Quartas de Final");
 		setName("quartas");
 		setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
@@ -128,7 +128,7 @@ public class QuartasView extends JFrame {
 //		contentPane.add(btnGerar);
 		
 		JButton btnFechar = new JButton("Voltar");
-		btnFechar.setBounds(685, 365, 117, 29);
+		btnFechar.setBounds(685, 390, 117, 29);
 		contentPane.add(btnFechar);
 		
 		JLabel lblBackground = new JLabel("");

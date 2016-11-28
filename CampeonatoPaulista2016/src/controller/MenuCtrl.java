@@ -21,6 +21,7 @@ import javax.swing.JOptionPane;
 import model.Grupo;
 import persistence.CampeonatoDAO;
 import persistence.CampeonatoDAOImpl;
+import view.BackupView;
 import view.GeralView;
 import view.GrupoView;
 import view.JogoView;
@@ -36,11 +37,13 @@ public class MenuCtrl {
 	private ResultadoView janelaResultado;
 	private GeralView janelaGeral;
 	private QuartasView janelaQuartas;
+	private BackupView janelaBackup;
 	private JButton btnGrupo;
 	private JButton btnJogo;
 	private JButton btnResultado;
 	private JButton btnGeral;
 	private JButton btnQuartas;
+	private JButton btnBackup;
 	JButton btnFechar;
 	private List<Grupo>grupos;
 
@@ -51,6 +54,7 @@ public class MenuCtrl {
 			JButton btnResultado, 
 			JButton btnGeral,
 			JButton btnQuartas,
+			JButton btnBackup, 
 			JButton btnFechar) {
 
 		this.janela = janela;
@@ -59,6 +63,7 @@ public class MenuCtrl {
 		this.btnResultado = btnResultado;
 		this.btnGeral = btnGeral;
 		this.btnQuartas = btnQuartas;
+		this.btnBackup = btnBackup;
 		this.btnFechar = btnFechar;
 		this.grupos = new ArrayList<Grupo>();
 	}
@@ -152,6 +157,17 @@ public class MenuCtrl {
 			}
 			fechar();
 			break;
+			
+		case "Backup":
+			if (janelaBackup == null){
+				janelaBackup = new BackupView();
+				janelaBackup.setVisible(true);
+			} else {
+				janelaBackup.setVisible(true);
+				janelaBackup.setState(JFrame.NORMAL);
+			}
+			fechar();
+			break;
 
 		}
 
@@ -204,6 +220,14 @@ public class MenuCtrl {
 			if( source ==  btnQuartas){
 				try {
 					abrirJanela( "Quartas" );
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+			if( source ==  btnBackup){
+				try {
+					abrirJanela( "Backup" );
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

@@ -55,7 +55,7 @@ public class JogoView extends JFrame {
 	 */
 	public JogoView() {
 		
-		setBounds(100, 100, 826, 432);
+		setBounds(100, 100, 826, 480);
 		setTitle("Jogos do Campeonato");
 		setName("Jogos");
 		setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
@@ -106,24 +106,24 @@ public class JogoView extends JFrame {
 		contentPane.add(btnVerificar);
 		
 		JButton btnApagar = new JButton("Apagar Jogos");
-		btnApagar.setBounds(520, 347, 126, 29);
+		btnApagar.setBounds(519, 396, 126, 29);
 		contentPane.add(btnApagar);
 		
 		JButton btnGol = new JButton("Gerar Gols");
-		btnGol.setBounds(382, 347, 126, 29);
+		btnGol.setBounds(381, 396, 126, 29);
 		contentPane.add(btnGol);
 		
 		JButton btnFechar = new JButton("Voltar");
-		btnFechar.setBounds(658, 347, 117, 29);
+		btnFechar.setBounds(657, 396, 117, 29);
 		contentPane.add(btnFechar);
 		
 		JRadioButton rdbtnTrigger = new JRadioButton("Ativar Trigger ( INSERT, DELETE )");
-		rdbtnTrigger.setBounds(55, 350, 302, 23);
+		rdbtnTrigger.setBounds(53, 325, 302, 23);
 		contentPane.add(rdbtnTrigger);
 		
 		JLabel lblBackground = new JLabel("");
 		lblBackground.setIcon(new ImageIcon(JogoView.class.getResource("/resources/back.jpg")));
-		lblBackground.setBounds(0, 0, 826, 432);
+		lblBackground.setBounds(0, 0, 826, 458);
 		contentPane.add(lblBackground);
 		
 		JogoCtrl j = new JogoCtrl( this, lblData, lblJogos, rdbtnTrigger, btnVerificar, btnGerar, btnApagar, ftxtData, tabJogos );
