@@ -1,6 +1,6 @@
 /**
  * @author Fernando Moraes Oliveira
- * Mat√©ria Laborat√≥rio de Banco de Dados
+ * Mat√©ria LaboratÛrio de Banco de Dados
  * 5¬∫ ADS - Tarde
  * Iniciado em 26/11/2016
  */
@@ -97,15 +97,16 @@ public class BackupCtrl {
 
 		if( rdbtnSGDB.isSelected() != false ){
 			try {
-				//dao.geraBackup( path + "\" );
-				dao.backupBases( "C:\\Backup\\" );
+				dao.backupBases( path + "\\" );
+				//dao.backupBases( "C:\\Backup\\" );
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 			return true;
 		} else if( baseBkp() != null ){
 			try {
-				dao.backupBase( "C:\\Backup\\", base );
+				dao.backupBase( path + "\\", base );
+				//dao.backupBase( "C:\\Backup\\", base );
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -121,13 +122,15 @@ public class BackupCtrl {
 
 		if( rdbtnSGDB.isSelected() != false ){
 			try {
-				dao.restauraBase("C:\\Backup\\", base);
+				dao.restauraBase(path + "\\", base);
+				//dao.restauraBase("C:\\Backup\\", base);
 			} catch (SQLException e) {
 				msg +=  e.getMessage() + "\n";
 			}
 		} else {
 			try {
-				dao.restauraBase("C:\\Backup\\", base);
+				dao.restauraBase(path + "\\", base);
+				//dao.restauraBase("C:\\Backup\\", base);
 			} catch (SQLException e) {
 				msg = e.getMessage();
 			}
@@ -140,7 +143,7 @@ public class BackupCtrl {
 		if ( tabela.getSelectedRowCount() == 0 ) {
 			JOptionPane.showMessageDialog(null, 
 					"Por favor, selecione uma Base na tabela.", 
-					"Base n√£o selecionada", 
+					"Base n„o selecionada", 
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon( "../CampeonatoPaulista2016/src/resources/error.png" ));
 			base = null;
@@ -182,7 +185,7 @@ public class BackupCtrl {
 		direita.setHorizontalAlignment(SwingConstants.RIGHT);
 
 		//NOMES DAS COLUNAS DA TABELA
-		String[] nomesColunas = {"","Nome","Data de Cria√ß√£o", "Hora de Cria√ß√£o"};
+		String[] nomesColunas = {"","Nome","Data de CriaÁ„o", "Hora de CriaÁ„o"};
 
 		//CRIA UM DefaulTableModel COM OS DADOS (LINHAS E COLUNAS)
 		@SuppressWarnings("serial")
@@ -232,7 +235,7 @@ public class BackupCtrl {
 
 		if (option == JFileChooser.APPROVE_OPTION) {
 			File arquivo = fc.getSelectedFile();  
-			path = arquivo.getAbsolutePath() + "/";
+			path = arquivo.getAbsolutePath();
 			if ( realizaBackup() !=false ){
 
 				JOptionPane.showMessageDialog(null, 
@@ -248,9 +251,9 @@ public class BackupCtrl {
 			}
 		} else {
 			JOptionPane.showMessageDialog(null, 
-					"N√£o foi selecionada uma pasta para o backup!"
+					"N„o foi selecionada uma pasta para o backup!"
 							+ "\nPor favor selecione uma pasta para realiazar o backup", 
-							"Diret√≥tio n√£o selecionado", 
+							"DiretÛtio n„o selecionado", 
 							JOptionPane.PLAIN_MESSAGE,
 							new ImageIcon( "../CampeonatoPaulista2016/src/resources/warning.png" ));
 		} 
@@ -260,30 +263,32 @@ public class BackupCtrl {
 	public void restaura() throws IOException{
 
 		JFileChooser fc = new JFileChooser(); //JFileChooser(System.getProperty("user.dir")); 
-		fc.setDialogTitle("Selecione o arquivo para restaura√ß√£o");
+		fc.setDialogTitle("Selecione o arquivo para restauraÁ„o");
 		fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 		int option = fc.showOpenDialog(null);
 
 		if (option == JFileChooser.APPROVE_OPTION) {
 			File arquivo = fc.getSelectedFile();  
-			path = arquivo.getAbsolutePath() + "/";
-
-
+			String p = arquivo.getAbsolutePath();
+			
 			if( arquivo.isFile() ){
 				rdbtnBkp.setSelected(true);
 				String str = arquivo.getName();
 				base = str.substring(0, str.lastIndexOf("."));
+				path = p.substring(0, p.lastIndexOf(System.getProperty("file.separator"))+1);
 				for( int i = 0; i < databases.size(); i++ ){		
 					if( databases.get(i).getNome().equalsIgnoreCase( base )){
 						Object[] opt = { "Continuar", "Cancelar" };
 						int restaurar = JOptionPane.showOptionDialog(null, 
 								"DATABASE " + base + " encontrada!\n\nSe optar por continuar, a DATABASE" 
-										+ " ser√° sobrescrita.\nDeseja continuar?",
+										+ " ser· sobrescrita.\nDeseja continuar?",
 										"DATABASE existente!", 
 										JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
 										new ImageIcon( "../CampeonatoPaulista2016/src/resources/alert.png" ), opt, opt[1]);
 						if (restaurar == 0) {
 							restauraBackup();
+						} else {
+							return;
 						}
 					}
 				}
@@ -305,9 +310,9 @@ public class BackupCtrl {
 					new ImageIcon( "../CampeonatoPaulista2016/src/resources/confirm.png" ));
 		} else {
 			JOptionPane.showMessageDialog(null, 
-					"N√£o foi selecionada uma pasta ou o arquivo!"
-							+ "\nPor favor selecione uma pasta ou arquivo para realiazar a restaura√ß√£o.", 
-							"Diret√≥tio ou Arquivo n√£o selecionado", 
+					"N„o foi selecionada uma pasta ou o arquivo!"
+							+ "\nPor favor selecione uma pasta ou arquivo para realiazar a restauraÁ„o.", 
+							"DiretÛtio ou Arquivo n„o selecionado", 
 							JOptionPane.PLAIN_MESSAGE,
 							new ImageIcon( "../CampeonatoPaulista2016/src/resources/warning.png" ));
 		} 

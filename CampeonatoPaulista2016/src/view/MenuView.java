@@ -128,7 +128,7 @@ public class MenuView extends JFrame {
 		contentPane.add(btnBackup );
 		
 		JButton btnFechar = new JButton("Fechar");
-		btnFechar.setBounds(350, 416, 117, 29);
+		btnFechar.setBounds(350, 410, 117, 29);
 		contentPane.add(btnFechar);
 		
 		JLabel lblBackground = new JLabel("");

@@ -55,7 +55,7 @@ public class ResultadoView extends JFrame {
 	 */
 	public ResultadoView() throws SQLException {
 		
-		setBounds(100, 100, 826, 610);
+		setBounds(100, 100, 826, 630);
 		setTitle("Resultado dos Grupos");
 		setName("resultGrupos");
 		setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
@@ -127,7 +127,7 @@ public class ResultadoView extends JFrame {
 		
 		JLabel lblBackground = new JLabel("");
 		lblBackground.setIcon(new ImageIcon(ResultadoView.class.getResource("/resources/back.jpg")));
-		lblBackground.setBounds(0, 0, 1176, 532);
+		lblBackground.setBounds(0, 0, 1176, 552);
 		contentPane.add(lblBackground);
 		
 		ResultadoCtrl ctrl = new ResultadoCtrl(
