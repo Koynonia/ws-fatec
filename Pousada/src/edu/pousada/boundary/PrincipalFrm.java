@@ -1167,9 +1167,8 @@ public class PrincipalFrm extends JFrame {
 		lblFundo.setIcon(new ImageIcon(fundo.getImage().getScaledInstance(lblFundo.getWidth(), 
 				lblFundo.getHeight(), Image.SCALE_DEFAULT)));
 		painel.add(lblFundo);
-
-
-
+		
+		
 	///////  CONTROLLER  CHALE  //////////////////////////
 
 			@SuppressWarnings("unused")
@@ -1186,9 +1185,9 @@ public class PrincipalFrm extends JFrame {
 		ChaleCtrl ctrlChale = new ChaleCtrl();
 
 
-		///////  CONTROLLER  CLIENTE  ///////////////////////
+		///////  CONTROLLER  CADASTRO ///////////////////////
 
-		CadastroCtrl ctrlCliente = new CadastroCtrl(
+		CadastroCtrl ctrlCadastro = new CadastroCtrl(
 				txtCadastroNome,
 				txtCadastroEmail,
 				txtCadastroEndereco,
@@ -1210,16 +1209,16 @@ public class PrincipalFrm extends JFrame {
 				btnCadastroExcluir
 				);
 
-		txtCadastroNome.addKeyListener( ctrlCliente.teclas );
-		txtCadastroBairro.addKeyListener( ctrlCliente.teclas );
-		txtCadastroCidade.addKeyListener( ctrlCliente.teclas );
-		txtCadastroEstado.addKeyListener( ctrlCliente.teclas );
-		txtCadastroPais.addKeyListener( ctrlCliente.teclas );
-		ftxtCadastroCep.addKeyListener( ctrlCliente.teclas );
-		cboCadastroDocTipo.addActionListener( ctrlCliente.acionar );
-		btnCadastroLimpar.addActionListener( ctrlCliente.acionar );
-		btnCadastroEditar.addActionListener( ctrlCliente.acionar );
-		btnCadastroExcluir.addActionListener( ctrlCliente.acionar );
+		txtCadastroNome.addKeyListener( ctrlCadastro.teclas );
+		txtCadastroBairro.addKeyListener( ctrlCadastro.teclas );
+		txtCadastroCidade.addKeyListener( ctrlCadastro.teclas );
+		txtCadastroEstado.addKeyListener( ctrlCadastro.teclas );
+		txtCadastroPais.addKeyListener( ctrlCadastro.teclas );
+		ftxtCadastroCep.addKeyListener( ctrlCadastro.teclas );
+		cboCadastroDocTipo.addActionListener( ctrlCadastro.acionar );
+		btnCadastroLimpar.addActionListener( ctrlCadastro.acionar );
+		btnCadastroEditar.addActionListener( ctrlCadastro.acionar );
+		btnCadastroExcluir.addActionListener( ctrlCadastro.acionar );
 
 
 		///////  CONTROLLER  CONTATO  ///////////////////////

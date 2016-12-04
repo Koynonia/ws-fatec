@@ -225,6 +225,9 @@ public class PrincipalCtrl {
 		case 2:
 			ReservaCtrl.btnReservas.setVisible(false);
 			HospedagemCtrl.carregaTabelas();
+			CadastroCtrl.btnCadastroEditar.setText("Salvar");
+			CadastroCtrl.btnCadastroLimpar.setText("Limpar");
+			CadastroCtrl.btnCadastroLimpar.setEnabled(true);
 
 			tabContainer.add( "Principal", painelAdmPrincipal );
 			tabContainer.add( "Reservas", painelReserva );

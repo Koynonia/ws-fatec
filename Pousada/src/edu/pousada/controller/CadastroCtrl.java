@@ -499,7 +499,21 @@ public class CadastroCtrl {
 				CamposCtrl.mascara( "cadastro" );
 			}
 			if( source == btnCadastroLimpar ){
-				CamposCtrl.limpa( "cadastro" );
+				if( LogonCtrl.getSession().isEmpty() != true ){
+
+					switch ( LogonCtrl.getSession().get(0).getPerfil() ){
+
+					case 2:
+						CamposCtrl.limpa( "cadastro" );
+						break;
+
+					default:
+						btnCadastroEditar.setText("Editar");
+						btnCadastroLimpar.setEnabled(false);
+						btnCadastroExcluir.setEnabled(false);
+						CamposCtrl.desativa("cadastro");
+					}
+				}
 			}
 			if( source == btnCadastroExcluir ){
 				MensagensCtrl.msg( "construir", "" );
@@ -507,7 +521,7 @@ public class CadastroCtrl {
 			if( source == btnCadastroEditar ){
 				try {
 
-					if( LogonCtrl.getSession().isEmpty() != false ){
+					if( LogonCtrl.getSession().isEmpty() != true ){
 
 						switch ( LogonCtrl.getSession().get(0).getPerfil() ){
 
@@ -529,6 +543,7 @@ public class CadastroCtrl {
 						default:
 							if( btnCadastroEditar.getText() != "Salvar"){
 								btnCadastroEditar.setText("Salvar");
+								btnCadastroLimpar.setText("Cancelar");
 								btnCadastroLimpar.setEnabled(true);
 								btnCadastroExcluir.setEnabled(true);
 								CamposCtrl.ativa("cadastro");
@@ -540,7 +555,7 @@ public class CadastroCtrl {
 								CamposCtrl.desativa("cadastro");
 							}
 						}
-					} if( btnCadastroEditar.getText() != "Salvar"){
+					} else if( btnCadastroEditar.getText() != "Salvar"){
 						btnCadastroEditar.setText("Salvar");
 						btnCadastroLimpar.setEnabled(true);
 						btnCadastroExcluir.setEnabled(true);
