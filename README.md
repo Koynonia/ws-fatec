@@ -10,9 +10,9 @@ Projeto realizado por:
 - GUILHERME JATOBÁ
 - JESSICA CARNEIRO BATISTA
 
-O histórico e a documentação podem ser acompanhados no [wiki do projeto](https://bitbucket.org/jaegers/pousada/wiki/).
+O histórico e a documentação podem ser acompanhados no [wiki do projeto](https://bitbucket.org/jaegers/engenharia-2-pousada/wiki/).
 
-A **documentação** deste sistema também se encontra na pasta "[Documentos](https://bitbucket.org/jaegers/pousada/src/64ae00f50f7a11b8bbb2ed947de495962be980e1/Pousada/Documentos/?at=master)" juntamente com as tabelas do banco de dados ([pousadaDB.sql](https://bitbucket.org/jaegers/pousada/src/270bb492975a6a61701a0a9df99eabb1c4abe8a9/Pousada/Documentos/pousadaDB.sql?at=master)).
+A **documentação** deste sistema também se encontra na pasta "[Documentos](https://bitbucket.org/jaegers/pousada/src/64ae00f50f7a11b8bbb2ed947de495962be980e1/engenharia-2-pousada/Documentos/?at=master)" juntamente com as tabelas do banco de dados ([pousadaDB.sql](https://bitbucket.org/jaegers/engenharia-2-pousada/src/270bb492975a6a61701a0a9df99eabb1c4abe8a9/Pousada/Documentos/pousadaDB.sql?at=master)).
 
 **OBS.:** 
 
