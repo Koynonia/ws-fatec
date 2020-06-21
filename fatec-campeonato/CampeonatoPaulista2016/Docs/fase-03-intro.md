@@ -1,4 +1,4 @@
-[Home](home.md) | Apresentação | [Banco de Dados](fase-03-bd.md) | [ Telas ](fase-03-telas.md)
+[Home](./home.md) | Apresentação | [Banco de Dados](./fase-03-bd.md) | [ Telas ](./fase-03-telas.md)
 
 # Bem-vindo à Fase 03 (Final)!
 

@@ -1,8 +1,8 @@
-[[ Home ](home.md)]
+[[ Home ](./home.md)]
 
-# Cursores em SQL
+## Cursores em SQL
 
-## O que são e como se constroem os cursores em SQL.
+### O que são e como se constroem os cursores em SQL?
 
 Por [Claudio](http://www.criarweb.com/contato/contacta.php?destinatario=100) (Publicado em: 03/1/08)
 Fonte: [criarweb.com](http://www.criarweb.com/artigos/cursores-sql.html)

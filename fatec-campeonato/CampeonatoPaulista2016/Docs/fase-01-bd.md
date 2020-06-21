@@ -1,4 +1,4 @@
-[Home](home.md) | [Apresentação](fase-01-intro.md) | Banco de Dados | [ Telas ](fase-01-telas.md)
+[Home](./home.md) | [Apresentação](./fase-01-intro.md) | Banco de Dados | [ Telas ](./fase-01-telas.md)
 
 ```sql
 

@@ -1,4 +1,6 @@
-[[Home](home.md)]
+[[Home](./home.md)]
+
+## Cursores - Exemplo Alunos Reprovados
 
 ```sql
 

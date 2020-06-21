@@ -1,6 +1,8 @@
-[[Home](home.md)]
+[[Home](./home.md)]
 
-## SINTAXE:
+## Cursores
+
+#### SINTAXE:
 
 ```sql
 

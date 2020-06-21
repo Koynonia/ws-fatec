@@ -1,4 +1,4 @@
-[Home](home.md) | Apresentação | [Banco de Dados](fase-01-bd.md) | [ Telas ](fase-01-telas.md)
+[Home](./home.md) | Apresentação | [Banco de Dados](./fase-01-bd.md) | [ Telas ](./fase-01-telas.md)
 
 # Bem-vindo à Fase 1!
 
@@ -69,7 +69,7 @@ Lembre-se, cada rodada tem 10 jogos (todos os 20 times). Lembre-se também que, 
 
 (Não é necessário fazer o CRUD)
 
-![tabela_times.png](images/tabela_times.png)
+![tabela_times.png](./images/tabela_times.png)
 
 ### DICAS
 
@@ -77,6 +77,6 @@ Para conhecimento, sempre é possível utilizar Alias em consultas tipo **JOIN**
 Normalmente, usamos Alias no nome da coluna (Ex.: **SELECT GETDATE() AS ‘Hoje’**). O “AS” determina o Alias.
 No entanto, é possível se usar Alias no nome da tabela também. De acordo com a documentação Microsoft:
 
-![bd_alias.png](images/bd_alias.png)
+![bd_alias.png](./images/bd_alias.png)
 
 Um exemplo da obrigatoriedade do uso de Alias no nome da tabela, em um **Select** com **JOIN**, é quando mais de uma coluna da consulta faz referência à mesma tabela e à mesma **PK**.
