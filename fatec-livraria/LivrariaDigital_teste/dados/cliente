@@ -1,0 +1,65 @@
+Usuario         : Fernando
+Senha           : 123
+Email           : fernando@email.com
+Nome            : Fernando Borges
+Data Nascimento : 01/01/1970
+CPF             : 111.222.333-44
+Telefone        : (11) 2222-3333
+Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/avatares/Comics-Ironman-Elm.png
+Tipo Endereço   : Escritório
+Nível           : Usuario
+Data Cadastro   : 08/05/2016 03:52:48
+Data Alterado   : 12/05/2016 17:01:56
+------------------------------------
+Usuario         : Fulano
+Senha           : 123
+Email           : Fulano@gmail.com
+Nome            : Fulano Silva
+Data Nascimento : 10/10/1975
+CPF             : 111.222.333-45
+Telefone        : (11) 2222-4444
+Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/avatares/Avengers-Black.png
+Tipo Endereço   : Residência
+Nível           : Usuario
+Data Cadastro   : 10/05/2016 13:47:05
+Data Alterado   : 11/05/2016 04:01:49
+------------------------------------
+Usuario         : Sincrano
+Senha           : 123
+Email           : sincrano@gmail.com
+Nome            : Sincrano Silva
+Data Nascimento : 10/10/1975
+CPF             : 111.222.333-46
+Telefone        : (11) 2222-5555
+Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/avatares/mike.png
+Tipo Endereço   : Residência
+Nível           : Usuario
+Data Cadastro   : 10/05/2016 13:47:05
+Data Alterado   : 10/05/2016 13:48:48
+------------------------------------
+Usuario         : Beltrano
+Senha           : 123
+Email           : beltrano@hotmail.com
+Nome            : Beltrano Bel
+Data Nascimento : 01/04/1995
+CPF             : 111.222.333-47
+Telefone        : (11) 2226-666
+Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/avatares/Avengers-Nick_Fury.png
+Tipo Endereço   : Residência
+Nível           : Usuario
+Data Cadastro   : 10/05/2016 14:23:28
+Data Alterado   : 10/05/2016 14:33:50
+------------------------------------
+Usuario         : teste
+Senha           : 123
+Email           : teste
+Nome            : teste
+Data Nascimento : 01/01/2000
+CPF             : 123.123.123-42
+Telefone        : (11) 2222-4444
+Imagem          : /Users/fernando/git/FATEC/FATEC_4724/LivrariaDigital_teste/avatares/mike.png
+Tipo Endereço   : Residência
+Nível           : Usuario
+Data Cadastro   : 12/05/2016 18:46:47
+Data Alterado   : 12/05/2016 18:46:47
+------------------------------------

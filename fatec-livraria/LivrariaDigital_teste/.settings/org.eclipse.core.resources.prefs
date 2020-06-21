@@ -1,0 +1,10 @@
+=\=\=\=\=\=\=
+<<<<<<<=HEAD
+>>>>>>>=fefdd4755b80c9939d18a5f6859cf81bd1270535
+eclipse.preferences.version=1
+encoding//src/boundary/FrmAdministrador.java=UTF-8
+encoding//src/boundary/FrmLogin.java=UTF-8
+encoding//src/dao/ArquivoAdministrador.java=UTF-8
+encoding//src/dao/ArquivoSessao.java=UTF-8
+encoding//src/entity/Administrador.java=UTF-8
+encoding//src/entity/Sessao.java=UTF-8
